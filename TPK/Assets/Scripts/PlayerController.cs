@@ -5,7 +5,7 @@ public class PlayerController : NetworkBehaviour
 {
     public override void OnStartLocalPlayer()
     {
-        GetComponent().material.color = Color.blue;
+        //GetComponent().material.color = Color.blue;
     }
 
     void Update()
