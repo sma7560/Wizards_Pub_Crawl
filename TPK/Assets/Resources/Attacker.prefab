@@ -92,7 +92,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d55dc3439038a21449fc14083efc5395, type: 2}
+  - {fileID: 2100000, guid: 11461f4e06cb4d04fa058263bd3b3895, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 1
-  m_SendInterval: 0.1
+  m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1209061283510358}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df7e26369585d7e4d92188ffbe428bf3, type: 3}
+  m_Script: {fileID: 11500000, guid: d8a8fc2481cc7124ba667ea6508735fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114872934449228424
@@ -219,22 +219,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 192
-    i1: 235
-    i2: 130
-    i3: 227
-    i4: 163
-    i5: 250
-    i6: 5
-    i7: 180
-    i8: 8
-    i9: 60
-    i10: 62
-    i11: 143
-    i12: 213
-    i13: 19
-    i14: 123
-    i15: 104
+    i0: 200
+    i1: 160
+    i2: 155
+    i3: 14
+    i4: 106
+    i5: 68
+    i6: 120
+    i7: 148
+    i8: 106
+    i9: 135
+    i10: 20
+    i11: 47
+    i12: 99
+    i13: 237
+    i14: 87
+    i15: 21
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!136 &136885902934917982
