@@ -17,6 +17,7 @@ public class PlayerManager : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        if (isLocalPlayer == false) return;
         initialGui = GameObject.Find("InitialGui").GetComponent<Canvas>();
         initialGui.enabled = true;
         // Need to figure out how to set the type up externally
@@ -30,6 +31,12 @@ public class PlayerManager : NetworkBehaviour {
 		
 	}
 
+    // Commands - Function to be performed on the server.
+    [Command]
+    public void spawnPlayer() {
+           
+    }
+
     public void SetToAttacker() {
         
         myType = PlayerType.Attacker;
@@ -38,7 +45,8 @@ public class PlayerManager : NetworkBehaviour {
 
         gameManager.GetComponent<MatchManager>().AddAttacker();
         Debug.Log("Added an Attacker");
-        Instantiate(AttackerObject);
+        GameObject avatar = Instantiate(AttackerObject) as GameObject;
+        avatar.transform.SetParent(transform);
 
 
         initialGui = GameObject.Find("InitialGui").GetComponent<Canvas>();
@@ -56,7 +64,8 @@ public class PlayerManager : NetworkBehaviour {
 
         if (gameManager.GetComponent<MatchManager>().AddDefender()) {
             Debug.Log("Added a Defender");
-            Instantiate(DefenderObject);
+            GameObject avatar = Instantiate(DefenderObject) as GameObject;
+            avatar.transform.SetParent(transform);
         }
         Debug.Log("Could not a Defender");
 

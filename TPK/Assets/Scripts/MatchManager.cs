@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class MatchManager : MonoBehaviour {
+public class MatchManager : NetworkBehaviour{
     private int maxAttackers = 3;
 
     public int currentAttacker;

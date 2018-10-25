@@ -57,7 +57,6 @@ MonoBehaviour:
   DefenderObject: {fileID: 1088625177530524, guid: 37d70cc242f190c489e24f5ec886e890,
     type: 2}
   myType: 0
-  selectionUI: {fileID: 0}
 --- !u!114 &114814547205406172
 MonoBehaviour:
   m_ObjectHideFlags: 1
