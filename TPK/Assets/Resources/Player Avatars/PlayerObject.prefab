@@ -56,7 +56,11 @@ MonoBehaviour:
     type: 2}
   DefenderObject: {fileID: 1088625177530524, guid: 37d70cc242f190c489e24f5ec886e890,
     type: 2}
+  heroCam: {fileID: 1742646014484890, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
+  defenderCam: {fileID: 1819568520331248, guid: da8a572ef7e7e464eaa81b231b3d7903,
+    type: 2}
   myType: 0
+  playerName: Anonymous
 --- !u!114 &114814547205406172
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -88,4 +92,4 @@ MonoBehaviour:
     i14: 70
     i15: 179
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1

@@ -1,76 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerManager : NetworkBehaviour {
+public class PlayerManager : NetworkBehaviour
+{
+    // TODO -> Learn Synch Variables
+
     // Enum for denoting player type
-    public enum PlayerType { Attacker, Defender};
+    public enum PlayerType { Attacker, Defender };
 
     private GameObject gameManager;
     private Canvas initialGui;
 
     public GameObject AttackerObject;
-    public GameObject DefenderObject;
+    public GameObject defenderCam;
+
+
     public PlayerType myType;
+    public string playerName = "Anonymous";
 
-
-	// Use this for initialization
-	void Start () {
-        if (isLocalPlayer == false) return;
-        initialGui = GameObject.Find("InitialGui").GetComponent<Canvas>();
-        initialGui.enabled = true;
-        // Need to figure out how to set the type up externally
-        //myType = PlayerType.Attacker;
-
-        //Instantiate(AttackerObject);
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    // Commands - Function to be performed on the server.
-    [Command]
-    public void spawnPlayer() {
-           
-    }
-
-    public void SetToAttacker() {
-        
-        myType = PlayerType.Attacker;
-        gameManager = GameObject.Find("GameManager");
-        Debug.Log(gameManager.name);
-
-        gameManager.GetComponent<MatchManager>().AddAttacker();
-        Debug.Log("Added an Attacker");
-        GameObject avatar = Instantiate(AttackerObject) as GameObject;
-        avatar.transform.SetParent(transform);
-
-
-        initialGui = GameObject.Find("InitialGui").GetComponent<Canvas>();
-        initialGui.enabled = false;
-
-    }
-
-    public void SetToDefender()
+    // Use this for initialization
+    void Start()
     {
-
-        myType = PlayerType.Defender;
-        gameManager = GameObject.Find("GameManager");
-        Debug.Log(gameManager.name);
-
-
-        if (gameManager.GetComponent<MatchManager>().AddDefender()) {
-            Debug.Log("Added a Defender");
-            GameObject avatar = Instantiate(DefenderObject) as GameObject;
-            avatar.transform.SetParent(transform);
+        if (isLocalPlayer == false) return;
+        //Set player type based on who is the server. As there can only be one defender this restricts it.
+        if (isServer)
+        { 
+            myType = PlayerType.Defender;
+            Debug.Log("This is my server so I must defend it!");
         }
-        Debug.Log("Could not a Defender");
+        else {
+            myType = PlayerType.Attacker;
+            Debug.Log("This is not my server so I must claim it!");
+        }
+        CmdSpawnPlayerUnit(myType);
+    }
 
-        initialGui = GameObject.Find("InitialGui").GetComponent<Canvas>();
-        initialGui.enabled = false;
+    // Update is called once per frame
+    void Update()
+    {
+        //This method goes through server via: client -> Server -> client
+        //if (!isLocalPlayer) return;
+        //if (Input.GetKeyDown(KeyCode.Space)) CmdMoveUnit();
+    }
 
+    private GameObject cam;
+    // Commands - Function to be performed on the server by the server.
+
+    private GameObject myAvatar;
+    [Command]
+    void CmdSpawnPlayerUnit(PlayerType play)
+    {
+        GameObject clone;
+        if (play == PlayerType.Attacker)
+        {
+            clone = Instantiate(AttackerObject);
+            Debug.Log("Spawing an attacker avatar!");
+            myAvatar = clone;
+            NetworkServer.SpawnWithClientAuthority(clone, connectionToClient);
+        }
+        else if (play == PlayerType.Defender) {
+           cam = Instantiate(defenderCam);
+        }
     }
 }
