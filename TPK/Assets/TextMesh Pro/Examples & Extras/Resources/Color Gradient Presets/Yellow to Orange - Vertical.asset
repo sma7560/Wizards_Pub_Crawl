@@ -3,7 +3,7 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -13,5 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   topLeft: {r: 1, g: 1, b: 0.5661765, a: 1}
   topRight: {r: 1, g: 1, b: 0.252, a: 1}
-  bottomLeft: {r: 1, g: 0, b: 0, a: 1}
-  bottomRight: {r: 1, g: 0, b: 0, a: 1}
+  bottomLeft: {r: 1, g: 0.8423917, b: 0.514151, a: 1}
+  bottomRight: {r: 1, g: 0.79041255, b: 0, a: 1}
