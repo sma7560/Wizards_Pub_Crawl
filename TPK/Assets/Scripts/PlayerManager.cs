@@ -10,7 +10,7 @@ public class PlayerManager : NetworkBehaviour
 
     // Enum for denoting player type
     public enum PlayerType { Attacker, Defender };
-
+    public bool islocal;
     private GameObject gameManager;
     private Canvas initialGui;
 
@@ -24,7 +24,9 @@ public class PlayerManager : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
+        islocal = isLocalPlayer;
         if (isLocalPlayer == false) return;
+        if (!hasAuthority) return;
         //Set player type based on who is the server. As there can only be one defender this restricts it.
         if (isServer)
         { 
@@ -62,6 +64,7 @@ public class PlayerManager : NetworkBehaviour
             NetworkServer.SpawnWithClientAuthority(clone, connectionToClient);
         }
         else if (play == PlayerType.Defender) {
+            Debug.Log("Spawning Camera for Defender");
            cam = Instantiate(defenderCam);
         }
     }

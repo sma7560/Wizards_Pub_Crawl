@@ -8,13 +8,14 @@ public class NetworkManagerExtension : NetworkManager{
 
     public void StartUpHost() {
         SetPort();
+        NetworkServer.Reset();
         NetworkManager.singleton.StartHost();
     }
 
     public void JoinGame() {
         SetIPAddress();
         SetPort();
-
+        NetworkManager.singleton.StartClient();
     }
 
     private void SetIPAddress() {
@@ -25,18 +26,8 @@ public class NetworkManagerExtension : NetworkManager{
         NetworkManager.singleton.networkAddress = ipAddress;
 
     }
-
     private void SetPort()
     {
         NetworkManager.singleton.networkPort = 7777;
     }
-
-    //private void OnLevelWasLoaded(int level)
-    //{
-    //    if (level == 0) {
-    //        SetMenuScene();
-    //    } else {
-    //        SetMatchScene();
-    //    }
-    //}
 }
