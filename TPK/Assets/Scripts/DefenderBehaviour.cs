@@ -34,11 +34,11 @@ public class DefenderBehaviour : MonoBehaviour {
 			if (Physics.Raycast (ray, out hit, 200.0f) && hit.transform.tag == "Tile") {
 				switch (mode) {
 				case defenderMode.spawnMonster:
-					Instantiate (monster, hit.transform);
+					Instantiate (monster, hit.transform);		//monster costs 100 energy
 					energy -= 100;
 					break;
 				case defenderMode.spawnTrap:
-					Instantiate (trap, hit.transform);
+					Instantiate (trap, hit.transform);			//trap costs 100 gold
 					money -= 100;
 					break;
 				}

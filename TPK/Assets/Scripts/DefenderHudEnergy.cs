@@ -5,6 +5,8 @@ using TMPro;
 
 public class DefenderHudEnergy : MonoBehaviour {
 
+	//This script updates Defender UI to show how much energy the defender has
+
 	TextMeshProUGUI textmesh;
 
 	// Use this for initialization

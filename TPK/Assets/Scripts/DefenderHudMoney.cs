@@ -5,6 +5,7 @@ using TMPro;
 
 public class DefenderHudMoney : MonoBehaviour {
 
+	//This script updates Defender UI to show how much gold the defender has
 
 	TextMeshProUGUI textmesh;
 
