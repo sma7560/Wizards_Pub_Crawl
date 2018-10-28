@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Connection
+  - Health
+  - HealthText
+  - Enemy
   layers:
   - Default
   - TransparentFX
