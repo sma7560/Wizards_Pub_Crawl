@@ -91,8 +91,8 @@ public class HeroController : NetworkBehaviour
     {
         // Update health bar and text
         Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
-        healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / 100;
+        healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / (float)heroStats.maxHealth;
         TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
-        healthText.text = heroStats.GetCurrentHealth() + "/100";
+        healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
     }
 }
