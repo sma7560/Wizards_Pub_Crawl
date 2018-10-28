@@ -17,7 +17,7 @@ public class DefenderHudMoney : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		try{
-			GameObject defender = GameObject.FindGameObjectWithTag("MainCamera");
+			GameObject defender = GameObject.FindGameObjectWithTag("DefenderCamera");
 			textmesh.text = defender.GetComponent<DefenderBehaviour>().money + " GP";
 		}catch(System.NullReferenceException){
 			gameObject.SetActive(false);

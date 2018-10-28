@@ -17,7 +17,7 @@ public class DefenderHudEnergy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		try{
-			GameObject defender = GameObject.FindGameObjectWithTag("MainCamera");
+			GameObject defender = GameObject.FindGameObjectWithTag("DefenderCamera");
 			textmesh.text = defender.GetComponent<DefenderBehaviour>().energy + " Energy";
 		}catch(System.NullReferenceException){
 			gameObject.SetActive(false);

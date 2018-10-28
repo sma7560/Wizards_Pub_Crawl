@@ -18,7 +18,7 @@ public class DefenderHudAction : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		try{
-			GameObject defender = GameObject.FindGameObjectWithTag("MainCamera");	//finding the main defender script
+			GameObject defender = GameObject.FindGameObjectWithTag("DefenderCamera");	//finding the main defender script
 
 			if(defender.GetComponent<DefenderBehaviour>().mode == DefenderBehaviour.defenderMode.spawnMonster){		//checking the mode
 				textmesh.text = "PLACING MONSTER";																	//updating text
