@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3622,6 +3622,17 @@ Prefab:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
+        type: 2}
+      propertyPath: m_OnlineScene
+      value: DungeonLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 1835476967002400, guid: 9ee1f342ba874a045877ca803e15bdce,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
   m_IsPrefabAsset: 0

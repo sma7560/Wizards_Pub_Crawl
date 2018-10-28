@@ -52,11 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f5937779e73b344ba727652c10cd4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackerObject: {fileID: 1680068418511784, guid: 63eca84aa38c46a42a6d233311a742ac,
+  islocal: 0
+  AttackerObject: {fileID: 1835476967002400, guid: 9ee1f342ba874a045877ca803e15bdce,
     type: 2}
-  DefenderObject: {fileID: 1088625177530524, guid: 37d70cc242f190c489e24f5ec886e890,
-    type: 2}
-  heroCam: {fileID: 1742646014484890, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
   defenderCam: {fileID: 1819568520331248, guid: da8a572ef7e7e464eaa81b231b3d7903,
     type: 2}
   myType: 0
