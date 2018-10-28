@@ -36,15 +36,16 @@ public class DefenderBehaviour : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            Debug.Log("mouseClick");
             RaycastHit hit;
             Ray ray = defenderCamera.ScreenPointToRay(Input.mousePosition);
-            //Debug.Log("raycast hit " + hit.transform.name);
             if (currentCardCost > energy)
             {
                 Debug.Log("No energy!");
             }
             else if (Physics.Raycast(ray, out hit, 200.0f) && hit.transform.tag == "Tile")
             {
+                Debug.Log("raycast hit " + hit.point);
                 switch (mode)
                 {
                     case defenderMode.spawnMonster:
@@ -53,7 +54,6 @@ public class DefenderBehaviour : MonoBehaviour
                             monsterSpawn.y = monsterSpawn.y + 0.5f;    //change to use monster height when that data is stored
                                                                     //monsterSpawn.y = monsterSpawn.y + monster.transform.y;                 
                             Instantiate(monster, monsterSpawn, hit.transform.rotation, hit.transform);      //monster costs 100 energy
-                            Debug.Log(hit.point);
                             energy -= 100;
                             break;
                         }
