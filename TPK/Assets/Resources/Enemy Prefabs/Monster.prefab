@@ -80,6 +80,8 @@ GameObject:
   - component: {fileID: 114082185600000304}
   - component: {fileID: 114893872632073398}
   - component: {fileID: 114675647800174514}
+  - component: {fileID: 114290901764689550}
+  - component: {fileID: 114356933980096944}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Enemy
@@ -226,6 +228,59 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114290901764689550
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1788914300484378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 100
+    i1: 35
+    i2: 255
+    i3: 244
+    i4: 172
+    i5: 217
+    i6: 126
+    i7: 164
+    i8: 57
+    i9: 52
+    i10: 142
+    i11: 8
+    i12: 242
+    i13: 219
+    i14: 39
+    i15: 149
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &114356933980096944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1788914300484378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.04761905
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_VelocityThreshold: 0.0001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114447574416152168
 MonoBehaviour:
   m_ObjectHideFlags: 1
