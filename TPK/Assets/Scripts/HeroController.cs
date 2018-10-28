@@ -25,7 +25,7 @@ public class HeroController : NetworkBehaviour
     {
         if (!hasAuthority)
         {
-            //return;
+            return;
         }
 
         moveSpeed = 5.0f;
@@ -44,7 +44,7 @@ public class HeroController : NetworkBehaviour
 
         if (!hasAuthority)
         {
-            //return;
+            return;
         }
 
         CharacterMovement();
