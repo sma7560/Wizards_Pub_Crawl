@@ -31,6 +31,7 @@ public class DefenderBehaviour : MonoBehaviour
 
         //Setting up an object to handle all network behavious.
         defenderServerConnection = GameObject.FindGameObjectWithTag("DefenderHolder").GetComponent<DefenderController>();
+        StartCoroutine(addEnergy()); //regenerate energy
     }
 
     // Update is called once per frame
@@ -58,8 +59,8 @@ public class DefenderBehaviour : MonoBehaviour
                 {
                     case defenderMode.spawnMonster:
                         {
-                            
-                            Vector3 monsterSpawn = hit.point; 
+
+                            Vector3 monsterSpawn = hit.point;
                             Transform monsterTransform = hit.transform;
                             Quaternion monsterRotation = monsterTransform.rotation;
                             defenderServerConnection.SpawnMonster(monsterSpawn, monsterRotation);
@@ -90,6 +91,23 @@ public class DefenderBehaviour : MonoBehaviour
                 mode = defenderMode.spawnTrap;
             else if (mode == defenderMode.spawnTrap)
                 mode = defenderMode.spawnMonster;
+        }
+    }
+
+    //regenerate energy
+    IEnumerator addEnergy()
+    {
+        while (true)
+        {
+            if (energy < 1000)
+            { // if health < 100...
+                energy += 10; // increase energy by 1 every tick
+                yield return new WaitForSeconds(1); //amount of time between clicks
+            }
+            else
+            { // yield if health >=100
+                yield return null;
+            }
         }
     }
 }
