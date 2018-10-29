@@ -53,7 +53,7 @@ public class HeroController : NetworkBehaviour
         // Perform an attack
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            heroCombat.Attack();
+            heroCombat.CmdAttack();
         }
     }
 

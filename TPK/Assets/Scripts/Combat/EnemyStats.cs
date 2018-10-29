@@ -10,6 +10,7 @@ public class EnemyStats : CharacterStats {
 
         // Add enemy death animation here
 
-        Destroy(gameObject);
+       Destroy(gameObject);
+       gameObject.GetComponent<EnemyController>().KillMe();
     }
 }

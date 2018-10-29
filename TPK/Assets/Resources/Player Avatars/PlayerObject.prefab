@@ -55,7 +55,7 @@ MonoBehaviour:
   islocal: 0
   AttackerObject: {fileID: 1835476967002400, guid: 9ee1f342ba874a045877ca803e15bdce,
     type: 2}
-  defenderCam: {fileID: 1819568520331248, guid: da8a572ef7e7e464eaa81b231b3d7903,
+  DefenderObject: {fileID: 1088625177530524, guid: 37d70cc242f190c489e24f5ec886e890,
     type: 2}
   myType: 0
   playerName: Anonymous

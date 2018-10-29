@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class CharacterStats : MonoBehaviour
+public class CharacterStats : NetworkBehaviour
 {
     public int maxHealth;
-    private int currentHealth;
+
+    [SyncVar]
+    public int currentHealth; //Making it public for now to view in inpsector.
 
     public Stat damage;
     public Stat defence;
@@ -14,9 +16,9 @@ public class CharacterStats : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
-
     public void TakeDamage(int dmg)
     {
+        if (!isServer) return;
         // Calculate damage to take
         dmg -= defence.GetValue();
         dmg = Mathf.Clamp(dmg, 0, int.MaxValue);    // restrict damage to a value between [0, int.MaxValue]

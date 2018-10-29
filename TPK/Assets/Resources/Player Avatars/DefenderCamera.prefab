@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 81021873277067588}
   - component: {fileID: 114654311976351628}
   - component: {fileID: 114687396377142500}
+  - component: {fileID: 114102673892503212}
   m_Layer: 0
   m_Name: DefenderCamera
   m_TagString: DefenderCamera
@@ -197,6 +198,38 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1819568520331248}
   m_Enabled: 1
+--- !u!114 &114102673892503212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1819568520331248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 218
+    i1: 138
+    i2: 87
+    i3: 46
+    i4: 247
+    i5: 231
+    i6: 228
+    i7: 100
+    i8: 234
+    i9: 168
+    i10: 27
+    i11: 35
+    i12: 27
+    i13: 61
+    i14: 121
+    i15: 3
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &114263359361184606
 MonoBehaviour:
   m_ObjectHideFlags: 1

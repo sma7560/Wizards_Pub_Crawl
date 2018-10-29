@@ -20,6 +20,7 @@ public class HeroCameraController : MonoBehaviour
 
     void Update()
     {
+        if (targetTransform == null) return;
         Vector3 desired = targetTransform.position + offset;
         //Vector3 smoothed = Vector3.Lerp(this.transform.position, desired, smoothspeed);
         transform.position = desired;   // desired does not cause camera stutter when character is moving -Susan

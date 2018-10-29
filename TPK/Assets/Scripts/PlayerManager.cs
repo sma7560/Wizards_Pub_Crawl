@@ -15,7 +15,7 @@ public class PlayerManager : NetworkBehaviour
     private Canvas initialGui;
 
     public GameObject AttackerObject;
-    public GameObject defenderCam;
+    public GameObject DefenderObject;
 
 
     public PlayerType myType;
@@ -48,7 +48,7 @@ public class PlayerManager : NetworkBehaviour
         //if (Input.GetKeyDown(KeyCode.Space)) CmdMoveUnit();
     }
 
-    private GameObject cam;
+    private GameObject defender;
     // Commands - Function to be performed on the server by the server.
 
     private GameObject myAvatar;
@@ -64,8 +64,9 @@ public class PlayerManager : NetworkBehaviour
             NetworkServer.SpawnWithClientAuthority(clone, connectionToClient);
         }
         else if (play == PlayerType.Defender) {
-            Debug.Log("Spawning Camera for Defender");
-           cam = Instantiate(defenderCam);
+            Debug.Log("Spawning for Defender");
+            clone = Instantiate(DefenderObject);
+            NetworkServer.SpawnWithClientAuthority(clone, connectionToClient);
         }
     }
 }

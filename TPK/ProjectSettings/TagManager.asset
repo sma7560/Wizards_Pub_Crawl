@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Tile
   - DefenderCamera
+  - DefenderHolder
   layers:
   - Default
   - TransparentFX

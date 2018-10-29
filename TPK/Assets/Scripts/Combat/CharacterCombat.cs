@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(CharacterStats))]
-public class CharacterCombat : MonoBehaviour
+public class CharacterCombat : NetworkBehaviour
 {
 
     private CharacterStats myStats;
@@ -22,7 +23,8 @@ public class CharacterCombat : MonoBehaviour
     }
 
     // Performs basic attack
-    public void Attack()
+    [Command] //For hero attack to register on server
+    public void CmdAttack()
     {
         Debug.Log(transform.name + " performs a basic attack.");
 
@@ -30,6 +32,9 @@ public class CharacterCombat : MonoBehaviour
         if (gameObject.tag == "Player")
         {
             // Find all enemy objects
+
+            //If you are doing it this way you can just go overlap, unity has a built in physics overlap so we wont have to
+            //Cycle through as many.
             GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
 
             for (int i = 0; i < enemyObjects.Length; i++)

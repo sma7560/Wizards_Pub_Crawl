@@ -259,7 +259,7 @@ MonoBehaviour:
     i14: 39
     i15: 149
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114356933980096944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -271,9 +271,9 @@ MonoBehaviour:
   m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
+  m_TransformSyncMode: 1
   m_SendInterval: 0.04761905
-  m_SyncRotationAxis: 7
+  m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
   m_MovementTheshold: 0.001
