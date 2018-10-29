@@ -15,8 +15,11 @@ public class TrapBehaviour : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider col){
-		if (col.transform.tag == "attacker"){
-			//col.GetComponent<AttackerBehaviour>.takeDamage (100);
-		}
+		if (col.transform.tag == "Player"){
+            CharacterStats player = col.GetComponent<CharacterStats>();
+            if (player == null) return;
+
+            col.GetComponent<CharacterStats>().TakeDamage(50);
+        }
 	}
 }

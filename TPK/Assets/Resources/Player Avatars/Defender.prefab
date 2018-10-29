@@ -56,7 +56,7 @@ MonoBehaviour:
   DefenderCamera: {fileID: 1819568520331248, guid: da8a572ef7e7e464eaa81b231b3d7903,
     type: 2}
   monster: {fileID: 1788914300484378, guid: 6423fff4acd97ea439348e08f2db2795, type: 2}
-  trap: {fileID: 1236148083691620, guid: ce92ea187e9588d4bb8b84d710ed5513, type: 2}
+  trap: {fileID: 1163422252058710, guid: df1458d999e1fc54db4bf23012af813c, type: 2}
 --- !u!114 &114363307072448454
 MonoBehaviour:
   m_ObjectHideFlags: 1

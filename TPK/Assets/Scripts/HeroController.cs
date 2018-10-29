@@ -32,7 +32,6 @@ public class HeroController : NetworkBehaviour
         heroRigidbody = GetComponent<Rigidbody>();
         heroStats = GetComponent<CharacterStats>();
         heroCombat = GetComponent<CharacterCombat>();
-
         StartCamera();
         StartUI();
     }
@@ -94,5 +93,17 @@ public class HeroController : NetworkBehaviour
         healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / (float)heroStats.maxHealth;
         TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
         healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
+    }
+
+
+    public void KillMe()
+    {
+        CmdKillme();
+        Destroy(gameObject);
+    }
+    [Command]
+    private void CmdKillme()
+    {
+        NetworkServer.Destroy(gameObject);
     }
 }

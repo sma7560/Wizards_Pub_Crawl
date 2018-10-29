@@ -76,7 +76,7 @@ public class DefenderBehaviour : MonoBehaviour
                         {
                             Vector3 trapSpawn = hit.point;
                             Transform trapTransform = hit.transform;
-                            Quaternion trapRotation = trapTransform.rotation;
+                            Quaternion trapRotation = new Quaternion();
                             defenderServerConnection.SpawnTrap(trapSpawn, trapRotation);                                            //trap costs 100 gold
                             energy -= 100;
                             break;

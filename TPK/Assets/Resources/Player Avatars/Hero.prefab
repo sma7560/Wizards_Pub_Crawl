@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 54381407263079300}
   - component: {fileID: 114832354279926118}
   - component: {fileID: 114256848107287022}
+  - component: {fileID: 136874268710246186}
+  - component: {fileID: 114835620316725890}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Player
@@ -88,7 +90,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1835476967002400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.030979812, y: 1, z: 0.4800718}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4743107317110068}
@@ -309,12 +311,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  currentHealth: 0
   damage:
     value: 10
   defence:
     value: 2
   attackSpeed:
     value: 1
+--- !u!114 &114835620316725890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1835476967002400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75363569e3c4e3446a1e6ced89e8931c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  currentHealth: 0
+  damage:
+    value: 0
+  defence:
+    value: 0
+  attackSpeed:
+    value: 0
 --- !u!136 &136823987477861234
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -328,3 +350,16 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &136874268710246186
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1835476967002400}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.6
+  m_Height: 3.3186483
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.39189005, z: 0}

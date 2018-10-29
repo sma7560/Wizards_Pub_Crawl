@@ -37,8 +37,9 @@ public class DefenderController : NetworkBehaviour
 
     }
     public void SpawnTrap(Vector3 location, Quaternion rotation)
-    {                
-        CmdSpawnMonster(location, rotation);
+    {
+        location.y = location.y + 0.05f;
+        CmdSpawnTrap(location, rotation);
     }
 
     // Commands for communicating to the server.
@@ -50,8 +51,10 @@ public class DefenderController : NetworkBehaviour
     }
     [Command]
     private void CmdSpawnTrap(Vector3 location, Quaternion rotation) {
-        GameObject temp;
-        temp = Instantiate(trap, location, rotation);
-        NetworkServer.Spawn(temp);
+
+        GameObject tempTrap;
+        //rotation.SetAxisAngle(new Vector3(1, 0, 0), 90);
+        tempTrap = Instantiate(trap, location, rotation);
+        NetworkServer.Spawn(tempTrap);
     }
 }

@@ -3576,18 +3576,13 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4485449839034864, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4485449839034864, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4485449839034864, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3613,43 +3608,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
-        type: 2}
-      propertyPath: m_OfflineScene
-      value: Menu
-      objectReference: {fileID: 0}
-    - target: {fileID: 1573613074850604, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114201202758545652, guid: 13a9f6a280341d049916ddef7474564f,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
-        type: 2}
-      propertyPath: m_OnlineScene
-      value: DungeonLevel
-      objectReference: {fileID: 0}
-    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[0]
-      value: 
-      objectReference: {fileID: 1835476967002400, guid: 9ee1f342ba874a045877ca803e15bdce,
-        type: 2}
-    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[2]
-      value: 
-      objectReference: {fileID: 1788914300484378, guid: 6423fff4acd97ea439348e08f2db2795,
-        type: 2}
-    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
-        type: 2}
-      propertyPath: m_SpawnPrefabs.Array.data[3]
-      value: 
-      objectReference: {fileID: 1819568520331248, guid: da8a572ef7e7e464eaa81b231b3d7903,
-        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
   m_IsPrefabAsset: 0

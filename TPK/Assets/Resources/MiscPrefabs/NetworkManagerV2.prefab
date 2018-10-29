@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4485449839034864
 Transform:
   m_ObjectHideFlags: 1
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1573613074850604}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 227461547, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
@@ -80,11 +80,14 @@ MonoBehaviour:
     type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: NetworkTest
-  m_OnlineScene: NetworkTest
+  m_OfflineScene: Menu
+  m_OnlineScene: DungeonLevel
   m_SpawnPrefabs:
-  - {fileID: 1680068418511784, guid: 63eca84aa38c46a42a6d233311a742ac, type: 2}
+  - {fileID: 1835476967002400, guid: 9ee1f342ba874a045877ca803e15bdce, type: 2}
   - {fileID: 1088625177530524, guid: 37d70cc242f190c489e24f5ec886e890, type: 2}
+  - {fileID: 1788914300484378, guid: 6423fff4acd97ea439348e08f2db2795, type: 2}
+  - {fileID: 1819568520331248, guid: da8a572ef7e7e464eaa81b231b3d7903, type: 2}
+  - {fileID: 1163422252058710, guid: df1458d999e1fc54db4bf23012af813c, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
