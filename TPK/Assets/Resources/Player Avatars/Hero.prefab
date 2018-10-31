@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroCam: {fileID: 1742646014484890, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
-  attackerUI: {fileID: 1440208682930826, guid: 19619658169d7a048906d5bcb9ce7d42, type: 2}
+  attackerUI: {fileID: 1265683952880122, guid: 19619658169d7a048906d5bcb9ce7d42, type: 2}
 --- !u!114 &114256848107287022
 MonoBehaviour:
   m_ObjectHideFlags: 1
