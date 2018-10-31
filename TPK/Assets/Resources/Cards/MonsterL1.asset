@@ -9,10 +9,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29a4460c1d34df44697c9385bd4ee5ba, type: 3}
-  m_Name: New Card
+  m_Name: MonsterL1
   m_EditorClassIdentifier: 
-  cardName: 
+  cardName: Zombie
   desc: 
-  artwork: {fileID: 0}
+  artwork: {fileID: 21300000, guid: 772e657e28dc4e0439140f049febd9b3, type: 3}
   costEnergy: 0
   costMoney: 0
