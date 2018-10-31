@@ -8,7 +8,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a4460c1d34df44697c9385bd4ee5ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c6b6967f0581cc46b1f8a8f68021a2d, type: 3}
   m_Name: TrapL1
   m_EditorClassIdentifier: 
   cardName: Spike Trap
@@ -16,3 +16,5 @@ MonoBehaviour:
   artwork: {fileID: 21300000, guid: a23ca6cda70ba5f4abf654a5a44a3724, type: 3}
   costEnergy: 0
   costMoney: 0
+  dmgType: 0
+  prefab: {fileID: 1163422252058710, guid: df1458d999e1fc54db4bf23012af813c, type: 2}
