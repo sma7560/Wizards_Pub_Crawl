@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DefenderHudAction : MonoBehaviour {
+public class DefenderHudController : MonoBehaviour {
 
-	//This script updates Defender UI to show what action the defender can perform
-
-	TextMeshProUGUI textmesh;
+	public TextMeshProUGUI textAction;
+	public TextMeshProUGUI textMoney;
+	public TextMeshProUGUI textEnergy;
 
 	// Use this for initialization
 	void Start () {
-		textmesh = GetComponent<TextMeshProUGUI> ();
+		
 	}
 	
 	// Update is called once per frame
@@ -21,11 +21,15 @@ public class DefenderHudAction : MonoBehaviour {
 			GameObject defender = GameObject.FindGameObjectWithTag("DefenderCamera");	//finding the main defender script
 
 			if(defender.GetComponent<DefenderBehaviour>().mode == DefenderBehaviour.defenderMode.spawnMonster){		//checking the mode
-				textmesh.text = "PLACING MONSTER";																	//updating text
+				textAction.text = "PLACING MONSTER";																	//updating text
 			} else if(defender.GetComponent<DefenderBehaviour>().mode == DefenderBehaviour.defenderMode.spawnTrap){	
-				textmesh.text = "PLACING TRAP";
+				textAction.text = "PLACING TRAP";
 			}
-				
+
+			//update energy and money
+			textEnergy.text = defender.GetComponent<DefenderBehaviour>().energy + " Energy";
+			textMoney.text = defender.GetComponent<DefenderBehaviour>().money + " GP";
+
 		}catch(System.NullReferenceException){		//in case it can't find the GameObject
 			gameObject.SetActive(false);
 		}

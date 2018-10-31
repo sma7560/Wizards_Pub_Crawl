@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 223228195433631170}
   - component: {fileID: 114005915410790158}
   - component: {fileID: 114124462880276264}
+  - component: {fileID: 114610911053894424}
   m_Layer: 0
   m_Name: DefenderUI
   m_TagString: Untagged
@@ -73,7 +74,6 @@ GameObject:
   - component: {fileID: 224574858418364266}
   - component: {fileID: 222698712673025462}
   - component: {fileID: 114234599595577730}
-  - component: {fileID: 114226209190194702}
   m_Layer: 0
   m_Name: Energy
   m_TagString: Untagged
@@ -91,7 +91,6 @@ GameObject:
   - component: {fileID: 224247551299639468}
   - component: {fileID: 222596618145592882}
   - component: {fileID: 114465662420418680}
-  - component: {fileID: 114880489070118818}
   m_Layer: 0
   m_Name: DefenderMode
   m_TagString: Untagged
@@ -109,7 +108,6 @@ GameObject:
   - component: {fileID: 224171686314335910}
   - component: {fileID: 222108284969490186}
   - component: {fileID: 114460862049372038}
-  - component: {fileID: 114129768910825074}
   m_Layer: 0
   m_Name: Money
   m_TagString: Untagged
@@ -154,28 +152,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114129768910825074
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1655426721225908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a809a0552864b714a8597b526b12d331, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114226209190194702
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1475865505256106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18f589c7293138a4ba45c3f4470dbb47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114234599595577730
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -542,6 +518,20 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114610911053894424
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1401804539008228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b6308c66619c764fa2c25f6d986427d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textAction: {fileID: 114465662420418680}
+  textMoney: {fileID: 114460862049372038}
+  textEnergy: {fileID: 114234599595577730}
 --- !u!114 &114659364269328844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -569,17 +559,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114880489070118818
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1568366087034730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bd3aa0417b338e468388e3a703ea4a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!222 &222108284969490186
 CanvasRenderer:
   m_ObjectHideFlags: 1
