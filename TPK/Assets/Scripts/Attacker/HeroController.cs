@@ -13,8 +13,10 @@ using UnityEngine.UI;
 public class HeroController : NetworkBehaviour
 {
     public GameObject heroCam;
-    private GameObject cam;
     public GameObject attackerUI;
+    public bool localTest;
+
+    private GameObject cam;
     private float moveSpeed;
     private Rigidbody heroRigidbody;
     private bool isKnockedOut;
@@ -28,7 +30,7 @@ public class HeroController : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        if (!hasAuthority)
+        if (!hasAuthority && !localTest)
         {
             return;
         }
@@ -48,18 +50,18 @@ public class HeroController : NetworkBehaviour
     {
         // This function runs on all heroes
 
-        if (!hasAuthority)
+        if (!hasAuthority && !localTest)
         {
             return;
         }
 
-        CharacterMovement();
+        CharacterMovement(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         UpdateUI();
 
         //if character is knocked out, check knocked-out specific interactions
         if (isKnockedOut)
         {
-            checkKnockedOutStatus();
+            CheckKnockedOutStatus();
         }
 
         // Perform an attack
@@ -69,16 +71,16 @@ public class HeroController : NetworkBehaviour
         }
     }
 
-    // Hero character movement
-    private void CharacterMovement()
+    // Hero character movement on x and y-axis
+    private void CharacterMovement(float x, float y)
     {
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        if (x != 0 || y != 0)
         {
             if (isKnockedOut)
             {
                 return; //cannot move if knocked out
             }
-            heroRigidbody.velocity = new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed, 0, Input.GetAxisRaw("Vertical") * moveSpeed);
+            heroRigidbody.velocity = new Vector3(x * moveSpeed, 0, y * moveSpeed);
         }
         else
         {
@@ -113,26 +115,25 @@ public class HeroController : NetworkBehaviour
 
         if (heroStats.currentHealth <= 0)
         {
-            knockedOut();
+            KnockedOut();
         }
     }
 
-
     public void KillMe()
     {
-        CmdKillme();
+        CmdKillMe();
         Destroy(gameObject);
         Debug.Log("Player died)");
     }
 
     [Command]
-    private void CmdKillme()
+    private void CmdKillMe()
     {
         NetworkServer.Destroy(gameObject);
     }
 
     //when health reaches 0, character is knocked out
-    public void knockedOut()
+    private void KnockedOut()
     {
         if (!isKnockedOut)
         {
@@ -142,12 +143,12 @@ public class HeroController : NetworkBehaviour
             characterTransform.Rotate(90, 0, 0); //turn sidewiwse to show knocked out
 
             //starts timer until character dies
-            StartCoroutine(addDeathTimer());
+            StartCoroutine(AddDeathTimer());
         }
     }
 
     //when player is revived by another player
-    public void revived()
+    private void Revived()
     {
         isKnockedOut = false;
         transform.gameObject.tag = "Player";
@@ -156,12 +157,12 @@ public class HeroController : NetworkBehaviour
     }
 
     //knocked-out specific interactions
-    public void checkKnockedOutStatus()
+    private void CheckKnockedOutStatus()
     {
         //dies if deathtimer reaches 50
         if (deathTimer >= 50)
         {
-            StopCoroutine(addDeathTimer());
+            StopCoroutine(AddDeathTimer());
             KillMe();
         }
 
@@ -181,19 +182,19 @@ public class HeroController : NetworkBehaviour
             if (distance < 2)
             {
                 //if player in range, fill up revive meter
-                StartCoroutine(addReviveTimer());
+                StartCoroutine(AddReviveTimer());
                 if (reviveCount >= 100)
                 {
                     //revive player is revive meter is filled up
-                    StopCoroutine(addReviveTimer());
-                    revived();
+                    StopCoroutine(AddReviveTimer());
+                    Revived();
                 }
             }
         }
     }
 
     //regenerate energy
-    IEnumerator addDeathTimer()
+    private IEnumerator AddDeathTimer()
     {
         while (true)
         {
@@ -203,7 +204,7 @@ public class HeroController : NetworkBehaviour
         }
     }
 
-    IEnumerator addReviveTimer()
+    private IEnumerator AddReviveTimer()
     {
         while (true)
         {
@@ -215,7 +216,7 @@ public class HeroController : NetworkBehaviour
     }
 
     //return if knocked out or not
-    public bool getStatus()
+    public bool GetKnockedOutStatus()
     {
         return isKnockedOut;
     }
