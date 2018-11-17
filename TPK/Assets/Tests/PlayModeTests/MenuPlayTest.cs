@@ -483,7 +483,7 @@ public class MenuPlayTest
         settingsButton.onClick.Invoke();
 
         // TODO: still need to implement this test case
-        Assert.IsTrue(false, "PLACEHOLDER: still need to implement graphics quality selector to be able to write a test for it.");
+        Assert.Fail("PLACEHOLDER: still need to implement graphics quality selector to be able to write a test for it.");
 
         yield return null;
     }

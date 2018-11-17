@@ -17,15 +17,16 @@ public class HeroController : NetworkBehaviour
     public bool localTest;
 
     private GameObject cam;
-    private float moveSpeed;
     private Rigidbody heroRigidbody;
     private bool isKnockedOut;
     private int reviveCount;
     private int deathTimer;
 
+    public IUnityService unityService;
+    public CharacterCombat heroCombat;
     private CharacterStats heroStats;
-    private CharacterCombat heroCombat;
     private Transform characterTransform;
+    private CharacterMovement characterMovement;
 
     // Use this for initialization
     void Start()
@@ -35,14 +36,27 @@ public class HeroController : NetworkBehaviour
             return;
         }
 
-        moveSpeed = 20.0f;
+        isKnockedOut = false;
+        characterMovement = new CharacterMovement(10.0f);
+
+        // Set variables
+        if (unityService == null)
+        {
+            unityService = new UnityService();
+        }
+
         heroRigidbody = GetComponent<Rigidbody>();
         heroStats = GetComponent<CharacterStats>();
-        heroCombat = GetComponent<CharacterCombat>();
+
+        if (heroCombat == null)
+        {
+            heroCombat = GetComponent<CharacterCombat>();
+        }
+
         characterTransform = GetComponent<Transform>();
+
         StartCamera();
         StartUI();
-        isKnockedOut = false;
     }
 
     // Update is called once per frame
@@ -55,7 +69,12 @@ public class HeroController : NetworkBehaviour
             return;
         }
 
-        CharacterMovement(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        // Character Movement if hero is not knocked out
+        if (!isKnockedOut)
+        {
+            heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+        }
+
         UpdateUI();
 
         //if character is knocked out, check knocked-out specific interactions
@@ -65,26 +84,9 @@ public class HeroController : NetworkBehaviour
         }
 
         // Perform an attack
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (unityService.GetKeyDown(KeyCode.Space))
         {
             heroCombat.CmdAttack();
-        }
-    }
-
-    // Hero character movement on x and y-axis
-    private void CharacterMovement(float x, float y)
-    {
-        if (x != 0 || y != 0)
-        {
-            if (isKnockedOut)
-            {
-                return; //cannot move if knocked out
-            }
-            heroRigidbody.velocity = new Vector3(x * moveSpeed, 0, y * moveSpeed);
-        }
-        else
-        {
-            heroRigidbody.velocity = new Vector3(0, 0, 0);
         }
     }
 
@@ -140,7 +142,7 @@ public class HeroController : NetworkBehaviour
             isKnockedOut = true;
             transform.gameObject.tag = "knockedOutPlayer"; //change tag so enemies won't go after it anymore
             deathTimer = 0;
-            characterTransform.Rotate(90, 0, 0); //turn sidewiwse to show knocked out
+            characterTransform.Rotate(90, 0, 0); //turn sideways to show knocked out
 
             //starts timer until character dies
             StartCoroutine(AddDeathTimer());
