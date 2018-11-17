@@ -47,7 +47,7 @@ public class CharacterCombat : NetworkBehaviour
                 if (distance < enemy.interactRadius && attackCooldown <= 0)
                 {
                     EnemyStats enemyStats = enemyObjects[i].GetComponent<EnemyStats>();
-                    enemyStats.TakeDamage(myStats.damage.GetValue());
+                    //enemyStats.TakeDamage(myStats.damage.GetValue());
                     attackCooldown = 1f / myStats.attackSpeed.GetValue();
                 }
             }
@@ -61,6 +61,7 @@ public class CharacterCombat : NetworkBehaviour
         if (attackedStats != null && attackCooldown <= 0)
         {
             attackedStats.TakeDamage(myStats.damage.GetValue());
+            Debug.Log(attackedStats.currentHealth);
             attackCooldown = 1f / myStats.attackSpeed.GetValue();
         }
     }

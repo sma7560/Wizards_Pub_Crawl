@@ -28,18 +28,6 @@ public class CharacterStats : NetworkBehaviour
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);   // restrict health to a value between [0, maxHealth]
         Debug.Log(transform.name + " takes " + dmg + " damage. Current health is " + currentHealth + ".");
 
-        // Check if character should die
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    public virtual void Die()
-    {
-        // Die in some way
-        // This method is meant to be overwritten
-        Debug.Log(transform.name + " died.");
     }
 
     public int GetCurrentHealth()

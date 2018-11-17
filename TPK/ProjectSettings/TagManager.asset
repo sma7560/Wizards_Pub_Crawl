@@ -11,6 +11,7 @@ TagManager:
   - Tile
   - DefenderCamera
   - DefenderHolder
+  - knockedOutPlayer
   layers:
   - Default
   - TransparentFX
