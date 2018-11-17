@@ -25,6 +25,8 @@ public class EnemyController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Makes it so it is only moved on server.
+        if (!isServer) return;
         MakePlayerTargetList();
         TargetClosestPlayer();
     }
