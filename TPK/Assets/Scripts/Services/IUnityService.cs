@@ -10,6 +10,7 @@ public interface IUnityService
 {
     float GetAxisRaw(string axisName);  // Allows us to mock user input during unit testing
     bool GetKeyDown(KeyCode key);
+    void Destroy(GameObject gameObject);
 }
 
 class UnityService : IUnityService
@@ -22,5 +23,10 @@ class UnityService : IUnityService
     public bool GetKeyDown(KeyCode key)
     {
         return Input.GetKeyDown(key);
+    }
+
+    public void Destroy(GameObject gameObject)
+    {
+        Object.Destroy(gameObject);
     }
 }

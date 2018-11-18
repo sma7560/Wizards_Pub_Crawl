@@ -108,12 +108,13 @@ public class AttackerStatePlayTest
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
         hero.SetActive(true);
         HeroController heroController = hero.GetComponent<HeroController>();
+        CharacterStats heroStats = hero.GetComponent<CharacterStats>();
 
         // Allow health to update
         yield return new WaitForSeconds(timeToWait);
 
         // Assert that hero's health is at max health
-        Assert.AreEqual(heroController.heroStats.maxHealth, heroController.heroStats.GetCurrentHealth(), "Hero is not at max health!");
+        Assert.AreEqual(heroStats.maxHealth, heroStats.GetCurrentHealth(), "Hero is not at max health!");
 
         yield return null;
     }
@@ -163,7 +164,8 @@ public class AttackerStatePlayTest
 
         // Set hero's health to 0
         HeroController heroController = hero.GetComponent<HeroController>();
-        heroController.heroStats.TakeDamage(int.MaxValue);
+        CharacterStats heroStats = hero.GetComponent<CharacterStats>();
+        heroStats.SetCurrentHealth(0);
 
         // Allow health to update
         yield return new WaitForSeconds(timeToWait);
@@ -388,7 +390,7 @@ public class AttackerStatePlayTest
     /// Requirement: FR-22
     /// </summary>
     [UnityTest]
-    public IEnumerator AttackerState_AttackerUI_DeathWorks()
+    public IEnumerator AttackerState_HeroStatus_DeathWorks()
     {
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK CMDKILLME() IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
@@ -396,17 +398,18 @@ public class AttackerStatePlayTest
         // Wait for test scene to be loaded
         yield return new WaitForSeconds(timeToWait);
 
-        // Setup Hero GameObject and HeroController
+        // Setup Hero
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
         hero.SetActive(true);
         HeroController heroController = hero.GetComponent<HeroController>();
+        CharacterStats heroStats = hero.GetComponent<CharacterStats>();
 
         // Wait for hero to be instantiated
         yield return new WaitForSeconds(timeToWait);
 
         // Set hero to knocked out status
-        heroController.heroStats.TakeDamage(int.MaxValue);
+        heroStats.SetCurrentHealth(0);
 
         // Wait for hero to die (death timer is 5 seconds??)
         yield return new WaitForSeconds(10);
@@ -422,7 +425,7 @@ public class AttackerStatePlayTest
     /// Requirement: FR-24
     /// </summary>
     [UnityTest]
-    public IEnumerator AttackerState_AttackerUI_RespawnWorks()
+    public IEnumerator AttackerState_HeroStatus_RespawnWorks()
     {
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK CMDKILLME() IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
@@ -435,12 +438,13 @@ public class AttackerStatePlayTest
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
         hero.SetActive(true);
         HeroController heroController = hero.GetComponent<HeroController>();
+        CharacterStats heroStats = hero.GetComponent<CharacterStats>();
 
         // Wait for hero to be instantiated
         yield return new WaitForSeconds(timeToWait);
 
         // Set hero to knocked out status
-        heroController.heroStats.TakeDamage(int.MaxValue);
+        heroStats.SetCurrentHealth(0);
 
         // Wait for hero to die (death timer is 5 seconds??)
         yield return new WaitForSeconds(10);
@@ -450,7 +454,7 @@ public class AttackerStatePlayTest
 
         // Assert that hero object exists and is full health
         Assert.IsFalse(hero == null, "Hero is null!");
-        Assert.AreEqual(heroController.heroStats.maxHealth, heroController.heroStats.GetCurrentHealth(), "Hero did not respawn at max health!");
+        Assert.AreEqual(heroStats.maxHealth, heroStats.GetCurrentHealth(), "Hero did not respawn at max health!");
 
         yield return null;
     }

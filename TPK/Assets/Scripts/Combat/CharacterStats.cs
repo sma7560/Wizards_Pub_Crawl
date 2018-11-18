@@ -5,11 +5,10 @@ public class CharacterStats : NetworkBehaviour
 {
     public bool localTest;
 
-    public int maxHealth;
-
     [SyncVar]
     public int currentHealth; //Making it public for now to view in inpsector.
 
+    public int maxHealth;
     public Stat damage;
     public Stat defence;
     public Stat attackSpeed;
@@ -18,9 +17,10 @@ public class CharacterStats : NetworkBehaviour
     {
         currentHealth = maxHealth;
     }
+
     public void TakeDamage(int dmg)
     {
-        if (!isServer && !localTest)
+        if (!localTest && !isServer)
         {
             return;
         }
@@ -33,11 +33,22 @@ public class CharacterStats : NetworkBehaviour
         currentHealth -= dmg;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);   // restrict health to a value between [0, maxHealth]
         Debug.Log(transform.name + " takes " + dmg + " damage. Current health is " + currentHealth + ".");
-
     }
 
     public int GetCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public void SetCurrentHealth(int health)
+    {
+        if (health > 0)
+        {
+            currentHealth = health;
+        }
+        else
+        {
+            currentHealth = 0;
+        }
     }
 }

@@ -24,7 +24,7 @@ public class HeroController : NetworkBehaviour
 
     public IUnityService unityService;
     public CharacterCombat heroCombat;
-    public CharacterStats heroStats;
+    private CharacterStats heroStats;
     private Transform characterTransform;
     private CharacterMovement characterMovement;
 

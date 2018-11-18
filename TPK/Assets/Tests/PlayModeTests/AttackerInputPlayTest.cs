@@ -484,12 +484,13 @@ public class AttackerInputPlayTest
         // Allow hero initialization
         yield return new WaitForSeconds(timeToWait);
 
-        // Get HeroController
+        // Get HeroController & HeroStats
         HeroController heroController = hero.GetComponent<HeroController>();
+        CharacterStats heroStats = hero.GetComponent<CharacterStats>();
 
         // Set Hero to knocked out status
-        Assert.IsNotNull(heroController.heroStats);
-        heroController.heroStats.TakeDamage(int.MaxValue);
+        Assert.IsNotNull(heroStats);
+        heroStats.SetCurrentHealth(0);
 
         // Allow health to update and hero to knock out
         yield return new WaitForSeconds(timeToWait);
@@ -704,12 +705,13 @@ public class AttackerInputPlayTest
         // Allow hero initialization
         yield return new WaitForSeconds(timeToWait);
 
-        // Get HeroController
+        // Get Hero componennts
         HeroController heroController = hero.GetComponent<HeroController>();
+        CharacterStats heroStats = hero.GetComponent<CharacterStats>();
 
         // Set Hero to knocked out status
-        Assert.IsNotNull(heroController.heroStats);
-        heroController.heroStats.TakeDamage(int.MaxValue);
+        Assert.IsNotNull(heroStats);
+        heroStats.SetCurrentHealth(0);
 
         // Allow health to update and hero to knock out
         yield return new WaitForSeconds(timeToWait);

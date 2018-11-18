@@ -10,6 +10,8 @@ public class EnemyController : NetworkBehaviour
 {
 
     public float lookRadius = 10f;
+    public IUnityService unityService;
+
     Transform[] targets;
     NavMeshAgent agent;
     int numPlayers;
@@ -20,6 +22,11 @@ public class EnemyController : NetworkBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         enemyCombat = GetComponent<CharacterCombat>();
+
+        if (unityService == null)
+        {
+            unityService = new UnityService();
+        }
     }
 
     // Update is called once per frame
@@ -91,7 +98,7 @@ public class EnemyController : NetworkBehaviour
 
     public void KillMe() {
         CmdKillme();
-        Destroy(gameObject);
+        unityService.Destroy(gameObject);
     }
     [Command]
     private void CmdKillme() {
