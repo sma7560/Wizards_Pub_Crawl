@@ -44,14 +44,9 @@ public class HeroController : NetworkBehaviour
         {
             unityService = new UnityService();
         }
-
         heroRigidbody = GetComponent<Rigidbody>();
         heroStats = GetComponent<CharacterStats>();
-
-        if (heroCombat == null)
-        {
-            heroCombat = GetComponent<CharacterCombat>();
-        }
+        heroCombat = GetComponent<CharacterCombat>();
 
         characterTransform = GetComponent<Transform>();
 

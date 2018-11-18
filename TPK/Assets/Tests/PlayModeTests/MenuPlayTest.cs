@@ -440,7 +440,7 @@ public class MenuPlayTest
 
     /// <summary>
     /// Test ST-M16: Checks the functionality of the volume slider and that the volume of the game changes when the slider is moved.
-    /// Requirement: NFR-12
+    /// Requirement: FR-M7
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_SettingsMenu_VolumeSliderWorks()
@@ -470,7 +470,7 @@ public class MenuPlayTest
 
     /// <summary>
     /// Test ST-M17: Checks the functionality of the graphics selector and that the graphics quality of the game changes when the selector is changed.
-    /// Requirement: NFR-12
+    /// Requirement: FR-M7
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_SettingsMenu_GraphicsQualitySelectorWorks()

@@ -7,21 +7,30 @@ using UnityEngine.UI;
 
 // DungeonController: used to update dungeon status during dungeon level gameplay
 
-public class DungeonController : MonoBehaviour {
+public class DungeonController : MonoBehaviour
+{
 
     public GameObject inGameMenuObject;
+    public IUnityService unityService;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         Debug.Log("DungeonController script started.");
-    }
-	
-	// Update is called once per frame
-	void Update () {
 
-        // Enables in-game menu when Esc key pressed
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (unityService == null)
         {
+            unityService = new UnityService();
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Enables in-game menu when Esc key pressed
+        if (unityService.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("In-game menu set to active");
             inGameMenuObject.SetActive(true);
         }
 
@@ -38,7 +47,7 @@ public class DungeonController : MonoBehaviour {
     private void UpdateEnemyHealthBars()
     {
         GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy"); // Find all enemy objects
-        
+
         for (int i = 0; i < enemyObjects.Length; i++)
         {
             EnemyStats enemyStats = enemyObjects[i].GetComponent<EnemyStats>(); // Get enemy stats
@@ -63,4 +72,5 @@ public class DungeonController : MonoBehaviour {
             }
         }
     }
+
 }
