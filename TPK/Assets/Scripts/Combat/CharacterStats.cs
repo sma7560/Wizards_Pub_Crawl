@@ -3,6 +3,8 @@ using UnityEngine.Networking;
 
 public class CharacterStats : NetworkBehaviour
 {
+    public bool localTest;
+
     public int maxHealth;
 
     [SyncVar]
@@ -18,7 +20,11 @@ public class CharacterStats : NetworkBehaviour
     }
     public void TakeDamage(int dmg)
     {
-        if (!isServer) return;
+        if (!isServer && !localTest)
+        {
+            return;
+        }
+
         // Calculate damage to take
         dmg -= defence.GetValue();
         dmg = Mathf.Clamp(dmg, 0, int.MaxValue);    // restrict damage to a value between [0, int.MaxValue]

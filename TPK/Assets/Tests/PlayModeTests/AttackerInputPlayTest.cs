@@ -451,4 +451,52 @@ public class AttackerInputPlayTest
         yield return null;
     }
 
+    /// <summary>
+    /// Test ST-AI13: Checks that character movement is not possible when hero is knocked out.
+    /// Requirement: FR-23
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_KnockedOut_NoCharacterMovement()
+    {
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        hero.SetActive(true);
+
+        // Allow hero initialization
+        yield return new WaitForSeconds(timeToWait);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+
+        // Set Hero to knocked out status
+        Assert.IsNotNull(heroController.heroStats);
+        heroController.heroStats.TakeDamage(int.MaxValue);
+
+        // Allow health to update and hero to knock out
+        yield return new WaitForSeconds(timeToWait);
+
+        // Get initial x and z-position
+        float initialX = hero.transform.position.x;
+        float initialZ = hero.transform.position.z;
+
+        // Substitute UnityService to mock player movement input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetAxisRaw("Horizontal").Returns(1);   // move player on x-axis
+        unityService.GetAxisRaw("Vertical").Returns(1);     // move player on y-axis
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        yield return new WaitForSeconds(timeToWait);
+
+        // Assert that hero has not moved
+        Assert.AreEqual(hero.transform.position.x, initialX, 0.1f, "Hero moved along the x-axis while knocked out!");
+        Assert.AreEqual(hero.transform.position.z, initialZ, 0.1f, "Hero moved along the z-axis while knocked out!");
+
+        yield return null;
+    }
+
 }
