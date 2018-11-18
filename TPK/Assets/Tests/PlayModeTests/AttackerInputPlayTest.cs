@@ -206,6 +206,7 @@ public class AttackerInputPlayTest
 
         // Allow test to run for x amount of seconds
         yield return new WaitForSeconds(timeToWait);
+        unityService.GetKeyDown(KeyCode.Space).Returns(false);  // disable space mock input
 
         // Assert that heroCombat has received a call to CmdAttack()
         heroCombat.Received().CmdAttack();
@@ -214,114 +215,14 @@ public class AttackerInputPlayTest
     }
 
     /// <summary>
-    /// Test ST-AI6: Checks functionality of hero skill casting for key Q, and when Q is pressed, equipped skill is performed.
+    /// Test ST-AI6: Checks functionality of hero skill casting for key 1, and when 1 is pressed, equipped skill is performed.
     /// Requirement: FR-19
     /// </summary>
     [UnityTest]
-    public IEnumerator AttackerInput_PerformSkill_Q()
+    public IEnumerator AttackerInput_PerformSkill_1()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
+        // TODO: update test once logic is implemented
 
-        // Setup Hero GameObject
-        GameObject heroes = GameObject.Find("Heroes");
-        GameObject hero = heroes.transform.Find("Hero1").gameObject;
-        Assert.IsNotNull(hero, "Hero object is null!");
-        hero.SetActive(true);
-
-        // Get HeroController
-        HeroController heroController = hero.GetComponent<HeroController>();
-        Assert.IsNotNull(heroController, "HeroController is null!");
-
-        // Substitute UnityService to mock player input
-        var unityService = Substitute.For<IUnityService>();
-        unityService.GetKeyDown(KeyCode.Q).Returns(true);   // mock player pressing Q
-        heroController.unityService = unityService;
-
-        // Allow test to run for x amount of seconds
-        //yield return new WaitForSeconds(timeToWait);
-
-        // Assert that heroCombat has performed skill equipped to the Q key
-        Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
-
-        yield return null;
-    }
-
-    /// <summary>
-    /// Test ST-AI7: Checks functionality of hero skill casting for key E, and when E is pressed, equipped skill is performed.
-    /// Requirement: FR-19
-    /// </summary>
-    [UnityTest]
-    public IEnumerator AttackerInput_PerformSkill_E()
-    {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
-        // Setup Hero GameObject
-        GameObject heroes = GameObject.Find("Heroes");
-        GameObject hero = heroes.transform.Find("Hero1").gameObject;
-        Assert.IsNotNull(hero, "Hero object is null!");
-        hero.SetActive(true);
-
-        // Get HeroController
-        HeroController heroController = hero.GetComponent<HeroController>();
-        Assert.IsNotNull(heroController, "HeroController is null!");
-
-        // Substitute UnityService to mock player input
-        var unityService = Substitute.For<IUnityService>();
-        unityService.GetKeyDown(KeyCode.E).Returns(true);   // mock player pressing E
-        heroController.unityService = unityService;
-
-        // Allow test to run for x amount of seconds
-        //yield return new WaitForSeconds(timeToWait);
-
-        // Assert that heroCombat has performed skill equipped to the E key
-        Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
-
-        yield return null;
-    }
-
-    /// <summary>
-    /// Test ST-AI8: Checks functionality of hero skill casting for key R, and when R is pressed, equipped skill is performed.
-    /// Requirement: FR-19
-    /// </summary>
-    [UnityTest]
-    public IEnumerator AttackerInput_PerformSkill_R()
-    {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
-        // Setup Hero GameObject
-        GameObject heroes = GameObject.Find("Heroes");
-        GameObject hero = heroes.transform.Find("Hero1").gameObject;
-        Assert.IsNotNull(hero, "Hero object is null!");
-        hero.SetActive(true);
-
-        // Get HeroController
-        HeroController heroController = hero.GetComponent<HeroController>();
-        Assert.IsNotNull(heroController, "HeroController is null!");
-
-        // Substitute UnityService to mock player input
-        var unityService = Substitute.For<IUnityService>();
-        unityService.GetKeyDown(KeyCode.R).Returns(true);   // mock player pressing R
-        heroController.unityService = unityService;
-
-        // Allow test to run for x amount of seconds
-        //yield return new WaitForSeconds(timeToWait);
-
-        // Assert that heroCombat has performed skill equipped to the R key
-        Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
-
-        yield return null;
-    }
-
-    /// <summary>
-    /// Test ST-AI9: Checks functionality of hero item usage for key 1, and that when 1 is pressed, equipped item is used.
-    /// Requirement: FR-21
-    /// </summary>
-    [UnityTest]
-    public IEnumerator AttackerInput_UseItem_1()
-    {
         // Wait for test scene to be loaded
         yield return new WaitForSeconds(timeToWait);
 
@@ -343,19 +244,21 @@ public class AttackerInputPlayTest
         // Allow test to run for x amount of seconds
         //yield return new WaitForSeconds(timeToWait);
 
-        // Assert that item equipped on key 1 has been used
-        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+        // Assert that heroCombat has performed skill equipped to the Q key
+        Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
 
         yield return null;
     }
 
     /// <summary>
-    /// Test ST-AI10: Checks functionality of hero item usage for key 2, and that when 2 is pressed, equipped item is used.
-    /// Requirement: FR-21
+    /// Test ST-AI7: Checks functionality of hero skill casting for key 2, and when 2 is pressed, equipped skill is performed.
+    /// Requirement: FR-19
     /// </summary>
     [UnityTest]
-    public IEnumerator AttackerInput_UseItem_2()
+    public IEnumerator AttackerInput_PerformSkill_2()
     {
+        // TODO: update test once logic is implemented
+
         // Wait for test scene to be loaded
         yield return new WaitForSeconds(timeToWait);
 
@@ -377,19 +280,21 @@ public class AttackerInputPlayTest
         // Allow test to run for x amount of seconds
         //yield return new WaitForSeconds(timeToWait);
 
-        // Assert that item equipped on key 2 has been used
-        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+        // Assert that heroCombat has performed skill equipped to the E key
+        Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
 
         yield return null;
     }
 
     /// <summary>
-    /// Test ST-AI11: Checks functionality of hero item usage for key 3, and that when 3 is pressed, equipped item is used.
-    /// Requirement: FR-21
+    /// Test ST-AI8: Checks functionality of hero skill casting for key 3, and when 3 is pressed, equipped skill is performed.
+    /// Requirement: FR-19
     /// </summary>
     [UnityTest]
-    public IEnumerator AttackerInput_UseItem_3()
+    public IEnumerator AttackerInput_PerformSkill_3()
     {
+        // TODO: update test once logic is implemented
+
         // Wait for test scene to be loaded
         yield return new WaitForSeconds(timeToWait);
 
@@ -411,19 +316,21 @@ public class AttackerInputPlayTest
         // Allow test to run for x amount of seconds
         //yield return new WaitForSeconds(timeToWait);
 
-        // Assert that item equipped on key 3 has been used
-        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+        // Assert that heroCombat has performed skill equipped to the R key
+        Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
 
         yield return null;
     }
 
     /// <summary>
-    /// Test ST-AI12: Checks functionality of hero item usage for key 4, and that when 4 is pressed, equipped item is used.
-    /// Requirement: FR-21
+    /// Test ST-AI9: Checks functionality of hero skill casting for key 4, and when 4 is pressed, equipped skill is performed.
+    /// Requirement: FR-19
     /// </summary>
     [UnityTest]
-    public IEnumerator AttackerInput_UseItem_4()
+    public IEnumerator AttackerInput_PerformSkill_4()
     {
+        // TODO: update test once logic is implemented
+
         // Wait for test scene to be loaded
         yield return new WaitForSeconds(timeToWait);
 
@@ -445,7 +352,115 @@ public class AttackerInputPlayTest
         // Allow test to run for x amount of seconds
         //yield return new WaitForSeconds(timeToWait);
 
-        // Assert that item equipped on key 4 has been used
+        // Assert that heroCombat has performed skill equipped to the R key
+        Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI10: Checks functionality of hero item usage for key Q, and that when Q is pressed, equipped item is used.
+    /// Requirement: FR-21
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_UseItem_Q()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        Assert.IsNotNull(hero, "Hero object is null!");
+        hero.SetActive(true);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+        Assert.IsNotNull(heroController, "HeroController is null!");
+
+        // Substitute UnityService to mock player input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.Q).Returns(true);   // mock player pressing Q
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        //yield return new WaitForSeconds(timeToWait);
+
+        // Assert that item equipped on key Q has been used
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI11: Checks functionality of hero item usage for key 2, and that when 2 is pressed, equipped item is used.
+    /// Requirement: FR-21
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_UseItem_E()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        Assert.IsNotNull(hero, "Hero object is null!");
+        hero.SetActive(true);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+        Assert.IsNotNull(heroController, "HeroController is null!");
+
+        // Substitute UnityService to mock player input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.Alpha2).Returns(true);  // mock player pressing 2
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        //yield return new WaitForSeconds(timeToWait);
+
+        // Assert that item equipped on key E has been used
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI12: Checks functionality of hero item usage for key R, and that when R is pressed, equipped item is used.
+    /// Requirement: FR-21
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_UseItem_R()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        Assert.IsNotNull(hero, "Hero object is null!");
+        hero.SetActive(true);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+        Assert.IsNotNull(heroController, "HeroController is null!");
+
+        // Substitute UnityService to mock player input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.R).Returns(true);   // mock player pressing R
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        //yield return new WaitForSeconds(timeToWait);
+
+        // Assert that item equipped on key R has been used
         Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
 
         yield return null;
@@ -495,6 +510,221 @@ public class AttackerInputPlayTest
         // Assert that hero has not moved
         Assert.AreEqual(hero.transform.position.x, initialX, 0.1f, "Hero moved along the x-axis while knocked out!");
         Assert.AreEqual(hero.transform.position.z, initialZ, 0.1f, "Hero moved along the z-axis while knocked out!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI14: Checks functionality of hero item interaction with the F key.
+    /// Requirement: FR-5
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_InteractWithItem_F()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        Assert.IsNotNull(hero, "Hero object is null!");
+        hero.SetActive(true);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+        Assert.IsNotNull(heroController, "HeroController is null!");
+
+        // Substitute UnityService to mock player input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.F).Returns(true);   // mock player pressing F
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        //yield return new WaitForSeconds(timeToWait);
+
+        // Assert that item interaction has taken place
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI15: Checks functionality of hero door interaction with the F key, and that the door opens/closes as a result.
+    /// Requirement: FR-7
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_InteractWithDoor_F()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        hero.SetActive(true);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+
+        // Substitute UnityService to mock player input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.F).Returns(true);   // mock player pressing F
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        //yield return new WaitForSeconds(timeToWait);
+
+        // Assert that door state has been changed
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI16: Checks that the hero status/inventory window opens when the key I is pressed.
+    /// Requirement: FR-8
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_OpenStatusInventoryWindow_I()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        hero.SetActive(true);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+
+        // Substitute UnityService to mock player input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.I).Returns(true);   // mock player pressing I
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        //yield return new WaitForSeconds(timeToWait);
+
+        // Assert that status/inventory window has opened
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI17: Checks that the hero skills window opens when the key K is pressed.
+    /// Requirement: FR-13
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_OpenSkillsWindow_K()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        hero.SetActive(true);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+
+        // Substitute UnityService to mock player input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.K).Returns(true);   // mock player pressing K
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        //yield return new WaitForSeconds(timeToWait);
+
+        // Assert that status/inventory window has opened
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI18: Checks functionality of teammate revival with F key, and that the knocked out teammate is revived.
+    /// Requirement: FR-25
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_ReviveKnockedOutTeammate_F()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        hero.SetActive(true);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+
+        // Substitute UnityService to mock player input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.F).Returns(true);   // mock player pressing F
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        //yield return new WaitForSeconds(timeToWait);
+
+        // Assert that teammate has revived has been changed
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI19: Checks that all interactions are not possible when hero is knocked out.
+    /// Requirement: FR-23
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_KnockedOut_NoInteractions_F()
+    {
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        hero.SetActive(true);
+
+        // Allow hero initialization
+        yield return new WaitForSeconds(timeToWait);
+
+        // Get HeroController
+        HeroController heroController = hero.GetComponent<HeroController>();
+
+        // Set Hero to knocked out status
+        Assert.IsNotNull(heroController.heroStats);
+        heroController.heroStats.TakeDamage(int.MaxValue);
+
+        // Allow health to update and hero to knock out
+        yield return new WaitForSeconds(timeToWait);
+
+        // Substitute UnityService to mock player movement input
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.F).Returns(true);   // mock player input of key F
+        heroController.unityService = unityService;
+
+        // Allow test to run for x amount of seconds
+        yield return new WaitForSeconds(timeToWait);
+
+        // Assert that no interactions have taken place
+        // (ie. item interaction, teammate revival, opening/closing door)
+        Assert.Fail("PLACEHOLDER: Need to update this test once interactions are implemented!");
 
         yield return null;
     }
