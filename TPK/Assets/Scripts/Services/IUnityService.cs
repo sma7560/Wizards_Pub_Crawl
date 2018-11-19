@@ -16,6 +16,7 @@ public interface IUnityService
     bool GetMouseButtonUp(int button);
     Vector3 GetMousePosition();
     float GetDeltaTime();
+    GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation);
 }
 
 class UnityService : IUnityService
@@ -58,5 +59,10 @@ class UnityService : IUnityService
     public float GetDeltaTime()
     {
         return Time.deltaTime;
+    }
+
+    public GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation)
+    {
+        return Object.Instantiate(original, position, rotation);
     }
 }

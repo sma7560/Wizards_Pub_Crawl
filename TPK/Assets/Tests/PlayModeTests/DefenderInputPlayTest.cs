@@ -11,7 +11,8 @@ using NSubstitute;
 /// </summary>
 public class DefenderInputPlayTest
 {
-    readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
+    readonly int timeToWait = 2;        // number of seconds to wait for after test scene is loaded
+    readonly int timeToWaitLong = 5;    // number of seconds to wait for after test scene is loaded (longer)
 
     [UnitySetUp]
     public IEnumerator UnitySetUp()
@@ -20,7 +21,7 @@ public class DefenderInputPlayTest
         SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
 
         // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
+        yield return new WaitForSeconds(timeToWaitLong);
 
         // Setup Defender status
         GameObject networkManagerV2 = GameObject.Find("NetworkManagerV2");
@@ -275,6 +276,9 @@ public class DefenderInputPlayTest
         GameObject networkManagerV2 = GameObject.Find("NetworkManagerV2");
         NetworkManagerExtension networkManagerExtension = networkManagerV2.GetComponent<NetworkManagerExtension>();
         networkManagerExtension.StopHost();
+
+        // Wait for networking to stop
+        yield return new WaitForSeconds(timeToWait);
 
         yield return null;
     }

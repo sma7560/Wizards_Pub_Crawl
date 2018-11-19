@@ -31,7 +31,7 @@ public class HeroController : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        if (!hasAuthority && !localTest)
+        if (!localTest && !hasAuthority)
         {
             return;
         }
@@ -119,7 +119,7 @@ public class HeroController : NetworkBehaviour
     public void KillMe()
     {
         CmdKillMe();
-        Destroy(gameObject);
+        unityService.Destroy(gameObject);
         Debug.Log("Player died)");
     }
 

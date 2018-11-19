@@ -128,6 +128,7 @@ public class CombatPlayTest
 
         // Allow test to run for x amount of seconds
         yield return new WaitForSeconds(timeToWait);
+        unityService.GetKeyDown(KeyCode.Space).Returns(false);
 
         // Assert that monster's HP has decreased
         Assert.Less(monsterStats.GetCurrentHealth(), initialHp, "Monster's HP has not decreased!");
@@ -179,6 +180,7 @@ public class CombatPlayTest
 
         // Allow test to run for x amount of seconds
         yield return new WaitForSeconds(timeToWait);
+        unityService.GetKeyDown(KeyCode.Space).Returns(false);
 
         // Assert that monster object is null
         Assert.IsTrue(monster == null, "Monster is not null!");
@@ -259,6 +261,7 @@ public class CombatPlayTest
 
         // Allow test to run for x amount of seconds
         yield return new WaitForSeconds(timeToWait);
+        unityService.GetKeyDown(KeyCode.Space).Returns(false);
 
         // Assert that hero has gained currency
         Assert.Fail("PLACEHOLDER: Update test once currency logic is implemented.");
