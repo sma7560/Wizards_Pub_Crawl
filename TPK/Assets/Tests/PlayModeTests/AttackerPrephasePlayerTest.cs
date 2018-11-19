@@ -12,12 +12,14 @@ public class AttackerPrephasePlayerTest
 {
     readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
 
-    [SetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
         // Load Test scene
-        // TODO: change to Prephase scene
         SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
     }
 
     /// <summary>

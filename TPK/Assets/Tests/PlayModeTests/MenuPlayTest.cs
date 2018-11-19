@@ -16,11 +16,14 @@ public class MenuPlayTest
     readonly string prephaseSceneName = "Prephase";
     readonly int timeToWait = 2;    // number of seconds to wait for after menu scene is loaded
 
-    [SetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
         // Load menu scene
         SceneManager.LoadSceneAsync(menuSceneName, LoadSceneMode.Single);
+
+        // Wait for menu scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
     }
 
     /// <summary>
@@ -30,9 +33,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_MainMenu_IsActive()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get all menus
         GameObject mainMenu = GameObject.Find("MainMenu");
         GameObject settingsMenu = GameObject.Find("SettingsMenu");
@@ -59,9 +59,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_MainMenu_ButtonsAreActive()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get all buttons
         GameObject startGameButton = GameObject.Find("StartGame Button");
         GameObject howToPlayButton = GameObject.Find("HowToPlay Button");
@@ -84,9 +81,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_MainMenu_StartGameButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get Start Game button and invoke a click on it
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
@@ -109,9 +103,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_MainMenu_HowToPlayButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get How to Play button and invoke a click on it
         Button howToPlayButton = GameObject.Find("HowToPlay Button").GetComponent<Button>();
         howToPlayButton.onClick.Invoke();
@@ -134,9 +125,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_MainMenu_SettingsButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get Settings button and invoke a click on it
         Button settingsButton = GameObject.Find("Settings Button").GetComponent<Button>();
         settingsButton.onClick.Invoke();
@@ -159,9 +147,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_MainMenu_QuitButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get Quit button and invoke a click on it
         Button quitButton = GameObject.Find("Quit Button").GetComponent<Button>();
         quitButton.onClick.Invoke();
@@ -181,9 +166,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_StartGameMenu_ButtonsAreActive()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to Start Game Menu
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
@@ -208,9 +190,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_StartGameMenu_BackButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to Start Game Menu
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
@@ -237,9 +216,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_StartGameMenu_NewMatchButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to Start Game Menu
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
@@ -273,9 +249,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_NewMatchMenu_BackButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to New Match Menu
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
@@ -304,9 +277,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_JoinMatchMenu_ElementsAreActive()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to Join Match Menu
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
@@ -333,9 +303,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_JoinMatchMenu_BackButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to Join Match Menu
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
@@ -364,9 +331,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_HowToPlayMenu_ElementsAreActive()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to How to Play Menu
         Button howToPlayButton = GameObject.Find("HowToPlay Button").GetComponent<Button>();
         howToPlayButton.onClick.Invoke();
@@ -389,9 +353,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_HowToPlayMenu_BackButtonWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to How to Play Menu
         Button howToPlayButton = GameObject.Find("HowToPlay Button").GetComponent<Button>();
         howToPlayButton.onClick.Invoke();
@@ -418,9 +379,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_SettingsMenu_ElementsAreActive()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to Settings Menu
         Button settingsButton = GameObject.Find("Settings Button").GetComponent<Button>();
         settingsButton.onClick.Invoke();
@@ -445,9 +403,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_SettingsMenu_VolumeSliderWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to Settings Menu
         Button settingsButton = GameObject.Find("Settings Button").GetComponent<Button>();
         settingsButton.onClick.Invoke();
@@ -475,9 +430,6 @@ public class MenuPlayTest
     [UnityTest]
     public IEnumerator Menu_SettingsMenu_GraphicsQualitySelectorWorks()
     {
-        // Wait for menu scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get to Settings Menu
         Button settingsButton = GameObject.Find("Settings Button").GetComponent<Button>();
         settingsButton.onClick.Invoke();

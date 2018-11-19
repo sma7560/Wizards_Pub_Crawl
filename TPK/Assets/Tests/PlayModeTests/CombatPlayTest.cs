@@ -14,11 +14,14 @@ public class CombatPlayTest
 {
     readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
 
-    [SetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
         // Load Test scene
         SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
     }
 
     /// <summary>
@@ -28,9 +31,6 @@ public class CombatPlayTest
     [UnityTest]
     public IEnumerator Combat_HeroTakesDamageFromMonster()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup hero object
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -65,9 +65,6 @@ public class CombatPlayTest
     [UnityTest]
     public IEnumerator Combat_MonsterDoesNotTakeDamage()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-        
         // Setup monster object
         GameObject enemies = GameObject.Find("Enemies");
         GameObject monster = enemies.transform.Find("Monster1").gameObject;
@@ -104,10 +101,7 @@ public class CombatPlayTest
     {
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK ATTACKING IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup monster object
         GameObject enemies = GameObject.Find("Enemies");
         GameObject monster = enemies.transform.Find("Monster1").gameObject;
@@ -150,10 +144,7 @@ public class CombatPlayTest
     {
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK ATTACKING IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup monster object
         GameObject enemies = GameObject.Find("Enemies");
         GameObject monster = enemies.transform.Find("Monster1").gameObject;
@@ -202,9 +193,6 @@ public class CombatPlayTest
     [UnityTest]
     public IEnumerator Combat_HeroKnockedOut()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup monster object
         GameObject enemies = GameObject.Find("Enemies");
         GameObject monster = enemies.transform.Find("Monster1").gameObject;
@@ -236,10 +224,7 @@ public class CombatPlayTest
     {
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK ATTACKING IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup monster object
         GameObject enemies = GameObject.Find("Enemies");
         GameObject monster = enemies.transform.Find("Monster1").gameObject;

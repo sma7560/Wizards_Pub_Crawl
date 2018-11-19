@@ -16,11 +16,14 @@ public class InGameMenuPlayTest
     readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
     readonly string menuSceneName = "Menu";
 
-    [SetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
         // Load Test scene
         SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
     }
 
     /// <summary>
@@ -30,9 +33,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_DisplaysWhenEscPressed()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get in-game menu
         GameObject menu = GameObject.Find("Menu");
         GameObject inGameMenu = menu.transform.Find("In-Game Menu").gameObject;
@@ -63,9 +63,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_DisplaysOptionsMenu()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get in-game menu
         GameObject menu = GameObject.Find("Menu");
         GameObject inGameMenu = menu.transform.Find("In-Game Menu").gameObject;
@@ -109,9 +106,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_OptionsMenu_ResumeButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -138,9 +132,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_OptionsMenu_SettingsButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -172,9 +163,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_OptionsMenu_QuitButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -206,9 +194,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_SettingsMenu_GraphicsButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -244,9 +229,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_SettingsMenu_AudioButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -282,9 +264,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_SettingsMenu_NetworkButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -320,9 +299,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_SettingsMenu_BackButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -356,9 +332,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_QuitMenu_NoButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -392,9 +365,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_QuitMenu_YesButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -426,9 +396,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_GraphicsMenu_ElementsAreActive()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -459,9 +426,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_GraphicsMenu_BackButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -496,9 +460,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_GraphicsMenu_QualitySelectorOptionsAreExpected()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -531,9 +492,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_GraphicsMenu_QualitySelectorWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -566,9 +524,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_GraphicsMenu_ResolutionSelectorOptionsAreExpected()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -600,9 +555,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_GraphicsMenu_ResolutionSelectorWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -639,9 +591,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_AudioMenu_ElementsAreActive()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -670,9 +619,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_AudioMenu_VolumeSliderWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -708,9 +654,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_AudioMenu_BackButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -745,9 +688,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_NetworkMenu_ElementsAreActive()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
@@ -776,9 +716,6 @@ public class InGameMenuPlayTest
     [UnityTest]
     public IEnumerator InGameMenu_NetworkMenu_BackButtonWorks()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Get DungeonController
         DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 

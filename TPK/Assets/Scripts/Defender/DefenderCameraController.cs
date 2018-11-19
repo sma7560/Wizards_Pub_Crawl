@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DefenderCameraController : MonoBehaviour {
+public class DefenderCameraController : MonoBehaviour
+{
+    public IUnityService unityService;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Use this for initialization
+    void Start()
+    {
+        if (unityService == null)
+        {
+            unityService = new UnityService();
+        }
+    }
 
-        var x = Input.GetAxis("Horizontal") * Time.deltaTime * 50.0f;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * 50.0f;
+    // Update is called once per frame
+    void Update()
+    {
+        var x = unityService.GetAxis("Horizontal") * unityService.GetDeltaTime() * 50.0f;
+        var z = unityService.GetAxis("Vertical") * unityService.GetDeltaTime() * 50.0f;
+
         transform.Translate(x, z, 0);
-
     }
 }

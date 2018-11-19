@@ -13,11 +13,14 @@ public class AttackerInputPlayTest
 {
     readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
 
-    [SetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
         // Load Test scene
         SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
     }
 
     /// <summary>
@@ -27,9 +30,6 @@ public class AttackerInputPlayTest
     [UnityTest]
     public IEnumerator AttackerInput_MovesAlongXAxis_Right()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -65,9 +65,6 @@ public class AttackerInputPlayTest
     [UnityTest]
     public IEnumerator AttackerInput_MovesAlongXAxis_Left()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -103,9 +100,6 @@ public class AttackerInputPlayTest
     [UnityTest]
     public IEnumerator AttackerInput_MovesAlongZAxis_Up()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -141,9 +135,6 @@ public class AttackerInputPlayTest
     [UnityTest]
     public IEnumerator AttackerInput_MovesAlongZAxis_Down()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -181,10 +172,7 @@ public class AttackerInputPlayTest
     {
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK ATTACKING IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -222,10 +210,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_PerformSkill_1()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -258,10 +243,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_PerformSkill_2()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -294,10 +276,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_PerformSkill_3()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -330,10 +309,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_PerformSkill_4()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -366,10 +342,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_UseItem_Q()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -402,10 +375,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_UseItem_E()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -438,10 +408,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_UseItem_R()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -473,9 +440,6 @@ public class AttackerInputPlayTest
     [UnityTest]
     public IEnumerator AttackerInput_KnockedOut_NoCharacterMovement()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -523,10 +487,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_InteractWithItem_F()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -559,10 +520,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_InteractWithDoor_F()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -593,10 +551,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_OpenStatusInventoryWindow_I()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -627,10 +582,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_OpenSkillsWindow_K()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -661,10 +613,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_ReviveKnockedOutTeammate_F()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -694,9 +643,6 @@ public class AttackerInputPlayTest
     [UnityTest]
     public IEnumerator AttackerInput_KnockedOut_NoInteractions_F()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -739,10 +685,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_UnlockNewSkill()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -768,10 +711,7 @@ public class AttackerInputPlayTest
     public IEnumerator AttackerInput_CannotUnlockNewSkill_NoResources()
     {
         // TODO: update test once logic is implemented
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
+        
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;

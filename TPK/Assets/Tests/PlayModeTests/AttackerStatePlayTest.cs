@@ -13,11 +13,14 @@ public class AttackerStatePlayTest
 {
     readonly int timeToWait = 2;        // number of seconds to wait for after test scene is loaded
 
-    [SetUp]
-    public void SetUp()
+    [UnitySetUp]
+    public IEnumerator SetUp()
     {
         // Load Test scene
         SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
     }
 
     /// <summary>
@@ -27,9 +30,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_HeroInitialization_HeroCamInstantiated()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -63,9 +63,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_HeroInitialization_AttackerUIInstantiated()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -100,9 +97,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_HeroInitialization_AtMaxHealth()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero and HeroController
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -126,9 +120,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_HeroInitialization_NotKnockedOut()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero and HeroController
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -151,9 +142,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_HeroKnockedOut_AtZeroHealth()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero and HeroController
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -183,9 +171,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_AttackerUI_ElementsAreActive()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -233,9 +218,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_AttackerUI_Objectives_ElementsAreActive()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -267,9 +249,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_AttackerUI_Skills_ElementsAreActive()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -319,9 +298,6 @@ public class AttackerStatePlayTest
     [UnityTest]
     public IEnumerator AttackerState_AttackerUI_Skills_CooldownIndicatorsAreActive()
     {
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero GameObject and HeroController
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -395,9 +371,6 @@ public class AttackerStatePlayTest
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK CMDKILLME() IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
 
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-
         // Setup Hero
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
@@ -429,9 +402,6 @@ public class AttackerStatePlayTest
     {
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK CMDKILLME() IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
-
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
 
         // Setup Hero GameObject and HeroController
         GameObject heroes = GameObject.Find("Heroes");
