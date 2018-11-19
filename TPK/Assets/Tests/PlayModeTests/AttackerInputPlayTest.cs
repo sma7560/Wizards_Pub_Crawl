@@ -731,4 +731,62 @@ public class AttackerInputPlayTest
         yield return null;
     }
 
+    /// <summary>
+    /// Test ST-AI20: Checks that the player is able to unlock new skills if they possess the necessary resources to do so.
+    /// Requirement: FR-14, FR-16
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_UnlockNewSkill()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        hero.SetActive(true);
+        HeroController heroController = hero.GetComponent<HeroController>();
+
+        // Open skills window
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.K).Returns(true);
+        heroController.unityService = unityService;
+
+        // Assert that new skill is unlocked
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-AI21: Checks that the player is unable to unlock new skills upon attempting to do so if they do not possess the necessary resources.
+    /// Requirement: FR-16
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerInput_CannotUnlockNewSkill_NoResources()
+    {
+        // TODO: update test once logic is implemented
+
+        // Wait for test scene to be loaded
+        yield return new WaitForSeconds(timeToWait);
+
+        // Setup Hero GameObject
+        GameObject heroes = GameObject.Find("Heroes");
+        GameObject hero = heroes.transform.Find("Hero1").gameObject;
+        hero.SetActive(true);
+        HeroController heroController = hero.GetComponent<HeroController>();
+
+        // Open skills window
+        var unityService = Substitute.For<IUnityService>();
+        unityService.GetKeyDown(KeyCode.K).Returns(true);
+        heroController.unityService = unityService;
+
+        // Assert that new skill is unlocked
+        Assert.Fail("PLACEHOLDER: Need to update this test once items are implemented!");
+
+        yield return null;
+    }
+
 }

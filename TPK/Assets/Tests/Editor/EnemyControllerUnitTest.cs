@@ -16,7 +16,7 @@ public class EnemyControllerUnitTest
     /// Requirement: N/A
     /// </summary>
     [Test]
-    public void EnemyController_EnemyDeathWorks()
+    public void EnemyController_KillMe_ShouldDestroyEnemy()
     {
         // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK KILLME() IS CURRENTLY GIVING LOG ERRORS.
         LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER

@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : NetworkBehaviour
 {
-
+    public bool localTest;
     public float lookRadius = 10f;
     public IUnityService unityService;
 
@@ -33,7 +33,11 @@ public class EnemyController : NetworkBehaviour
     void Update()
     {
         // Makes it so it is only moved on server.
-        if (!isServer) return;
+        if (!localTest && !isServer)
+        {
+            return;
+        }
+
         MakePlayerTargetList();
         TargetClosestPlayer();
     }
