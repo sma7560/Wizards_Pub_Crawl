@@ -14,7 +14,7 @@ public class SkillsUnitTest
     /// Requirement: FR-15
     /// </summary>
     [Test]
-    public void Skills_SkillsShouldHaveTiers()
+    public void Skills_SkillsMustHaveTier()
     {
         // TODO: Implement once the logic is in place
         Assert.Fail("PLACEHOLDER: Implement test once skills are implemented.");

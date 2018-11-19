@@ -165,7 +165,7 @@ public class AttackerStatePlayTest
     }
 
     /// <summary>
-    /// Test ST-AS6: Checks that all elements are present on the Attacker UI (skills, HP, items, game status, objectives list).
+    /// Test ST-AS6: Checks that all elements are present on the Attacker UI (skills, HP, items, game status, objectives list, current currency).
     /// Requirement: FR-9, FR-10, FR-11
     /// </summary>
     [UnityTest]
@@ -199,6 +199,7 @@ public class AttackerStatePlayTest
         Transform items = panel.transform.Find("Items");
         Transform gameStatus = panel.transform.Find("GameStatus");
         Transform objectives = panel.transform.Find("Objectives");
+        Transform currency = panel.transform.Find("Currency");
 
         // Assert that elements in Attacker UI are not null
         Assert.IsNotNull(panel, "Panel in AttackerUI is null!");
@@ -207,6 +208,7 @@ public class AttackerStatePlayTest
         Assert.IsNotNull(items, "Items in AttackerUI are null!");
         Assert.IsNotNull(gameStatus, "GameStatus in AttackerUI is null!");
         Assert.IsNotNull(objectives, "Objectives in AttackerUI are null!");
+        Assert.IsNotNull(currency, "Currency in AttackerUI is null!");
 
         yield return null;
     }

@@ -229,7 +229,7 @@ public class AttackerInputPlayTest
         // Allow test to run for x amount of seconds
         //yield return new WaitForSeconds(timeToWait);
 
-        // Assert that heroCombat has performed skill equipped to the Q key
+        // Assert that heroCombat has performed skill equipped to the 1 key
         Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
 
         yield return null;
@@ -262,7 +262,7 @@ public class AttackerInputPlayTest
         // Allow test to run for x amount of seconds
         //yield return new WaitForSeconds(timeToWait);
 
-        // Assert that heroCombat has performed skill equipped to the E key
+        // Assert that heroCombat has performed skill equipped to the 2 key
         Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
 
         yield return null;
@@ -295,7 +295,7 @@ public class AttackerInputPlayTest
         // Allow test to run for x amount of seconds
         //yield return new WaitForSeconds(timeToWait);
 
-        // Assert that heroCombat has performed skill equipped to the R key
+        // Assert that heroCombat has performed skill equipped to the 3 key
         Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
 
         yield return null;
@@ -328,7 +328,7 @@ public class AttackerInputPlayTest
         // Allow test to run for x amount of seconds
         //yield return new WaitForSeconds(timeToWait);
 
-        // Assert that heroCombat has performed skill equipped to the R key
+        // Assert that heroCombat has performed skill equipped to the 4 key
         Assert.Fail("PLACEHOLDER: Need to update this test once skills are implemented!");
 
         yield return null;
