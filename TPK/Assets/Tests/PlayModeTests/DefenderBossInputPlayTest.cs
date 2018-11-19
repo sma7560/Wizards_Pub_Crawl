@@ -14,17 +14,17 @@ public class DefenderBossInputPlayTest
 {
     readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
 
-    [UnitySetUp]
-    public IEnumerator UnitySetUp()
-    {
-        // Load Test scene
-        SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
+    //[UnitySetUp]
+    //public IEnumerator UnitySetUp()
+    //{
+    //    // Load Test scene
+    //    SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
 
-        // TODO: Initialize boss mode
+    //    // TODO: Initialize boss mode
 
-        // Wait for defender status to be initialized
-        yield return new WaitForSeconds(timeToWait);
-    }
+    //    // Wait for defender status to be initialized
+    //    yield return new WaitForSeconds(timeToWait);
+    //}
 
     /// <summary>
     /// Test ST-DB1: Checks functionality of character movement along the x-axis (right).

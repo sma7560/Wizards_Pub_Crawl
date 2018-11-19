@@ -12,15 +12,15 @@ public class AttackerPrephasePlayerTest
 {
     readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
 
-    [UnitySetUp]
-    public IEnumerator SetUp()
-    {
-        // Load Test scene
-        SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
+    //[UnitySetUp]
+    //public IEnumerator SetUp()
+    //{
+    //    // Load Test scene
+    //    SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
 
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-    }
+    //    // Wait for test scene to be loaded
+    //    yield return new WaitForSeconds(timeToWait);
+    //}
 
     /// <summary>
     /// Test ST-AP1: Checks that attackers can select their skills from available skills during the pre-phase.

@@ -268,7 +268,7 @@ public class CombatPlayTest
 
     /// <summary>
     /// Test ST-C7: Checks that boss HP has decreased when attacked by the hero.
-    /// Requirement: FR-28
+    /// Requirement: FR-28, FR-55
     /// </summary>
     [UnityTest]
     public IEnumerator Combat_BossTakesDamageFromHero()
@@ -280,7 +280,7 @@ public class CombatPlayTest
 
     /// <summary>
     /// Test ST-C8: Checks that hero HP decreases when stepping on a trap.
-    /// Requirement: FR-27
+    /// Requirement: FR-27, FR-55
     /// </summary>
     [UnityTest]
     public IEnumerator Combat_HeroTakesDamageFromTrap()

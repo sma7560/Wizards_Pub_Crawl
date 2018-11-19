@@ -12,15 +12,15 @@ public class DefenderPrephasePlayTest
 {
     readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
 
-    [UnitySetUp]
-    public IEnumerator SetUp()
-    {
-        // Load Test scene
-        SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
+    //[UnitySetUp]
+    //public IEnumerator SetUp()
+    //{
+    //    // Load Test scene
+    //    SceneManager.LoadSceneAsync("TestScene", LoadSceneMode.Single);
 
-        // Wait for test scene to be loaded
-        yield return new WaitForSeconds(timeToWait);
-    }
+    //    // Wait for test scene to be loaded
+    //    yield return new WaitForSeconds(timeToWait);
+    //}
 
     /// <summary>
     /// Test ST-DP1: Checks that the defender is given the expected starting currency at the beginning of the pre-phase.

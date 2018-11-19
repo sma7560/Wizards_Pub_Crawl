@@ -166,7 +166,7 @@ public class AttackerStatePlayTest
 
     /// <summary>
     /// Test ST-AS6: Checks that all elements are present on the Attacker UI (skills, HP, items, game status, objectives list, current currency).
-    /// Requirement: FR-9, FR-10, FR-11
+    /// Requirement: FR-9, FR-10, FR-11, FR-58
     /// </summary>
     [UnityTest]
     public IEnumerator AttackerState_AttackerUI_ElementsAreActive()
@@ -431,4 +431,31 @@ public class AttackerStatePlayTest
         yield return null;
     }
 
+    /// <summary>
+    /// Test ST-AS12: Checks that the health bar element is present for all enemy characters.
+    /// Requirement: FR-58
+    /// </summary>
+    [UnityTest]
+    public IEnumerator AttackerState_HealthPresentOnAllEnemies()
+    {
+        // TODO: add boss health once boss is implemented
+
+        // Get health element on monster prefab
+        GameObject enemies = GameObject.Find("Enemies");
+        Transform monster = enemies.transform.Find("Monster1");
+        Transform healthBar = monster.Find("HealthBar");
+        Assert.IsNotNull(healthBar, "HealthBar on monster is null!");
+
+        // Get all health elements within health bar
+        Transform healthBackground = healthBar.Find("HealthBackground");
+        Transform healthFillImage = healthBar.Find("Health");
+        Transform healthText = healthBar.Find("HealthText");
+
+        // Assert that all health elements are not null
+        Assert.IsNotNull(healthBackground, "HealthBar Background on monster is null!");
+        Assert.IsNotNull(healthFillImage, "HealthBar Fill Image on monster is null!");
+        Assert.IsNotNull(healthText, "HealthBar Text on monster is null!");
+
+        yield return null;
+    }
 }

@@ -45,7 +45,7 @@ public class DefenderInputPlayTest
 
     /// <summary>
     /// Test ST-DI2: Checks the functionality of using a minion card, and that minions spawn upon use.
-    /// Requirement: FR-36, FR-37
+    /// Requirement: FR-36, FR-37, FR-52
     /// </summary>
     [UnityTest]
     public IEnumerator DefenderState_MinionCard_SpawnsMinonsOnUse()

@@ -336,7 +336,7 @@ public class AttackerInputPlayTest
 
     /// <summary>
     /// Test ST-AI10: Checks functionality of hero item usage for key Q, and that when Q is pressed, equipped item is used.
-    /// Requirement: FR-21
+    /// Requirement: FR-21, FR-56
     /// </summary>
     [UnityTest]
     public IEnumerator AttackerInput_UseItem_Q()
@@ -369,7 +369,7 @@ public class AttackerInputPlayTest
 
     /// <summary>
     /// Test ST-AI11: Checks functionality of hero item usage for key 2, and that when 2 is pressed, equipped item is used.
-    /// Requirement: FR-21
+    /// Requirement: FR-21, FR-56
     /// </summary>
     [UnityTest]
     public IEnumerator AttackerInput_UseItem_E()
@@ -402,7 +402,7 @@ public class AttackerInputPlayTest
 
     /// <summary>
     /// Test ST-AI12: Checks functionality of hero item usage for key R, and that when R is pressed, equipped item is used.
-    /// Requirement: FR-21
+    /// Requirement: FR-21, FR-56
     /// </summary>
     [UnityTest]
     public IEnumerator AttackerInput_UseItem_R()

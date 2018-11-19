@@ -47,7 +47,7 @@ public class CharacterStatsUnitTest {
 
     /// <summary>
     /// Test UT-CS3: Tests the TakeDamage() function, and that the hero's health after taking damage is as expected.
-    /// Requirement: FR-27
+    /// Requirement: FR-27, FR-54, FR-55
     /// </summary>
     [Test]
     public void CharacterStats_TakeDamage_NoDefence_ShouldReturnExpected()
@@ -74,7 +74,7 @@ public class CharacterStatsUnitTest {
 
     /// <summary>
     /// Test UT-CS4: Tests the TakeDamage() function with some defence, and that the hero's health after taking damage is as expected.
-    /// Requirement: FR-27
+    /// Requirement: FR-27, FR-54, FR-55
     /// </summary>
     [Test]
     public void CharacterStats_TakeDamage_PositiveDefence_ShouldReturnExpected()

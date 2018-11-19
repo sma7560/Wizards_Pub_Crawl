@@ -84,7 +84,7 @@ public class DefenderStatePlayTest
 
     /// <summary>
     /// Test ST-DS3: Checks that all elements (currency, energy, cards, minimap) are present in the Defender UI.
-    /// Requirement: FR-43, FR-44
+    /// Requirement: FR-43, FR-44, FR-57
     /// </summary>
     [UnityTest]
     public IEnumerator DefenderState_DefenderUI_ElementsAreActive()
@@ -166,6 +166,60 @@ public class DefenderStatePlayTest
         Assert.IsNotNull(card6, "Card6 is null!");
         Assert.IsNotNull(card7, "Card7 is null!");
         Assert.IsNotNull(card8, "Card8 is null!");
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// Test ST-DS6: Checks that health is present on all characters (enemies, heroes).
+    /// Requirement: FR-58
+    /// </summary>
+    [UnityTest]
+    public IEnumerator DefenderState_HealthPresentOnAllCharacters()
+    {
+        // TODO: add test for hero health bars once they are implemented
+
+        // Spawn monsters
+        GameObject defender = GameObject.Find("Defender(Clone)");
+        DefenderController defenderController = defender.GetComponent<DefenderController>();
+        Assert.IsNotNull(defenderController, "DefenderController is null!");
+        defenderController.SpawnMonster(new Vector3(0, 0, 0), new Quaternion(0, 0, 0, 0));
+
+        // Allow monster to spawn
+        yield return new WaitForSeconds(timeToWait);
+
+        // Get health element on monster prefab
+        GameObject monster = null;
+        GameObject[] gameObjects = GameObject.FindObjectsOfType<GameObject>();
+        foreach (GameObject gameObject in gameObjects)
+        {
+            if (gameObject.name.Contains("Monster"))
+            {
+                monster = gameObject;
+                break;
+            }
+        }
+        Transform monsterhealthBar = monster.transform.Find("HealthBar");
+        Assert.IsNotNull(monsterhealthBar, "HealthBar on monster is null!");
+
+        // Get health element on hero prefab
+        // TODO
+
+        // Get all health elements within health bar
+        Transform monsterHealthBackground = monsterhealthBar.Find("HealthBackground");
+        Transform monsterHealthFillImage = monsterhealthBar.Find("Health");
+        Transform monsterHealthText = monsterhealthBar.Find("HealthText");
+        //Transform heroHealthBackground = heroHealthBar.Find("HealthBackground");
+        //Transform heroHealthFillImage = heroHealthBar.Find("Health");
+        //Transform heroHealthText = heroHealthBar.Find("HealthText");
+
+        // Assert that all health elements are not null
+        Assert.IsNotNull(monsterHealthBackground, "HealthBar Background on monster is null!");
+        Assert.IsNotNull(monsterHealthFillImage, "HealthBar Fill Image on monster is null!");
+        Assert.IsNotNull(monsterHealthText, "HealthBar Text on monster is null!");
+        //Assert.IsNotNull(heroHealthBackground, "HealthBar Background on hero is null!");
+        //Assert.IsNotNull(heroHealthFillImage, "HealthBar Fill Image on hero is null!");
+        //Assert.IsNotNull(heroHealthText, "HealthBar Text on hero is null!");
 
         yield return null;
     }
