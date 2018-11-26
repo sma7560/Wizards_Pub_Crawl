@@ -15,6 +15,8 @@ public class DefenderBehaviour : MonoBehaviour
     public defenderMode mode;
     public Camera defenderCamera;
 
+    public IUnityService unityService;
+
     private Quaternion monsterDefaultRotation = Quaternion.Euler(0, 0, 0);
     private int currentCardCost = 100; //update this cost to whatever currently seelcted card's cost is
 
@@ -23,6 +25,11 @@ public class DefenderBehaviour : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (unityService == null)
+        {
+            unityService = new UnityService();
+        }
+
         energy = 1000;
         money = 1000;
 
@@ -43,11 +50,11 @@ public class DefenderBehaviour : MonoBehaviour
 
         //This line is for sanity checks, just in case the attacker creates the camera.
         //if (!isServer) return;
-        if (Input.GetMouseButtonUp(0))
+        if (unityService.GetMouseButtonUp(0))
         {
             Debug.Log("mouseClick");
             RaycastHit hit;
-            Ray ray = defenderCamera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = defenderCamera.ScreenPointToRay(unityService.GetMousePosition());
             if (currentCardCost > energy)
             {
                 Debug.Log("No energy!");
@@ -85,7 +92,7 @@ public class DefenderBehaviour : MonoBehaviour
             }
         }
         //switch spawn modes
-        if (Input.GetKeyUp(KeyCode.E))
+        if (unityService.GetKeyUp(KeyCode.E))
         {
             if (mode == defenderMode.spawnMonster)
                 mode = defenderMode.spawnTrap;

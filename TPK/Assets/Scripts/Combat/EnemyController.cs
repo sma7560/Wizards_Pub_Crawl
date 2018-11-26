@@ -8,8 +8,10 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : NetworkBehaviour
 {
-
+    public bool localTest;
     public float lookRadius = 10f;
+    public IUnityService unityService;
+
     Transform[] targets;
     NavMeshAgent agent;
     int numPlayers;
@@ -20,11 +22,22 @@ public class EnemyController : NetworkBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         enemyCombat = GetComponent<CharacterCombat>();
+
+        if (unityService == null)
+        {
+            unityService = new UnityService();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        // Makes it so it is only moved on server.
+        if (!localTest && !isServer)
+        {
+            return;
+        }
+
         MakePlayerTargetList();
         TargetClosestPlayer();
     }
@@ -89,7 +102,7 @@ public class EnemyController : NetworkBehaviour
 
     public void KillMe() {
         CmdKillme();
-        Destroy(gameObject);
+        unityService.Destroy(gameObject);
     }
     [Command]
     private void CmdKillme() {

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class EnemyStats : CharacterStats {
 
-    public override void Die()
-    {
-        base.Die();
+    //public override void Die()
+    //{
+    //    base.Die();
 
-        // Add enemy death animation here
+    //    // Add enemy death animation here
 
-       Destroy(gameObject);
-       gameObject.GetComponent<EnemyController>().KillMe();
-    }
+    //   Destroy(gameObject);
+    //   gameObject.GetComponent<EnemyController>().KillMe();
+    //}
 }

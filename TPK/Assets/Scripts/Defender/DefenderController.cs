@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 
 public class DefenderController : NetworkBehaviour
 {
+    public IUnityService unityService;
     public GameObject DefenderCamera;
     public GameObject monster;
     public GameObject trap;
@@ -15,6 +16,11 @@ public class DefenderController : NetworkBehaviour
     {
         if (!isServer) return;
         SetUpDefenderCam();
+
+        if (unityService == null)
+        {
+            unityService = new UnityService();
+        }
     }
 
     // Update is called once per frame
@@ -46,7 +52,7 @@ public class DefenderController : NetworkBehaviour
     [Command]
     private void CmdSpawnMonster(Vector3 location, Quaternion rotation) {
         GameObject temp;
-        temp = Instantiate(monster, location, rotation);
+        temp = unityService.Instantiate(monster, location, rotation);
         NetworkServer.Spawn(temp);
     }
     [Command]
@@ -54,7 +60,7 @@ public class DefenderController : NetworkBehaviour
 
         GameObject tempTrap;
         //rotation.SetAxisAngle(new Vector3(1, 0, 0), 90);
-        tempTrap = Instantiate(trap, location, rotation);
+        tempTrap = unityService.Instantiate(trap, location, rotation);
         NetworkServer.Spawn(tempTrap);
     }
 }
