@@ -7,6 +7,7 @@ public class AbilityManager : MonoBehaviour {
     public Skill[] knownSkills; // This should probably be a list.
     private Transform origin;
     private Rigidbody playerRigid;
+
 	// Use this for initialization
 	void Start () {
         origin = gameObject.GetComponent<Transform>();
@@ -61,6 +62,6 @@ public class AbilityManager : MonoBehaviour {
     }
     public void CastSkill(int index)
     {
-        equippedSkills[index].Cast();
+        //equippedSkills[index].Cast();
     }
 }

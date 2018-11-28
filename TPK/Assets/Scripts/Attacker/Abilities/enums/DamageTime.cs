@@ -1,3 +1,3 @@
 ﻿public enum DamageTime {
-    delayed, instant, overTime
+    delayed, instant, overTime, none
 }

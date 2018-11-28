@@ -551,11 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920485d845d8337469fb9e7930934466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equippedSkills:
-  - {fileID: 11400000, guid: 84e68d4452f990744919a523ad6beff1, type: 2}
-  - {fileID: 11400000, guid: 8fb4ed0a81548534faf55e82b41e711b, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  equippedSkills: []
   knownSkills: []
 --- !u!1001 &1544705541
 Prefab:

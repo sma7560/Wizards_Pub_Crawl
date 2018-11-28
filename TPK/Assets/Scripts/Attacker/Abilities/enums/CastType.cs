@@ -1,3 +1,3 @@
 ﻿public enum CastType {
-    coneAoe, circleAoe, projectile, raycast
+    selfAoe, projectile, raycast, self
 }
