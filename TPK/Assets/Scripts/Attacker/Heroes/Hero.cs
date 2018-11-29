@@ -6,7 +6,13 @@ using UnityEngine;
 public class Hero : ScriptableObject {
     public HeroType heroType;
     public string heroName;
-    public GameObject model;
-    public GameObject weapon;
-    public GameObject projectile;
+    public GameObject modelPrefab;
+    
+    public int maxHealth;
+    public int currentHealth;
+    public int moveSpeed;
+    public int atkSpeed;
+    public int defense;
+
+    
 }
