@@ -12,6 +12,7 @@ TagManager:
   - DefenderCamera
   - DefenderHolder
   - knockedOutPlayer
+  - Score
   layers:
   - Default
   - TransparentFX
