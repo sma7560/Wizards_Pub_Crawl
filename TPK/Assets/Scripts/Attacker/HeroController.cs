@@ -28,8 +28,6 @@ public class HeroController : NetworkBehaviour
     private Transform characterTransform;
     private CharacterMovement characterMovement;
 
-    private Score score;        // current score of the player
-
     // Use this for initialization
     void Start()
     {
@@ -54,8 +52,6 @@ public class HeroController : NetworkBehaviour
 
         StartCamera();
         StartUI();
-
-        score = new Score();    // initialize score value
     }
 
     // Update is called once per frame
@@ -112,10 +108,6 @@ public class HeroController : NetworkBehaviour
         {
             KnockedOut();
         }
-
-        // Update the score on UI
-        TextMeshProUGUI scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
-        scoreText.text = score.GetScore().ToString();
     }
 
     public void KillMe()

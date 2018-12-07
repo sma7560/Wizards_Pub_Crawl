@@ -5,11 +5,12 @@ using UnityEngine;
 public class Acontroller : MonoBehaviour {
 	public Animator anim;
     public Rigidbody rbody;
-    /*public float speed = 0.0001F;
-	public float rotationSpeed = 1.0F;*/
     private float inputH;
     private float inputV;
     private bool run;
+    //Use this for skill
+    public GameObject RangedSpellPrefab;
+    public GameObject selectedUnit;
 
     // Use this for initialization
     void Start () {
@@ -37,6 +38,7 @@ public class Acontroller : MonoBehaviour {
         if (Input.GetKeyDown("j"))
         {
             anim.Play("Matk1", -1, 0f);
+            RangeAttack();
         }
 
         if (Input.GetKeyDown("k"))
@@ -80,7 +82,20 @@ public class Acontroller : MonoBehaviour {
             moveZ *= 3f;
         }
         transform.Translate(0, 0, 0.01f * moveZ);
+        //altertate translation
         //rbody.velocity = new Vector3(moveX, 0f, 1f * moveZ);
 
+    }
+    /*void BasicAttack()
+    {
+        EnemyStats.Receivedamage(?);
+    }*/
+    void RangeAttack()
+    {
+        //projectile spawing at centre of player
+        Vector3 SpawnSpell = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.z);
+        GameObject clone;
+        clone = Instantiate(RangedSpellPrefab, SpawnSpell, Quaternion.identity);
+        clone.transform.GetComponent<RangedSpell>().Target = selectedUnit;
     }
 } 
