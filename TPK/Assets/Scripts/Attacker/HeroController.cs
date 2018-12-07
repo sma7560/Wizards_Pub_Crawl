@@ -20,7 +20,7 @@ public class HeroController : NetworkBehaviour
     private Rigidbody heroRigidbody;
     private bool isKnockedOut;
     private int reviveCount;
-    private int deathTimer;
+    private int deathTimer = 4; //default death timer
 
     public IUnityService unityService;
     public CharacterCombat heroCombat;
@@ -71,12 +71,6 @@ public class HeroController : NetworkBehaviour
         }
 
         UpdateUI();
-
-        //if character is knocked out, check knocked-out specific interactions
-        if (isKnockedOut)
-        {
-            CheckKnockedOutStatus();
-        }
 
         // Perform an attack
         if (unityService.GetKeyDown(KeyCode.Space))
@@ -136,80 +130,39 @@ public class HeroController : NetworkBehaviour
         {
             isKnockedOut = true;
             transform.gameObject.tag = "knockedOutPlayer"; //change tag so enemies won't go after it anymore
-            deathTimer = 0;
             characterTransform.Rotate(90, 0, 0); //turn sideways to show knocked out
 
+            Debug.Log("Player knocked out");
             //starts timer until character dies
-            StartCoroutine(AddDeathTimer());
+            StartCoroutine(reviveTimer(deathTimer));
         }
     }
 
     //when player is revived by another player
-    private void Revived()
+    private void respawn()
     {
+        Debug.Log("Player respawned");
         isKnockedOut = false;
+        heroStats.currentHealth = heroStats.maxHealth;
         transform.gameObject.tag = "Player";
         characterTransform.Rotate(-90, 0, 0);
-        reviveCount = 0;
+
+        HeroState heroState = GameObject.Find("EventSystem").GetComponent<HeroState>();
+
+        //gets spawn location of player
+        /*TODO 
+         * change value passed into getSpawnLocationOfPlayer after player overhaul
+         * "1" should become whatever player it is
+         * */
+        characterTransform.position = heroState.getSpawnLocationOfPlayer(1);
+
     }
 
-    //knocked-out specific interactions
-    private void CheckKnockedOutStatus()
+    //increment how long until player respawns
+    private IEnumerator reviveTimer(float timer)
     {
-        //dies if deathtimer reaches 50
-        if (deathTimer >= 50)
-        {
-            StopCoroutine(AddDeathTimer());
-            KillMe();
-        }
-
-        //find nearby players
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        int numPlayers = playerObjects.Length;
-        Transform[] targets = new Transform[numPlayers];
-        for (int i = 0; i < numPlayers; i++)
-        {
-            targets[i] = playerObjects[i].GetComponent<Transform>();
-        }
-
-        // check if any players nearby
-        for (int i = 0; i < numPlayers; i++)
-        {
-            float distance = Vector3.Distance(targets[i].position, transform.position);
-            if (distance < 2)
-            {
-                //if player in range, fill up revive meter
-                StartCoroutine(AddReviveTimer());
-                if (reviveCount >= 100)
-                {
-                    //revive player is revive meter is filled up
-                    StopCoroutine(AddReviveTimer());
-                    Revived();
-                }
-            }
-        }
-    }
-
-    //regenerate energy
-    private IEnumerator AddDeathTimer()
-    {
-        while (true)
-        {
-            deathTimer += 5; // increase death timer by 5 every tick
-            yield return new WaitForSeconds(0.5f); //amount of time between clicks
-
-        }
-    }
-
-    private IEnumerator AddReviveTimer()
-    {
-        while (true)
-        {
-            reviveCount += 5; // increase revive timer by 5 every tick
-            Debug.Log("reviving at " + reviveCount);
-            yield return new WaitForSeconds(0.5f); //amount of time between clicks
-
-        }
+        yield return new WaitForSeconds(timer);
+        respawn();
     }
 
     //return if knocked out or not
