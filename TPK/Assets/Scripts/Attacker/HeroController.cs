@@ -17,6 +17,14 @@ public class HeroController : NetworkBehaviour
     public bool localTest;
 
     private GameObject cam;
+
+    // For setting up character direction.
+    private Camera view;
+    private Plane ground;
+    private float rayLength;
+    private Vector3 pointToLookAt;
+
+
     private Rigidbody heroRigidbody;
     private bool isKnockedOut;
     private int reviveCount;
@@ -33,14 +41,12 @@ public class HeroController : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        Debug.Log("On Start - Player Authority:" + hasAuthority);
-        Debug.Log("On Start - Player Local:" + isLocalPlayer);
-        Debug.Log("On Start - Player Server:" + isServer);
-        if (!localTest && !hasAuthority && !isLocalPlayer)
-        {
-            return;
-        }
-        
+        //if (!localTest && !hasAuthority && !isLocalPlayer)
+        //{
+        //    return;
+        //}
+        if (!isLocalPlayer && !localTest) return;
+
         isKnockedOut = false;
         characterMovement = new CharacterMovement(10.0f);
 
@@ -50,11 +56,11 @@ public class HeroController : NetworkBehaviour
             unityService = new UnityService();
         }
         heroRigidbody = GetComponent<Rigidbody>();
-        heroStats = GetComponent<CharacterStats>();
-        heroCombat = GetComponent<CharacterCombat>();
+        //heroStats = GetComponent<CharacterStats>();
+        //heroCombat = GetComponent<CharacterCombat>();
 
         characterTransform = GetComponent<Transform>();
-
+        ground = new Plane(Vector3.up, Vector3.zero);
         StartCamera();
         StartUI();
 
@@ -65,21 +71,20 @@ public class HeroController : NetworkBehaviour
     void Update()
     {
         // This function runs on all heroes
-        Debug.Log("On Update - Player Authority:" + hasAuthority);
-        Debug.Log("On Update - Player Local:" + isLocalPlayer);
-        Debug.Log("On Update - Player Server:" + isServer);
-        if (!hasAuthority && !localTest && !isLocalPlayer)
-        {
-            return;
-        }
+        //if (!hasAuthority && !localTest && !isLocalPlayer)
+        //{
+        //    return;
+        //}
+        if (!isLocalPlayer) return;
 
         // Character Movement if hero is not knocked out
         if (!isKnockedOut)
         {
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+            performRotation();
         }
-
-        UpdateUI();
+        Debug.DrawLine(transform.position, transform.forward * 20 + transform.position, Color.red);
+        //UpdateUI();
 
         // Perform an attack
         if (unityService.GetKeyDown(KeyCode.Space))
@@ -88,11 +93,25 @@ public class HeroController : NetworkBehaviour
         }
     }
 
+    // This function is used to get player direction.
+    private void performRotation()
+    {
+        Ray cameraRay = view.ScreenPointToRay(Input.mousePosition);
+        if (ground.Raycast(cameraRay, out rayLength))
+        {
+            pointToLookAt = cameraRay.GetPoint(rayLength);
+            Debug.DrawLine(cameraRay.origin, pointToLookAt, Color.blue);
+            transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z));
+
+        }
+    }
+    // This function disables the main view camera in charge of capturing the UI
     private void StartCamera()
     {
         GameObject.FindGameObjectWithTag("MainCamera").SetActive(false);
         cam = Instantiate(heroCam);
         cam.GetComponent<HeroCameraController>().setTarget(this.transform);
+        view = cam.GetComponent<Camera>();
     }
 
     private void StartUI()
@@ -113,16 +132,17 @@ public class HeroController : NetworkBehaviour
         TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
         healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
 
-        if (heroStats.currentHealth <= 0)
-        {
-            KnockedOut();
-        }
+        //if (heroStats.currentHealth <= 0)
+        //{
+        //    KnockedOut();
+        //}
 
         // Update the score on UI
         TextMeshProUGUI scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
         scoreText.text = score.GetScore().ToString();
     }
 
+    // Might be removed *** 
     public void KillMe()
     {
         CmdKillMe();
