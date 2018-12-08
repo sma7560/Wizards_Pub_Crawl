@@ -33,11 +33,14 @@ public class HeroController : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        if (!localTest && !hasAuthority)
+        Debug.Log("On Start - Player Authority:" + hasAuthority);
+        Debug.Log("On Start - Player Local:" + isLocalPlayer);
+        Debug.Log("On Start - Player Server:" + isServer);
+        if (!localTest && !hasAuthority && !isLocalPlayer)
         {
             return;
         }
-
+        
         isKnockedOut = false;
         characterMovement = new CharacterMovement(10.0f);
 
@@ -62,8 +65,10 @@ public class HeroController : NetworkBehaviour
     void Update()
     {
         // This function runs on all heroes
-
-        if (!hasAuthority && !localTest)
+        Debug.Log("On Update - Player Authority:" + hasAuthority);
+        Debug.Log("On Update - Player Local:" + isLocalPlayer);
+        Debug.Log("On Update - Player Server:" + isServer);
+        if (!hasAuthority && !localTest && !isLocalPlayer)
         {
             return;
         }

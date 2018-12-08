@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
-public class OfflineHeroController : MonoBehaviour {
+public class OfflineHeroController : NetworkBehaviour {
     public GameObject attackerUI;
     private float moveSpeed;
     private Rigidbody heroRigidbody;
@@ -17,6 +18,9 @@ public class OfflineHeroController : MonoBehaviour {
     private Vector3 pointToLookAt;
     // Use this for initialization
     void Start () {
+
+        if (!hasAuthority || !isLocalPlayer) return;
+
         moveSpeed = 5.0f;
         heroRigidbody = GetComponent<Rigidbody>();
         heroStats = GetComponent<CharacterStats>();
@@ -31,6 +35,7 @@ public class OfflineHeroController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!hasAuthority || !isLocalPlayer) return;
         CharacterMovement();
         SetRotation();
         //UpdateUI();
