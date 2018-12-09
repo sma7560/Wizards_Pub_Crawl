@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// This script is to setting up listeners for the button for Joining game.
 public class JoinListenerSetup : MonoBehaviour {
 
     private GameObject networkManager;

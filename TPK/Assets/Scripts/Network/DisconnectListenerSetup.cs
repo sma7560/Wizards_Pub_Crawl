@@ -7,6 +7,7 @@ public class DisconnectListenerSetup : MonoBehaviour {
 
     private GameObject networkManager;
 	// Use this for initialization
+    // This function plays on awake and adds a listener to the menu for disconnecting.
 	void Awake () {
         networkManager = GameObject.Find("NetworkManagerV2");
         // To remove all listeners

@@ -9,6 +9,7 @@ using System;
 
 public class NetworkManagerExtension : NetworkManager{
 
+    // Setting up the host via getting the local IP address and using that as host address.
     public void StartUpHost() {
         SetPort();
         networkAddress = GetLocalIPAddress();
@@ -17,12 +18,13 @@ public class NetworkManagerExtension : NetworkManager{
         NetworkManager.singleton.StartHost();
     }
 
+    // Join a game based on a designated IP address.
     public void JoinGame() {
         SetIPAddress();
         SetPort();
         NetworkManager.singleton.StartClient();
     }
-
+    //Sets up the IP address via looking for the input text. If none was submitted it defaults to localhost.
     private void SetIPAddress() {
         //Defaulting it to local host.
         string ipAddress = GameObject.Find("IPText").GetComponent<Text>().text;
@@ -45,6 +47,7 @@ public class NetworkManagerExtension : NetworkManager{
         throw new Exception("Local IP Address Not Found!");
     }
 
+    //Setting up the port for the game.
     private void SetPort()
     {
         NetworkManager.singleton.networkPort = 7777;

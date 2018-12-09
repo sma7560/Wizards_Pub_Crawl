@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// This script is to setting up listeners for the buttons.
+// This script is to setting up listeners for the button for hosting game.
 public class HostListenerSetUp : MonoBehaviour {
 
     private GameObject networkManager;
