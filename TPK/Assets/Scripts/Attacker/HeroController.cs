@@ -75,7 +75,7 @@ public class HeroController : NetworkBehaviour
         //{
         //    return;
         //}
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer && !localTest) return;
 
         // Character Movement if hero is not knocked out
         if (!isKnockedOut)
