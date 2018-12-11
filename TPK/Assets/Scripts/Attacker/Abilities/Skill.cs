@@ -30,7 +30,7 @@ public class Skill : ScriptableObject
 
     //Define if there is a movement to it.
     public MovementType moveType;
-    public float movementDistance;
+    public float movementDistance; //negative distances for backwards and positive for forward.
 
 
 
