@@ -1,16 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
-public class OfflineHeroController : NetworkBehaviour {
+public class OfflineHeroController : MonoBehaviour {
     public GameObject attackerUI;
+    public Vector3 speed;
     private float moveSpeed;
     private Rigidbody heroRigidbody;
-
-    private CharacterStats heroStats;
-    private CharacterCombat heroCombat;
 
     private Camera mainCam;
     private Plane ground;
@@ -18,14 +12,11 @@ public class OfflineHeroController : NetworkBehaviour {
     private Vector3 pointToLookAt;
     // Use this for initialization
     void Start () {
+        moveSpeed = 10.0f;
 
-        if (!hasAuthority || !isLocalPlayer) return;
-
-        moveSpeed = 5.0f;
+        Debug.Log("Setting up rigid");
         heroRigidbody = GetComponent<Rigidbody>();
-        heroStats = GetComponent<CharacterStats>();
-        heroCombat = GetComponent<CharacterCombat>();
-        StartUI();
+        //StartUI();
 
         // Camera stuff
         Camera.main.GetComponent<HeroCameraController>().setTarget(transform);
@@ -35,21 +26,12 @@ public class OfflineHeroController : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!hasAuthority || !isLocalPlayer) return;
         CharacterMovement();
         SetRotation();
-        //UpdateUI();
+        //Debug.Log(heroRigidbody.velocity);
         Debug.DrawLine(transform.position, transform.forward * 20 + transform.position, Color.red);
 
 
-    }
-    private void StartUI() {
-        Debug.Log("Attacker UI is active.");
-        Instantiate(attackerUI);
-
-        // Set health bar image to full
-        Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
-        healthImage.fillAmount = 1;
     }
     private void SetRotation() {
         Ray cameraRay = mainCam.ScreenPointToRay(Input.mousePosition);
@@ -61,21 +43,18 @@ public class OfflineHeroController : NetworkBehaviour {
     }
     private void CharacterMovement()
     {
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        //Debug.Log("Horizontal: " + Input.GetAxis("Horizontal"));
+        //Debug.Log("Vertical: " + Input.GetAxis("Vertical"));
+        //speed = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, 0, Input.GetAxis("Vertical") * moveSpeed);
+        //heroRigidbody.velocity = speed;
+        if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
-            heroRigidbody.velocity = new Vector3(Input.GetAxisRaw("Horizontal") * moveSpeed, 0, Input.GetAxisRaw("Vertical") * moveSpeed);
+            Debug.Log("Running Velocity");
+            heroRigidbody.velocity = new Vector3(Input.GetAxis("Horizontal") * moveSpeed, 0, Input.GetAxis("Vertical") * moveSpeed);
         }
         else
         {
             heroRigidbody.velocity = new Vector3(0, 0, 0);
         }
-    }
-    private void UpdateUI()
-    {
-        // Update health bar and text
-        Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
-        healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / (float)heroStats.maxHealth;
-        //TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
-        //healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
     }
 }

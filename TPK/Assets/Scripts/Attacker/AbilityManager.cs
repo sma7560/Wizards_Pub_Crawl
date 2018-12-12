@@ -2,19 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// This script will have to be reworked.
 public class AbilityManager : MonoBehaviour {
     public Skill[] equippedSkills;
     public Skill[] knownSkills; // This should probably be a list.
     private Transform origin;
     private Rigidbody playerRigid;
+    private int currMarker;
 
 	// Use this for initialization
 	void Start () {
         origin = gameObject.GetComponent<Transform>();
         playerRigid = gameObject.GetComponent<Rigidbody>();
         for (int i = 0; i<equippedSkills.Length; i++) {
-            if (equippedSkills[i] != null)
-                equippedSkills[i].Initialize(origin, playerRigid);
+            //if (equippedSkills[i] != null)
+                //equippedSkills[i].Initialize(origin, playerRigid);
         }
 	}
 	
@@ -57,8 +59,11 @@ public class AbilityManager : MonoBehaviour {
     private void RemoveSkill(int index) {
         equippedSkills[index] = null;
     }
+    public void AddSkill(Skill skillToAdd) {
+
+    }
     private void InstantiateSkill(int indexOfSkill) {
-        equippedSkills[indexOfSkill].Initialize(origin, playerRigid);
+        //equippedSkills[indexOfSkill].Initialize(origin, playerRigid);
     }
     public void CastSkill(int index)
     {

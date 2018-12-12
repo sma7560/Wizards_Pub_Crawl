@@ -51,7 +51,7 @@ public class Acontroller : MonoBehaviour {
             anim.Play("Patk1", -1, 0f);
         }
         //Kick
-        if (Input.GetKey("l"))
+        if (Input.GetKey(KeyCode.Alpha1))
         {
             anim.Play("Patk2", -1, 0f);
         }
