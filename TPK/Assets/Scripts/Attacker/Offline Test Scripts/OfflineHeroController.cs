@@ -12,7 +12,7 @@ public class OfflineHeroController : MonoBehaviour {
     private Vector3 pointToLookAt;
     // Use this for initialization
     void Start () {
-        moveSpeed = 10.0f;
+        moveSpeed = 5.0f;
 
         Debug.Log("Setting up rigid");
         heroRigidbody = GetComponent<Rigidbody>();

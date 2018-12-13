@@ -56,8 +56,8 @@ public class HeroController : NetworkBehaviour
             unityService = new UnityService();
         }
         heroRigidbody = GetComponent<Rigidbody>();
-        //heroStats = GetComponent<CharacterStats>();
-        //heroCombat = GetComponent<CharacterCombat>();
+        heroStats = GetComponent<CharacterStats>();
+        heroCombat = GetComponent<CharacterCombat>();
 
         characterTransform = GetComponent<Transform>();
         ground = new Plane(Vector3.up, Vector3.zero);
@@ -80,6 +80,7 @@ public class HeroController : NetworkBehaviour
         // Character Movement if hero is not knocked out
         if (!isKnockedOut)
         {
+            //heroRigidbody.MovePosition(new Vector3(transform.position.x + unityService.GetAxisRaw("Horizontal"), 0, transform.position.z + unityService.GetAxisRaw("Vertical")));
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
             performRotation();
         }
@@ -108,6 +109,7 @@ public class HeroController : NetworkBehaviour
     // This function disables the main view camera in charge of capturing the UI
     private void StartCamera()
     {
+        // There is a bug here.
         GameObject.FindGameObjectWithTag("MainCamera").SetActive(false);
         cam = Instantiate(heroCam);
         cam.GetComponent<HeroCameraController>().setTarget(this.transform);
