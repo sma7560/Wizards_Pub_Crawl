@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class DefenderBossInputPlayTest
 {
-    readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
+    //readonly int timeToWait = 2;    // number of seconds to wait for after test scene is loaded
 
     //[UnitySetUp]
     //public IEnumerator UnitySetUp()

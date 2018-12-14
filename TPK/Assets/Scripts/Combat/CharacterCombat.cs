@@ -46,7 +46,7 @@ public class CharacterCombat : NetworkBehaviour
                 // If enemy is within interactable radius and we are ready to attack, attack it
                 if (distance < enemy.interactRadius && attackCooldown <= 0)
                 {
-                    EnemyStats enemyStats = enemyObjects[i].GetComponent<EnemyStats>();
+                    //EnemyStats enemyStats = enemyObjects[i].GetComponent<EnemyStats>();
                     //enemyStats.TakeDamage(myStats.damage.GetValue());
                     attackCooldown = 1f / myStats.attackSpeed.GetValue();
                 }

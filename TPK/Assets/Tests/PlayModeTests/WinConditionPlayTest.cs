@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class WinConditionPlayTest
 {
-    readonly int timeToWait = 2;        // number of seconds to wait for after test scene is loaded
+    //readonly int timeToWait = 2;        // number of seconds to wait for after test scene is loaded
 
     //[UnitySetUp]
     //public IEnumerator SetUp()

@@ -156,8 +156,8 @@ public class CombatPlayTest
         yield return new WaitForEndOfFrame();
 
         // Get initial HP to compare to
-        CharacterStats monsterStats = monster.GetComponent<CharacterStats>();
-        int initialHp = monsterStats.GetCurrentHealth();
+        //CharacterStats monsterStats = monster.GetComponent<CharacterStats>();
+        //int initialHp = monsterStats.GetCurrentHealth();
 
         // Setup hero object
         GameObject heroes = GameObject.Find("Heroes");
@@ -237,8 +237,8 @@ public class CombatPlayTest
         yield return new WaitForEndOfFrame();
 
         // Get initial HP to compare to
-        CharacterStats monsterStats = monster.GetComponent<CharacterStats>();
-        int initialHp = monsterStats.GetCurrentHealth();
+        //CharacterStats monsterStats = monster.GetComponent<CharacterStats>();
+        //int initialHp = monsterStats.GetCurrentHealth();
 
         // Setup hero object
         GameObject heroes = GameObject.Find("Heroes");

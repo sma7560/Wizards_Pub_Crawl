@@ -101,7 +101,7 @@ public class AttackerStatePlayTest
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
         hero.SetActive(true);
-        HeroController heroController = hero.GetComponent<HeroController>();
+        //HeroController heroController = hero.GetComponent<HeroController>();
         CharacterStats heroStats = hero.GetComponent<CharacterStats>();
 
         // Allow health to update
@@ -377,7 +377,7 @@ public class AttackerStatePlayTest
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
         hero.SetActive(true);
-        HeroController heroController = hero.GetComponent<HeroController>();
+        //HeroController heroController = hero.GetComponent<HeroController>();
         CharacterStats heroStats = hero.GetComponent<CharacterStats>();
 
         // Wait for hero to be instantiated
@@ -409,7 +409,7 @@ public class AttackerStatePlayTest
         GameObject heroes = GameObject.Find("Heroes");
         GameObject hero = heroes.transform.Find("Hero1").gameObject;
         hero.SetActive(true);
-        HeroController heroController = hero.GetComponent<HeroController>();
+        //HeroController heroController = hero.GetComponent<HeroController>();
         CharacterStats heroStats = hero.GetComponent<CharacterStats>();
 
         // Wait for hero to be instantiated

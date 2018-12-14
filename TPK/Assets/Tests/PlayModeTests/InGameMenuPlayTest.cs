@@ -107,7 +107,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_OptionsMenu_ResumeButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game menu
         GameObject menu = GameObject.Find("Menu");
@@ -133,7 +133,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_OptionsMenu_SettingsButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game menu
         GameObject menu = GameObject.Find("Menu");
@@ -164,7 +164,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_OptionsMenu_QuitButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game menu
         GameObject menu = GameObject.Find("Menu");
@@ -195,7 +195,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_SettingsMenu_GraphicsButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game settings menu
         GameObject menu = GameObject.Find("Menu");
@@ -230,7 +230,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_SettingsMenu_AudioButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game settings menu
         GameObject menu = GameObject.Find("Menu");
@@ -265,7 +265,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_SettingsMenu_NetworkButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game settings menu
         GameObject menu = GameObject.Find("Menu");
@@ -300,7 +300,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_SettingsMenu_BackButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game settings menu
         GameObject menu = GameObject.Find("Menu");
@@ -333,7 +333,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_QuitMenu_NoButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game quit menu
         GameObject menu = GameObject.Find("Menu");
@@ -366,7 +366,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_QuitMenu_YesButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to in-game quit menu
         GameObject menu = GameObject.Find("Menu");
@@ -397,7 +397,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_GraphicsMenu_ElementsAreActive()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game graphics menu
         GameObject menu = GameObject.Find("Menu");
@@ -427,7 +427,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_GraphicsMenu_BackButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game graphics menu
         GameObject menu = GameObject.Find("Menu");
@@ -461,7 +461,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_GraphicsMenu_QualitySelectorOptionsAreExpected()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game graphics menu
         GameObject menu = GameObject.Find("Menu");
@@ -493,7 +493,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_GraphicsMenu_QualitySelectorWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game graphics menu
         GameObject menu = GameObject.Find("Menu");
@@ -525,7 +525,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_GraphicsMenu_ResolutionSelectorOptionsAreExpected()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game graphics menu
         GameObject menu = GameObject.Find("Menu");
@@ -556,7 +556,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_GraphicsMenu_ResolutionSelectorWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game graphics menu
         GameObject menu = GameObject.Find("Menu");
@@ -592,7 +592,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_AudioMenu_ElementsAreActive()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game audio menu
         GameObject menu = GameObject.Find("Menu");
@@ -620,7 +620,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_AudioMenu_VolumeSliderWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game audio menu
         GameObject menu = GameObject.Find("Menu");
@@ -655,7 +655,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_AudioMenu_BackButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game graphics menu
         GameObject menu = GameObject.Find("Menu");
@@ -689,7 +689,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_NetworkMenu_ElementsAreActive()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game audio menu
         GameObject menu = GameObject.Find("Menu");
@@ -717,7 +717,7 @@ public class InGameMenuPlayTest
     public IEnumerator InGameMenu_NetworkMenu_BackButtonWorks()
     {
         // Get DungeonController
-        DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+        //DungeonController dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Get to the in-game graphics menu
         GameObject menu = GameObject.Find("Menu");
