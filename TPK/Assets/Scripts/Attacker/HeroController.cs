@@ -35,6 +35,7 @@ public class HeroController : NetworkBehaviour
     private CharacterStats heroStats;
     private Transform characterTransform;
     private CharacterMovement characterMovement;
+    private Prephase prephase;
 
     private Score score;        // current score of the player
 
@@ -58,11 +59,12 @@ public class HeroController : NetworkBehaviour
         heroRigidbody = GetComponent<Rigidbody>();
         heroStats = GetComponent<CharacterStats>();
         heroCombat = GetComponent<CharacterCombat>();
+        prephase = GameObject.Find("NetworkManagerV2").GetComponent<Prephase>();
 
         characterTransform = GetComponent<Transform>();
         ground = new Plane(Vector3.up, Vector3.zero);
         StartCamera();
-        StartUI();
+        SetupUI();
 
         score = new Score();    // initialize score value
     }
@@ -70,22 +72,18 @@ public class HeroController : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        // This function runs on all heroes
-        //if (!hasAuthority && !localTest && !isLocalPlayer)
-        //{
-        //    return;
-        //}
         if (!isLocalPlayer && !localTest) return;
 
-        // Character Movement if hero is not knocked out
-        if (!isKnockedOut)
+        // Only allow character movement if hero is not knocked out & game is currently not in prephase
+        if (!isKnockedOut && !prephase.IsCurrentlyInPrephase())
         {
-            //heroRigidbody.MovePosition(new Vector3(transform.position.x + unityService.GetAxisRaw("Horizontal"), 0, transform.position.z + unityService.GetAxisRaw("Vertical")));
+            // Perform character movement controls
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
-            performRotation();
+            PerformRotation();
         }
+
         Debug.DrawLine(transform.position, transform.forward * 20 + transform.position, Color.red);
-        //UpdateUI();
+        UpdateUI();
 
         // Perform an attack
         if (unityService.GetKeyDown(KeyCode.Space))
@@ -95,7 +93,7 @@ public class HeroController : NetworkBehaviour
     }
 
     // This function is used to get player direction.
-    private void performRotation()
+    private void PerformRotation()
     {
         Ray cameraRay = view.ScreenPointToRay(Input.mousePosition);
         if (ground.Raycast(cameraRay, out rayLength))
@@ -116,32 +114,59 @@ public class HeroController : NetworkBehaviour
         view = cam.GetComponent<Camera>();
     }
 
-    private void StartUI()
+    /// <summary>
+    /// Initialize the necessary UI depending on current state of the game.
+    /// Ie. Setup prephase UI if game is currently in prephase, or attacker UI if game is currently in dungeon crawling stage.
+    /// </summary>
+    private void SetupUI()
     {
-        Debug.Log("Attacker UI is active.");
-        Instantiate(attackerUI);
+        // Check prephase status and setup UI accordingly
+        if (prephase.IsCurrentlyInPrephase())
+        {
+            // Currently in prephase stage
+            // Setup prephase UI
+            Instantiate(prephase.prephaseUI);
+        }
+        else
+        {
+            // Currently not in prephase stage
+            // Setup attacker UI
+            Instantiate(attackerUI);
 
-        // Set health bar image to full
-        Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
-        healthImage.fillAmount = 1;
+            // Set health bar image to full
+            Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
+            healthImage.fillAmount = 1;
+        }
     }
 
     private void UpdateUI()
     {
-        // Update health bar and text
-        Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
-        healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / (float)heroStats.maxHealth;
-        TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
-        healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
+        // Check prephase status and update UI accordingly
+        if (prephase.IsCurrentlyInPrephase())
+        {
+            // Currently in prephase stage
+            // Update prephase UI
+            prephase.UpdatePrephaseUI();
+        }
+        else
+        {
+            // Currently not in prephase stage
+            // Update health bar and text
+            Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
+            healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / (float)heroStats.maxHealth;
+            TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
+            healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
 
-        //if (heroStats.currentHealth <= 0)
-        //{
-        //    KnockedOut();
-        //}
+            //if (heroStats.currentHealth <= 0)
+            //{
+            //    KnockedOut();
+            //}
 
-        // Update the score on UI
-        TextMeshProUGUI scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
-        scoreText.text = score.GetScore().ToString();
+            // Update the score on UI
+            TextMeshProUGUI scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
+            scoreText.text = score.GetScore().ToString();
+        }
+
     }
 
     // Might be removed *** 
@@ -169,12 +194,12 @@ public class HeroController : NetworkBehaviour
 
             Debug.Log("Player knocked out");
             //starts timer until character dies
-            StartCoroutine(reviveTimer(deathTimer));
+            StartCoroutine(ReviveTimer(deathTimer));
         }
     }
 
     //when player is revived by another player
-    private void respawn()
+    private void Respawn()
     {
         Debug.Log("Player respawned");
         isKnockedOut = false;
@@ -194,10 +219,10 @@ public class HeroController : NetworkBehaviour
     }
 
     //increment how long until player respawns
-    private IEnumerator reviveTimer(float timer)
+    private IEnumerator ReviveTimer(float timer)
     {
         yield return new WaitForSeconds(timer);
-        respawn();
+        Respawn();
     }
 
     //return if knocked out or not

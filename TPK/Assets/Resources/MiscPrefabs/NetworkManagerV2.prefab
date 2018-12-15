@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4485449839034864}
   - component: {fileID: 114201202758545652}
   - component: {fileID: 114846710683764228}
+  - component: {fileID: 114776827308414108}
+  - component: {fileID: 114911627397409912}
   m_Layer: 0
   m_Name: NetworkManagerV2
   m_TagString: Untagged
@@ -35,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1573613074850604}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -56,6 +58,17 @@ MonoBehaviour:
   showGUI: 1
   offsetX: 0
   offsetY: 0
+--- !u!114 &114776827308414108
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1573613074850604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28d52820fca836e4b88d3481efe9f0e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114846710683764228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -143,3 +156,15 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
+--- !u!114 &114911627397409912
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1573613074850604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34692765b5fc3f54d8af931d7e9efe04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prephaseUI: {fileID: 1232863386017794, guid: 6d05e611ccb1e034dab512a8e3b4d08b, type: 2}

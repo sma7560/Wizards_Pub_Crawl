@@ -7,25 +7,65 @@ using System.Net;
 using System.Net.Sockets;
 using System;
 
-public class NetworkManagerExtension : NetworkManager{
+public class NetworkManagerExtension : NetworkManager
+{
 
-    // Setting up the host via getting the local IP address and using that as host address.
-    public void StartUpHost() {
+    /// <summary>
+    /// Setting up the host via getting the local IP address and using that as host address.
+    /// </summary>
+    public void StartUpHost()
+    {
+        // Setup variables
+        MatchManager matchManager = transform.gameObject.GetComponent<MatchManager>();
+
+        // Set networking properties
         SetPort();
         networkAddress = GetLocalIPAddress();
         Debug.Log("Hosting on " + networkAddress);
         NetworkServer.Reset();
         NetworkManager.singleton.StartHost();
+
+        // Update MatchManager with new player
+        if (!matchManager.AddPlayerToMatch())
+        {
+            Debug.Log("ISSUE WITH MATCHMANAGER! Could not add player. Num of players in MatchManager = " + matchManager.GetNumOfPlayers());
+            return;
+        }
+
+        // Start the waiting room of pre-phase
+        transform.gameObject.GetComponent<Prephase>().StartPrephaseWaitingRoom();
     }
 
-    // Join a game based on a designated IP address.
-    public void JoinGame() {
+    /// <summary>
+    /// Join a game based on a designated IP address.
+    /// </summary>
+    public void JoinGame()
+    {
+        // Setup variables
+        MatchManager matchManager = transform.gameObject.GetComponent<MatchManager>();
+
+        // Update MatchManager with new player
+        if (!matchManager.AddPlayerToMatch())
+        {
+            // Max number of players reached; cannot add more
+            Debug.Log("Max players reached. Cannot add more players. Num of players in MatchManager = " + matchManager.GetNumOfPlayers());
+            return;
+        }
+
+        // Set networking properties
         SetIPAddress();
         SetPort();
         NetworkManager.singleton.StartClient();
+
+        // Update pre-phase with new player
+        transform.gameObject.GetComponent<Prephase>().UpdatePrephase();
     }
-    //Sets up the IP address via looking for the input text. If none was submitted it defaults to localhost.
-    private void SetIPAddress() {
+
+    /// <summary>
+    /// Sets up the IP address via looking for the input text. If none was submitted it defaults to localhost.
+    /// </summary>
+    private void SetIPAddress()
+    {
         //Defaulting it to local host.
         string ipAddress = GameObject.Find("IPText").GetComponent<Text>().text;
         if (ipAddress == null) ipAddress = "localhost";
@@ -33,7 +73,10 @@ public class NetworkManagerExtension : NetworkManager{
         NetworkManager.singleton.networkAddress = ipAddress;
     }
 
-    //get host IP Address
+    /// <summary>
+    /// Get host IP Address
+    /// </summary>
+    /// <returns>Returns local IP address</returns>
     public static string GetLocalIPAddress()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
@@ -47,7 +90,9 @@ public class NetworkManagerExtension : NetworkManager{
         throw new Exception("Local IP Address Not Found!");
     }
 
-    //Setting up the port for the game.
+    /// <summary>
+    /// Setting up the port for the game.
+    /// </summary>
     private void SetPort()
     {
         NetworkManager.singleton.networkPort = 7777;
