@@ -63,7 +63,6 @@ public class HeroController : NetworkBehaviour
 
         characterTransform = GetComponent<Transform>();
         ground = new Plane(Vector3.up, Vector3.zero);
-        StartCamera();
         SetupUI();
 
         score = new Score();    // initialize score value
@@ -77,6 +76,10 @@ public class HeroController : NetworkBehaviour
         // Only allow character movement if hero is not knocked out & game is currently not in prephase
         if (!isKnockedOut && !prephase.IsCurrentlyInPrephase())
         {
+            if (heroCam == null)
+            {
+                StartCamera();
+            }
             // Perform character movement controls
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
             PerformRotation();
@@ -104,7 +107,10 @@ public class HeroController : NetworkBehaviour
 
         }
     }
-    // This function disables the main view camera in charge of capturing the UI
+
+    /// <summary>
+    /// This function disables the main view camera in charge of capturing the UI
+    /// </summary>
     private void StartCamera()
     {
         // There is a bug here.
@@ -123,13 +129,11 @@ public class HeroController : NetworkBehaviour
         // Check prephase status and setup UI accordingly
         if (prephase.IsCurrentlyInPrephase())
         {
-            // Currently in prephase stage
             // Setup prephase UI
             Instantiate(prephase.prephaseUI);
         }
         else
         {
-            // Currently not in prephase stage
             // Setup attacker UI
             Instantiate(attackerUI);
 
@@ -144,13 +148,11 @@ public class HeroController : NetworkBehaviour
         // Check prephase status and update UI accordingly
         if (prephase.IsCurrentlyInPrephase())
         {
-            // Currently in prephase stage
             // Update prephase UI
             prephase.UpdatePrephaseUI();
         }
         else
         {
-            // Currently not in prephase stage
             // Update health bar and text
             Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
             healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / (float)heroStats.maxHealth;

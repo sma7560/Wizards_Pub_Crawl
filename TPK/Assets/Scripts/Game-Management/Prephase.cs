@@ -10,7 +10,7 @@ public class Prephase : MonoBehaviour
     {
         WaitingForPlayers,
         RoomFull,
-        NotStarted
+        NotActive
     }
 
     public GameObject prephaseUI;       // Prephase UI prefab object to be used during prephase
@@ -25,7 +25,7 @@ public class Prephase : MonoBehaviour
     void Start()
     {
         matchManager = GameObject.Find("NetworkManagerV2").GetComponent<MatchManager>();
-        state = PrephaseState.NotStarted;
+        state = PrephaseState.NotActive;
         countdown = -1;
     }
 
@@ -96,6 +96,7 @@ public class Prephase : MonoBehaviour
     /// </summary>
     private void EndPrephase()
     {
+        state = PrephaseState.NotActive;
         countdown = -1;                 // set countdown back to default of -1 when prephase is not active
         prephaseUI.SetActive(false);    // disable pre-phase UI
     }
