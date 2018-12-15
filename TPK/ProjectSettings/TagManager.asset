@@ -14,7 +14,7 @@ TagManager:
   - knockedOutPlayer
   - Score
   - ArtifactSpawn
-  - PrephaseTimeLeft
+  - PrephaseUI
   layers:
   - Default
   - TransparentFX

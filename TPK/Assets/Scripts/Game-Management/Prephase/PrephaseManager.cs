@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
-public class Prephase : MonoBehaviour
+/// <summary>
+/// Includes logic related to the Pre-phase game state.
+/// </summary>
+public class PrephaseManager : NetworkBehaviour
 {
     public enum PrephaseState
     {
@@ -24,7 +28,7 @@ public class Prephase : MonoBehaviour
     /// </summary>
     void Start()
     {
-        matchManager = GameObject.Find("NetworkManagerV2").GetComponent<MatchManager>();
+        matchManager = GetComponent<MatchManager>();
         state = PrephaseState.NotActive;
         countdown = -1;
     }
@@ -51,8 +55,8 @@ public class Prephase : MonoBehaviour
     /// </returns>
     public bool IsCurrentlyInPrephase()
     {
-        if (state == Prephase.PrephaseState.WaitingForPlayers ||
-            state == Prephase.PrephaseState.RoomFull)
+        if (state == PrephaseManager.PrephaseState.WaitingForPlayers ||
+            state == PrephaseManager.PrephaseState.RoomFull)
         {
             return true;
         }
@@ -108,45 +112,21 @@ public class Prephase : MonoBehaviour
     {
         while (countdown > 0)
         {
-            UpdateTimeLeftUI();
+            // Update pre-phase UI countdown element
+            PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
+            prephaseUI.UpdateTimeLeftUI();
+
+            // Wait for 1 second
             yield return new WaitForSeconds(1);
+
+            // Decrement countdown
             countdown--;
-            Debug.Log(countdown);
         }
 
         if (countdown <= 0)
         {
             // If countdown timer reaches 0, end the prephase
             EndPrephase();
-        }
-    }
-
-    /// <summary>
-    /// Updates all prephase UI elements.
-    /// </summary>
-    public void UpdatePrephaseUI()
-    {
-        UpdateTimeLeftUI();
-    }
-
-    /// <summary>
-    /// Update "Time Left Until Match Start" UI element.
-    /// </summary>
-    private void UpdateTimeLeftUI()
-    {
-        // Only update time left if the UI is loaded
-        if (GameObject.FindGameObjectWithTag("PrephaseTimeLeft") != null)
-        {
-            TextMeshProUGUI timeLeft = GameObject.FindGameObjectWithTag("PrephaseTimeLeft").GetComponent<TextMeshProUGUI>();
-
-            if (state == Prephase.PrephaseState.WaitingForPlayers)
-            {
-                timeLeft.text = "Waiting for Players";
-            }
-            else if (state == Prephase.PrephaseState.RoomFull)
-            {
-                timeLeft.text = countdown.ToString();
-            }
         }
     }
 }

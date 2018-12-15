@@ -35,7 +35,7 @@ public class HeroController : NetworkBehaviour
     private CharacterStats heroStats;
     private Transform characterTransform;
     private CharacterMovement characterMovement;
-    private Prephase prephase;
+    private PrephaseManager prephaseManager;
 
     private Score score;        // current score of the player
 
@@ -59,7 +59,7 @@ public class HeroController : NetworkBehaviour
         heroRigidbody = GetComponent<Rigidbody>();
         heroStats = GetComponent<CharacterStats>();
         heroCombat = GetComponent<CharacterCombat>();
-        prephase = GameObject.Find("NetworkManagerV2").GetComponent<Prephase>();
+        prephaseManager = GameObject.Find("NetworkManagerV2").GetComponent<PrephaseManager>();
 
         characterTransform = GetComponent<Transform>();
         ground = new Plane(Vector3.up, Vector3.zero);
@@ -74,7 +74,7 @@ public class HeroController : NetworkBehaviour
         if (!isLocalPlayer && !localTest) return;
 
         // Only allow character movement if hero is not knocked out & game is currently not in prephase
-        if (!isKnockedOut && !prephase.IsCurrentlyInPrephase())
+        if (!isKnockedOut && !prephaseManager.IsCurrentlyInPrephase())
         {
             if (heroCam == null)
             {
@@ -127,10 +127,10 @@ public class HeroController : NetworkBehaviour
     private void SetupUI()
     {
         // Check prephase status and setup UI accordingly
-        if (prephase.IsCurrentlyInPrephase())
+        if (prephaseManager.IsCurrentlyInPrephase())
         {
             // Setup prephase UI
-            Instantiate(prephase.prephaseUI);
+            Instantiate(prephaseManager.prephaseUI);
         }
         else
         {
@@ -146,10 +146,11 @@ public class HeroController : NetworkBehaviour
     private void UpdateUI()
     {
         // Check prephase status and update UI accordingly
-        if (prephase.IsCurrentlyInPrephase())
+        if (prephaseManager.IsCurrentlyInPrephase())
         {
-            // Update prephase UI
-            prephase.UpdatePrephaseUI();
+            // Update prephase time left UI element
+            PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
+            prephaseUI.UpdateTimeLeftUI();
         }
         else
         {

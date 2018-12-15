@@ -31,10 +31,12 @@ public class NetworkHeroManager : NetworkBehaviour
     public HeroType heroType; // Might need this for later
 
     // Basic Getters and setters for stats
-    public int GetMoveSpeed() {
+    public int GetMoveSpeed()
+    {
         return moveSpeed;
     }
-    public int GetAtkSpeed() {
+    public int GetAtkSpeed()
+    {
         return atkSpeed;
     }
     public int GetMDefence()
@@ -45,15 +47,18 @@ public class NetworkHeroManager : NetworkBehaviour
     {
         return pDefence;
     }
-    public int GetMAttack() {
+    public int GetMAttack()
+    {
         return mAttack;
     }
-    public int GetPAttack() {
+    public int GetPAttack()
+    {
         return pAttack;
     }
 
     // Should this be server only or network only?
-    public void SetMoveSpeed(int val) {
+    public void SetMoveSpeed(int val)
+    {
         moveSpeed = val;
     }
 
@@ -99,7 +104,7 @@ public class NetworkHeroManager : NetworkBehaviour
     {
         return modPAttack;
     }
-    
+
     // Setters
     public void SetModAtkSpeed(int val)
     {
@@ -121,31 +126,33 @@ public class NetworkHeroManager : NetworkBehaviour
     {
         modPAttack = val;
     }
-
-
-
+    
     // This function should set up which model should be loaded.
-    public void setModel(Hero myHero) {
+    public void setModel(Hero myHero)
+    {
         heroIndex = myHero.childIndex;
         heroType = myHero.heroType;
     }
 
     // Set a basic attack to be active
     // TODO make basic attacks 
-    public void setBasicAttack() {
+    public void setBasicAttack()
+    {
 
     }
 
     // This should only work on server. By giving it a damage amount it 
-    public void takeDamage(int amount, DamageType damageType) {
+    public void takeDamage(int amount, DamageType damageType)
+    {
         // Figure out actual amount taken via a calculation.
         if (!isServer) return;
 
         float finalDamage = 0;
 
-        switch (damageType) {
+        switch (damageType)
+        {
             case DamageType.magical:
-                finalDamage = (float)(10/mDefence) * amount;
+                finalDamage = (float)(10 / mDefence) * amount;
                 break;
             case DamageType.physical:
                 finalDamage = (10 / pDefence) * amount;
@@ -156,7 +163,7 @@ public class NetworkHeroManager : NetworkBehaviour
                 break;
         }
         // Since health is dealt with in integers do some rounding with the finalDamage Calculated before subtracting.
-        currentHealth = currentHealth - (int) Mathf.Round(finalDamage);
+        currentHealth = currentHealth - (int)Mathf.Round(finalDamage);
     }
 
     // Function for healing back to full health.
@@ -175,4 +182,4 @@ public class NetworkHeroManager : NetworkBehaviour
         if (currentHealth > maxHealth) currentHealth = maxHealth;
     }
 
-}   
+}

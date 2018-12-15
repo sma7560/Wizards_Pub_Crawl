@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 222386594276158390}
   - component: {fileID: 114637512036827370}
   m_Layer: 5
-  m_Name: Text
+  m_Name: AtkSpdText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 222299736403462204}
   - component: {fileID: 114126904341526966}
   m_Layer: 5
-  m_Name: Text
+  m_Name: PhysDefText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 224470509634683024}
   - component: {fileID: 222811951464344632}
   - component: {fileID: 114689308417627166}
+  - component: {fileID: 114993373721891422}
   m_Layer: 5
   m_Name: Skill10
   m_TagString: Untagged
@@ -239,6 +240,7 @@ GameObject:
   - component: {fileID: 224608733639216386}
   - component: {fileID: 222527822440908232}
   - component: {fileID: 114362442462863492}
+  - component: {fileID: 114074516973641592}
   m_Layer: 5
   m_Name: Skill6
   m_TagString: Untagged
@@ -272,9 +274,10 @@ GameObject:
   - component: {fileID: 223249458419501320}
   - component: {fileID: 114175521838286952}
   - component: {fileID: 114367479459068748}
+  - component: {fileID: 114320077900260260}
   m_Layer: 5
   m_Name: PrephaseScreen
-  m_TagString: Untagged
+  m_TagString: PrephaseUI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -306,6 +309,7 @@ GameObject:
   - component: {fileID: 224029538470715152}
   - component: {fileID: 222763358981761178}
   - component: {fileID: 114391753333551422}
+  - component: {fileID: 114016097333528094}
   m_Layer: 5
   m_Name: Skill3
   m_TagString: Untagged
@@ -372,6 +376,7 @@ GameObject:
   - component: {fileID: 224511034969507180}
   - component: {fileID: 222218736335401728}
   - component: {fileID: 114249515747473528}
+  - component: {fileID: 114006828751417756}
   m_Layer: 5
   m_Name: Skill4
   m_TagString: Untagged
@@ -504,8 +509,8 @@ GameObject:
   - component: {fileID: 222511615785410246}
   - component: {fileID: 114326321476886262}
   m_Layer: 5
-  m_Name: Text
-  m_TagString: PrephaseTimeLeft
+  m_Name: TimeLeftText
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -552,6 +557,7 @@ GameObject:
   - component: {fileID: 224811942190709604}
   - component: {fileID: 222626303091401658}
   - component: {fileID: 114307820344145446}
+  - component: {fileID: 114560023710285596}
   m_Layer: 5
   m_Name: Skill1
   m_TagString: Untagged
@@ -639,6 +645,7 @@ GameObject:
   - component: {fileID: 224225749723945486}
   - component: {fileID: 222090923523304480}
   - component: {fileID: 114607865753566830}
+  - component: {fileID: 114196235050434832}
   m_Layer: 5
   m_Name: Skill7
   m_TagString: Untagged
@@ -656,6 +663,7 @@ GameObject:
   - component: {fileID: 224485745684781054}
   - component: {fileID: 222302016132652458}
   - component: {fileID: 114805770929460348}
+  - component: {fileID: 114806356727293532}
   m_Layer: 5
   m_Name: Skill8
   m_TagString: Untagged
@@ -708,6 +716,7 @@ GameObject:
   - component: {fileID: 224373822056655154}
   - component: {fileID: 222511278416990394}
   - component: {fileID: 114077244637404692}
+  - component: {fileID: 114720378627666406}
   m_Layer: 5
   m_Name: EquipSkill2
   m_TagString: Untagged
@@ -760,6 +769,7 @@ GameObject:
   - component: {fileID: 224190273626081148}
   - component: {fileID: 222847067590496918}
   - component: {fileID: 114348156831238868}
+  - component: {fileID: 114182784067547260}
   m_Layer: 5
   m_Name: EquipSkill4
   m_TagString: Untagged
@@ -795,6 +805,7 @@ GameObject:
   - component: {fileID: 224513677483504788}
   - component: {fileID: 222503388874341552}
   - component: {fileID: 114740793165183642}
+  - component: {fileID: 114505265489905130}
   m_Layer: 5
   m_Name: EquipSkill1
   m_TagString: Untagged
@@ -865,7 +876,7 @@ GameObject:
   - component: {fileID: 114426144946805744}
   - component: {fileID: 114638250507990534}
   m_Layer: 5
-  m_Name: LeftButton
+  m_Name: CharSelectLeftButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -881,6 +892,7 @@ GameObject:
   - component: {fileID: 224412399103225208}
   - component: {fileID: 222717896117217720}
   - component: {fileID: 114123687183425498}
+  - component: {fileID: 114821148408273476}
   m_Layer: 5
   m_Name: Skill2
   m_TagString: Untagged
@@ -916,7 +928,7 @@ GameObject:
   - component: {fileID: 222675047775609936}
   - component: {fileID: 114032831818251278}
   m_Layer: 5
-  m_Name: Text
+  m_Name: PhysDmgText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -932,6 +944,7 @@ GameObject:
   - component: {fileID: 224659179813612226}
   - component: {fileID: 222467751101296912}
   - component: {fileID: 114143446676542630}
+  - component: {fileID: 114139762104794274}
   m_Layer: 5
   m_Name: EquipSkill3
   m_TagString: Untagged
@@ -951,7 +964,7 @@ GameObject:
   - component: {fileID: 114485689260851192}
   - component: {fileID: 114252027667661712}
   m_Layer: 5
-  m_Name: RightButton
+  m_Name: CharSelectRightButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1002,6 +1015,7 @@ GameObject:
   - component: {fileID: 224579899776216096}
   - component: {fileID: 222745853637418236}
   - component: {fileID: 114345141981916118}
+  - component: {fileID: 114284500181495846}
   m_Layer: 5
   m_Name: Skill9
   m_TagString: Untagged
@@ -1168,6 +1182,7 @@ GameObject:
   - component: {fileID: 224208519817007328}
   - component: {fileID: 222815341675282716}
   - component: {fileID: 114590100512645576}
+  - component: {fileID: 114891606288437220}
   m_Layer: 5
   m_Name: Skill5
   m_TagString: Untagged
@@ -1235,7 +1250,7 @@ GameObject:
   - component: {fileID: 222049798997493160}
   - component: {fileID: 114629430218654258}
   m_Layer: 5
-  m_Name: Text
+  m_Name: MagicDefText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1252,12 +1267,38 @@ GameObject:
   - component: {fileID: 222418168904220578}
   - component: {fileID: 114554924138618870}
   m_Layer: 5
-  m_Name: Text
+  m_Name: MagicDmgText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114006828751417756
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1310565493160060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
+--- !u!114 &114016097333528094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1244768499070264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114026152453178010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1594,9 +1635,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114117963501901808}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: IncreaseMagicalDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114074516973641592
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1195233667291980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114077244637404692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1851,6 +1916,19 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114139762104794274
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1675516653498074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114143446676542630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2039,6 +2117,32 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114182784067547260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1547760419739558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
+--- !u!114 &114196235050434832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1515548363113414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114249515747473528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2104,7 +2208,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114485689260851192}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: ChangeCharacterSelectionRight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114261122616000808
@@ -2172,9 +2287,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114027359218524204}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: DecreasePhysicalDefence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114284500181495846
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1734021123691562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114307820344145446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2202,6 +2341,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114320077900260260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1232863386017794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4daaed0dcf2a6de45bb22a0ff718b928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillDescription: {fileID: 0}
 --- !u!114 &114322167560843722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2650,7 +2801,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114875149919777592}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: DecreasePhysicalDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114426144946805744
@@ -2745,7 +2907,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114363997500607248}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: DecreaseAttackSpeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114445627952086088
@@ -3034,6 +3207,19 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114505265489905130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1558376446989896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114517871167525904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3354,6 +3540,19 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114560023710285596
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1431340186993216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114572529435835670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3732,7 +3931,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114426144946805744}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: ChangeCharacterSelectionLeft
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114639034844395146
@@ -3833,7 +4043,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114517871167525904}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: IncreasePhysicalDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114656785151758464
@@ -3874,7 +4095,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114176980292051218}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: IncreasePhysicalDefence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114689308417627166
@@ -3970,6 +4202,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: '>'
+--- !u!114 &114720378627666406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1543788361624144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114728387241947070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4165,6 +4410,32 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114806356727293532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1521401635065640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
+--- !u!114 &114821148408273476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1595791860209242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114850477189026448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4203,7 +4474,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114591757922865904}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: DecreaseMagicalDefence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114865590088425146
@@ -4385,9 +4667,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114737112987892992}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: IncreaseMagicalDefence
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114891606288437220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1877296870413970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114899862969410374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4599,7 +4905,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114426533968187290}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: DecreaseMagicalDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &114956691248194498
@@ -4753,9 +5070,33 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 114639034844395146}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114320077900260260}
+        m_MethodName: IncreaseAttackSpeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114993373721891422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1165625288329478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114996144138558518
 MonoBehaviour:
   m_ObjectHideFlags: 1

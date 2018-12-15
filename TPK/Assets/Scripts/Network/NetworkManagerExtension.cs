@@ -33,7 +33,7 @@ public class NetworkManagerExtension : NetworkManager
         }
 
         // Start the waiting room of pre-phase
-        transform.gameObject.GetComponent<Prephase>().StartPrephaseWaitingRoom();
+        transform.gameObject.GetComponent<PrephaseManager>().StartPrephaseWaitingRoom();
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public class NetworkManagerExtension : NetworkManager
         NetworkManager.singleton.StartClient();
 
         // Update pre-phase with new player
-        transform.gameObject.GetComponent<Prephase>().UpdatePrephase();
+        transform.gameObject.GetComponent<PrephaseManager>().UpdatePrephase();
     }
 
     /// <summary>
