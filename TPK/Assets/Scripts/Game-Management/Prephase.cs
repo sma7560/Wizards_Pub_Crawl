@@ -15,6 +15,7 @@ public class Prephase : MonoBehaviour
 
     private MatchManager matchManager;  // MatchManager to get current num of players
     private PrephaseState state;        // current status of the prephase
+    private int countdown;              // countdown timer of time left in prephase stage; -1 when prephase is not active
 
     // Use this for initialization
     void Start()
@@ -22,6 +23,7 @@ public class Prephase : MonoBehaviour
         // Initialize variables
         matchManager = GameObject.Find("NetworkManagerV2").GetComponent<MatchManager>();
         state = PrephaseState.NotStarted;
+        countdown = -1;
     }
 
     // Update is called once per frame
@@ -39,6 +41,23 @@ public class Prephase : MonoBehaviour
     {
         state = PrephaseState.WaitingForPlayers;
         Instantiate(prephaseUI);    // Start the prephase UI
+        countdown = 300;
         yield return null;
+    }
+
+    IEnumerator StartPrephaseCountdown()
+    {
+
+        yield return null;
+    }
+
+    // Decrements the countdown by 1 per second
+    private IEnumerator DecreaseCountdownTimer()
+    {
+        for (int i = countdown; i > 0; i--)
+        {
+            countdown--;
+            yield return new WaitForSeconds(1);
+        }
     }
 }
