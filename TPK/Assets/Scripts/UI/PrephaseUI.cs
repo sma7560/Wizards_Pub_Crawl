@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class PrephaseUI : MonoBehaviour
 {
-    // the id of the hero this UI is attached to
-    private int heroId;
+    // SkillDescription GameObject
+    public GameObject skillDescription;
 
     // Default stat values
     private readonly int defaultAtkSpd = 1;
@@ -16,14 +16,12 @@ public class PrephaseUI : MonoBehaviour
     private readonly int defaultPhyDef = 10;
     private readonly int defaultMagDef = 10;
     private readonly int defaultAttributePts = 20;
-
-    // Skill bank description
-    public GameObject skillDescription;
-
+    
     // Managers
     private PrephaseManager prephaseManager;
-    private NetworkHeroManager heroManager;
+    private NetworkHeroManager networkHeroManager;
     private MatchManager matchManager;
+    private HeroManager heroManager;
 
     // Text elements
     private TextMeshProUGUI playerName;
@@ -72,11 +70,11 @@ public class PrephaseUI : MonoBehaviour
     void Start()
     {
         // Initialize variables
+        skillDescription = GameObject.FindGameObjectWithTag("SkillDescription");
+        heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-        heroId = matchManager.GetNumOfPlayers();
-        heroManager = GetHeroObject(heroId).GetComponent<NetworkHeroManager>();
-        skillDescription = GameObject.Find("SkillBankDescription");
+        networkHeroManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<NetworkHeroManager>();
 
         // Initialize text
         playerName = GameObject.Find("PlayerNameText").GetComponent<TextMeshProUGUI>();
@@ -100,7 +98,10 @@ public class PrephaseUI : MonoBehaviour
 
         // Set default currently selected character
         selectedHero = knight;
-        heroManager.SetModel(selectedHero);
+        networkHeroManager.SetModel(selectedHero);
+
+        // Set skill description to inactive by default
+        skillDescription.SetActive(false);
 
         // Update UI elements
         UpdateStats();
@@ -109,14 +110,17 @@ public class PrephaseUI : MonoBehaviour
         UpdateNumOfPlayers();
         UpdatePlayerName();
 
-        skillDescription.SetActive(false);
-
+        // TODO: change to actual skills and not booleans when skills are implemented
+        // Initialize equipped skills status
         skill1 = false;
         skill2 = false;
         skill3 = false;
         skill4 = false;
     }
 
+    /// <summary>
+    /// Update some UI elements every frame.
+    /// </summary>
     void Update()
     {
         UpdateNumOfPlayers();
@@ -162,7 +166,7 @@ public class PrephaseUI : MonoBehaviour
             selectedHero = witch;
         }
 
-        heroManager.SetModel(selectedHero);
+        networkHeroManager.SetModel(selectedHero);
         UpdateCharacterSelectedName();
     }
 
@@ -185,7 +189,7 @@ public class PrephaseUI : MonoBehaviour
             selectedHero = knight;
         }
 
-        heroManager.SetModel(selectedHero);
+        networkHeroManager.SetModel(selectedHero);
         UpdateCharacterSelectedName();
     }
 
@@ -194,12 +198,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void DecreasePhysicalDamage()
     {
-        int physDmg = heroManager.GetPAttack();
+        int physDmg = networkHeroManager.GetPAttack();
         int pointsLeft = int.Parse(attributePointsLeft.text);
         
         if (physDmg > defaultPhyDmg)
         {
-            heroManager.SetPAttack(physDmg-1);                      // decrement physical damage stat
+            networkHeroManager.SetPAttack(physDmg-1);                      // decrement physical damage stat
             attributePointsLeft.text = (pointsLeft + 1).ToString(); // increment attribute points left by 1
             UpdateStats();
         }
@@ -210,12 +214,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void IncreasePhysicalDamage()
     {
-        int physDmg = heroManager.GetPAttack();
+        int physDmg = networkHeroManager.GetPAttack();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (pointsLeft > 0)
         {
-            heroManager.SetPAttack(physDmg + 1);                    // increment physical damage stat
+            networkHeroManager.SetPAttack(physDmg + 1);                    // increment physical damage stat
             attributePointsLeft.text = (pointsLeft - 1).ToString(); // decrement attribute points left by 1
             UpdateStats();
         }
@@ -226,12 +230,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void DecreaseMagicalDamage()
     {
-        int magicDmg = heroManager.GetMAttack();
+        int magicDmg = networkHeroManager.GetMAttack();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (magicDmg > defaultMagDmg)
         {
-            heroManager.SetMAttack(magicDmg - 1);
+            networkHeroManager.SetMAttack(magicDmg - 1);
             attributePointsLeft.text = (pointsLeft + 1).ToString();
             UpdateStats();
         }
@@ -242,12 +246,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void IncreaseMagicalDamage()
     {
-        int magicDmg = heroManager.GetMAttack();
+        int magicDmg = networkHeroManager.GetMAttack();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (pointsLeft > 0)
         {
-            heroManager.SetMAttack(magicDmg + 1);
+            networkHeroManager.SetMAttack(magicDmg + 1);
             attributePointsLeft.text = (pointsLeft - 1).ToString();
             UpdateStats();
         }
@@ -258,12 +262,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void DecreasePhysicalDefence()
     {
-        int physDef = heroManager.GetPDefence();
+        int physDef = networkHeroManager.GetPDefence();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (physDef > defaultPhyDef)
         {
-            heroManager.SetPDefence(physDef - 1);
+            networkHeroManager.SetPDefence(physDef - 1);
             attributePointsLeft.text = (pointsLeft + 1).ToString();
             UpdateStats();
         }
@@ -274,12 +278,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void IncreasePhysicalDefence()
     {
-        int physDef = heroManager.GetPDefence();
+        int physDef = networkHeroManager.GetPDefence();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (pointsLeft > 0)
         {
-            heroManager.SetPDefence(physDef + 1);
+            networkHeroManager.SetPDefence(physDef + 1);
             attributePointsLeft.text = (pointsLeft - 1).ToString();
             UpdateStats();
         }
@@ -290,12 +294,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void DecreaseMagicalDefence()
     {
-        int magicDef = heroManager.GetMDefence();
+        int magicDef = networkHeroManager.GetMDefence();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (magicDef > defaultMagDef)
         {
-            heroManager.SetMDefence(magicDef - 1);
+            networkHeroManager.SetMDefence(magicDef - 1);
             attributePointsLeft.text = (pointsLeft + 1).ToString();
             UpdateStats();
         }
@@ -306,12 +310,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void IncreaseMagicalDefence()
     {
-        int magicDef = heroManager.GetMDefence();
+        int magicDef = networkHeroManager.GetMDefence();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (pointsLeft > 0)
         {
-            heroManager.SetMDefence(magicDef + 1);
+            networkHeroManager.SetMDefence(magicDef + 1);
             attributePointsLeft.text = (pointsLeft - 1).ToString();
             UpdateStats();
         }
@@ -322,12 +326,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void DecreaseAttackSpeed()
     {
-        int atkSpd = heroManager.GetAtkSpeed();
+        int atkSpd = networkHeroManager.GetAtkSpeed();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (atkSpd > defaultAtkSpd)
         {
-            heroManager.SetAtkSpeed(atkSpd - 1);
+            networkHeroManager.SetAtkSpeed(atkSpd - 1);
             attributePointsLeft.text = (pointsLeft + 1).ToString();
             UpdateStats();
         }
@@ -338,12 +342,12 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     public void IncreaseAttackSpeed()
     {
-        int atkSpd = heroManager.GetAtkSpeed();
+        int atkSpd = networkHeroManager.GetAtkSpeed();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
         if (pointsLeft > 0)
         {
-            heroManager.SetAtkSpeed(atkSpd + 1);
+            networkHeroManager.SetAtkSpeed(atkSpd + 1);
             attributePointsLeft.text = (pointsLeft - 1).ToString();
             UpdateStats();
         }
@@ -385,11 +389,11 @@ public class PrephaseUI : MonoBehaviour
     private void SetupDefaultStats()
     {
         // Set default stat values
-        heroManager.SetAtkSpeed(defaultAtkSpd);
-        heroManager.SetPAttack(defaultPhyDmg);
-        heroManager.SetMAttack(defaultMagDmg);
-        heroManager.SetPDefence(defaultPhyDef);
-        heroManager.SetMDefence(defaultMagDef);
+        networkHeroManager.SetAtkSpeed(defaultAtkSpd);
+        networkHeroManager.SetPAttack(defaultPhyDmg);
+        networkHeroManager.SetMAttack(defaultMagDmg);
+        networkHeroManager.SetPDefence(defaultPhyDef);
+        networkHeroManager.SetMDefence(defaultMagDef);
         attributePointsLeft.text = defaultAttributePts.ToString();
     }
 
@@ -406,7 +410,7 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdatePlayerName()
     {
-        playerName.text = "Player " + heroId;
+        playerName.text = "Player " + matchManager.GetPlayerId();
     }
 
     /// <summary>
@@ -422,11 +426,11 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdateStats()
     {
-        physicalDmg.text = heroManager.GetPAttack().ToString();
-        magicalDmg.text = heroManager.GetMAttack().ToString();
-        physicalDef.text = heroManager.GetPDefence().ToString();
-        magicalDef.text = heroManager.GetMDefence().ToString();
-        atkSpd.text = heroManager.GetAtkSpeed().ToString();
+        physicalDmg.text = networkHeroManager.GetPAttack().ToString();
+        magicalDmg.text = networkHeroManager.GetMAttack().ToString();
+        physicalDef.text = networkHeroManager.GetPDefence().ToString();
+        magicalDef.text = networkHeroManager.GetMDefence().ToString();
+        atkSpd.text = networkHeroManager.GetAtkSpeed().ToString();
     }
 
     /// <summary>
@@ -436,28 +440,5 @@ public class PrephaseUI : MonoBehaviour
     {
         NetworkManagerExtension networkManagerExtension = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
         hostIP.text = networkManagerExtension.networkAddress;
-    }
-
-    /// <summary>
-    /// Finds the hero object of the player with the given id.
-    /// </summary>
-    /// <param name="id">The player's id.</param>
-    /// <returns>Returns the hero object associated with the player id.</returns>
-    private GameObject GetHeroObject(int id)
-    {
-        GameObject heroObject = null;
-        GameObject[] heroObjects = GameObject.FindGameObjectsWithTag("Player");
-
-        foreach(GameObject hero in heroObjects)
-        {
-            HeroSetup heroSetup = hero.GetComponent<HeroSetup>();
-            if (id == heroSetup.id)
-            {
-                heroObject = hero;
-                break;
-            }
-        }
-
-        return heroObject;
     }
 }

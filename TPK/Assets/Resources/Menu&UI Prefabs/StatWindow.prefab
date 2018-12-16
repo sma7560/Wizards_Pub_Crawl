@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4274576685732438}
+  - component: {fileID: 114876664085557248}
   m_Layer: 0
   m_Name: StatWindow
   m_TagString: Untagged
@@ -87,7 +88,7 @@ GameObject:
   - component: {fileID: 4902990567468828}
   m_Layer: 0
   m_Name: SkillHoverDescription
-  m_TagString: Untagged
+  m_TagString: SkillDescription
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,6 +135,7 @@ GameObject:
   - component: {fileID: 224964308935426024}
   - component: {fileID: 222864930417132672}
   - component: {fileID: 114357302054718810}
+  - component: {fileID: 114383992085759120}
   m_Layer: 5
   m_Name: Skill2
   m_TagString: Untagged
@@ -303,6 +305,7 @@ GameObject:
   - component: {fileID: 224593268333247836}
   - component: {fileID: 222040369874396210}
   - component: {fileID: 114377032742942974}
+  - component: {fileID: 114787815644869864}
   m_Layer: 5
   m_Name: Skill3
   m_TagString: Untagged
@@ -337,6 +340,7 @@ GameObject:
   - component: {fileID: 224439752797809030}
   - component: {fileID: 222920641513117948}
   - component: {fileID: 114618018469328518}
+  - component: {fileID: 114008994346618384}
   m_Layer: 5
   m_Name: Skill4
   m_TagString: Untagged
@@ -421,6 +425,7 @@ GameObject:
   - component: {fileID: 224900612278824606}
   - component: {fileID: 222301481197655450}
   - component: {fileID: 114817573921837906}
+  - component: {fileID: 114767773378194882}
   m_Layer: 5
   m_Name: Skill1
   m_TagString: Untagged
@@ -474,6 +479,19 @@ Transform:
   m_Father: {fileID: 224782524652138188}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114008994346618384
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1679411571289214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114039135262385306
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1341,6 +1359,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114383992085759120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1222361455649944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114545638410937822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1750,6 +1781,19 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114767773378194882
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1862560244858082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114773425483959020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1871,6 +1915,19 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114787815644869864
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1611186754841670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 838cb70de4bd6114db20dd9add440b91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
+  delegates: []
 --- !u!114 &114817573921837906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2013,6 +2070,18 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &114876664085557248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1028108913483454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 691cc1929519ec64ab5042ffb78cfdb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillDescription: {fileID: 0}
 --- !u!114 &114901014936826038
 MonoBehaviour:
   m_ObjectHideFlags: 1

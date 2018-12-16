@@ -1182,7 +1182,7 @@ GameObject:
   - component: {fileID: 224090892529325716}
   m_Layer: 5
   m_Name: SkillBankDescription
-  m_TagString: Untagged
+  m_TagString: SkillDescription
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2465,7 +2465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4daaed0dcf2a6de45bb22a0ff718b928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillDescription: {fileID: 0}
   skill1: 0
   skill2: 0
   skill3: 0

@@ -11,26 +11,39 @@ public class SkillHoverDescription : EventTrigger
     /// </summary>
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        PrephaseUI prephaseUI = GameObject.Find("PrephaseScreen(Clone)").GetComponent<PrephaseUI>();
+        GameObject skillDescription = null;
+        PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+        
+        if (prephaseManager.IsCurrentlyInPrephase())
+        {
+            // Logic for skill hover on prephase screen
+            PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
+            skillDescription = prephaseUI.skillDescription;
 
-        if (transform.name == "EquipSkill1" && !prephaseUI.skill1)
-        {
-            return;
+            if (transform.name == "EquipSkill1" && !prephaseUI.skill1)
+            {
+                return;
+            }
+            else if (transform.name == "EquipSkill2" && !prephaseUI.skill2)
+            {
+                return;
+            }
+            else if (transform.name == "EquipSkill3" && !prephaseUI.skill3)
+            {
+                return;
+            }
+            else if (transform.name == "EquipSkill4" && !prephaseUI.skill4)
+            {
+                return;
+            }
         }
-        else if (transform.name == "EquipSkill2" && !prephaseUI.skill2)
+        else
         {
-            return;
-        }
-        else if (transform.name == "EquipSkill3" && !prephaseUI.skill3)
-        {
-            return;
-        }
-        else if (transform.name == "EquipSkill4" && !prephaseUI.skill4)
-        {
-            return;
+            StatWindowUI statWindow = GameObject.Find("StatWindow").GetComponent<StatWindowUI>();
+            skillDescription = statWindow.skillDescription;
         }
 
-        prephaseUI.skillDescription.SetActive(true);
+        skillDescription.SetActive(true);
     }
 
     /// <summary>
@@ -38,8 +51,21 @@ public class SkillHoverDescription : EventTrigger
     /// </summary>
     public override void OnPointerExit(PointerEventData eventData)
     {
-        PrephaseUI prephaseUI = GameObject.Find("PrephaseScreen(Clone)").GetComponent<PrephaseUI>();
-        prephaseUI.skillDescription.SetActive(false);
+        GameObject skillDescription = null;
+        PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+
+        if (prephaseManager.IsCurrentlyInPrephase())
+        {
+            PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
+            skillDescription = prephaseUI.skillDescription;
+        }
+        else
+        {
+            StatWindowUI statWindow = GameObject.Find("StatWindow").GetComponent<StatWindowUI>();
+            skillDescription = statWindow.skillDescription;
+        }
+
+        skillDescription.SetActive(false);
     }
 
     /// <summary>
@@ -47,7 +73,15 @@ public class SkillHoverDescription : EventTrigger
     /// </summary>
     public override void OnPointerClick(PointerEventData data)
     {
-        PrephaseUI prephaseUI = GameObject.Find("PrephaseScreen(Clone)").GetComponent<PrephaseUI>();
+        PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+
+        if (!prephaseManager.IsCurrentlyInPrephase())
+        {
+            // Do nothing if this is not the prephase screen
+            return;
+        }
+
+        PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
 
         // Skill in skill bank is clicked
         if (!transform.name.Contains("Equip"))

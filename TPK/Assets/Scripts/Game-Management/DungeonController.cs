@@ -10,29 +10,52 @@ using UnityEngine.UI;
 /// </summary>
 public class DungeonController : MonoBehaviour
 {
+    // Menu objects
+    public GameObject inGameMenu;
+    public GameObject statsWindow;
 
-    public GameObject inGameMenuObject;
     public IUnityService unityService;
+
+    // Match time limit
     private static bool timeStarted = false;
     private static float timer = 0f;
 
-    // Use this for initialization
+    private PrephaseManager prephaseManager;
+
+    /// <summary>
+    /// Initialize variables.
+    /// </summary>
     void Start()
     {
         if (unityService == null)
         {
             unityService = new UnityService();
         }
+
         timeStarted = true;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Updates dungeon status and listens for menu toggling.
+    /// </summary>
     void Update()
     {
+        // Initialize pre-phase manager if it is not already initialized
+        if (prephaseManager == null && GameObject.FindGameObjectWithTag("MatchManager") != null)
+        {
+            prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+        }
+
         // Toggles in-game menu when Esc key pressed
         if (unityService.GetKeyDown(KeyCode.Escape))
         {
-            inGameMenuObject.SetActive(!inGameMenuObject.activeSelf);
+            inGameMenu.SetActive(!inGameMenu.activeSelf);
+        }
+
+        // Toggles stats window when K key pressed
+        if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase() && unityService.GetKeyDown(KeyCode.K))
+        {
+            statsWindow.SetActive(!statsWindow.activeSelf);
         }
 
         //increment current game time
@@ -49,10 +72,33 @@ public class DungeonController : MonoBehaviour
         Debug.Log("MATCH QUIT");
         SceneManager.LoadScene(0);
     }
-
-    public void startMatchTime()
+    
+    public void StartMatchTime()
     {
         timeStarted = true;
+    }
+
+    //return current game time
+    public float GetTime()
+    {
+        return timer;
+    }
+
+    /// <summary>
+    /// Sets prephaseManager once MatchManager object is loaded.
+    /// </summary>
+    private IEnumerator SetupPrephaseManager()
+    {
+        yield return new WaitUntil(IsMatchManagerFound);
+        prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+    }
+
+    /// <returns>
+    /// Returns whether or not MatchManager object has been found.
+    /// </returns>
+    private bool IsMatchManagerFound()
+    {
+        return (GameObject.FindGameObjectWithTag("MatchManager") != null);
     }
 
     // Updates the statuses of all enemy health bars currently in the scene
@@ -84,13 +130,4 @@ public class DungeonController : MonoBehaviour
             }
         }
     }
-
-    //return current game time
-    public float getTime()
-    {
-        return timer;
-    }
-
-
-
 }

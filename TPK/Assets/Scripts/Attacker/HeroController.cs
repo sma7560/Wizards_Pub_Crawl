@@ -16,7 +16,7 @@ public class HeroController : NetworkBehaviour
     public GameObject playerUI; // Player UI for dungeon crawling phase
     public bool localTest;      // for unit testing to allow the game to run locally
 
-    private int heroId;         // id of the player
+    private int playerId;         // id of the player
     private GameObject cam;
 
     // For setting up character direction
@@ -42,7 +42,7 @@ public class HeroController : NetworkBehaviour
         if (!isLocalPlayer && !localTest) return;
 
         // Initialize variables
-        heroId = GetComponent<HeroSetup>().id;
+        playerId = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>().GetPlayerId();
         isKnockedOut = false;
         characterMovement = new CharacterMovement(10.0f);
         if (unityService == null)
@@ -172,7 +172,7 @@ public class HeroController : NetworkBehaviour
             transform.gameObject.tag = "knockedOutPlayer";  //change tag so enemies won't go after it anymore
             transform.Rotate(90, 0, 0);                     //turn sideways to show knocked out
 
-            Debug.Log("Player " + heroId + " is knocked out");
+            Debug.Log("Player " + playerId + " is knocked out");
 
             // starts timer for length of time that character remains knocked out
             StartCoroutine(KnockOutTimer(deathTimer));
@@ -198,9 +198,9 @@ public class HeroController : NetworkBehaviour
         HeroManager heroState = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
 
         //gets spawn location of player
-        transform.position = heroState.GetSpawnLocationOfPlayer(heroId);
+        transform.position = heroState.GetSpawnLocationOfPlayer(playerId);
 
-        Debug.Log("Player " + heroId + " spawned at " + heroState.GetSpawnLocationOfPlayer(heroId));
+        Debug.Log("Player " + playerId + " spawned at " + heroState.GetSpawnLocationOfPlayer(playerId));
     }
 
     //increment how long until player respawns

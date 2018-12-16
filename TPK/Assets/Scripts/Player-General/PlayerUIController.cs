@@ -28,7 +28,7 @@ public class PlayerUIController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        currentTime = dungeonController.getTime();
+        currentTime = dungeonController.GetTime();
         timeLeft = totalTime - currentTime;
 
         minuteLeft = Mathf.FloorToInt(timeLeft / 60F);

@@ -124,7 +124,7 @@ public class PrephaseManager : NetworkBehaviour
 
         state = PrephaseState.NotActive;
         countdown = -1;     // set countdown back to default of -1 when prephase is not active
-        GameObject.Find("PrephaseScreen(Clone)").SetActive(false);  // disable pre-phase UI
+        GameObject.FindGameObjectWithTag("PrephaseUI").SetActive(false);  // disable pre-phase UI
     }
 
     /// <summary>

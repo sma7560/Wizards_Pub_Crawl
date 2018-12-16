@@ -11,14 +11,15 @@ public class MatchManager : NetworkBehaviour
 {
     public readonly int maxPlayers = 2;         // currently only accepting 2 players maximum
     [SyncVar] private int currentNumOfPlayers;  // the current number of players in the match
-    public List<NetworkConnection> connections; // list of all connections in the match
+    private SyncListInt connections;            // list of all connections in the match
+    private int playerId;                       // player ID of the current player
 
     /// <summary>
     /// Initialize variables.
     /// </summary>
     void Start()
     {
-        if (!isServer) return;
+        if (!isServer) return;          // only the server may initialize MatchManager
         DontDestroyOnLoad(transform);
     }
 
@@ -28,14 +29,14 @@ public class MatchManager : NetworkBehaviour
     /// <returns>Returns true if a player has been successfully added to the match, else returns false.</returns>
     public bool AddPlayerToMatch(NetworkConnection conn)
     {
-        if (!isServer) return false;
+        if (!isServer) return false;    // only the server may alter variables
 
-        // Add NetworkConnection is connections list
+        // Add NetworkConnection to connections list
         if (connections == null)
         {
-            connections = new List<NetworkConnection>();
+            connections = new SyncListInt();
         }
-        connections.Add(conn);
+        connections.Add(conn.connectionId);
 
         // Increment currentNumOfPlayers counter
         if (currentNumOfPlayers < maxPlayers)
@@ -53,12 +54,12 @@ public class MatchManager : NetworkBehaviour
     /// <returns>Returns true if a player has been successfully removed from the match, else returns false.</returns>
     public bool RemovePlayerFromMatch(NetworkConnection conn)
     {
-        if (!isServer) return false;
+        if (!isServer) return false;    // only the server may alter variables
 
         // Remove NetworkConnection from connections list
         if (connections != null)
         {
-            connections.Remove(conn);
+            connections.Remove(conn.connectionId);
         }
 
         // Decrement currentNumOfPlayers counter
@@ -75,5 +76,28 @@ public class MatchManager : NetworkBehaviour
     public int GetNumOfPlayers()
     {
         return currentNumOfPlayers;
+    }
+
+    /// <summary>
+    /// Sets the player's ID locally on each player's MatchManager object.
+    /// </summary>
+    /// <param name="conn">The player's network connection.</param>
+    public void SetPlayerId(NetworkConnection conn)
+    {
+        if (connections.Contains(conn.connectionId))
+        {
+            // Set the index of connections as the player ID
+            // Note: +1 so that IDs start at 1 instead of 0
+            playerId = (connections.IndexOf(conn.connectionId) + 1);
+        }
+    }
+    
+    /// <returns>
+    /// Returns the player's ID (where IDs start from 1).
+    /// Returns 0 if the player's ID has not yet been set.
+    /// </returns>
+    public int GetPlayerId()
+    {
+        return playerId;
     }
 }

@@ -5,9 +5,8 @@ using UnityEngine.Networking;
 // This script disables all uneeded components from the local player.
 public class HeroSetup : NetworkBehaviour
 {
-
-    public int id;  // ID of the hero to identify the player
     [SerializeField] Behaviour[] compsToDisable;
+    private MatchManager matchManager;
 
     // Use this for initialization
     void Start()
@@ -22,7 +21,20 @@ public class HeroSetup : NetworkBehaviour
             }
         }
 
-        // Set hero's ID to the current num of players connected
-        id = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>().GetNumOfPlayers();
+        // Set the player ID in MatchManager
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        if (hasAuthority)
+        {
+            if (isServer)
+            {
+                Debug.Log("connectionToClient = " + connectionToClient);
+                matchManager.SetPlayerId(connectionToClient);
+            }
+            else
+            {
+                Debug.Log("connectionToServer = " + connectionToServer);
+                matchManager.SetPlayerId(connectionToServer);
+            }
+        }
     }
 }
