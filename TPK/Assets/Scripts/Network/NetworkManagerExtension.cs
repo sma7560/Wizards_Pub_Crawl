@@ -97,4 +97,10 @@ public class NetworkManagerExtension : NetworkManager
     {
         NetworkManager.singleton.networkPort = 7777;
     }
+
+    //return network address
+    public string getNetworkAddress()
+    {
+        return GetLocalIPAddress();
+    }
 }
