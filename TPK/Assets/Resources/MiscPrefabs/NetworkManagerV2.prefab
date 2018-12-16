@@ -144,5 +144,5 @@ MonoBehaviour:
   matchSize: 4
   isNetworkActive: 0
   matchMaker: {fileID: 0}
-  matchManagerPrefab: {fileID: 114744830511799880, guid: 278da71da2d5b654686afb710d5fc2c8,
+  matchManagerPrefab: {fileID: 1538059130310694, guid: 278da71da2d5b654686afb710d5fc2c8,
     type: 2}

@@ -3611,12 +3611,6 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
   m_IsPrefabAsset: 0
---- !u!114 &1071897532 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
-    type: 2}
-  m_PrefabInternal: {fileID: 1071897531}
-  m_Script: {fileID: 11500000, guid: 0f9de86dfd1dcd847a1dd16e2beb45d3, type: 3}
 --- !u!1 &1199528194
 GameObject:
   m_ObjectHideFlags: 0
@@ -5717,18 +5711,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2021242774}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1071897532}
-        m_MethodName: JoinGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2021242774

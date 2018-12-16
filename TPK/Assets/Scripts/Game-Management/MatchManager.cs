@@ -11,6 +11,7 @@ public class MatchManager : NetworkBehaviour
 {
     public readonly int maxPlayers = 2;         // currently only accepting 2 players maximum
     [SyncVar] private int currentNumOfPlayers;  // the current number of players in the match
+    public List<NetworkConnection> connections; // list of all connections in the match
 
     /// <summary>
     /// Initialize variables.
@@ -25,10 +26,18 @@ public class MatchManager : NetworkBehaviour
     /// If max number of players is not reached, increments the current number of players by 1.
     /// </summary>
     /// <returns>Returns true if a player has been successfully added to the match, else returns false.</returns>
-    public bool AddPlayerToMatch()
+    public bool AddPlayerToMatch(NetworkConnection conn)
     {
         if (!isServer) return false;
 
+        // Add NetworkConnection is connections list
+        if (connections == null)
+        {
+            connections = new List<NetworkConnection>();
+        }
+        connections.Add(conn);
+
+        // Increment currentNumOfPlayers counter
         if (currentNumOfPlayers < maxPlayers)
         {
             currentNumOfPlayers++;
@@ -42,10 +51,17 @@ public class MatchManager : NetworkBehaviour
     /// If the current number of players is 1 or more, decrements the current number of players by 1.
     /// </summary>
     /// <returns>Returns true if a player has been successfully removed from the match, else returns false.</returns>
-    public bool RemovePlayerFromMatch()
+    public bool RemovePlayerFromMatch(NetworkConnection conn)
     {
         if (!isServer) return false;
 
+        // Remove NetworkConnection from connections list
+        if (connections != null)
+        {
+            connections.Remove(conn);
+        }
+
+        // Decrement currentNumOfPlayers counter
         if (currentNumOfPlayers > 1)
         {
             currentNumOfPlayers--;

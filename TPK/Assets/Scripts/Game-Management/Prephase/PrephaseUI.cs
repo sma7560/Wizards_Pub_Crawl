@@ -6,14 +6,19 @@ using UnityEngine.UI;
 
 public class PrephaseUI : MonoBehaviour
 {
+    // the id of the hero this UI is attached to
+    private int heroId;
+
     // Skill bank description
     public GameObject skillDescription;
 
     // Managers
     private PrephaseManager prephaseManager;
     private NetworkHeroManager heroManager;
+    private MatchManager matchManager;
 
     // Text elements
+    private TextMeshProUGUI playerName;
     private TextMeshProUGUI attributePointsLeft;
     private TextMeshProUGUI characterSelectedName;
     private TextMeshProUGUI hostIP;
@@ -58,11 +63,15 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     void Start()
     {
+        // Initialize variables
         prephaseManager = GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>();
-        heroManager = GameObject.Find("Hero(Clone)").GetComponent<NetworkHeroManager>();    // TODO: update this to appropriate current player and not just "Hero(Clone)"
+        matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
+        heroId = matchManager.GetNumOfPlayers();
+        heroManager = GetHeroObject(heroId).GetComponent<NetworkHeroManager>();
         skillDescription = GameObject.Find("SkillBankDescription");
 
         // Initialize text
+        playerName = GameObject.Find("PlayerNameText").GetComponent<TextMeshProUGUI>();
         attributePointsLeft = GameObject.Find("PointsLeftText").GetComponent<TextMeshProUGUI>();
         hostIP = GameObject.Find("HostIPText").GetComponent<TextMeshProUGUI>();
         numOfPlayers = GameObject.Find("CurrentNumOfPlayersText").GetComponent<TextMeshProUGUI>();
@@ -109,6 +118,7 @@ public class PrephaseUI : MonoBehaviour
         UpdateCharacterSelectedName();
         UpdateHostIP();
         UpdateNumOfPlayers();
+        UpdatePlayerName();
 
         skillDescription.SetActive(false);
 
@@ -121,6 +131,7 @@ public class PrephaseUI : MonoBehaviour
     void Update()
     {
         UpdateNumOfPlayers();
+        UpdateTimeLeftUI();
     }
 
     /// <summary>
@@ -136,46 +147,13 @@ public class PrephaseUI : MonoBehaviour
         {
             timeLeft.text = prephaseManager.GetCountdown().ToString();
         }
+        else
+        {
+            // No longer in prephase stage, therefore disable prephase UI
+            gameObject.SetActive(false);
+        }
     }
-
-    /// <summary>
-    /// Updates the "Number of the players connected" text in UI.
-    /// </summary>
-    public void UpdateNumOfPlayers()
-    {
-        MatchManager matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
-        numOfPlayers.text = matchManager.GetNumOfPlayers().ToString();
-    }
-
-    /// <summary>
-    /// Update the "Selected Character" UI text element.
-    /// </summary>
-    private void UpdateCharacterSelectedName()
-    {
-        characterSelectedName.text = selectedHero.heroName;
-    }
-
-    /// <summary>
-    /// Updates all stat text values in the Stats UI window.
-    /// </summary>
-    private void UpdateStats()
-    {
-        physicalDmg.text = heroManager.GetPAttack().ToString();
-        magicalDmg.text = heroManager.GetMAttack().ToString();
-        physicalDef.text = heroManager.GetPDefence().ToString();
-        magicalDef.text = heroManager.GetMDefence().ToString();
-        atkSpd.text = heroManager.GetAtkSpeed().ToString();
-    }
-
-    /// <summary>
-    /// Updates the host IP text in UI.
-    /// </summary>
-    private void UpdateHostIP()
-    {
-        NetworkManagerExtension networkManagerExtension = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
-        hostIP.text = networkManagerExtension.networkAddress;
-    }
-
+    
     /// <summary>
     /// Functionality for changing character selected when the corresponding button is pressed.
     /// Order is knight < witch < rogue.
@@ -382,4 +360,71 @@ public class PrephaseUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the "Number of the players connected" text in UI.
+    /// </summary>
+    private void UpdateNumOfPlayers()
+    {
+        numOfPlayers.text = matchManager.GetNumOfPlayers().ToString();
+    }
+
+    /// <summary>
+    /// Sets the name of the player in the UI.
+    /// </summary>
+    private void UpdatePlayerName()
+    {
+        playerName.text = "Player " + heroId;
+    }
+
+    /// <summary>
+    /// Update the "Selected Character" UI text element.
+    /// </summary>
+    private void UpdateCharacterSelectedName()
+    {
+        characterSelectedName.text = selectedHero.heroName;
+    }
+
+    /// <summary>
+    /// Updates all stat text values in the Stats UI window.
+    /// </summary>
+    private void UpdateStats()
+    {
+        physicalDmg.text = heroManager.GetPAttack().ToString();
+        magicalDmg.text = heroManager.GetMAttack().ToString();
+        physicalDef.text = heroManager.GetPDefence().ToString();
+        magicalDef.text = heroManager.GetMDefence().ToString();
+        atkSpd.text = heroManager.GetAtkSpeed().ToString();
+    }
+
+    /// <summary>
+    /// Updates the host IP text in UI.
+    /// </summary>
+    private void UpdateHostIP()
+    {
+        NetworkManagerExtension networkManagerExtension = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
+        hostIP.text = networkManagerExtension.networkAddress;
+    }
+
+    /// <summary>
+    /// Finds the hero object of the player with the given id.
+    /// </summary>
+    /// <param name="id">The player's id.</param>
+    /// <returns>Returns the hero object associated with the player id.</returns>
+    private GameObject GetHeroObject(int id)
+    {
+        GameObject heroObject = null;
+        GameObject[] heroObjects = GameObject.FindGameObjectsWithTag("Player");
+
+        foreach(GameObject hero in heroObjects)
+        {
+            HeroSetup heroSetup = hero.GetComponent<HeroSetup>();
+            if (id == heroSetup.id)
+            {
+                heroObject = hero;
+                break;
+            }
+        }
+
+        return heroObject;
+    }
 }

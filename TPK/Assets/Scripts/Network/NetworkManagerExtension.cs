@@ -9,32 +9,37 @@ using System;
 
 public class NetworkManagerExtension : NetworkManager
 {
-    public MatchManager matchManagerPrefab;
+    public GameObject matchManagerPrefab;
     private MatchManager matchManager;
+    private PrephaseManager prephaseManager;
 
     /// <summary>
     /// Setting up the host via getting the local IP address and using that as host address.
     /// </summary>
     public void StartUpHost()
     {
+        // Create MatchManager object on server
+        GameObject managerPrefab = Instantiate(matchManagerPrefab);
+        matchManager = managerPrefab.GetComponent<MatchManager>();
+        prephaseManager = managerPrefab.GetComponent<PrephaseManager>();
+
         // Set networking properties
         SetPort();
         networkAddress = GetLocalIPAddress();
         Debug.Log("Hosting on " + networkAddress);
         NetworkServer.Reset();
-        NetworkManager.singleton.StartHost();
-        matchManager = Instantiate(matchManagerPrefab).GetComponent<MatchManager>();
+        NetworkClient client = NetworkManager.singleton.StartHost();
         NetworkServer.Spawn(matchManager.gameObject);   // Instantiate MatchManager on the server
 
         // Update MatchManager with new player
-        if (!matchManager.AddPlayerToMatch())
+        if (!matchManager.AddPlayerToMatch(client.connection))
         {
-            Debug.Log("ISSUE WITH MATCHMANAGER! Could not add player. Num of players in MatchManager = " + matchManager.GetNumOfPlayers());
+            Debug.Log("MatchManager failed to add player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
             return;
         }
 
         // Start the waiting room of pre-phase
-        StartCoroutine(GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>().StartPrephaseWaitingRoom());
+        StartCoroutine(prephaseManager.StartPrephaseWaitingRoom());
     }
 
     /// <summary>
@@ -82,5 +87,39 @@ public class NetworkManagerExtension : NetworkManager
     private void SetPort()
     {
         NetworkManager.singleton.networkPort = 7777;
+    }
+
+    /// <summary>
+    /// Called when a new client connects to the server.
+    /// </summary>
+    public override void OnServerConnect(NetworkConnection conn)
+    {
+        base.OnServerConnect(conn);
+
+        // If the new connection is a client, add a player to MatchManager
+        if (!matchManager.AddPlayerToMatch(conn))
+        {
+            // NOTE: will fail for server's connect, when numOfPlayers = 0 (this is expected)
+            Debug.Log("MatchManager failed to add player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
+        }
+
+        // Send new player information to PrephaseManager
+        prephaseManager.UpdatePrephase();
+    }
+
+    /// <summary>
+    /// Called when a client disconnects from the server.
+    /// </summary>
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        base.OnServerDisconnect(conn);
+
+        if (!matchManager.RemovePlayerFromMatch(conn))
+        {
+            Debug.Log("MatchManager failed to remove player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
+        }
+
+        // Send new player information to PrephaseManager
+        prephaseManager.UpdatePrephase();
     }
 }

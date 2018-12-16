@@ -8,10 +8,8 @@ using UnityEngine.Networking;
 public class NetworkHeroManager : NetworkBehaviour
 {
     // Character Stats.
-    [SyncVar]
-    public int maxHealth; // Stays at 100?
-    [SyncVar]
-    public int currentHealth;
+    [SyncVar] public readonly int maxHealth = 100; // Stays at 100?
+    [SyncVar] public int currentHealth;
 
     private int moveSpeed; // This will act as a multiplyer for movement speed(Velocity)
     private int atkSpeed;

@@ -13,7 +13,7 @@ using UnityEngine.UI;
 public class HeroController : NetworkBehaviour
 {
     public GameObject heroCam;
-    public GameObject attackerUI;
+    public GameObject playerUI;
     public bool localTest;
 
     private GameObject cam;
@@ -135,7 +135,7 @@ public class HeroController : NetworkBehaviour
         else
         {
             // Setup attacker UI
-            Instantiate(attackerUI);
+            Instantiate(playerUI);
 
             // Set health bar image to full
             Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
@@ -145,15 +145,14 @@ public class HeroController : NetworkBehaviour
 
     private void UpdateUI()
     {
-        // Check prephase status and update UI accordingly
-        if (prephaseManager.IsCurrentlyInPrephase())
+        // Update player UI when in dungeon crawling stage
+        if (!prephaseManager.IsCurrentlyInPrephase())
         {
-            // Update prephase time left UI element
-            PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
-            prephaseUI.UpdateTimeLeftUI();
-        }
-        else
-        {
+            if (GameObject.FindGameObjectWithTag("Health") == null)
+            {
+                SetupUI();
+            }
+
             // Update health bar and text
             Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
             healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / (float)heroStats.maxHealth;

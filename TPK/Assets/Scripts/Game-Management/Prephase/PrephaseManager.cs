@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 
 /// <summary>
 /// Includes logic related to the Pre-phase game state.
+/// Functions only run on the server.
 /// </summary>
 public class PrephaseManager : NetworkBehaviour
 {
@@ -19,9 +20,9 @@ public class PrephaseManager : NetworkBehaviour
 
     public GameObject prephaseUI;           // Prephase UI prefab object to be used during prephase
 
-    private NetworkManagerExtension networkManagerExtension;
+    private readonly int timeLimit = 10;    // value which the countdown starts from when activated
     private MatchManager matchManager;      // MatchManager to get current num of players
-    [SyncVar] public PrephaseState state;   // current status of the prephase
+    [SyncVar] private PrephaseState state;  // current status of the prephase
     [SyncVar] private int countdown;        // countdown timer of time left in prephase stage; -1 when prephase is not active
 
     /// <summary>
@@ -32,17 +33,8 @@ public class PrephaseManager : NetworkBehaviour
         if (!isServer) return;
 
         matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
-        networkManagerExtension = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
         state = PrephaseState.NotActive;
         countdown = -1;
-    }
-
-    /// <summary>
-    /// Update is called once per frame
-    /// </summary>
-    void Update()
-    {
-
     }
 
     /// <summary>
@@ -84,6 +76,21 @@ public class PrephaseManager : NetworkBehaviour
             state = PrephaseState.RoomFull;
             StartCoroutine(DecreaseCountdownTimer());   // Start the prephase countdown
         }
+
+        // Exit RoomFull state if player disconnects
+        if ( state == PrephaseState.RoomFull &&
+            matchManager.GetNumOfPlayers() < matchManager.maxPlayers )
+        {
+            state = PrephaseState.WaitingForPlayers;
+            StopCoroutine(DecreaseCountdownTimer());
+
+            // Update pre-phase UI countdown element
+            if (GameObject.FindGameObjectWithTag("PrephaseUI") != null)
+            {
+                PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
+                prephaseUI.UpdateTimeLeftUI();
+            }
+        }
     }
 
     /// <summary>
@@ -97,7 +104,7 @@ public class PrephaseManager : NetworkBehaviour
 
         yield return new WaitForFixedUpdate();      // Need to wait for Start() function to finish
         state = PrephaseState.WaitingForPlayers;
-        countdown = 300;
+        countdown = timeLimit;
     }
 
     /// <returns>

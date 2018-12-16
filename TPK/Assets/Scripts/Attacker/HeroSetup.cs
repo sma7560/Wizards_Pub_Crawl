@@ -6,8 +6,9 @@ using UnityEngine.Networking;
 public class HeroSetup : NetworkBehaviour
 {
 
-    [SerializeField]
-    Behaviour[] compsToDisable;
+    public int id;  // ID of the hero to identify the player
+    [SerializeField] Behaviour[] compsToDisable;
+
     // Use this for initialization
     void Start()
     {
@@ -20,28 +21,14 @@ public class HeroSetup : NetworkBehaviour
                 compsToDisable[i].enabled = false;
             }
         }
-        else
-        {
-            if (!isServer)
-            {
-                CmdAddPlayerToMatch();  // Add player to MatchManager
-            }
-        }
+
+        // Set hero's ID to the current num of players connected
+        id = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>().GetNumOfPlayers();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-    }
-
-    /// <summary>
-    /// Runs this command from the client to the server to update number of players in the match.
-    /// </summary>
-    [Command]
-    private void CmdAddPlayerToMatch()
-    {
-        MatchManager matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
-        matchManager.AddPlayerToMatch();
     }
 }

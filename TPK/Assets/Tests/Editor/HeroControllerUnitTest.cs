@@ -64,7 +64,7 @@ public class HeroControllerUnitTest
         // Setup HeroController
         HeroController heroController = gameObject.AddComponent<HeroController>();
         heroController.heroCam = heroCam;
-        heroController.attackerUI = attackerUI;
+        heroController.playerUI = attackerUI;
         heroController.localTest = true;
         heroController.runInEditMode = true;    // enables Unity callback functions to run
 
@@ -79,7 +79,7 @@ public class HeroControllerUnitTest
         Assert.IsNotNull(heroController.GetComponent<CharacterCombat>(), "CharacterCombat is null!");
         Assert.IsNotNull(heroController.GetComponent<Transform>(), "CharacterTransform is null!");
         Assert.IsNotNull(heroController.heroCam, "HeroCam is null!");
-        Assert.IsNotNull(heroController.attackerUI, "AttackerUI is null!");
+        Assert.IsNotNull(heroController.playerUI, "AttackerUI is null!");
     }
 
 }
