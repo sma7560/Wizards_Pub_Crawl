@@ -32,7 +32,7 @@ public class PrephaseManager : NetworkBehaviour
     {
         if (!isServer) return;
 
-        matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         state = PrephaseState.NotActive;
         countdown = -1;
     }

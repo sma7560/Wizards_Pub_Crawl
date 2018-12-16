@@ -23,12 +23,6 @@ public class HeroSetup : NetworkBehaviour
         }
 
         // Set hero's ID to the current num of players connected
-        id = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>().GetNumOfPlayers();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        id = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>().GetNumOfPlayers();
     }
 }

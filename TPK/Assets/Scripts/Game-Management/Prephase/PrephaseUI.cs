@@ -72,8 +72,8 @@ public class PrephaseUI : MonoBehaviour
     void Start()
     {
         // Initialize variables
-        prephaseManager = GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>();
-        matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
+        prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroId = matchManager.GetNumOfPlayers();
         heroManager = GetHeroObject(heroId).GetComponent<NetworkHeroManager>();
         skillDescription = GameObject.Find("SkillBankDescription");

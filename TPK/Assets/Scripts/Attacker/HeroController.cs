@@ -13,45 +13,38 @@ using UnityEngine.UI;
 public class HeroController : NetworkBehaviour
 {
     public GameObject heroCam;
-    public GameObject playerUI;
-    public bool localTest;
+    public GameObject playerUI; // Player UI for dungeon crawling phase
+    public bool localTest;      // for unit testing to allow the game to run locally
 
+    private int heroId;         // id of the player
     private GameObject cam;
 
-    // For setting up character direction.
+    // For setting up character direction
     private Camera view;
     private Plane ground;
     private float rayLength;
     private Vector3 pointToLookAt;
 
-
     private Rigidbody heroRigidbody;
     private bool isKnockedOut;
-    private int reviveCount;
-    private int deathTimer = 4; //default death timer
+    private readonly int deathTimer = 4; //default death timer
 
+    private PrephaseManager prephaseManager;
     public IUnityService unityService;
     public CharacterCombat heroCombat;
     private CharacterStats heroStats;
-    private Transform characterTransform;
     private CharacterMovement characterMovement;
-    private PrephaseManager prephaseManager;
-
     private Score score;        // current score of the player
 
     // Use this for initialization
     void Start()
     {
-        //if (!localTest && !hasAuthority && !isLocalPlayer)
-        //{
-        //    return;
-        //}
         if (!isLocalPlayer && !localTest) return;
 
+        // Initialize variables
+        heroId = GetComponent<HeroSetup>().id;
         isKnockedOut = false;
         characterMovement = new CharacterMovement(10.0f);
-
-        // Set variables
         if (unityService == null)
         {
             unityService = new UnityService();
@@ -59,14 +52,14 @@ public class HeroController : NetworkBehaviour
         heroRigidbody = GetComponent<Rigidbody>();
         heroStats = GetComponent<CharacterStats>();
         heroCombat = GetComponent<CharacterCombat>();
-        prephaseManager = GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>();
-
-        characterTransform = GetComponent<Transform>();
+        prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         ground = new Plane(Vector3.up, Vector3.zero);
+        score = new Score();
+
+        // Run startup functions
         StartCamera();
         SetupUI();
-
-        score = new Score();    // initialize score value
+        Spawn();
     }
 
     // Update is called once per frame
@@ -140,9 +133,11 @@ public class HeroController : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the player UI during dungeon crawling phase.
+    /// </summary>
     private void UpdateUI()
     {
-        // Update player UI when in dungeon crawling stage
         if (!prephaseManager.IsCurrentlyInPrephase())
         {
             if (GameObject.FindGameObjectWithTag("Health") == null)
@@ -156,10 +151,10 @@ public class HeroController : NetworkBehaviour
             TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
             healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
 
-            //if (heroStats.currentHealth <= 0)
-            //{
-            //    KnockedOut();
-            //}
+            if (heroStats.currentHealth <= 0)
+            {
+                KnockedOut();
+            }
 
             // Update the score on UI
             TextMeshProUGUI scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
@@ -168,60 +163,51 @@ public class HeroController : NetworkBehaviour
 
     }
 
-    // Might be removed *** 
-    public void KillMe()
-    {
-        CmdKillMe();
-        unityService.Destroy(gameObject);
-        Debug.Log("Player died)");
-    }
-
-    [Command]
-    private void CmdKillMe()
-    {
-        NetworkServer.Destroy(gameObject);
-    }
-
     //when health reaches 0, character is knocked out
     private void KnockedOut()
     {
         if (!isKnockedOut)
         {
             isKnockedOut = true;
-            transform.gameObject.tag = "knockedOutPlayer"; //change tag so enemies won't go after it anymore
-            characterTransform.Rotate(90, 0, 0); //turn sideways to show knocked out
+            transform.gameObject.tag = "knockedOutPlayer";  //change tag so enemies won't go after it anymore
+            transform.Rotate(90, 0, 0);                     //turn sideways to show knocked out
 
-            Debug.Log("Player knocked out");
-            //starts timer until character dies
-            StartCoroutine(ReviveTimer(deathTimer));
+            Debug.Log("Player " + heroId + " is knocked out");
+
+            // starts timer for length of time that character remains knocked out
+            StartCoroutine(KnockOutTimer(deathTimer));
         }
     }
 
-    //when player is revived by another player
-    private void Respawn()
+    /// <summary>
+    /// Spawns the player at their spawn location.
+    /// </summary>
+    private void Spawn()
     {
-        Debug.Log("Player respawned");
+        // Flip the character back to standing position if they were previously knocked out
+        if (isKnockedOut)
+        {
+            transform.Rotate(-90, 0, 0);
+        }
+
+        // Reset variables
         isKnockedOut = false;
         heroStats.currentHealth = heroStats.maxHealth;
         transform.gameObject.tag = "Player";
-        characterTransform.Rotate(-90, 0, 0);
 
-        HeroState heroState = GameObject.Find("EventSystem").GetComponent<HeroState>();
+        HeroManager heroState = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
 
         //gets spawn location of player
-        /*TODO 
-         * change value passed into getSpawnLocationOfPlayer after player overhaul
-         * "1" should become whatever player it is
-         * */
-        characterTransform.position = heroState.getSpawnLocationOfPlayer(1);
+        transform.position = heroState.GetSpawnLocationOfPlayer(heroId);
 
+        Debug.Log("Player " + heroId + " spawned at " + heroState.GetSpawnLocationOfPlayer(heroId));
     }
 
     //increment how long until player respawns
-    private IEnumerator ReviveTimer(float timer)
+    private IEnumerator KnockOutTimer(float timer)
     {
         yield return new WaitForSeconds(timer);
-        Respawn();
+        Spawn();
     }
 
     //return if knocked out or not

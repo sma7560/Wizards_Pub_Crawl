@@ -5,8 +5,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// DungeonController: used to update dungeon status during dungeon level gameplay
-
+/// <summary>
+/// Used to update dungeon status during dungeon level gameplay.
+/// </summary>
 public class DungeonController : MonoBehaviour
 {
 
@@ -16,8 +17,6 @@ public class DungeonController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Debug.Log("DungeonController script started.");
-
         if (unityService == null)
         {
             unityService = new UnityService();
@@ -27,11 +26,10 @@ public class DungeonController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Enables in-game menu when Esc key pressed
+        // Toggles in-game menu when Esc key pressed
         if (unityService.GetKeyDown(KeyCode.Escape))
         {
-            Debug.Log("In-game menu set to active");
-            inGameMenuObject.SetActive(true);
+            inGameMenuObject.SetActive(!inGameMenuObject.activeSelf);
         }
 
         UpdateEnemyHealthBars();

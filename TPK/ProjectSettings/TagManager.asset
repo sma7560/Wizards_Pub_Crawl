@@ -15,6 +15,7 @@ TagManager:
   - Score
   - ArtifactSpawn
   - PrephaseUI
+  - MatchManager
   layers:
   - Default
   - TransparentFX

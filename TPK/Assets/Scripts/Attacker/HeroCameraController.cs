@@ -19,7 +19,7 @@ public class HeroCameraController : MonoBehaviour
     void Start()
     {
         this.transform.position = dungeonOffset;
-        prephaseManager = GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>();
+        prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
     }
 
     void Update()
