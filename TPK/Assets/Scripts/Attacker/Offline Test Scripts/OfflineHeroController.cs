@@ -19,7 +19,7 @@ public class OfflineHeroController : MonoBehaviour {
         //StartUI();
 
         // Camera stuff
-        Camera.main.GetComponent<HeroCameraController>().setTarget(transform);
+        Camera.main.GetComponent<HeroCameraController>().SetTarget(transform);
         mainCam = Camera.main.GetComponent<Camera>();
         ground = new Plane(Vector3.up, Vector3.zero);
     }

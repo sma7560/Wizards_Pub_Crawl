@@ -63,6 +63,7 @@ public class HeroController : NetworkBehaviour
 
         characterTransform = GetComponent<Transform>();
         ground = new Plane(Vector3.up, Vector3.zero);
+        StartCamera();
         SetupUI();
 
         score = new Score();    // initialize score value
@@ -76,10 +77,6 @@ public class HeroController : NetworkBehaviour
         // Only allow character movement if hero is not knocked out & game is currently not in prephase
         if (!isKnockedOut && !prephaseManager.IsCurrentlyInPrephase())
         {
-            if (cam == null)
-            {
-                StartCamera();
-            }
             // Perform character movement controls
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
             PerformRotation();
@@ -116,7 +113,7 @@ public class HeroController : NetworkBehaviour
         // There is a bug here.
         GameObject.FindGameObjectWithTag("MainCamera").SetActive(false);
         cam = Instantiate(heroCam);
-        cam.GetComponent<HeroCameraController>().setTarget(this.transform);
+        cam.GetComponent<HeroCameraController>().SetTarget(this.transform);
         view = cam.GetComponent<Camera>();
     }
 

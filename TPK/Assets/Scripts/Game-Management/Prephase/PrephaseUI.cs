@@ -9,6 +9,14 @@ public class PrephaseUI : MonoBehaviour
     // the id of the hero this UI is attached to
     private int heroId;
 
+    // Default stat values
+    private readonly int defaultAtkSpd = 1;
+    private readonly int defaultPhyDmg = 10;
+    private readonly int defaultMagDmg = 10;
+    private readonly int defaultPhyDef = 10;
+    private readonly int defaultMagDef = 10;
+    private readonly int defaultAttributePts = 20;
+
     // Skill bank description
     public GameObject skillDescription;
 
@@ -88,26 +96,7 @@ public class PrephaseUI : MonoBehaviour
         rightCharacterSelection = GameObject.Find("CharSelectRightButton").GetComponent<Button>();
 
         // Setup default values for default heroes
-        knight = new Hero
-        {
-            heroType = HeroType.melee,
-            heroName = "Knight",
-            childIndex = 0
-        };
-
-        witch = new Hero
-        {
-            heroType = HeroType.magic,
-            heroName = "Witch",
-            childIndex = 1
-        };
-
-        rogue = new Hero
-        {
-            heroType = HeroType.melee,
-            heroName = "Rogue",
-            childIndex = 2
-        };
+        SetupDefaultHeroes();
 
         // Set default currently selected character
         selectedHero = knight;
@@ -208,7 +197,7 @@ public class PrephaseUI : MonoBehaviour
         int physDmg = heroManager.GetPAttack();
         int pointsLeft = int.Parse(attributePointsLeft.text);
         
-        if (physDmg > 0)
+        if (physDmg > defaultPhyDmg)
         {
             heroManager.SetPAttack(physDmg-1);                      // decrement physical damage stat
             attributePointsLeft.text = (pointsLeft + 1).ToString(); // increment attribute points left by 1
@@ -240,7 +229,7 @@ public class PrephaseUI : MonoBehaviour
         int magicDmg = heroManager.GetMAttack();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
-        if (magicDmg > 0)
+        if (magicDmg > defaultMagDmg)
         {
             heroManager.SetMAttack(magicDmg - 1);
             attributePointsLeft.text = (pointsLeft + 1).ToString();
@@ -272,7 +261,7 @@ public class PrephaseUI : MonoBehaviour
         int physDef = heroManager.GetPDefence();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
-        if (physDef > 0)
+        if (physDef > defaultPhyDef)
         {
             heroManager.SetPDefence(physDef - 1);
             attributePointsLeft.text = (pointsLeft + 1).ToString();
@@ -304,7 +293,7 @@ public class PrephaseUI : MonoBehaviour
         int magicDef = heroManager.GetMDefence();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
-        if (magicDef > 0)
+        if (magicDef > defaultMagDef)
         {
             heroManager.SetMDefence(magicDef - 1);
             attributePointsLeft.text = (pointsLeft + 1).ToString();
@@ -336,7 +325,7 @@ public class PrephaseUI : MonoBehaviour
         int atkSpd = heroManager.GetAtkSpeed();
         int pointsLeft = int.Parse(attributePointsLeft.text);
 
-        if (atkSpd > 0)
+        if (atkSpd > defaultAtkSpd)
         {
             heroManager.SetAtkSpeed(atkSpd - 1);
             attributePointsLeft.text = (pointsLeft + 1).ToString();
@@ -358,6 +347,50 @@ public class PrephaseUI : MonoBehaviour
             attributePointsLeft.text = (pointsLeft - 1).ToString();
             UpdateStats();
         }
+    }
+
+    /// <summary>
+    /// Sets up the default hero types of knight, witch, and rogue.
+    /// </summary>
+    private void SetupDefaultHeroes()
+    {
+        // Setup default heroes
+        knight = new Hero
+        {
+            heroType = HeroType.melee,
+            heroName = "Knight",
+            childIndex = 0
+        };
+
+        witch = new Hero
+        {
+            heroType = HeroType.magic,
+            heroName = "Witch",
+            childIndex = 1
+        };
+
+        rogue = new Hero
+        {
+            heroType = HeroType.melee,
+            heroName = "Rogue",
+            childIndex = 2
+        };
+
+        SetupDefaultStats();
+    }
+    
+    /// <summary>
+    /// Sets the default stats of the hero.
+    /// </summary>
+    private void SetupDefaultStats()
+    {
+        // Set default stat values
+        heroManager.SetAtkSpeed(defaultAtkSpd);
+        heroManager.SetPAttack(defaultPhyDmg);
+        heroManager.SetMAttack(defaultMagDmg);
+        heroManager.SetPDefence(defaultPhyDef);
+        heroManager.SetMDefence(defaultMagDef);
+        attributePointsLeft.text = defaultAttributePts.ToString();
     }
 
     /// <summary>
