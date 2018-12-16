@@ -17,20 +17,20 @@ public class PrephaseManager : NetworkBehaviour
         NotActive
     }
 
-    public GameObject prephaseUI;       // Prephase UI prefab object to be used during prephase
+    public GameObject prephaseUI;           // Prephase UI prefab object to be used during prephase
 
-    private MatchManager matchManager;  // MatchManager to get current num of players
     private NetworkManagerExtension networkManagerExtension;
-    [SyncVar]
-    public PrephaseState state;         // current status of the prephase
-    [SyncVar]
-    private int countdown;              // countdown timer of time left in prephase stage; -1 when prephase is not active
+    private MatchManager matchManager;      // MatchManager to get current num of players
+    [SyncVar] public PrephaseState state;   // current status of the prephase
+    [SyncVar] private int countdown;        // countdown timer of time left in prephase stage; -1 when prephase is not active
 
     /// <summary>
     /// Initialize variables.
     /// </summary>
     void Start()
     {
+        if (!isServer) return;
+
         matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
         networkManagerExtension = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
         state = PrephaseState.NotActive;
@@ -73,8 +73,12 @@ public class PrephaseManager : NetworkBehaviour
     /// </summary>
     public void UpdatePrephase()
     {
+        if (!isServer) return;
+
+        Debug.Log("PREPHASE: UpdatePrephase called");
+
         // Check if current number of players in the match have reached the maximum number
-        if (networkManagerExtension.numPlayers >= matchManager.maxPlayers)
+        if (matchManager.GetNumOfPlayers() >= matchManager.maxPlayers)
         {
             // Start the prephase
             state = PrephaseState.RoomFull;
@@ -87,6 +91,10 @@ public class PrephaseManager : NetworkBehaviour
     /// </summary>
     public IEnumerator StartPrephaseWaitingRoom()
     {
+        if (!isServer) yield return null;
+
+        Debug.Log("PREPHASE: StartPrephaseWaitingRoom() called");
+
         yield return new WaitForFixedUpdate();      // Need to wait for Start() function to finish
         state = PrephaseState.WaitingForPlayers;
         countdown = 300;
@@ -105,6 +113,8 @@ public class PrephaseManager : NetworkBehaviour
     /// </summary>
     private void EndPrephase()
     {
+        if (!isServer) return;
+
         state = PrephaseState.NotActive;
         countdown = -1;     // set countdown back to default of -1 when prephase is not active
         GameObject.Find("PrephaseScreen(Clone)").SetActive(false);  // disable pre-phase UI
@@ -115,6 +125,8 @@ public class PrephaseManager : NetworkBehaviour
     /// </summary>
     private IEnumerator DecreaseCountdownTimer()
     {
+        if (!isServer) yield return null;
+
         while (countdown > 0)
         {
             // Update pre-phase UI countdown element
