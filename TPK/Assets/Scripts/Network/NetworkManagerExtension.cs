@@ -17,7 +17,7 @@ public class NetworkManagerExtension : NetworkManager
     /// </summary>
     void Start()
     {
-        matchManager = Instantiate(matchManagerPrefab);
+        //matchManager = Instantiate(matchManagerPrefab).GetComponent<MatchManager>();
     }
 
     /// <summary>
@@ -31,6 +31,8 @@ public class NetworkManagerExtension : NetworkManager
         Debug.Log("Hosting on " + networkAddress);
         NetworkServer.Reset();
         NetworkManager.singleton.StartHost();
+        matchManager = Instantiate(matchManagerPrefab).GetComponent<MatchManager>();
+        NetworkServer.Spawn(matchManager.gameObject);   // Instantiate MatchManager on the server
 
         // Update MatchManager with new player
         if (!matchManager.AddPlayerToMatch())
@@ -40,7 +42,7 @@ public class NetworkManagerExtension : NetworkManager
         }
 
         // Start the waiting room of pre-phase
-        GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>().StartPrephaseWaitingRoom();
+        StartCoroutine(GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>().StartPrephaseWaitingRoom());
     }
 
     /// <summary>
@@ -48,27 +50,48 @@ public class NetworkManagerExtension : NetworkManager
     /// </summary>
     public void JoinGame()
     {
-        // Check that MatchManager exists
-        if (matchManager == null)
-        {
-            return;
-        }
+        // Set networking properties
+        SetIPAddress();
+        SetPort();
+        NetworkManager.singleton.StartClient();
+
+        // Update MatchManager
+        StartCoroutine(JoinGameUpdateMatchManager());
+    }
+
+    /// <summary>
+    /// Updates MatchManager with new player information.
+    /// </summary>
+    private IEnumerator JoinGameUpdateMatchManager()
+    {
+        // Wait for MatchManager from NetworkServer to load on client
+        yield return new WaitUntil(IsMatchManagerLoaded);
+        matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
 
         // Check that match has not yet exceeded max number of players
         if (!matchManager.AddPlayerToMatch())
         {
             // Max number of players reached; cannot add more
             Debug.Log("Max players reached. Cannot add more players. Num of players in MatchManager = " + matchManager.GetNumOfPlayers());
-            return;
+        }
+        else
+        {
+            // Update pre-phase with new player
+            GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>().UpdatePrephase();
+        }
+    }
+    
+    /// <returns>
+    /// Returns true if MatchManager is found, else returns false.
+    /// </returns>
+    private bool IsMatchManagerLoaded()
+    {
+        if (GameObject.Find("MatchManager(Clone)") != null)
+        {
+            return true;
         }
 
-        // Set networking properties
-        SetIPAddress();
-        SetPort();
-        NetworkManager.singleton.StartClient();
-
-        // Update pre-phase with new player
-        GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>().UpdatePrephase();
+        return false;
     }
 
     /// <summary>

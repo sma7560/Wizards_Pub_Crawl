@@ -118,6 +118,11 @@ public class PrephaseUI : MonoBehaviour
         skill4 = false;
     }
 
+    void Update()
+    {
+        UpdateNumOfPlayers();
+    }
+
     /// <summary>
     /// Update "Time Left Until Match Start" UI text element.
     /// </summary>
@@ -192,7 +197,6 @@ public class PrephaseUI : MonoBehaviour
 
         heroManager.SetModel(selectedHero);
         UpdateCharacterSelectedName();
-        Debug.Log("Character selected changed to " + selectedHero.heroName);
     }
 
     /// <summary>
@@ -216,7 +220,6 @@ public class PrephaseUI : MonoBehaviour
 
         heroManager.SetModel(selectedHero);
         UpdateCharacterSelectedName();
-        Debug.Log("Character selected changed to " + selectedHero.heroName);
     }
 
     /// <summary>

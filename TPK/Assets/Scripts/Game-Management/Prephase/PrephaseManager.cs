@@ -20,6 +20,7 @@ public class PrephaseManager : NetworkBehaviour
     public GameObject prephaseUI;       // Prephase UI prefab object to be used during prephase
 
     private MatchManager matchManager;  // MatchManager to get current num of players
+    private NetworkManagerExtension networkManagerExtension;
     [SyncVar]
     public PrephaseState state;         // current status of the prephase
     [SyncVar]
@@ -30,8 +31,8 @@ public class PrephaseManager : NetworkBehaviour
     /// </summary>
     void Start()
     {
-        Debug.Log("PrephaseManager Start");
         matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
+        networkManagerExtension = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
         state = PrephaseState.NotActive;
         countdown = -1;
     }
@@ -73,7 +74,7 @@ public class PrephaseManager : NetworkBehaviour
     public void UpdatePrephase()
     {
         // Check if current number of players in the match have reached the maximum number
-        if (matchManager.GetNumOfPlayers() >= matchManager.maxPlayers)
+        if (networkManagerExtension.numPlayers >= matchManager.maxPlayers)
         {
             // Start the prephase
             state = PrephaseState.RoomFull;
@@ -84,9 +85,9 @@ public class PrephaseManager : NetworkBehaviour
     /// <summary>
     /// Starts the waiting room of pre-phase, in which we wait for players to join.
     /// </summary>
-    public void StartPrephaseWaitingRoom()
+    public IEnumerator StartPrephaseWaitingRoom()
     {
-        Debug.Log("StartPrephaseWaitingRoom");
+        yield return new WaitForFixedUpdate();      // Need to wait for Start() function to finish
         state = PrephaseState.WaitingForPlayers;
         countdown = 300;
     }
