@@ -13,6 +13,8 @@ public class DungeonController : MonoBehaviour
 
     public GameObject inGameMenuObject;
     public IUnityService unityService;
+    private static bool timeStarted = false;
+    private static float timer = 0f;
 
     // Use this for initialization
     void Start()
@@ -21,6 +23,7 @@ public class DungeonController : MonoBehaviour
         {
             unityService = new UnityService();
         }
+        timeStarted = true;
     }
 
     // Update is called once per frame
@@ -32,6 +35,12 @@ public class DungeonController : MonoBehaviour
             inGameMenuObject.SetActive(!inGameMenuObject.activeSelf);
         }
 
+        //increment current game time
+        if (timeStarted == true)
+        {
+            timer += Time.deltaTime;
+        }
+
         UpdateEnemyHealthBars();
     }
 
@@ -39,6 +48,11 @@ public class DungeonController : MonoBehaviour
     {
         Debug.Log("MATCH QUIT");
         SceneManager.LoadScene(0);
+    }
+
+    public void startMatchTime()
+    {
+        timeStarted = true;
     }
 
     // Updates the statuses of all enemy health bars currently in the scene
@@ -70,5 +84,13 @@ public class DungeonController : MonoBehaviour
             }
         }
     }
+
+    //return current game time
+    public float getTime()
+    {
+        return timer;
+    }
+
+
 
 }
