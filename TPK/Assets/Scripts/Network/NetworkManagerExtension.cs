@@ -121,5 +121,11 @@ public class NetworkManagerExtension : NetworkManager
 
         // Send new player information to PrephaseManager
         prephaseManager.UpdatePrephase();
+	}
+	
+    //return network address
+    public string getNetworkAddress()
+    {
+        return GetLocalIPAddress();
     }
 }
