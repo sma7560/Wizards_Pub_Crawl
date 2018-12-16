@@ -5,15 +5,16 @@ using UnityEngine.Networking;
 
 public class MatchManager : NetworkBehaviour
 {
-    public readonly int maxPlayers = 2;    // currently only accepting 2 players maximum
-    private int currentNumOfPlayers;        // the current number of players in the match
+    public readonly int maxPlayers = 2; // currently only accepting 2 players maximum
+    [SyncVar]
+    public int currentNumOfPlayers;     // the current number of players in the match
 
     /// <summary>
-    /// Initialize variables
+    /// Initialize variables.
     /// </summary>
     void Start()
     {
-        currentNumOfPlayers = 0;
+        DontDestroyOnLoad(transform);
     }
 
     /// <summary>
@@ -24,10 +25,27 @@ public class MatchManager : NetworkBehaviour
     {
         if (currentNumOfPlayers < maxPlayers)
         {
-            currentNumOfPlayers++;
+            CmdAddPlayerToMatch();
+
+            // Update pre-phase UI if it is active
+            if (GameObject.FindGameObjectWithTag("PrephaseUI") != null)
+            {
+                GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>().UpdateNumOfPlayers();
+            }
+
             return true;
         }
+
         return false;
+    }
+
+    /// <summary>
+    /// Send command to server to update value of currentNumOfPlayers on server.
+    /// </summary>
+    [Command]
+    private void CmdAddPlayerToMatch()
+    {
+        currentNumOfPlayers++;
     }
 
     /// <summary>
@@ -38,10 +56,20 @@ public class MatchManager : NetworkBehaviour
     {
         if (currentNumOfPlayers > 1)
         {
-            currentNumOfPlayers--;
+            CmdRemovePlayerFromMatch();
             return true;
         }
+
         return false;
+    }
+
+    /// <summary>
+    /// Send command to server to update value of currentNumOfPlayers on server.
+    /// </summary>
+    [Command]
+    private void CmdRemovePlayerFromMatch()
+    {
+        currentNumOfPlayers--;
     }
     
     /// <returns>Returns the current number of players in the match.</returns>

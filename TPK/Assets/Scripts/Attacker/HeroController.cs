@@ -59,7 +59,7 @@ public class HeroController : NetworkBehaviour
         heroRigidbody = GetComponent<Rigidbody>();
         heroStats = GetComponent<CharacterStats>();
         heroCombat = GetComponent<CharacterCombat>();
-        prephaseManager = GameObject.Find("NetworkManagerV2").GetComponent<PrephaseManager>();
+        prephaseManager = GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>();
 
         characterTransform = GetComponent<Transform>();
         ground = new Plane(Vector3.up, Vector3.zero);
@@ -76,7 +76,7 @@ public class HeroController : NetworkBehaviour
         // Only allow character movement if hero is not knocked out & game is currently not in prephase
         if (!isKnockedOut && !prephaseManager.IsCurrentlyInPrephase())
         {
-            if (heroCam == null)
+            if (cam == null)
             {
                 StartCamera();
             }
@@ -130,7 +130,7 @@ public class HeroController : NetworkBehaviour
         if (prephaseManager.IsCurrentlyInPrephase())
         {
             // Setup prephase UI
-            Instantiate(prephaseManager.prephaseUI);
+            Instantiate(prephaseManager.prephaseUI).SetActive(true);
         }
         else
         {

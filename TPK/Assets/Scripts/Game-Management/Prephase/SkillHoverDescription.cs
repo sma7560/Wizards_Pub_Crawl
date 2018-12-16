@@ -12,6 +12,24 @@ public class SkillHoverDescription : EventTrigger
     public override void OnPointerEnter(PointerEventData eventData)
     {
         PrephaseUI prephaseUI = GameObject.Find("PrephaseScreen(Clone)").GetComponent<PrephaseUI>();
+
+        if (transform.name == "EquipSkill1" && !prephaseUI.skill1)
+        {
+            return;
+        }
+        else if (transform.name == "EquipSkill2" && !prephaseUI.skill2)
+        {
+            return;
+        }
+        else if (transform.name == "EquipSkill3" && !prephaseUI.skill3)
+        {
+            return;
+        }
+        else if (transform.name == "EquipSkill4" && !prephaseUI.skill4)
+        {
+            return;
+        }
+
         prephaseUI.skillDescription.SetActive(true);
     }
 

@@ -128,7 +128,7 @@ public class NetworkHeroManager : NetworkBehaviour
     }
     
     // This function should set up which model should be loaded.
-    public void setModel(Hero myHero)
+    public void SetModel(Hero myHero)
     {
         heroIndex = myHero.childIndex;
         heroType = myHero.heroType;
@@ -136,13 +136,13 @@ public class NetworkHeroManager : NetworkBehaviour
 
     // Set a basic attack to be active
     // TODO make basic attacks 
-    public void setBasicAttack()
+    public void SetBasicAttack()
     {
 
     }
 
     // This should only work on server. By giving it a damage amount it 
-    public void takeDamage(int amount, DamageType damageType)
+    public void TakeDamage(int amount, DamageType damageType)
     {
         // Figure out actual amount taken via a calculation.
         if (!isServer) return;
@@ -167,14 +167,14 @@ public class NetworkHeroManager : NetworkBehaviour
     }
 
     // Function for healing back to full health.
-    public void setFullHealth()
+    public void SetFullHealth()
     {
         if (!isServer) return;
         currentHealth = maxHealth;
     }
 
     // This function is meant to heal the character
-    public void heal(int amount)
+    public void Heal(int amount)
     {
         if (!isServer) return;
         currentHealth += amount;

@@ -16,6 +16,8 @@ public class PrephaseUI : MonoBehaviour
     // Text elements
     private TextMeshProUGUI attributePointsLeft;
     private TextMeshProUGUI characterSelectedName;
+    private TextMeshProUGUI hostIP;
+    private TextMeshProUGUI numOfPlayers;
     private TextMeshProUGUI timeLeft;
     private TextMeshProUGUI physicalDmg;
     private TextMeshProUGUI magicalDmg;
@@ -56,12 +58,14 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     void Start()
     {
-        prephaseManager = GameObject.Find("NetworkManagerV2").GetComponent<PrephaseManager>();
+        prephaseManager = GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>();
         heroManager = GameObject.Find("Hero(Clone)").GetComponent<NetworkHeroManager>();    // TODO: update this to appropriate current player and not just "Hero(Clone)"
         skillDescription = GameObject.Find("SkillBankDescription");
 
         // Initialize text
         attributePointsLeft = GameObject.Find("PointsLeftText").GetComponent<TextMeshProUGUI>();
+        hostIP = GameObject.Find("HostIPText").GetComponent<TextMeshProUGUI>();
+        numOfPlayers = GameObject.Find("CurrentNumOfPlayersText").GetComponent<TextMeshProUGUI>();
         timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
         characterSelectedName = GameObject.Find("CharacterNameText").GetComponent<TextMeshProUGUI>();
         physicalDmg = GameObject.Find("PhysDmgText").GetComponent<TextMeshProUGUI>();
@@ -98,11 +102,13 @@ public class PrephaseUI : MonoBehaviour
 
         // Set default currently selected character
         selectedHero = knight;
-        heroManager.setModel(selectedHero);
+        heroManager.SetModel(selectedHero);
 
         // Update UI elements
         UpdateStats();
         UpdateCharacterSelectedName();
+        UpdateHostIP();
+        UpdateNumOfPlayers();
 
         skillDescription.SetActive(false);
 
@@ -128,6 +134,15 @@ public class PrephaseUI : MonoBehaviour
     }
 
     /// <summary>
+    /// Updates the "Number of the players connected" text in UI.
+    /// </summary>
+    public void UpdateNumOfPlayers()
+    {
+        MatchManager matchManager = GameObject.Find("MatchManager(Clone)").GetComponent<MatchManager>();
+        numOfPlayers.text = matchManager.GetNumOfPlayers().ToString();
+    }
+
+    /// <summary>
     /// Update the "Selected Character" UI text element.
     /// </summary>
     private void UpdateCharacterSelectedName()
@@ -145,6 +160,15 @@ public class PrephaseUI : MonoBehaviour
         physicalDef.text = heroManager.GetPDefence().ToString();
         magicalDef.text = heroManager.GetMDefence().ToString();
         atkSpd.text = heroManager.GetAtkSpeed().ToString();
+    }
+
+    /// <summary>
+    /// Updates the host IP text in UI.
+    /// </summary>
+    private void UpdateHostIP()
+    {
+        NetworkManagerExtension networkManagerExtension = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
+        hostIP.text = networkManagerExtension.networkAddress;
     }
 
     /// <summary>
@@ -166,7 +190,7 @@ public class PrephaseUI : MonoBehaviour
             selectedHero = witch;
         }
 
-        heroManager.setModel(selectedHero);
+        heroManager.SetModel(selectedHero);
         UpdateCharacterSelectedName();
         Debug.Log("Character selected changed to " + selectedHero.heroName);
     }
@@ -190,7 +214,7 @@ public class PrephaseUI : MonoBehaviour
             selectedHero = knight;
         }
 
-        heroManager.setModel(selectedHero);
+        heroManager.SetModel(selectedHero);
         UpdateCharacterSelectedName();
         Debug.Log("Character selected changed to " + selectedHero.heroName);
     }

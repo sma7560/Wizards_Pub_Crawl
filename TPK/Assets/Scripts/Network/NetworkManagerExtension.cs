@@ -9,15 +9,22 @@ using System;
 
 public class NetworkManagerExtension : NetworkManager
 {
+    public MatchManager matchManagerPrefab;
+    private MatchManager matchManager;
+
+    /// <summary>
+    /// Initialize variables.
+    /// </summary>
+    void Start()
+    {
+        matchManager = Instantiate(matchManagerPrefab);
+    }
 
     /// <summary>
     /// Setting up the host via getting the local IP address and using that as host address.
     /// </summary>
     public void StartUpHost()
     {
-        // Setup variables
-        MatchManager matchManager = transform.gameObject.GetComponent<MatchManager>();
-
         // Set networking properties
         SetPort();
         networkAddress = GetLocalIPAddress();
@@ -33,7 +40,7 @@ public class NetworkManagerExtension : NetworkManager
         }
 
         // Start the waiting room of pre-phase
-        transform.gameObject.GetComponent<PrephaseManager>().StartPrephaseWaitingRoom();
+        GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>().StartPrephaseWaitingRoom();
     }
 
     /// <summary>
@@ -41,10 +48,13 @@ public class NetworkManagerExtension : NetworkManager
     /// </summary>
     public void JoinGame()
     {
-        // Setup variables
-        MatchManager matchManager = transform.gameObject.GetComponent<MatchManager>();
+        // Check that MatchManager exists
+        if (matchManager == null)
+        {
+            return;
+        }
 
-        // Update MatchManager with new player
+        // Check that match has not yet exceeded max number of players
         if (!matchManager.AddPlayerToMatch())
         {
             // Max number of players reached; cannot add more
@@ -58,7 +68,7 @@ public class NetworkManagerExtension : NetworkManager
         NetworkManager.singleton.StartClient();
 
         // Update pre-phase with new player
-        transform.gameObject.GetComponent<PrephaseManager>().UpdatePrephase();
+        GameObject.Find("MatchManager(Clone)").GetComponent<PrephaseManager>().UpdatePrephase();
     }
 
     /// <summary>

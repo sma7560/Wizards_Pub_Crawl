@@ -26,7 +26,7 @@ public class DefenderStatePlayTest
         // Setup Defender status
         GameObject networkManagerV2 = GameObject.Find("NetworkManagerV2");
         NetworkManagerExtension networkManagerExtension = networkManagerV2.GetComponent<NetworkManagerExtension>();
-        networkManagerExtension.StartUpHost();
+        //networkManagerExtension.StartUpHost();
 
         // Wait for defender status to be initialized
         yield return new WaitForSeconds(timeToWait);
