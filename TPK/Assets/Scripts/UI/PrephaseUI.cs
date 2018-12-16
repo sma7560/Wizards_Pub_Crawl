@@ -438,7 +438,6 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdateHostIP()
     {
-        NetworkManagerExtension networkManagerExtension = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
-        hostIP.text = networkManagerExtension.networkAddress;
+        hostIP.text = NetworkManagerExtension.GetLocalIPAddress();
     }
 }

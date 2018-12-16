@@ -16,10 +16,6 @@ public class DungeonController : MonoBehaviour
 
     public IUnityService unityService;
 
-    // Match time limit
-    private static bool timeStarted = false;
-    private static float timer = 0f;
-
     private PrephaseManager prephaseManager;
 
     /// <summary>
@@ -31,8 +27,6 @@ public class DungeonController : MonoBehaviour
         {
             unityService = new UnityService();
         }
-
-        timeStarted = true;
     }
 
     /// <summary>
@@ -58,12 +52,6 @@ public class DungeonController : MonoBehaviour
             statsWindow.SetActive(!statsWindow.activeSelf);
         }
 
-        //increment current game time
-        if (timeStarted == true)
-        {
-            timer += Time.deltaTime;
-        }
-
         UpdateEnemyHealthBars();
     }
 
@@ -71,17 +59,6 @@ public class DungeonController : MonoBehaviour
     {
         Debug.Log("MATCH QUIT");
         SceneManager.LoadScene(0);
-    }
-    
-    public void StartMatchTime()
-    {
-        timeStarted = true;
-    }
-
-    //return current game time
-    public float GetTime()
-    {
-        return timer;
     }
 
     /// <summary>

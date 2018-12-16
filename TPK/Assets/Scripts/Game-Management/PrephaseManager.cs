@@ -51,8 +51,8 @@ public class PrephaseManager : NetworkBehaviour
     /// </returns>
     public bool IsCurrentlyInPrephase()
     {
-        if ( state == PrephaseManager.PrephaseState.WaitingForPlayers ||
-             state == PrephaseManager.PrephaseState.RoomFull )
+        if (state == PrephaseManager.PrephaseState.WaitingForPlayers ||
+             state == PrephaseManager.PrephaseState.RoomFull)
         {
             return true;
         }
@@ -78,8 +78,8 @@ public class PrephaseManager : NetworkBehaviour
         }
 
         // Exit RoomFull state if player disconnects
-        if ( state == PrephaseState.RoomFull &&
-            matchManager.GetNumOfPlayers() < matchManager.maxPlayers )
+        if (state == PrephaseState.RoomFull &&
+            matchManager.GetNumOfPlayers() < matchManager.maxPlayers)
         {
             state = PrephaseState.WaitingForPlayers;
             StopCoroutine(DecreaseCountdownTimer());
@@ -122,9 +122,12 @@ public class PrephaseManager : NetworkBehaviour
     {
         if (!isServer) return;
 
+        Debug.Log("Prephase ended");
+
         state = PrephaseState.NotActive;
         countdown = -1;     // set countdown back to default of -1 when prephase is not active
         GameObject.FindGameObjectWithTag("PrephaseUI").SetActive(false);  // disable pre-phase UI
+        StartCoroutine(matchManager.DecrementMatchTime());  // Start decrementing the match timer
     }
 
     /// <summary>
