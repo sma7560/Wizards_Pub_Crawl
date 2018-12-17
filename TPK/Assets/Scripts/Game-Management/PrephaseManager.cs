@@ -98,16 +98,6 @@ public class PrephaseManager : NetworkBehaviour
         yield return new WaitForFixedUpdate();      // Need to wait for Start() function to finish
         state = PrephaseState.WaitingForPlayers;
         countdown = timeLimit;
-
-        // Reset hero status
-        if (GetComponent<HeroManager>() != null)
-        {
-            GameObject hero = GetComponent<HeroManager>().GetHeroObject(matchManager.GetPlayerId());
-            if (hero != null)
-            {
-                hero.GetComponent<HeroController>().ResetHero();
-            }
-        }
     }
 
     /// <returns>

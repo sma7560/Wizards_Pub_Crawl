@@ -84,15 +84,6 @@ public class HeroController : NetworkBehaviour
         }
     }
 
-    /// <summary>
-    /// Sets the hero's status to its initial status.
-    /// </summary>
-    public void ResetHero()
-    {
-        Spawn();
-        score.ResetScore();
-    }
-
     // This function is used to get player direction.
     private void PerformRotation()
     {

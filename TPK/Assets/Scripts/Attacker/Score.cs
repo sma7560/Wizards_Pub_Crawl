@@ -32,12 +32,4 @@ public class Score
         score += increment;
     }
 
-    /// <summary>
-    /// Resets score to 0.
-    /// </summary>
-    public void ResetScore()
-    {
-        score = 0;
-    }
-
 }
