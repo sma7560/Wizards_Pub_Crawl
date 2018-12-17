@@ -296,9 +296,10 @@ GameObject:
   - component: {fileID: 136885870402194014}
   - component: {fileID: 114845151817471360}
   - component: {fileID: 114167101043750000}
+  - component: {fileID: 114414868912833922}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2598,6 +2599,22 @@ MonoBehaviour:
     i15: 254
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114414868912833922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389239392925404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08d59487cc49fee4b9d6ed842028fe73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 1
+  angleRange: 45
+  damage: 1
+  attackType: 2
+  damageType: 0
 --- !u!114 &114502053672769218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2629,6 +2646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98603fe291273804d96d6819fc367f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   compsToDisable: []
 --- !u!114 &114775987007587216
 MonoBehaviour:
@@ -2693,7 +2711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroCam: {fileID: 1742646014484890, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
-  attackerUI: {fileID: 1265683952880122, guid: 19619658169d7a048906d5bcb9ce7d42, type: 2}
+  playerUI: {fileID: 0}
   localTest: 0
   heroCombat: {fileID: 0}
 --- !u!136 &136885870402194014

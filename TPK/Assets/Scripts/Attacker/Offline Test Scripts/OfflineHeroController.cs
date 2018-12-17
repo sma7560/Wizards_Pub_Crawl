@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class OfflineHeroController : MonoBehaviour {
+public class OfflineHeroController : NetworkBehaviour {
     public GameObject attackerUI;
     public Vector3 speed;
     private float moveSpeed;
@@ -12,6 +13,7 @@ public class OfflineHeroController : MonoBehaviour {
     private Vector3 pointToLookAt;
     // Use this for initialization
     void Start () {
+        if (!isLocalPlayer) return;
         moveSpeed = 5.0f;
 
         Debug.Log("Setting up rigid");
@@ -19,13 +21,14 @@ public class OfflineHeroController : MonoBehaviour {
         //StartUI();
 
         // Camera stuff
-        Camera.main.GetComponent<HeroCameraController>().SetTarget(transform);
+        Camera.main.GetComponent<OffHeroCam>().SetTarget(transform);
         mainCam = Camera.main.GetComponent<Camera>();
         ground = new Plane(Vector3.up, Vector3.zero);
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (!isLocalPlayer) return;
         CharacterMovement();
         SetRotation();
         //Debug.Log(heroRigidbody.velocity);

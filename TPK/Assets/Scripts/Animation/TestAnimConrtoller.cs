@@ -77,10 +77,6 @@ public class TestAnimConrtoller : NetworkBehaviour {
                     anim.SetInteger("BasicAtkNum", basicNum);
                     timeElapsedBetween = 0;
                     break;
-                case 1:
-                    basicNum = 2;
-                    anim.SetTrigger("Basic2");
-                    break;
             }
         }
         else if (Input.GetMouseButtonDown(1)) {

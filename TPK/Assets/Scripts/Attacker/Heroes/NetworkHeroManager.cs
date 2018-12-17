@@ -140,11 +140,12 @@ public class NetworkHeroManager : NetworkBehaviour
     }
 
     // This should only work on server. By giving it a damage amount it 
-    public void TakeDamage(int amount, DamageType damageType)
+    [Command]
+    public void CmdTakeDamage(int amount, DamageType damageType)
     {
         // Figure out actual amount taken via a calculation.
-        if (!isServer) return;
-
+        if (!isServer) return; // For Sanity...
+        Debug.Log("I am taking " + amount + " Damage");
         float finalDamage = 0;
 
         switch (damageType)
@@ -162,6 +163,7 @@ public class NetworkHeroManager : NetworkBehaviour
         }
         // Since health is dealt with in integers do some rounding with the finalDamage Calculated before subtracting.
         currentHealth = currentHealth - (int)Mathf.Round(finalDamage);
+        Debug.Log("My Current Health: " + currentHealth + "/" + maxHealth);
     }
 
     // Function for healing back to full health.

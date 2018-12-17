@@ -27,7 +27,7 @@ public class CharacterCombat : NetworkBehaviour
     public void CmdAttack()
     {
         Debug.Log(transform.name + " performs a basic attack.");
-
+        
         // Attack logic for the player (hero)
         if (gameObject.tag == "Player")
         {
