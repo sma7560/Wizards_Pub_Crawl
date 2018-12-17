@@ -8586,7 +8586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98603fe291273804d96d6819fc367f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
   compsToDisable:
   - {fileID: 114191433153756354}
 --- !u!114 &114477179270275634
