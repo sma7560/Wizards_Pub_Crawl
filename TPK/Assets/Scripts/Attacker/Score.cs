@@ -14,16 +14,30 @@ public class Score
         // Initialize score to 0
         score = 0;
     }
-
+    
+    /// <returns>
+    /// Returns the score.
+    /// </returns>
     public int GetScore()
     {
         return score;
     }
 
-    // Increment the score by a value
+    /// <summary>
+    /// Increment the score by a value.
+    /// </summary>
+    /// <param name="increment">Value to increment the score by.</param>
     public void IncreaseScore(int increment)
     {
         score += increment;
+    }
+
+    /// <summary>
+    /// Resets score to 0.
+    /// </summary>
+    public void ResetScore()
+    {
+        score = 0;
     }
 
 }

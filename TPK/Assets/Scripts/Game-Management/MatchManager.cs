@@ -125,4 +125,15 @@ public class MatchManager : NetworkBehaviour
             timeLeftMatch--;
         }
     }
+
+    /// <summary>
+    /// Resets all variables in the match to its initial status.
+    /// </summary>
+    public void ResetMatch()
+    {
+        if (!isServer) return;
+
+        StopCoroutine(DecrementMatchTime());
+        timeLeftMatch = totalMatchTime;
+    }
 }

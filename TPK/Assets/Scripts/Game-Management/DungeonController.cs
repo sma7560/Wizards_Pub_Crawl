@@ -55,10 +55,14 @@ public class DungeonController : MonoBehaviour
         UpdateEnemyHealthBars();
     }
 
+    /// <summary>
+    /// Exits the match and returns to the main menu.
+    /// </summary>
     public void QuitMatch()
     {
         Debug.Log("MATCH QUIT");
-        SceneManager.LoadScene(0);
+        GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().StopHost();
+        SceneManager.LoadScene(SceneManager.GetSceneByName("Menu").buildIndex);
     }
 
     /// <summary>

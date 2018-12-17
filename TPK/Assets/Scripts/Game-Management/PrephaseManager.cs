@@ -52,7 +52,7 @@ public class PrephaseManager : NetworkBehaviour
     public bool IsCurrentlyInPrephase()
     {
         if (state == PrephaseManager.PrephaseState.WaitingForPlayers ||
-             state == PrephaseManager.PrephaseState.RoomFull)
+            state == PrephaseManager.PrephaseState.RoomFull)
         {
             return true;
         }
@@ -77,19 +77,12 @@ public class PrephaseManager : NetworkBehaviour
             StartCoroutine(DecreaseCountdownTimer());   // Start the prephase countdown
         }
 
-        // Exit RoomFull state if player disconnects
-        if (state == PrephaseState.RoomFull &&
-            matchManager.GetNumOfPlayers() < matchManager.maxPlayers)
+        // Exit match if a player disconnects
+        if ((state == PrephaseState.RoomFull ||
+             state == PrephaseState.NotActive) &&
+             matchManager.GetNumOfPlayers() < matchManager.maxPlayers)
         {
-            state = PrephaseState.WaitingForPlayers;
-            StopCoroutine(DecreaseCountdownTimer());
-
-            // Update pre-phase UI countdown element
-            if (GameObject.FindGameObjectWithTag("PrephaseUI") != null)
-            {
-                PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
-                prephaseUI.UpdateTimeLeftUI();
-            }
+            GameObject.Find("EventSystem").GetComponent<DungeonController>().QuitMatch();
         }
     }
 
@@ -105,6 +98,16 @@ public class PrephaseManager : NetworkBehaviour
         yield return new WaitForFixedUpdate();      // Need to wait for Start() function to finish
         state = PrephaseState.WaitingForPlayers;
         countdown = timeLimit;
+
+        // Reset hero status
+        if (GetComponent<HeroManager>() != null)
+        {
+            GameObject hero = GetComponent<HeroManager>().GetHeroObject(matchManager.GetPlayerId());
+            if (hero != null)
+            {
+                hero.GetComponent<HeroController>().ResetHero();
+            }
+        }
     }
 
     /// <returns>
@@ -126,7 +129,6 @@ public class PrephaseManager : NetworkBehaviour
 
         state = PrephaseState.NotActive;
         countdown = -1;     // set countdown back to default of -1 when prephase is not active
-        GameObject.FindGameObjectWithTag("PrephaseUI").SetActive(false);  // disable pre-phase UI
         StartCoroutine(matchManager.DecrementMatchTime());  // Start decrementing the match timer
     }
 

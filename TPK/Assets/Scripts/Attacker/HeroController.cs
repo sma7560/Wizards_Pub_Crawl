@@ -58,7 +58,6 @@ public class HeroController : NetworkBehaviour
 
         // Run startup functions
         StartCamera();
-        SetupUI();
         Spawn();
     }
 
@@ -83,6 +82,15 @@ public class HeroController : NetworkBehaviour
         {
             heroCombat.CmdAttack();
         }
+    }
+
+    /// <summary>
+    /// Sets the hero's status to its initial status.
+    /// </summary>
+    public void ResetHero()
+    {
+        Spawn();
+        score.ResetScore();
     }
 
     // This function is used to get player direction.
@@ -119,13 +127,13 @@ public class HeroController : NetworkBehaviour
         // Check prephase status and setup UI accordingly
         if (prephaseManager.IsCurrentlyInPrephase())
         {
-            // Setup prephase UI
-            Instantiate(prephaseManager.prephaseUI).SetActive(true);
+            Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));      // Destroy player UI
+            Instantiate(prephaseManager.prephaseUI).SetActive(true);    // Start prephase UI
         }
         else
         {
-            // Setup attacker UI
-            Instantiate(playerUI);
+            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
+            Instantiate(playerUI).SetActive(true);                      // Start player UI
 
             // Set health bar image to full
             Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
@@ -138,9 +146,18 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     private void UpdateUI()
     {
-        if (!prephaseManager.IsCurrentlyInPrephase())
+        if (prephaseManager.IsCurrentlyInPrephase())
         {
-            if (GameObject.FindGameObjectWithTag("Health") == null)
+            // Setup UI if Prephase UI is not found
+            if (GameObject.FindGameObjectWithTag("PrephaseUI") == null)
+            {
+                SetupUI();
+            }
+        }
+        else
+        {
+            // Setup UI if Player UI is not found
+            if (GameObject.FindGameObjectWithTag("PlayerUI") == null)
             {
                 SetupUI();
             }
