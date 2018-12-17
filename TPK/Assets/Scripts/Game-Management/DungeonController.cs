@@ -10,6 +10,10 @@ using UnityEngine.UI;
 /// </summary>
 public class DungeonController : MonoBehaviour
 {
+    // Music
+    public AudioClip[] music;
+    private AudioSource audioSource;
+
     // Menu objects
     public GameObject inGameMenu;
     public GameObject statsWindow;
@@ -27,6 +31,8 @@ public class DungeonController : MonoBehaviour
         {
             unityService = new UnityService();
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -39,6 +45,8 @@ public class DungeonController : MonoBehaviour
         {
             prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         }
+
+        UpdateMusic();
 
         // Toggles in-game menu when Esc key pressed
         if (unityService.GetKeyDown(KeyCode.Escape))
@@ -66,20 +74,29 @@ public class DungeonController : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets prephaseManager once MatchManager object is loaded.
+    /// Start music depending on prephase status.
     /// </summary>
-    private IEnumerator SetupPrephaseManager()
+    private void UpdateMusic()
     {
-        yield return new WaitUntil(IsMatchManagerFound);
-        prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-    }
-
-    /// <returns>
-    /// Returns whether or not MatchManager object has been found.
-    /// </returns>
-    private bool IsMatchManagerFound()
-    {
-        return (GameObject.FindGameObjectWithTag("MatchManager") != null);
+        if (prephaseManager != null)
+        {
+            if (prephaseManager.IsCurrentlyInPrephase() &&
+                audioSource.clip != music[0])
+            {
+                // If in pre-phase and music is not already playing, play it
+                audioSource.clip = music[0];
+                audioSource.volume = AudioManager.GetVolume();
+                audioSource.Play();
+            }
+            else if (!prephaseManager.IsCurrentlyInPrephase() &&
+                      audioSource.clip != music[1])
+            {
+                // If in dungeon phase and music is not already playing, play it
+                audioSource.clip = music[1];
+                audioSource.volume = AudioManager.GetVolume();
+                audioSource.Play();
+            }
+        }
     }
 
     // Updates the statuses of all enemy health bars currently in the scene

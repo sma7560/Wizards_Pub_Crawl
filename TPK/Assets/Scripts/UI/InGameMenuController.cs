@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class InGameMenuController : MonoBehaviour
 {
-    public AudioSource audioSource;     // TODO: set this when music is added
-
     private GameObject optionsMenu;
     private GameObject settingsMenu;
     private GameObject graphicsMenu;
@@ -57,30 +55,5 @@ public class InGameMenuController : MonoBehaviour
     {
         TextMeshProUGUI hostIP = GameObject.Find("HostIPAddressText").GetComponent<TextMeshProUGUI>();
         hostIP.text = NetworkManagerExtension.GetLocalIPAddress();
-    }
-
-    /// <summary>
-    /// Sets the volume slider to the correct volume level on the Audio menu.
-    /// </summary>
-    public void SetVolumeSlider()
-    {
-        if (audioSource != null)
-        {
-            Slider volumeSlider = GameObject.Find("VolumeSlider").GetComponent<Slider>();
-            volumeSlider.value = audioSource.volume;
-            volumeSlider.onValueChanged.AddListener(delegate { VolumeChange(volumeSlider); });
-        }
-    }
-
-    /// <summary>
-    /// Sets the volume upon volume slider value change.
-    /// </summary>
-    /// <param name="volumeSlider"></param>
-    private void VolumeChange(Slider volumeSlider)
-    {
-        if (audioSource != null)
-        {
-            audioSource.volume = volumeSlider.value;
-        }
     }
 }

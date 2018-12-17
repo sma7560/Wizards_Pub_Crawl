@@ -138,6 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224604838954564758}
   - component: {fileID: 114351899690889288}
+  - component: {fileID: 114401850857879116}
   m_Layer: 5
   m_Name: VolumeSlider
   m_TagString: Untagged
@@ -1189,7 +1190,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1815187131588802
 GameObject:
   m_ObjectHideFlags: 1
@@ -3506,6 +3507,17 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Scrollbar+ScrollEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &114401850857879116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1044895815077238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 359e59038b405ff46a844cff1bcc6966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114413472572964802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5078,7 +5090,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e035f0bee93558c4eb7479317bf17e64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
 --- !u!114 &114711094016081066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5132,17 +5143,6 @@ MonoBehaviour:
       - m_Target: {fileID: 1335974147463982}
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 114707487373371192}
-        m_MethodName: SetVolumeSlider
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
