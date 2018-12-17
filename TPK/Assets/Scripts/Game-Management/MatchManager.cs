@@ -124,5 +124,12 @@ public class MatchManager : NetworkBehaviour
             yield return new WaitForSeconds(1);
             timeLeftMatch--;
         }
+
+        matchEnd();
+    }
+
+    public void matchEnd()
+    {
+
     }
 }
