@@ -15,6 +15,7 @@ public class MatchManager : NetworkBehaviour
     private int playerId;                       // player ID of the current player
     private readonly int totalMatchTime = 900;  // total match time (default to 15 minutes)
     [SyncVar] private float timeLeftMatch;      // time left in the current match
+    private bool matchEnded = false;
 
     /// <summary>
     /// Initialize variables.
@@ -24,6 +25,16 @@ public class MatchManager : NetworkBehaviour
         if (!isServer) return;          // only the server may initialize MatchManager
         DontDestroyOnLoad(transform);
         timeLeftMatch = totalMatchTime;
+    }
+
+    private void Update()
+    {
+        //end game if match is over
+        if((timeLeftMatch == 0)&(!matchEnded))
+        {
+            matchEnd();
+            matchEnded = !matchEnded;
+        }
     }
 
     /// <summary>
@@ -124,5 +135,10 @@ public class MatchManager : NetworkBehaviour
             yield return new WaitForSeconds(1);
             timeLeftMatch--;
         }
+    }
+
+    public void matchEnd()
+    {
+        GameObject gameOver = Instantiate(Resources.Load("GameOverScreen")) as GameObject;
     }
 }

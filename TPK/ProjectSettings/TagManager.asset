@@ -18,6 +18,7 @@ TagManager:
   - MatchManager
   - SkillDescription
   - PlayerUI
+  - EventSystem
   layers:
   - Default
   - TransparentFX
