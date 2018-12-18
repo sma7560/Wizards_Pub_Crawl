@@ -40,7 +40,7 @@ public class HeroController : NetworkBehaviour
     private NetworkHeroManager heroManager;
     private BasicAttack battack;
     private TestAnimConrtoller animate;
-    private Score score;        // current score of the player
+    private Score score = new Score();        // current score of the player
 
     private bool isDungeonReady = false;
 
@@ -70,7 +70,7 @@ public class HeroController : NetworkBehaviour
 
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         ground = new Plane(Vector3.up, Vector3.zero);
-        score = new Score();
+        //score = new Score();
 
         // Run startup functions
         StartCamera();
@@ -249,5 +249,17 @@ public class HeroController : NetworkBehaviour
     public bool GetKnockedOutStatus()
     {
         return isKnockedOut;
+    }
+
+    //return playerID
+    public int getPlayerId()
+    {
+        return playerId;
+    }
+
+    //return score
+    public int getScore()
+    {
+        return score.GetScore();
     }
 }

@@ -17,11 +17,11 @@ public class GameEndController : MonoBehaviour {
 	void Start () {
         //winLoseScreen.enabled = false;
         mainMenu.onClick.AddListener(taskReturnMainMenu);
-        //get player 1 and 2 score
-        //temp
-        int score1 = 50;
-        int score2 = 40;
-        //*********************
+
+        //get score of all players
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        int score1 = players[0].GetComponent<HeroController>().getScore();
+        int score2 = players[1].GetComponent<HeroController>().getScore();
 
         player1score.SetText(score1.ToString());
         player2score.SetText(score2.ToString());
@@ -31,9 +31,13 @@ public class GameEndController : MonoBehaviour {
         {
             playerWin.SetText("Player 1 wins");
         }
+        else if(score2 > score1)
+        {
+            playerWin.SetText("Player 2 wins");
+        }
         else
         {
-            playerWin.SetText("Player 1 wins");
+            playerWin.SetText("Tie: Neither player wins");
         }
     }
 	
