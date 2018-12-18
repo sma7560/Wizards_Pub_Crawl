@@ -15,9 +15,9 @@ public class TestAnimConrtoller : NetworkBehaviour {
     public float timeElapsedBetween;
     public float timeBetween;
     public float attaking;
-
     public bool isWalking;
-
+    public HeroType myHeroType;
+    
     // Parameters for animator to set
     // FBMove - This is for determining forward backwards movement
     // LRMove - For determining left right movement
@@ -35,7 +35,6 @@ public class TestAnimConrtoller : NetworkBehaviour {
         timeBetween = 1.0f;
         attaking = 0;
         isWalking = false;
-
 
     }
 	
@@ -60,38 +59,56 @@ public class TestAnimConrtoller : NetworkBehaviour {
             anim.SetBool("isWalking", isWalking);
         }
         // See if attacks Are being performed.
-        SetBasicAttack();
+        //SetBasicAttack();
 
     }
-    private void SetBasicAttack() {
+    // This function is for interfacing with the animator
+    public void PlayAnim(SkillType skillType) {
+        switch (skillType) {
+            case SkillType.buff:
+                anim.SetTrigger("Buff");
+                break;
+            case SkillType.magicLight:
+                anim.SetTrigger("MLight");
+                break;
+            case SkillType.magicHeavy:
+                anim.SetTrigger("MHeavy");
+                break;
+            default:
+                break;
+        }
+
+    }
+    public void PlayBasicAttack() {
         // On mouse click.
-        if (Input.GetMouseButtonDown(0) && timeElapsed < timeToReset && basicNum != 2)
+        switch (myHeroType)
         {
-            Debug.Log("Clicked: " + basicNum);
-            switch (basicNum)
-            {
-                case 0:
-                    // Reset the count on first go of basic attacks;
-                    timeElapsed = 0;
-                    basicNum++;
-                    anim.SetInteger("BasicAtkNum", basicNum);
-                    timeElapsedBetween = 0;
-                    break;
-            }
+            case HeroType.range:
+            case HeroType.magic:
+                anim.SetTrigger("MBasic");
+                break;
+            case HeroType.melee:
+                anim.SetTrigger("PBasic");
+                break;
         }
-        else if (Input.GetMouseButtonDown(1)) {
-            anim.SetTrigger("MBasic");
-        }
-        else
-        {
-            timeElapsed += Time.deltaTime;
-            if (timeElapsed > timeToReset)
-            {
-                basicNum = 0;
-                anim.SetInteger("BasicAtkNum", basicNum);
-                timeElapsed = 0;
-            }
-        }
+
+        //if (timeElapsed > timeToReset)
+        //{
+        //    timeElapsed = 0;
+        //    switch (myHeroType) {
+        //        case HeroType.range:
+        //        case HeroType.magic:
+        //            anim.SetTrigger("MBasic");
+        //            break;
+        //        case HeroType.melee:
+        //            anim.SetTrigger("PBasic");
+        //            break;
+        //    }
+        //}
+        //else
+        //{
+        //    timeElapsed += Time.deltaTime;
+        //}
 
     }
     // This function is for setting up the movement for the legs.

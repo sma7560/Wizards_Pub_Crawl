@@ -10,6 +10,9 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterStats))]
 [RequireComponent(typeof(CharacterCombat))]
 [RequireComponent(typeof(Transform))]
+[RequireComponent(typeof(BasicAttack))]
+[RequireComponent(typeof(TestAnimConrtoller))]
+[RequireComponent(typeof(NetworkHeroManager))]
 public class HeroController : NetworkBehaviour
 {
     public GameObject heroCam;
@@ -34,7 +37,12 @@ public class HeroController : NetworkBehaviour
     public CharacterCombat heroCombat;
     private CharacterStats heroStats;
     private CharacterMovement characterMovement;
+    private NetworkHeroManager heroManager;
+    private BasicAttack battack;
+    private TestAnimConrtoller animate;
     private Score score;        // current score of the player
+
+    private bool isDungeonReady = false;
 
     // Use this for initialization
     void Start()
@@ -50,8 +58,16 @@ public class HeroController : NetworkBehaviour
             unityService = new UnityService();
         }
         heroRigidbody = GetComponent<Rigidbody>();
+
+        heroManager = GetComponent<NetworkHeroManager>();
+
+        // These two will be replaced with the network hero manager.
         heroStats = GetComponent<CharacterStats>();
         heroCombat = GetComponent<CharacterCombat>();
+
+        battack = GetComponent<BasicAttack>();
+        animate = GetComponent<TestAnimConrtoller>();
+
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         ground = new Plane(Vector3.up, Vector3.zero);
         score = new Score();
@@ -69,6 +85,15 @@ public class HeroController : NetworkBehaviour
         // Only allow character movement if hero is not knocked out & game is currently not in prephase
         if (!isKnockedOut && !prephaseManager.IsCurrentlyInPrephase())
         {
+            // This will be changed later but setting up the basic attack here. this should be moved to the endphase.
+            // For setting up 
+            if (!isDungeonReady) {
+                isDungeonReady = true;
+                battack.SetAttackParameters(10.0f, heroManager.GetMAttack(), heroManager.heroType);
+                animate.myHeroType = heroManager.heroType;
+
+            }
+
             // Perform character movement controls
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
             PerformRotation();
@@ -80,6 +105,7 @@ public class HeroController : NetworkBehaviour
         // Perform an attack
         if (unityService.GetKeyDown(KeyCode.Space))
         {
+            battack.PerformAttack();
             heroCombat.CmdAttack();
         }
     }
@@ -155,7 +181,7 @@ public class HeroController : NetworkBehaviour
 
             // Update health bar and text
             Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
-            healthImage.fillAmount = (float)heroStats.GetCurrentHealth() / (float)heroStats.maxHealth;
+            healthImage.fillAmount = (float)heroManager.currentHealth / (float)heroManager.maxHealth;
             TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
             healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
 
@@ -200,7 +226,7 @@ public class HeroController : NetworkBehaviour
 
         // Reset variables
         isKnockedOut = false;
-        heroStats.currentHealth = heroStats.maxHealth;
+        heroManager.currentHealth = heroManager.maxHealth;
         transform.gameObject.tag = "Player";
 
         HeroManager heroState = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();

@@ -11,6 +11,12 @@ public class OfflineHeroController : NetworkBehaviour {
     private Plane ground;
     private float rayLength;
     private Vector3 pointToLookAt;
+
+    // For getting stats for the characters.
+    private NetworkHeroManager heroManager;
+    private BasicAttack basicAttackController;
+    private TestAnimConrtoller animController;
+
     // Use this for initialization
     void Start () {
         if (!isLocalPlayer) return;
@@ -18,6 +24,18 @@ public class OfflineHeroController : NetworkBehaviour {
 
         Debug.Log("Setting up rigid");
         heroRigidbody = GetComponent<Rigidbody>();
+
+        Debug.Log("Setting up stats");
+        basicAttackController = GetComponent<BasicAttack>();
+        heroManager = GetComponent<NetworkHeroManager>();
+        animController = GetComponent<TestAnimConrtoller>();
+
+        // Setting up heroManager (Network) This is temporary for the test.
+        SetupStats();
+        // Setting up basic attack
+        basicAttackController.SetAttackParameters(10.0f, heroManager.GetMAttack(), heroManager.heroType);
+        animController.myHeroType = heroManager.heroType;
+
         //StartUI();
 
         // Camera stuff
@@ -31,10 +49,24 @@ public class OfflineHeroController : NetworkBehaviour {
         if (!isLocalPlayer) return;
         CharacterMovement();
         SetRotation();
+        if (Input.GetMouseButtonDown(0)) {
+            basicAttackController.PerformAttack();
+            animController.PlayBasicAttack();
+        }
         //Debug.Log(heroRigidbody.velocity);
         Debug.DrawLine(transform.position, transform.forward * 20 + transform.position, Color.red);
 
 
+
+    }
+    private void SetupStats() {
+        int val = 10;
+        heroManager.SetAtkSpeed(1);
+        heroManager.heroType = HeroType.magic;
+        heroManager.SetMAttack(val);
+        heroManager.SetMDefence(val);
+        heroManager.SetPAttack(val);
+        heroManager.SetPDefence(val);
     }
     private void SetRotation() {
         Ray cameraRay = mainCam.ScreenPointToRay(Input.mousePosition);

@@ -7,64 +7,101 @@ using UnityEngine.Networking;
 public class BasicAttack : NetworkBehaviour {
 
     // Should probably make these private and create getters and setters.
-    public float range;
-    public float magRange;
+    public float range = 0;
+    public float magRange = 0;
     public float angleRange;
-    public int damage;
+    public int damage = 5;
     public HeroType attackType;
-    public DamageType damageType;
+    public DamageType damageType = DamageType.none;
     public GameObject projectilePrefab;
 
     // Use this for initialization
     void Start() {
+        angleRange = 45f;
     }
-
-    //public void SetDamage(int amount, DamageType dtype) {
-
-    //}
-
     // Update is called once per frame
     void Update() {
 
-        if (!isLocalPlayer) return;
-        // The code here is temporary.
-        if (Input.GetKeyDown(KeyCode.F)) {
-            if (attackType == HeroType.melee)
-            {
-                Collider[] aroundMe = Physics.OverlapSphere(this.transform.position, range);
-                DoMelee(aroundMe);
-            }
-            else {
-                CmdDoMagic();
-            }
-        }
-        if (Input.GetMouseButtonDown(1)) {
-            switch (attackType) {
-                case HeroType.magic:
-                case HeroType.range:
-                    attackType = HeroType.melee;
-                    break;
-                case HeroType.melee:
-                    attackType = HeroType.magic;
-                    break;
+        //if (!isLocalPlayer) return;
+        //// The code here is temporary.
+        //if (Input.GetKeyDown(KeyCode.F)) {
+        //    if (attackType == HeroType.melee)
+        //    {
+        //        Collider[] aroundMe = Physics.OverlapSphere(this.transform.position, range);
+        //        CmdDoMelee(aroundMe);
+        //    }
+        //    else {
+        //        CmdDoMagic();
+        //    }
+        //}
+        //if (Input.GetMouseButtonDown(1)) {
+        //    switch (attackType) {
+        //        case HeroType.magic:
+        //        case HeroType.range:
+        //            attackType = HeroType.melee;
+        //            break;
+        //        case HeroType.melee:
+        //            attackType = HeroType.magic;
+        //            break;
 
-            }
-        }
+        //    }
+        //}
 
     }
+
+    // This function shouldnt be called unless by a local player but just incase, if it is called double check for local-ness...
+    public void SetAttackParameters(float r, int dmg, HeroType atype) {
+        if (!isLocalPlayer) return;
+        attackType = atype;
+        switch (attackType) {
+            case HeroType.magic:
+            case HeroType.range:
+                magRange = r;
+                damageType = (attackType == HeroType.magic) ? DamageType.magical : DamageType.physical; 
+                break;
+            case HeroType.melee:
+                range = r;
+                damageType = DamageType.physical;
+                break;
+            default:
+                range = r;
+                magRange = r;
+                damageType = DamageType.none;
+                break;
+        }
+
+
+    }
+    public void PerformAttack() {
+        if (!isLocalPlayer) return;
+        switch (attackType) {
+            case HeroType.magic:
+            case HeroType.range:
+                CmdDoMagic();
+                break;
+            case HeroType.melee:
+                CmdDoMelee();
+                break;
+        }
+    }
+    // This function is a command to spawn the basic attack project tile on the server.
     [Command]
     private void CmdDoMagic() {
         GameObject bolt = Instantiate(projectilePrefab);
-        bolt.transform.position = transform.position + transform.forward*1.5f;
+        bolt.transform.position = transform.position + transform.forward*1f + transform.up*1.5f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 10f;
+        bolt.GetComponent<Projectile>().SetProjectileParams(magRange, damage, damageType); //Give the projectile the parameters;
         NetworkServer.Spawn(bolt);
         Destroy(bolt, magRange);
         
     }
 
-    // This function is 
-    private void DoMelee(Collider[] aroundme) {
+    // This function is a script to perform a melee check when doing a melee attack.
+    [Command]
+    private void CmdDoMelee() {
+        Collider[] aroundme = Physics.OverlapSphere(this.transform.position, range);
+
         for (int i = 0; i < aroundme.Length; i++) {
             if (aroundme[i].tag == "Player" || aroundme[i].tag == "Enemy") {
                 if (aroundme[i].transform.root == transform)
@@ -89,19 +126,14 @@ public class BasicAttack : NetworkBehaviour {
                                 //aroundme[i].GetComponent<NetworkHeroManager>();
                                 if (aroundme[i].GetComponent<NetworkHeroManager>()) {
                                     Debug.Log("Applying Damage...");
-                                    aroundme[i].GetComponent<NetworkHeroManager>().CmdTakeDamage(10, DamageType.none);
+                                    aroundme[i].GetComponent<NetworkHeroManager>().CmdTakeDamage(damage, damageType);
                                     
                                 }
                                 break;
                         }
                     }
-                    //aroundme[i].enabled = false;
-
-
                 }
-                
             }
-
         }
     }
 }
