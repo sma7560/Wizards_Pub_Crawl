@@ -34,8 +34,8 @@ public class HeroController : NetworkBehaviour
 
     private PrephaseManager prephaseManager;
     public IUnityService unityService;
-    public CharacterCombat heroCombat;
-    private CharacterStats heroStats;
+    //public CharacterCombat heroCombat;
+    //private CharacterStats heroStats;
     private CharacterMovement characterMovement;
     private NetworkHeroManager heroManager;
     private BasicAttack battack;
@@ -62,8 +62,8 @@ public class HeroController : NetworkBehaviour
         heroManager = GetComponent<NetworkHeroManager>();
 
         // These two will be replaced with the network hero manager.
-        heroStats = GetComponent<CharacterStats>();
-        heroCombat = GetComponent<CharacterCombat>();
+        //heroStats = GetComponent<CharacterStats>();
+        //heroCombat = GetComponent<CharacterCombat>();
 
         battack = GetComponent<BasicAttack>();
         animate = GetComponent<TestAnimConrtoller>();
@@ -106,7 +106,8 @@ public class HeroController : NetworkBehaviour
         if (unityService.GetKeyDown(KeyCode.Space))
         {
             battack.PerformAttack();
-            heroCombat.CmdAttack();
+            //heroCombat.CmdAttack();
+            animate.PlayBasicAttack();
         }
     }
 
@@ -183,9 +184,9 @@ public class HeroController : NetworkBehaviour
             Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
             healthImage.fillAmount = (float)heroManager.currentHealth / (float)heroManager.maxHealth;
             TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
-            healthText.text = heroStats.GetCurrentHealth() + "/" + heroStats.maxHealth;
+            healthText.text = heroManager.currentHealth + "/" + heroManager.maxHealth;
 
-            if (heroStats.currentHealth <= 0)
+            if (heroManager.currentHealth <= 0)
             {
                 KnockedOut();
             }
