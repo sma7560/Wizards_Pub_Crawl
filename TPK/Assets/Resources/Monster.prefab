@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc8fda00bcbffc439b0f630d0d6a72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localTest: 0
   lookRadius: 9
 --- !u!114 &114239064521409832
 MonoBehaviour:
@@ -325,8 +326,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e8de677b093974d84d2dd9045c0927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  localTest: 0
   currentHealth: 0
+  maxHealth: 50
   damage:
     value: 20
   defence:
