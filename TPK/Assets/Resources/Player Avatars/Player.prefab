@@ -288,13 +288,14 @@ GameObject:
   - component: {fileID: 95648987732545322}
   - component: {fileID: 114315844500586120}
   - component: {fileID: 114775987007587216}
+  - component: {fileID: 114845151817471360}
   - component: {fileID: 114507048987338988}
+  - component: {fileID: 114430560078861062}
   - component: {fileID: 114502053672769218}
   - component: {fileID: 54095942084314682}
   - component: {fileID: 114825702726938576}
   - component: {fileID: 114915267049302874}
   - component: {fileID: 136885870402194014}
-  - component: {fileID: 114845151817471360}
   - component: {fileID: 114167101043750000}
   - component: {fileID: 114414868912833922}
   m_Layer: 0
@@ -2618,6 +2619,25 @@ MonoBehaviour:
   attackType: 2
   damageType: 0
   projectilePrefab: {fileID: 0}
+--- !u!114 &114430560078861062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389239392925404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42059b13fd91913448eb4139a1d42c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 0
+  modAtkSpeed: 0
+  modMDefence: 0
+  modPDefence: 0
+  modMAttack: 0
+  modPAttack: 0
+  heroIndex: 0
+  heroType: 0
 --- !u!114 &114502053672769218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2717,8 +2737,6 @@ MonoBehaviour:
   heroCam: {fileID: 1742646014484890, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
   playerUI: {fileID: 1008096885342384, guid: 19619658169d7a048906d5bcb9ce7d42, type: 2}
   localTest: 0
-  heroCombat: {fileID: 114256848107287022, guid: 9ee1f342ba874a045877ca803e15bdce,
-    type: 2}
 --- !u!136 &136885870402194014
 CapsuleCollider:
   m_ObjectHideFlags: 1

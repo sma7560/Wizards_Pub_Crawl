@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d95222f5e77fdac41becb17d82764af4, type: 3}
+  m_Name: DeathBall
+  m_EditorClassIdentifier: 
+  skillName: Death Ball
+  skillDescription: A ball of pure damage.
+  skillIcon: {fileID: 21300000, guid: ab84d013438f84c41aef7c0ad9337a37, type: 3}
+  skillCoolDown: 20
+  skillType: 1
+  castType: 1
+  skillRange: 20
+  damageType: 1
+  damageAmount: 100
+  projectilePrefabIndex: 1
+  numProjectiles: 1
+  projectileSpeed: 2
+  ccType: 2
+  moveType: 2
+  movementDistance: 0
+  visualEffectIndex: 0

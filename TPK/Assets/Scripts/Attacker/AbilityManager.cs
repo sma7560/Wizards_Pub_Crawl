@@ -1,44 +1,54 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 // This script will have to be reworked.
-public class AbilityManager : MonoBehaviour {
+public class AbilityManager : NetworkBehaviour {
     public Skill[] equippedSkills;
+    public float[] nextActiveTime; // Keep tracks of cooldowns.
     public Skill[] knownSkills; // This should probably be a list.
-    private Transform origin;
-    private Rigidbody playerRigid;
+    //private Transform origin;
+    //private Rigidbody playerRigid;
     private int currMarker;
+    private AbilityCaster caster;
 
 	// Use this for initialization
 	void Start () {
-        origin = gameObject.GetComponent<Transform>();
-        playerRigid = gameObject.GetComponent<Rigidbody>();
+        if (!isLocalPlayer) return;
+        caster = GetComponent<AbilityCaster>();
+        nextActiveTime = new float[equippedSkills.Length];
         for (int i = 0; i<equippedSkills.Length; i++) {
             //if (equippedSkills[i] != null)
-                //equippedSkills[i].Initialize(origin, playerRigid);
+            //equippedSkills[i].Initialize(origin, playerRigid);
+            nextActiveTime[i] = 0;
         }
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.Alpha1) && equippedSkills[0] != null) {
+        if (!isLocalPlayer) return;
+        if (Input.GetKeyDown(KeyCode.Alpha1) && equippedSkills[0] != null && nextActiveTime[0] < Time.time) {
             CastSkill(0);
+            nextActiveTime[0] = Time.time + equippedSkills[0].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && equippedSkills[1] != null)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && equippedSkills[1] != null && nextActiveTime[1] < Time.time)
         {
             CastSkill(1);
+            nextActiveTime[1] = Time.time + equippedSkills[1].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3) && equippedSkills[2] != null)
+        if (Input.GetKeyDown(KeyCode.Alpha3) && equippedSkills[2] != null && nextActiveTime[2] < Time.time)
         {
             CastSkill(2);
+            nextActiveTime[2] = Time.time + equippedSkills[2].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4) && equippedSkills[3] != null)
+        if (Input.GetKeyDown(KeyCode.Alpha4) && equippedSkills[3] != null && nextActiveTime[3] < Time.time)
         {
             CastSkill(3);
+            nextActiveTime[3] = Time.time + equippedSkills[3].skillCoolDown;
         }
 
     }
@@ -67,6 +77,8 @@ public class AbilityManager : MonoBehaviour {
     }
     public void CastSkill(int index)
     {
+        Debug.Log("Casting a Skill");
+        caster.CastSkill(equippedSkills[index]);
         //equippedSkills[index].Cast();
     }
 }

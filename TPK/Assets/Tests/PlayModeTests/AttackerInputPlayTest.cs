@@ -185,7 +185,7 @@ public class AttackerInputPlayTest
 
         // Substitute CharacterCombat in HeroController
         var heroCombat = Substitute.For<CharacterCombat>();
-        heroController.heroCombat = heroCombat;
+        //heroController.heroCombat = heroCombat;
 
         // Substitute UnityService to mock player input
         var unityService = Substitute.For<IUnityService>();
