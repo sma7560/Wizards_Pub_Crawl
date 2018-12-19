@@ -257,6 +257,12 @@ public class HeroController : NetworkBehaviour
         return playerId;
     }
 
+	//add score
+	public void addScore(int s)
+	{
+		score.IncreaseScore (s);
+	}
+
     //return score
     public int getScore()
     {

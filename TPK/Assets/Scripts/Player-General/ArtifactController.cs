@@ -39,14 +39,10 @@ public class ArtifactController : MonoBehaviour {
         }
     }
 
-    private Transform artifactTransform;
-    //private Rigidbody artifactBody;
-
     // Use this for initialization
     void Start()
     {
-        artifactTransform = GetComponent<Transform>();
-		normalscale = artifactTransform.localScale;
+		normalscale = transform.localScale;
         //artifactBody = GetComponent<Rigidbody>();
     }
 
@@ -56,8 +52,11 @@ public class ArtifactController : MonoBehaviour {
         //if being carried, update location of artifact to where the carrier is
         if (isCarried)
         {
-			artifactTransform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 4, playerThatOwns.transform.position.z);
+			transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 4, playerThatOwns.transform.position.z);
         }
+
+		//rotation animation
+		transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f);
     }
 
     //set player that "picked" up artifact
@@ -68,18 +67,21 @@ public class ArtifactController : MonoBehaviour {
 		case ("Player"):
 			if (!isCarried) {
 				//make object float above character model's head
-				artifactTransform.localScale = smallscale;
+				transform.localScale = smallscale;
 				playerThatOwns = col.gameObject;
 				ownerID = playerThatOwns.GetComponent<HeroController> ().getPlayerId ();
 				ownerSpawn = GameObject.FindGameObjectWithTag ("Match Manager").GetComponent<HeroManager> ().GetSpawnLocationOfPlayer (ownerID);
 				isCarried = true;
 			}
 			break;
-		case ("Spawn"):			//Player entercores point
+		case ("Spawn"):			//Player enters scoring location (spawn point)
 			if (isCarried) {
 				//need to check that the spawn is the right one for the player carrying the artifact
-				if (Vector3.Distance (artifactTransform.position, ownerSpawn) <= 5) {
-					playerThatOwns.GetComponent<HeroController>().
+				if (Vector3.Distance (transform.position, ownerSpawn) <= 5) {
+					playerThatOwns.GetComponent<HeroController> ().addScore (1);		//adds a point to scoring player, then deletes itself
+					//TODO change to tag of GameObject with the artifact spawn script
+					GameObject.FindGameObjectWithTag("TAG GOES HERE").GetComponent<ArtifactSpawn>().SpawnArifactRandom();
+					Destroy (gameObject);
 				}
 			}
 			break;
@@ -92,7 +94,7 @@ public class ArtifactController : MonoBehaviour {
         playerThatOwns = null;
         isCarried = false;
         //scale size back up
-		artifactTransform.localScale = normalscale;
-		artifactTransform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y - 4, playerThatOwns.transform.position.z);
+		transform.localScale = normalscale;
+		transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y - 4, playerThatOwns.transform.position.z);
     }
 }
