@@ -29,6 +29,7 @@ public class AbilityCaster : NetworkBehaviour {
     // Order Of events: 1. Determine how to cast and what to affect. 2.Determine if there is movement included. 3. play the visuals associated.
     // This will probably be a command.
     public void CastSkill(Skill skillToCast) {
+        Debug.Log("I am localplayer: " + isLocalPlayer);
         if (!isLocalPlayer) return;
         //Debug.Log(skillToCast.castType);
         currentCastSkill = skillToCast;

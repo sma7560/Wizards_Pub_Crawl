@@ -57,10 +57,10 @@ public class CharacterCombat : NetworkBehaviour
     // Performs an attack on an specific object (ie. a hero)
     public void Attack(Transform attackedObject)
     {
-        CharacterStats attackedStats = attackedObject.GetComponent<CharacterStats>();
+        NetworkHeroManager attackedStats = attackedObject.GetComponent<NetworkHeroManager>();
         if (attackedStats != null && attackCooldown <= 0)
         {
-            attackedStats.TakeDamage(myStats.damage.GetValue());
+            attackedStats.CmdTakeDamage(myStats.damage.GetValue(), DamageType.physical);
             Debug.Log(attackedStats.currentHealth);
             attackCooldown = 1f / myStats.attackSpeed.GetValue();
         }

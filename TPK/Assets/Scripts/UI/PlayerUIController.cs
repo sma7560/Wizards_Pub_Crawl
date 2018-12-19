@@ -96,6 +96,7 @@ public class PlayerUIController : MonoBehaviour
         {
             if (abilityManager.equippedSkills[i] != null)
             {
+                Debug.Log(i + "spot is being faulty");
                 int cooldown = (int)(Math.Ceiling(abilityManager.nextActiveTime[i] - Time.time));
                 Image skillImg = GameObject.Find("PlayerUISkill" + (i + 1)).GetComponent<Image>();
 
