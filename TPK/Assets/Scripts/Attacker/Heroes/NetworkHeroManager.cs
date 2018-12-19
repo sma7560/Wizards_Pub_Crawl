@@ -128,8 +128,11 @@ public class NetworkHeroManager : NetworkBehaviour
     // This function should set up which model should be loaded.
     public void SetModel(Hero myHero)
     {
+        transform.GetChild(heroIndex).gameObject.SetActive(false);
         heroIndex = myHero.childIndex;
         heroType = myHero.heroType;
+        transform.GetChild(heroIndex).gameObject.SetActive(true);
+
     }
 
     // Set a basic attack to be active
