@@ -265,8 +265,10 @@ public class NetworkHeroManager : NetworkBehaviour
                 finalDamage = amount;
                 break;
         }
-        // Since health is dealt with in integers do some rounding with the finalDamage Calculated before subtracting.
+        // Since health is dealt with in integers do some rounding with the finalDamage Calculated before subtractingd.
+        Debug.Log("Damage: " + Mathf.Round(finalDamage));
         currentHealth = currentHealth - (int)Mathf.Round(finalDamage);
+
         Debug.Log("My Current Health: " + currentHealth + "/" + maxHealth);
     }
 
@@ -278,6 +280,7 @@ public class NetworkHeroManager : NetworkBehaviour
     [Command]
     public void CmdSetFullHealth()
     {
+        Debug.Log("Setting to Full Health");
         currentHealth = maxHealth;
     }
 
