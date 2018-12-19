@@ -54,7 +54,7 @@ public class PrephaseUI : MonoBehaviour
 
     // Default heroes
     private Hero king;
-    private Hero witch;
+    private Hero wizard;
     private Hero rogue;
 
     // Currently selected hero
@@ -169,7 +169,7 @@ public class PrephaseUI : MonoBehaviour
     
     /// <summary>
     /// Functionality for changing character selected when the corresponding button is pressed.
-    /// Order is king < witch < rogue.
+    /// Order is king < wizard < rogue.
     /// </summary>
     public void ChangeCharacterSelectionLeft()
     {
@@ -177,13 +177,13 @@ public class PrephaseUI : MonoBehaviour
         {
             selectedHero = rogue;
         }
-        else if (selectedHero == witch)
+        else if (selectedHero == wizard)
         {
             selectedHero = king;
         }
         else if (selectedHero == rogue)
         {
-            selectedHero = witch;
+            selectedHero = wizard;
         }
 
         networkHeroManager.SetModel(selectedHero);
@@ -192,15 +192,15 @@ public class PrephaseUI : MonoBehaviour
 
     /// <summary>
     /// Functionality for changing character selected when the corresponding button is pressed.
-    /// Order is king > witch > rogue.
+    /// Order is king > wizard > rogue.
     /// </summary>
     public void ChangeCharacterSelectionRight()
     {
         if (selectedHero == king)
         {
-            selectedHero = witch;
+            selectedHero = wizard;
         }
-        else if (selectedHero == witch)
+        else if (selectedHero == wizard)
         {
             selectedHero = rogue;
         }
@@ -374,7 +374,7 @@ public class PrephaseUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up the default hero types of king, witch, and rogue.
+    /// Sets up the default hero types of king, wizard, and rogue.
     /// </summary>
     private void SetupDefaultHeroes()
     {
@@ -386,18 +386,18 @@ public class PrephaseUI : MonoBehaviour
             childIndex = 0
         };
 
-        witch = new Hero
+        wizard = new Hero
         {
             heroType = HeroType.magic,
-            heroName = "Witch",
-            childIndex = 1
+            heroName = "Wizard",
+            childIndex = 2
         };
 
         rogue = new Hero
         {
             heroType = HeroType.melee,
             heroName = "Rogue",
-            childIndex = 2
+            childIndex = 1
         };
 
         SetupDefaultStats();
