@@ -21,6 +21,7 @@ TagManager:
   - EventSystem
   - Artifact
   - SpawnRoom
+  - ArtifactSpawnControl
   layers:
   - Default
   - TransparentFX

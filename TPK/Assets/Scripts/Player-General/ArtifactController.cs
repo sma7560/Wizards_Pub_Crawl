@@ -52,7 +52,11 @@ public class ArtifactController : MonoBehaviour {
         //if being carried, update location of artifact to where the carrier is
         if (isCarried)
         {
-			transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 4, playerThatOwns.transform.position.z);
+			transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3, playerThatOwns.transform.position.z);
+			if ( playerThatOwns.GetComponent<HeroController> ().GetKnockedOutStatus() ) {
+				//player is knocked out, so he drops the artifact
+				droppedArtifact();
+			}
         }
 
 		//rotation animation
@@ -65,15 +69,15 @@ public class ArtifactController : MonoBehaviour {
 		switch (col.gameObject.transform.tag)
         {
 		case ("Player"):
-			Debug.Log ("Player " + ownerID + " has taken the artifact!");
-
-			if (!isCarried) {
+			//check to make sure the player isn't knocked out
+			if ( !isCarried && !( col.GetComponent<HeroController>().GetKnockedOutStatus() ) ) {
 				//make object float above character model's head
 				transform.localScale = smallscale;
 				playerThatOwns = col.gameObject;
 				ownerID = playerThatOwns.GetComponent<HeroController> ().getPlayerId ();
-				ownerSpawn = GameObject.FindGameObjectWithTag ("Match Manager").GetComponent<HeroManager> ().GetSpawnLocationOfPlayer (ownerID);
+				ownerSpawn = GameObject.FindGameObjectWithTag ("MatchManager").GetComponent<HeroManager> ().GetSpawnLocationOfPlayer (ownerID);
 				isCarried = true;
+				Debug.Log ("Player " + ownerID + " has taken the artifact!");
 			}
 			break;
 		case ("SpawnRoom"):			//Player enters scoring location (spawn point)
@@ -81,8 +85,7 @@ public class ArtifactController : MonoBehaviour {
 				//need to check that the spawn is the right one for the player carrying the artifact
 				if (Vector3.Distance (transform.position, ownerSpawn) <= 5) {
 					playerThatOwns.GetComponent<HeroController> ().addScore (1);		//adds a point to scoring player, then deletes itself
-					//TODO change to tag of GameObject with the artifact spawn script
-					GameObject.FindGameObjectWithTag("TAG GOES HERE").GetComponent<ArtifactSpawn>().SpawnArifactRandom();
+					GameObject.FindGameObjectWithTag("ArtifactSpawnControl").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
 					Destroy (gameObject);
 				}
 			}
@@ -93,10 +96,10 @@ public class ArtifactController : MonoBehaviour {
     //artifact has been "dropped"
     public void droppedArtifact()
     {
+		transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y - 3, playerThatOwns.transform.position.z);
         playerThatOwns = null;
         isCarried = false;
         //scale size back up
 		transform.localScale = normalscale;
-		transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y - 4, playerThatOwns.transform.position.z);
     }
 }

@@ -16,8 +16,8 @@ public class HeroManager : MonoBehaviour
     {
         // set initial spawn locations
         spawnLocations = new List<Vector3>();
-        AddSpawnLocation(new Vector3(0, 0, 0));         // spawn location of Player 1
-        AddSpawnLocation(new Vector3(117f, 0, -42f));   // spawn location of Player 2
+        AddSpawnLocation(new Vector3(-25.5f, 0, 40.5f));         // spawn location of Player 1
+        AddSpawnLocation(new Vector3(-25.5f, 0, -39.5f));   // spawn location of Player 2
     }
 
     /// <summary>

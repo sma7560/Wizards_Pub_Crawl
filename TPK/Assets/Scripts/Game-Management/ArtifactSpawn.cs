@@ -9,8 +9,9 @@ public class ArtifactSpawn : NetworkBehaviour {
 
 	public GameObject artifact;
 	public IUnityService unityService;
+	private GameObject spawn;
 
-	int maxArtifacts;					//maximum number of artifacts that will appear at once (n players - 1)
+	int maxArtifacts;					//maximum number of artifacts that will appear at once (players - 1)
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +23,7 @@ public class ArtifactSpawn : NetworkBehaviour {
 			unityService = new UnityService ();
 		}
 
-		SpawnArifactRandom ();
+		SpawnArtifactRandom ();
 		
 	}
 	
@@ -32,16 +33,18 @@ public class ArtifactSpawn : NetworkBehaviour {
 	}
 
 	//spawns artifact at a random spawn location, to be called when an artifact is picked up
-	public void SpawnArifactRandom(){
+	public void SpawnArtifactRandom(){
 		if (!isServer)
 			return;						//only called on server 
 
 		int i = Random.Range (0, spawnlocations.Length);
-		Vector3 location = spawnlocations [i].transform.position;
+		spawn = spawnlocations [i];
+		Vector3 location = spawn.transform.position;
 		spawnArtifact(location, Quaternion.identity);
 	}
 
 	private void spawnArtifact(Vector3 location, Quaternion rotation){
+		Debug.Log ("A new artifact has appeared at " + location.x + ", " + location.y + ", " + location.z);
 		GameObject tempArtifact;
 		tempArtifact = unityService.Instantiate(artifact, location, rotation);
 		NetworkServer.Spawn (tempArtifact);
