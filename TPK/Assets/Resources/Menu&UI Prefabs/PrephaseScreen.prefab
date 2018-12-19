@@ -1399,6 +1399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114016097333528094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1412,6 +1413,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114026152453178010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1775,6 +1777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114077244637404692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1908,7 +1911,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 2ffa3f59f64f64842ab866a237e7293a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2042,6 +2045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114143446676542630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2243,6 +2247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114196235050434832
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2256,6 +2261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114249515747473528
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2275,7 +2281,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 37a9743b8dd27204d8fdec6965095a57, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2427,6 +2433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114307820344145446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2446,7 +2453,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: da889fe38a98d3f43b4826b15926c76f, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2465,10 +2472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4daaed0dcf2a6de45bb22a0ff718b928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill1: 0
-  skill2: 0
-  skill3: 0
-  skill4: 0
+  skillDescription: {fileID: 0}
+  skillDescriptionText: {fileID: 0}
+  skillTitleText: {fileID: 0}
 --- !u!114 &114322167560843722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2714,7 +2720,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: aaa82c9cbf35cd0478fe920203e44043, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2768,7 +2774,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 018331ed1bc74fb409e6f95883549c32, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2838,7 +2844,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 01a3f29ed14b9f441968900af68dc4e5, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3449,6 +3455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114517871167525904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3896,6 +3903,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114572529435835670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4061,7 +4069,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 3c010b5399731a54987d91fd9f471047, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4115,7 +4123,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 0fc0a810bad4b6441beaf8b5e885ff22, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4584,7 +4592,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 1c7f2d566be9d8f468d4ea2e8e3158b5, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4671,6 +4679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114728387241947070
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4858,7 +4867,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: df8386f3a90b943499b69e1cc68fdc55, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4879,6 +4888,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114821148408273476
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4892,6 +4902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114850477189026448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5264,6 +5275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114899862969410374
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5667,6 +5679,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Delegates: []
   delegates: []
+  skill: {fileID: 0}
 --- !u!114 &114996144138558518
 MonoBehaviour:
   m_ObjectHideFlags: 1

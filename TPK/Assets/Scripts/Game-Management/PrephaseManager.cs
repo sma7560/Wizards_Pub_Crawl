@@ -20,7 +20,7 @@ public class PrephaseManager : NetworkBehaviour
 
     public GameObject prephaseUI;           // Prephase UI prefab object to be used during prephase
 
-    private readonly int timeLimit = 10;    // value which the countdown starts from when activated
+    private readonly int timeLimit = 3;    // value which the countdown starts from when activated
     private MatchManager matchManager;      // MatchManager to get current num of players
     [SyncVar] private PrephaseState state;  // current status of the prephase
     [SyncVar] private int countdown;        // countdown timer of time left in prephase stage; -1 when prephase is not active
@@ -98,6 +98,8 @@ public class PrephaseManager : NetworkBehaviour
         yield return new WaitForFixedUpdate();      // Need to wait for Start() function to finish
         state = PrephaseState.WaitingForPlayers;
         countdown = timeLimit;
+
+        UpdatePrephase();
     }
 
     /// <returns>

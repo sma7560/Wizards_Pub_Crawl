@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StatWindowUI : MonoBehaviour
 {
     public GameObject skillDescription;
+    public TextMeshProUGUI skillDescriptionText;
+    public TextMeshProUGUI skillDescriptionTitleText;
 
     private int playerId;
     private NetworkHeroManager networkHeroManager;
+    private HeroManager heroManager;
 
     /// <summary>
     /// Setup UI elements when stat window is active.
@@ -20,13 +24,33 @@ public class StatWindowUI : MonoBehaviour
         playerId = matchManager.GetPlayerId();
 
         // Get networkHeroManager for hero stats
-        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         networkHeroManager = heroManager.GetHeroObject(playerId).GetComponent<NetworkHeroManager>();
 
         // Set UI elements
         skillDescription.SetActive(false);  // set to inactive by default
+        SetupSkills();
         SetupStats();
         SetupAvatar();
+    }
+
+    /// <summary>
+    /// Setup the skill UI elements to match player's equipped skills.
+    /// </summary>
+    private void SetupSkills()
+    {
+        AbilityManager abilityManager = heroManager.GetHeroObject(playerId).GetComponent<AbilityManager>();
+        
+        for (int i = 0; i < abilityManager.equippedSkills.Length; i++)
+        {
+            if (abilityManager.equippedSkills[i] != null)
+            {
+                GameObject skill = GameObject.Find("StatWindowSkill" + (i + 1));
+                Image skillImg = skill.GetComponent<Image>();
+                skillImg.sprite = abilityManager.equippedSkills[i].skillIcon;   // set sprite image
+                skill.GetComponent<SkillHoverDescription>().skill = abilityManager.equippedSkills[i];   // Set skill description
+            }
+        }
     }
 
     /// <summary>

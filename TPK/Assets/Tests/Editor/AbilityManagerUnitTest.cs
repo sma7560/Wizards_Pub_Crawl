@@ -21,11 +21,11 @@ public class AbilityManagerUnitTest
         AbilityManager abilityManager = gameObject.AddComponent<AbilityManager>();
 
         // Attempt to add equip more than 4 skills
-        abilityManager.EquipSkill(0);
-        abilityManager.EquipSkill(1);
-        abilityManager.EquipSkill(2);
-        abilityManager.EquipSkill(3);
-        abilityManager.EquipSkill(4);
+        //abilityManager.EquipSkill(0);
+        //abilityManager.EquipSkill(1);
+        //abilityManager.EquipSkill(2);
+        //abilityManager.EquipSkill(3);
+        //abilityManager.EquipSkill(4);
 
         // Assert that there are a max of 4 equipped skills
         Assert.LessOrEqual(abilityManager.equippedSkills.Length, 4, "There are more than 4 skills equipped!");
@@ -67,10 +67,10 @@ public class AbilityManagerUnitTest
         AbilityManager abilityManager = gameObject.AddComponent<AbilityManager>();
 
         // Equip skills
-        abilityManager.EquipSkill(1);
-        abilityManager.EquipSkill(1);
-        abilityManager.EquipSkill(0);
-        abilityManager.EquipSkill(2);
+        //abilityManager.EquipSkill(1);
+        //abilityManager.EquipSkill(1);
+        //abilityManager.EquipSkill(0);
+        //abilityManager.EquipSkill(2);
 
         // Assert that correct skills are now equipped
         Assert.AreEqual(abilityManager.knownSkills[1], abilityManager.equippedSkills[0], "Equipped skill is not the expected skill!");
@@ -95,10 +95,10 @@ public class AbilityManagerUnitTest
         abilityManager.knownSkills[0] = skill;
 
         // Equip mock skill on all 4 skill slots
-        abilityManager.EquipSkill(0);
-        abilityManager.EquipSkill(0);
-        abilityManager.EquipSkill(0);
-        abilityManager.EquipSkill(0);
+        //abilityManager.EquipSkill(0);
+        //abilityManager.EquipSkill(0);
+        //abilityManager.EquipSkill(0);
+        //abilityManager.EquipSkill(0);
 
         // Cast skills
         abilityManager.CastSkill(0);
