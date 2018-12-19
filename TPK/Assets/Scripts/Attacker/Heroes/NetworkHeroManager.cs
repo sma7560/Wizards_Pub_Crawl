@@ -174,22 +174,28 @@ public class NetworkHeroManager : NetworkBehaviour
     /// <param name="myHero">The hero to set the model of.</param>
     public void SetModel(Hero myHero)
     {
-        if (!isServer && isLocalPlayer)
-        {
-            Debug.Log("SetModel() called for client");
+        MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
 
-            // Get managers
-            MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-            HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        // Setup the hero object we want to change the model of
+        GameObject hero = heroManager.GetHeroObject(matchManager.GetPlayerId());
+        CmdSetModel(hero, myHero);
+        //if (!isServer && isLocalPlayer)
+        //{
+        //    Debug.Log("SetModel() called for client");
 
-            // Setup the hero object we want to change the model of
-            GameObject hero = heroManager.GetHeroObject(matchManager.GetPlayerId());
-            CmdSetModel(hero, myHero);
-        }
-        else if (isServer)
-        {
-            LocalSetModel(transform, myHero);
-        }
+        //    // Get managers
+        //    MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        //    HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+
+        //    // Setup the hero object we want to change the model of
+        //    GameObject hero = heroManager.GetHeroObject(matchManager.GetPlayerId());
+        //    CmdSetModel(hero, myHero, matchManager.GetPlayerId());
+        //}
+        //else if (isServer)
+        //{
+        //    LocalSetModel(transform, myHero);
+        //}
     }
 
     /// <summary>
@@ -201,7 +207,18 @@ public class NetworkHeroManager : NetworkBehaviour
     private void CmdSetModel(GameObject hero, Hero myHero)
     {
         Debug.Log("CmdSetModel called");
-        LocalSetModel(hero.transform, myHero);
+        //LocalSetModel(hero.transform, myHero);
+        RpcSetModel(hero, myHero);
+    }
+
+    [ClientRpc]
+    private void RpcSetModel(GameObject hero, Hero myHero) {
+
+        //Debug.Log("RPC() called for Player " + hero.GetComponent<HeroController>().getPlayerId());
+        hero.transform.GetChild(heroIndex).gameObject.SetActive(false);
+        heroIndex = myHero.childIndex;
+        heroType = myHero.heroType;
+        hero.transform.GetChild(heroIndex).gameObject.SetActive(true);
     }
 
     /// <summary>

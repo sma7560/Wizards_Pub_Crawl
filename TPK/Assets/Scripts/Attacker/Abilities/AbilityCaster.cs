@@ -104,7 +104,7 @@ public class AbilityCaster : NetworkBehaviour {
     private void CmdCastProjectile(float range, int damage, DamageType dtype, float speed,int pindex) {
 
         GameObject bolt = Instantiate(projectiles[pindex]);
-        bolt.transform.position = transform.position + transform.forward * 1f + transform.up * 1.5f;
+        bolt.transform.position = transform.position + transform.forward * 1f + transform.up * 1f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * speed;
         bolt.GetComponent<BaseProjectile>().SetProjectileParams(range, damage, dtype); //Give the projectile the parameters;
