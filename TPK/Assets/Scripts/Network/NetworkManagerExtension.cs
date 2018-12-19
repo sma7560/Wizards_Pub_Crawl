@@ -30,7 +30,7 @@ public class NetworkManagerExtension : NetworkManager
         NetworkServer.Reset();
         NetworkClient client = NetworkManager.singleton.StartHost();
         NetworkServer.Spawn(matchManager.gameObject);   // Instantiate MatchManager on the server
-
+        Debug.Log(client.connection);
         // Update MatchManager with new player
         if (!matchManager.AddPlayerToMatch(client.connection))
         {

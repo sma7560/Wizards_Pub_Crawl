@@ -10,6 +10,11 @@ public class DeathBall : BaseProjectile {
         switch (col.collider.tag)
         {
             case "Enemy":
+                if (col.collider.GetComponent<EnemyStats>())
+                {
+                    // This will change.
+                    col.collider.GetComponent<EnemyStats>().CmdTakeDamage(damage);
+                }
                 Destroy(gameObject);
                 break;
             case "Player":

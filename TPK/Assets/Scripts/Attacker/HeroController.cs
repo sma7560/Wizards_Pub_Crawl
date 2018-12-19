@@ -208,7 +208,7 @@ public class HeroController : NetworkBehaviour
             transform.Rotate(90, 0, 0);                     //turn sideways to show knocked out
 
             Debug.Log("Player " + playerId + " is knocked out");
-
+            
             // starts timer for length of time that character remains knocked out
             StartCoroutine(KnockOutTimer(deathTimer));
         }
@@ -227,7 +227,8 @@ public class HeroController : NetworkBehaviour
 
         // Reset variables
         isKnockedOut = false;
-        heroManager.currentHealth = heroManager.maxHealth;
+        //heroManager.currentHealth = heroManager.maxHealth;
+        heroManager.SetFullHealth();
         transform.gameObject.tag = "Player";
 
         HeroManager heroState = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();

@@ -18,7 +18,15 @@ public class CharacterStats : NetworkBehaviour
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(int dmg)
+    private void Update()
+    {
+        if (currentHealth <= 0) {
+            Destroy(gameObject);
+        }
+    }
+
+    [Command]
+    public void CmdTakeDamage(int dmg)
     {
         if (!localTest && !isServer)
         {

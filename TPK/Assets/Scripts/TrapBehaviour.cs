@@ -19,7 +19,7 @@ public class TrapBehaviour : MonoBehaviour {
             CharacterStats player = col.GetComponent<CharacterStats>();
             if (player == null) return;
 
-            col.GetComponent<CharacterStats>().TakeDamage(50);
+            //col.GetComponent<CharacterStats>().TakeDamage(50);
         }
 	}
 }

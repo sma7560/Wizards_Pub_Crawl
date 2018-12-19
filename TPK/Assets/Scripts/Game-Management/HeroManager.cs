@@ -44,9 +44,12 @@ public class HeroManager : MonoBehaviour
 
         foreach (GameObject hero in heroObjects)
         {
-            if (id == matchManager.GetPlayerId())
+            int pid = hero.GetComponent<HeroController>().getPlayerId();
+            if (id == pid)
             {
+                Debug.Log("Returning Player Object: " + id);
                 heroObject = hero;
+                Debug.Log("Abillity Manager Enabled: "+heroObject.GetComponent<AbilityManager>().enabled);
                 break;
             }
         }

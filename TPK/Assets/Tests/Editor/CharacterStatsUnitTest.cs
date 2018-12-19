@@ -66,7 +66,7 @@ public class CharacterStatsUnitTest {
         characterStats.defence = defence;
 
         // Make hero take damage
-        characterStats.TakeDamage(10);
+        //characterStats.TakeDamage(10);
 
         // Assert current health is the expected value
         Assert.AreEqual(90, characterStats.GetCurrentHealth(), "Current health is not the expected value!");
@@ -93,7 +93,7 @@ public class CharacterStatsUnitTest {
         characterStats.defence = defence;
 
         // Make hero take damage
-        characterStats.TakeDamage(15);
+        //characterStats.TakeDamage(15);
 
         // Assert current health is the expected value
         Assert.AreEqual(95, characterStats.GetCurrentHealth(), "Current health is not the expected value!");

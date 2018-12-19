@@ -10,8 +10,8 @@ using UnityEngine.Networking;
 public class MatchManager : NetworkBehaviour
 {
     public readonly int maxPlayers = 2;         // currently only accepting 2 players maximum
-    [SyncVar] private int currentNumOfPlayers;  // the current number of players in the match
-    private SyncListInt connections;            // list of all connections in the match
+    [SyncVar] private int currentNumOfPlayers = 0;  // the current number of players in the match
+    [SerializeField] private SyncListInt connections;            // list of all connections in the match
     private int playerId;                       // player ID of the current player
     private readonly int totalMatchTime = 900;  // total match time (default to 15 minutes)
     [SyncVar] private float timeLeftMatch;      // time left in the current match
@@ -22,6 +22,7 @@ public class MatchManager : NetworkBehaviour
     /// </summary>
     void Start()
     {
+        Debug.Log("I have woken up, on server:" + isServer);
         if (!isServer) return;          // only the server may initialize MatchManager
         DontDestroyOnLoad(transform);
         timeLeftMatch = totalMatchTime;
@@ -44,7 +45,7 @@ public class MatchManager : NetworkBehaviour
     public bool AddPlayerToMatch(NetworkConnection conn)
     {
         if (!isServer) return false;    // only the server may alter variables
-
+        Debug.Log("I got Here");
         // Add NetworkConnection to connections list
         if (connections == null)
         {

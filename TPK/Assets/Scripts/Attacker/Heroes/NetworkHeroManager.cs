@@ -10,7 +10,6 @@ public class NetworkHeroManager : NetworkBehaviour
     // Character Stats.
     [SyncVar] public readonly int maxHealth = 100; // Stays at 100?
     [SyncVar] public int currentHealth;
-
     [SerializeField][SyncVar] private int moveSpeed; // This will act as a multiplyer for movement speed(Velocity)
     [SerializeField][SyncVar] private int atkSpeed;
     [SerializeField][SyncVar] private int mDefence;
@@ -54,31 +53,74 @@ public class NetworkHeroManager : NetworkBehaviour
         return pAttack;
     }
 
-    // Should this be server only or network only?
-    public void SetMoveSpeed(int val)
+    // Should this be server only or network only? Server side setters
+    [Command]
+    public void CmdSetMoveSpeed(int val)
     {
         moveSpeed = val;
     }
 
-    public void SetAtkSpeed(int val)
+    [Command]
+    public void CmdSetAtkSpeed(int val)
     {
         atkSpeed = val;
     }
-    public void SetMDefence(int val)
+
+    [Command]
+    public void CmdSetMDefence(int val)
     {
         mDefence = val;
     }
-    public void SetPDefence(int val)
+
+    [Command]
+    public void CmdSetPDefence(int val)
     {
         pDefence = val;
     }
-    public void SetMAttack(int val)
+
+    [Command]
+    public void CmdSetMAttack(int val)
     {
         mAttack = val;
     }
-    public void SetPAttack(int val)
+
+    [Command]
+    public void CmdSetPAttack(int val)
     {
         pAttack = val;
+    }
+
+    //Local
+    public void SetMoveSpeed(int val)
+    {
+        //moveSpeed = val;
+        CmdSetMoveSpeed(val);
+    }
+
+    public void SetAtkSpeed(int val)
+    {
+        //atkSpeed = val;
+        CmdSetAtkSpeed(val);
+    }
+    public void SetMDefence(int val)
+    {
+        //mDefence = val;
+        CmdSetMDefence(val);
+    }
+    public void SetPDefence(int val)
+    {
+        //pDefence = val;
+        CmdSetPDefence(val);
+    }
+    public void SetMAttack(int val)
+    {
+        //mAttack = val;
+        CmdSetMAttack(val);
+    }
+    public void SetPAttack(int val)
+    {
+        //pAttack = val;
+        CmdSetPAttack(val);
     }
 
     // Getters and Setters for the stat modifiers
@@ -187,6 +229,7 @@ public class NetworkHeroManager : NetworkBehaviour
     [Command]
     public void CmdTakeDamage(int amount, DamageType damageType)
     {
+        Debug.Log("Damage Check");
         // Figure out actual amount taken via a calculation.
         if (!isServer) return; // For Sanity...
         Debug.Log("I am taking " + amount + " Damage");
@@ -211,9 +254,13 @@ public class NetworkHeroManager : NetworkBehaviour
     }
 
     // Function for healing back to full health.
-    public void SetFullHealth()
+    public void SetFullHealth() {
+        CmdSetFullHealth();
+    }
+    
+    [Command]
+    public void CmdSetFullHealth()
     {
-        if (!isServer) return;
         currentHealth = maxHealth;
     }
 

@@ -119,7 +119,11 @@ public class BasicAttack : NetworkBehaviour {
                         {
                             case "Enemy":
                                 // Deal damage to enemy/monster via their take damage script.
-                                Debug.Log("Enemy spawn is taking damage.");
+                                if (aroundme[i].GetComponent<EnemyStats>())
+                                {
+                                    // This will change.
+                                    aroundme[i].GetComponent<EnemyStats>().CmdTakeDamage(damage);
+                                }
 
                                 break;
                             case "Player":
