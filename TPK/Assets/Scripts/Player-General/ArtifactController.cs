@@ -83,7 +83,7 @@ public class ArtifactController : MonoBehaviour {
 		case ("SpawnRoom"):			//Player enters scoring location (spawn point)
 			if (isCarried) {
 				//need to check that the spawn is the right one for the player carrying the artifact
-				if (Vector3.Distance (transform.position, ownerSpawn) <= 5) {
+				if (Vector3.Distance (transform.position, ownerSpawn) <= 10) {
 					playerThatOwns.GetComponent<HeroController> ().addScore (1);		//adds a point to scoring player, then deletes itself
 					GameObject.FindGameObjectWithTag("ArtifactSpawnControl").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
 					Destroy (gameObject);
