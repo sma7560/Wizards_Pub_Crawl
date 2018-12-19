@@ -1,5 +1,8 @@
 # Welcome: Testable_Build Branch
-This Branch is for the testable but not deployable build of our game. As of now there are no instructions in games so the controls are as follows.
+This Branch is for the testable but not deployable build of our game.
+
+## Instructions
+As of now there are no instructions in games so the controls are as follows.
 
 - **Movement Controls:** WASD
 - **Rotation Control:** Follows mouse movement
