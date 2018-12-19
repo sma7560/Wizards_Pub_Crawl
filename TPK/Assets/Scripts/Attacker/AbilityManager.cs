@@ -34,6 +34,7 @@ public class AbilityManager : NetworkBehaviour
     void Update()
     {
         if (!isLocalPlayer) return;
+
         if (Input.GetKeyDown(KeyCode.Alpha1) && equippedSkills[0] != null && nextActiveTime[0] < Time.time)
         {
             CastSkill(0);
@@ -104,7 +105,7 @@ public class AbilityManager : NetworkBehaviour
 
     public void CastSkill(int index)
     {
-        Debug.Log("Casting a Skill");
+        Debug.Log("Casting skill " + equippedSkills[index].skillName);
         caster.CastSkill(equippedSkills[index]);
         //equippedSkills[index].Cast();
     }

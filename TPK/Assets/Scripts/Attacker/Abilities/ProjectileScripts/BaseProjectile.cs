@@ -20,7 +20,7 @@ public class BaseProjectile : MonoBehaviour {
         behaviour(collision);
     }
     public virtual void behaviour(Collision col) {
-        Debug.Log("Base Behaviour");
+        //Debug.Log("Base Behaviour");
 
     }
 }

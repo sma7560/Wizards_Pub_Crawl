@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 /// </summary>
 public class MatchManager : NetworkBehaviour
 {
-    public readonly int maxPlayers = 1;         // currently only accepting 2 players maximum
+    public readonly int maxPlayers = 2;         // currently only accepting 2 players maximum
     [SyncVar] private int currentNumOfPlayers;  // the current number of players in the match
     private SyncListInt connections;            // list of all connections in the match
     private int playerId;                       // player ID of the current player
