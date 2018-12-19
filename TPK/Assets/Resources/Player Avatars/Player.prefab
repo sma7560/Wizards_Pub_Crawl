@@ -298,6 +298,8 @@ GameObject:
   - component: {fileID: 136885870402194014}
   - component: {fileID: 114167101043750000}
   - component: {fileID: 114414868912833922}
+  - component: {fileID: 114233560057753346}
+  - component: {fileID: 114080767733875850}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2545,6 +2547,27 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114080767733875850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389239392925404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436814f5dbc6a3640a03ead35b690ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+  - {fileID: 1497003176998222, guid: abc71ca57381d1d47af39bf36f9c7f81, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  projectiles:
+  - {fileID: 1835335588317726, guid: f6549e7ab467aed41903e8e4d07c26a1, type: 2}
+  - {fileID: 1746346769401710, guid: 14dfbb68bac30264599e4010b6c3365a, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &114167101043750000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2569,6 +2592,24 @@ MonoBehaviour:
   attaking: 0
   isWalking: 0
   myHeroType: 0
+--- !u!114 &114233560057753346
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389239392925404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920485d845d8337469fb9e7930934466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equippedSkills:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  nextActiveTime: []
+  knownSkills: []
 --- !u!114 &114315844500586120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2631,6 +2672,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  moveSpeed: 0
+  atkSpeed: 0
+  mDefence: 0
+  pDefence: 0
+  mAttack: 0
+  pAttack: 0
   modAtkSpeed: 0
   modMDefence: 0
   modPDefence: 0
