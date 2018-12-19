@@ -18,7 +18,9 @@ public class SkillHoverDescription : EventTrigger
         TextMeshProUGUI skillDescriptionText = null;
         TextMeshProUGUI skillTitleText = null;
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-        AbilityManager abilityManager = GameObject.FindGameObjectWithTag("Player").GetComponent<AbilityManager>();
+        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
 
         if (prephaseManager.IsCurrentlyInPrephase())
         {
