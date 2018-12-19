@@ -33,7 +33,7 @@ public class AbilityManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("islocal: "+ isLocalPlayer);
+        //Debug.Log("islocal: "+ isLocalPlayer);
         if (!isLocalPlayer) return;
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && equippedSkills[0] != null && nextActiveTime[0] < Time.time)
@@ -74,7 +74,9 @@ public class AbilityManager : NetworkBehaviour
     /// <param name="skill">Skill to be equipped.</param>
     public void EquipSkill(Skill skill)
     {
+        Debug.Log("Equip skill " + skill.skillName + " called. isLocalPlayer = " + isLocalPlayer);
         if (!isLocalPlayer) return;
+
         for (int i = 0; i < equippedSkills.Length; i++)
         {
             if (equippedSkills[i] == null && !IsEquipped(skill))

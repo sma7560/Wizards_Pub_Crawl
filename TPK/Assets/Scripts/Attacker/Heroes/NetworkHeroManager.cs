@@ -132,9 +132,8 @@ public class NetworkHeroManager : NetworkBehaviour
     /// <param name="myHero">The hero to set the model of.</param>
     public void SetModel(Hero myHero)
     {
-        if (!isServer)
+        if (!isServer && isLocalPlayer)
         {
-            Debug.Log("isLocalPlayer = " + isLocalPlayer);
             Debug.Log("SetModel() called for client");
 
             // Get managers
