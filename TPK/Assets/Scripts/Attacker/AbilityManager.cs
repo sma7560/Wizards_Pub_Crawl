@@ -74,7 +74,7 @@ public class AbilityManager : NetworkBehaviour
     /// <param name="skill">Skill to be equipped.</param>
     public void EquipSkill(Skill skill)
     {
-        if (!isLocalPlayer) return;
+        //if (!isLocalPlayer) return;
         for (int i = 0; i < equippedSkills.Length; i++)
         {
             if (equippedSkills[i] == null && !IsEquipped(skill))
