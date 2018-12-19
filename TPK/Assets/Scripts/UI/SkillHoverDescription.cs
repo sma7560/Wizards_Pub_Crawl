@@ -1,49 +1,67 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SkillHoverDescription : EventTrigger
 {
+    public Skill skill; // the current skill that this script is attached to
+
     /// <summary>
     /// Enable skill description when skill is hovered over.
     /// </summary>
     public override void OnPointerEnter(PointerEventData eventData)
     {
         GameObject skillDescription = null;
+        TextMeshProUGUI skillDescriptionText = null;
+        TextMeshProUGUI skillTitleText = null;
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-        
+        AbilityManager abilityManager = GameObject.FindGameObjectWithTag("Player").GetComponent<AbilityManager>();
+
         if (prephaseManager.IsCurrentlyInPrephase())
         {
             // Logic for skill hover on prephase screen
             PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
             skillDescription = prephaseUI.skillDescription;
+            skillDescriptionText = prephaseUI.skillDescriptionText;
+            skillTitleText = prephaseUI.skillTitleText;
 
-            if (transform.name == "EquipSkill1" && !prephaseUI.skill1)
+            // Do not display skill description for empty equipped skill slots
+            if (transform.name == "EquipSkill1" && abilityManager.equippedSkills[0] == null)
             {
                 return;
             }
-            else if (transform.name == "EquipSkill2" && !prephaseUI.skill2)
+            else if (transform.name == "EquipSkill2" && abilityManager.equippedSkills[1] == null)
             {
                 return;
             }
-            else if (transform.name == "EquipSkill3" && !prephaseUI.skill3)
+            else if (transform.name == "EquipSkill3" && abilityManager.equippedSkills[2] == null)
             {
                 return;
             }
-            else if (transform.name == "EquipSkill4" && !prephaseUI.skill4)
+            else if (transform.name == "EquipSkill4" && abilityManager.equippedSkills[3] == null)
             {
                 return;
             }
         }
-        else
+        else if (skill != null)
         {
+            // Show skill description in stat window if skill is not null
             StatWindowUI statWindow = GameObject.Find("StatWindow").GetComponent<StatWindowUI>();
             skillDescription = statWindow.skillDescription;
+            skillDescriptionText = statWindow.skillDescriptionText;
+            skillTitleText = statWindow.skillDescriptionTitleText;
         }
 
-        skillDescription.SetActive(true);
+        // Show skill description
+        if (skillTitleText != null && skillDescriptionText != null && skillDescription != null)
+        {
+            skillTitleText.text = skill.skillName;
+            skillDescriptionText.text = skill.skillDescription;
+            skillDescription.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -65,7 +83,10 @@ public class SkillHoverDescription : EventTrigger
             skillDescription = statWindow.skillDescription;
         }
 
-        skillDescription.SetActive(false);
+        if (skillDescription != null)
+        {
+            skillDescription.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -74,6 +95,7 @@ public class SkillHoverDescription : EventTrigger
     public override void OnPointerClick(PointerEventData data)
     {
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+        AbilityManager abilityManager = GameObject.FindGameObjectWithTag("Player").GetComponent<AbilityManager>();
 
         if (!prephaseManager.IsCurrentlyInPrephase())
         {
@@ -83,57 +105,18 @@ public class SkillHoverDescription : EventTrigger
 
         PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
 
-        // Skill in skill bank is clicked
         if (!transform.name.Contains("Equip"))
         {
-            // Cycle through all equipped skills and add it to equipped skill if a slot is empty
-            if (!prephaseUI.skill1)
-            {
-                prephaseUI.skill1 = true;
-                Image equipSkill1 = GameObject.Find("EquipSkill1").GetComponent<Image>();
-                equipSkill1.sprite = GetComponent<Image>().sprite;
-            }
-            else if (!prephaseUI.skill2)
-            {
-                prephaseUI.skill2 = true;
-                Image equipSkill2 = GameObject.Find("EquipSkill2").GetComponent<Image>();
-                equipSkill2.sprite = GetComponent<Image>().sprite;
-            }
-            else if (!prephaseUI.skill3)
-            {
-                prephaseUI.skill3 = true;
-                Image equipSkill3 = GameObject.Find("EquipSkill3").GetComponent<Image>();
-                equipSkill3.sprite = GetComponent<Image>().sprite;
-            }
-            else if (!prephaseUI.skill4)
-            {
-                prephaseUI.skill4 = true;
-                Image equipSkill4 = GameObject.Find("EquipSkill4").GetComponent<Image>();
-                equipSkill4.sprite = GetComponent<Image>().sprite;
-            }
+            // Skill in skill bank is clicked, attempt to equip the skill
+            abilityManager.EquipSkill(skill);
         }
         else
         {
             // Unequip the clicked equipped skill
-            GetComponent<Image>().sprite = null;
-
-            if (transform.name == "EquipSkill1")
-            {
-                prephaseUI.skill1 = false;
-            }
-            else if (transform.name == "EquipSkill2")
-            {
-                prephaseUI.skill2 = false;
-            }
-            else if (transform.name == "EquipSkill3")
-            {
-                prephaseUI.skill3 = false;
-            }
-            else if (transform.name == "EquipSkill4")
-            {
-                prephaseUI.skill4 = false;
-            }
+            abilityManager.UnequipSkill(skill);
         }
-    }
 
+        // Reflect the equipped skills change in the UI
+        prephaseUI.UpdateEquippedSkills();
+    }
 }

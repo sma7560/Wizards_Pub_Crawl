@@ -8,6 +8,8 @@ public class PrephaseUI : MonoBehaviour
 {
     // SkillDescription GameObject
     public GameObject skillDescription;
+    public TextMeshProUGUI skillDescriptionText;
+    public TextMeshProUGUI skillTitleText;
 
     // Default stat values
     private readonly int defaultAtkSpd = 1;
@@ -51,18 +53,12 @@ public class PrephaseUI : MonoBehaviour
     private Button rightCharacterSelection;
 
     // Default heroes
-    private Hero knight;
+    private Hero king;
     private Hero witch;
     private Hero rogue;
 
     // Currently selected hero
     private Hero selectedHero;
-
-    // Currently equipped skills; TODO: change this later when Skills are finished
-    public bool skill1;
-    public bool skill2;
-    public bool skill3;
-    public bool skill4;
 
     /// <summary>
     /// Initialize variables.
@@ -71,6 +67,8 @@ public class PrephaseUI : MonoBehaviour
     {
         // Initialize variables
         skillDescription = GameObject.FindGameObjectWithTag("SkillDescription");
+        skillDescriptionText = GameObject.Find("SkillDescriptionText").GetComponent<TextMeshProUGUI>();
+        skillTitleText = GameObject.Find("SkillDescriptionTitleText").GetComponent<TextMeshProUGUI>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
@@ -97,7 +95,7 @@ public class PrephaseUI : MonoBehaviour
         SetupDefaultHeroes();
 
         // Set default currently selected character
-        selectedHero = knight;
+        selectedHero = king;
         networkHeroManager.SetModel(selectedHero);
 
         // Set skill description to inactive by default
@@ -109,13 +107,8 @@ public class PrephaseUI : MonoBehaviour
         UpdateHostIP();
         UpdateNumOfPlayers();
         UpdatePlayerName();
-
-        // TODO: change to actual skills and not booleans when skills are implemented
-        // Initialize equipped skills status
-        skill1 = false;
-        skill2 = false;
-        skill3 = false;
-        skill4 = false;
+        UpdateSkillBank();
+        UpdateEquippedSkills();
     }
 
     /// <summary>
@@ -125,6 +118,33 @@ public class PrephaseUI : MonoBehaviour
     {
         UpdateNumOfPlayers();
         UpdateTimeLeftUI();
+    }
+
+    /// <summary>
+    /// Updates the equipped skill sprites to reflect the currently equipped skills.
+    /// </summary>
+    public void UpdateEquippedSkills()
+    {
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+
+        // Set the sprite images and skill descriptions to the equipped skills
+        for (int i = 0; i < abilityManager.equippedSkills.Length; i++)
+        {
+            // Get the equip skill object
+            GameObject skill = GameObject.Find("EquipSkill" + (i + 1));
+            Image skillImg = skill.GetComponent<Image>();
+
+            if (abilityManager.equippedSkills[i] != null)
+            {
+                skill.GetComponent<SkillHoverDescription>().skill = abilityManager.equippedSkills[i];   // Set skill description
+                skillImg.sprite = abilityManager.equippedSkills[i].skillIcon;   // Set sprite images
+            }
+            else
+            {
+                skill.GetComponent<SkillHoverDescription>().skill = null;
+                skillImg.sprite = null;
+            }
+        }
     }
 
     /// <summary>
@@ -149,17 +169,17 @@ public class PrephaseUI : MonoBehaviour
     
     /// <summary>
     /// Functionality for changing character selected when the corresponding button is pressed.
-    /// Order is knight < witch < rogue.
+    /// Order is king < witch < rogue.
     /// </summary>
     public void ChangeCharacterSelectionLeft()
     {
-        if (selectedHero == knight)
+        if (selectedHero == king)
         {
             selectedHero = rogue;
         }
         else if (selectedHero == witch)
         {
-            selectedHero = knight;
+            selectedHero = king;
         }
         else if (selectedHero == rogue)
         {
@@ -172,11 +192,11 @@ public class PrephaseUI : MonoBehaviour
 
     /// <summary>
     /// Functionality for changing character selected when the corresponding button is pressed.
-    /// Order is knight > witch > rogue.
+    /// Order is king > witch > rogue.
     /// </summary>
     public void ChangeCharacterSelectionRight()
     {
-        if (selectedHero == knight)
+        if (selectedHero == king)
         {
             selectedHero = witch;
         }
@@ -186,7 +206,7 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == rogue)
         {
-            selectedHero = knight;
+            selectedHero = king;
         }
 
         networkHeroManager.SetModel(selectedHero);
@@ -354,15 +374,15 @@ public class PrephaseUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up the default hero types of knight, witch, and rogue.
+    /// Sets up the default hero types of king, witch, and rogue.
     /// </summary>
     private void SetupDefaultHeroes()
     {
         // Setup default heroes
-        knight = new Hero
+        king = new Hero
         {
             heroType = HeroType.melee,
-            heroName = "Knight",
+            heroName = "King",
             childIndex = 0
         };
 
@@ -439,5 +459,36 @@ public class PrephaseUI : MonoBehaviour
     private void UpdateHostIP()
     {
         hostIP.text = NetworkManagerExtension.GetLocalIPAddress();
+    }
+
+    /// <summary>
+    /// Updates the icons for skill bank.
+    /// </summary>
+    private void UpdateSkillBank()
+    {
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+
+        // Set the sprite images and skill descriptions in the skill bank for each known skill
+        for (int i = 0; i < abilityManager.knownSkills.Length; i++)
+        {
+            // Set skill description
+            GameObject skill = GameObject.Find("Skill" + (i + 1));
+            skill.GetComponent<SkillHoverDescription>().skill = abilityManager.knownSkills[i];
+
+            // Set sprite images
+            Image skillImg = skill.GetComponent<Image>();
+            skillImg.sprite = abilityManager.knownSkills[i].skillIcon;
+        }
+
+        // Remove all empty skills in skill bank
+        // NOTE: right now there are 10 max, may need to change this number in the future
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject skill = GameObject.Find("Skill" + (i + 1));
+            if (skill.GetComponent<SkillHoverDescription>().skill == null)
+            {
+                skill.SetActive(false);
+            }
+        }
     }
 }
