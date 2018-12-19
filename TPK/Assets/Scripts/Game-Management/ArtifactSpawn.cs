@@ -33,14 +33,15 @@ public class ArtifactSpawn : NetworkBehaviour {
 
 	//spawns artifact at a random spawn location, to be called when an artifact is picked up
 	public void SpawnArifactRandom(){
+		if (!isServer)
+			return;						//only called on server 
+
 		int i = Random.Range (0, spawnlocations.Length);
 		Vector3 location = spawnlocations [i].transform.position;
-		CmdSpawnArtifact(location, Quaternion.identity);
+		spawnArtifact(location, Quaternion.identity);
 	}
 
-	//commands to communicate to the server
-	[Command]
-	private void CmdSpawnArtifact(Vector3 location, Quaternion rotation){
+	private void spawnArtifact(Vector3 location, Quaternion rotation){
 		GameObject tempArtifact;
 		tempArtifact = unityService.Instantiate(artifact, location, rotation);
 		NetworkServer.Spawn (tempArtifact);

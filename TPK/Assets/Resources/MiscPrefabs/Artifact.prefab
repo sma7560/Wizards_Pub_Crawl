@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33557314730152168}
   - component: {fileID: 23117364505763024}
   - component: {fileID: 65022087855971084}
+  - component: {fileID: 114051109959665478}
   - component: {fileID: 114446641743653134}
   m_Layer: 0
   m_Name: Artifact
@@ -37,8 +38,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1483567556590242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.448238, y: 0.53, z: 10.163432}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -58,7 +59,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 42b64fdb315e3054ea757d8d1c4bcfa7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +85,7 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1483567556590242}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 4300000, guid: 7d6c0ad925376bc4da078b7f57c4242a, type: 3}
 --- !u!65 &65022087855971084
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -92,11 +93,43 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1483567556590242}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.8496294, y: 1.6780648, z: 0.8496294}
+  m_Center: {x: 0, y: 0.8390324, z: 0}
+--- !u!114 &114051109959665478
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1483567556590242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 65
+    i1: 166
+    i2: 139
+    i3: 249
+    i4: 249
+    i5: 151
+    i6: 252
+    i7: 148
+    i8: 233
+    i9: 43
+    i10: 242
+    i11: 250
+    i12: 130
+    i13: 117
+    i14: 153
+    i15: 227
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114446641743653134
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -7,6 +7,11 @@ public class ArtifactController : MonoBehaviour {
 
     private bool isCarried;     //is artifact carried by someone?
     private GameObject playerThatOwns; //set to player that is carrying this
+	private int ownerID;
+	private Vector3 ownerSpawn;
+
+	Vector3 smallscale = new Vector3( 0.8f, 0.8f, 0.8f);	//smaller size when carried
+	Vector3 normalscale;									//normal size on ground
 
     //Common, Rare, Epic, Legendary
     public string rarity 
@@ -35,13 +40,14 @@ public class ArtifactController : MonoBehaviour {
     }
 
     private Transform artifactTransform;
-    private Rigidbody artifactBody;
+    //private Rigidbody artifactBody;
 
     // Use this for initialization
     void Start()
     {
         artifactTransform = GetComponent<Transform>();
-        artifactBody = GetComponent<Rigidbody>();
+		normalscale = artifactTransform.localScale;
+        //artifactBody = GetComponent<Rigidbody>();
     }
 
 
@@ -50,19 +56,33 @@ public class ArtifactController : MonoBehaviour {
         //if being carried, update location of artifact to where the carrier is
         if (isCarried)
         {
-            artifactTransform.position = playerThatOwns.transform.position;
+			artifactTransform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 4, playerThatOwns.transform.position.z);
         }
     }
 
     //set player that "picked" up artifact
-    private void OnCollisionEnter(Collision collision)
+	private void OnTriggerEnter(Collider col)
     {
-        if(collision.gameObject.name == "Hero")
+		switch (col.gameObject.tag)
         {
-            //make object small enough to hide inside character model
-            artifactTransform.localScale = new Vector3( 0.1f, 0.1f, 0.1f);
-            playerThatOwns = collision.gameObject;
-            isCarried = true;
+		case ("Player"):
+			if (!isCarried) {
+				//make object float above character model's head
+				artifactTransform.localScale = smallscale;
+				playerThatOwns = col.gameObject;
+				ownerID = playerThatOwns.GetComponent<HeroController> ().getPlayerId ();
+				ownerSpawn = GameObject.FindGameObjectWithTag ("Match Manager").GetComponent<HeroManager> ().GetSpawnLocationOfPlayer (ownerID);
+				isCarried = true;
+			}
+			break;
+		case ("Spawn"):			//Player entercores point
+			if (isCarried) {
+				//need to check that the spawn is the right one for the player carrying the artifact
+				if (Vector3.Distance (artifactTransform.position, ownerSpawn) <= 5) {
+					playerThatOwns.GetComponent<HeroController>().
+				}
+			}
+			break;
         }
     }
 
@@ -72,6 +92,7 @@ public class ArtifactController : MonoBehaviour {
         playerThatOwns = null;
         isCarried = false;
         //scale size back up
-        artifactTransform.localScale = new Vector3(1f, 1f, 1f);
+		artifactTransform.localScale = normalscale;
+		artifactTransform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y - 4, playerThatOwns.transform.position.z);
     }
 }

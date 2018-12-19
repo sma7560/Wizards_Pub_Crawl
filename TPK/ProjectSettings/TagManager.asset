@@ -19,6 +19,8 @@ TagManager:
   - SkillDescription
   - PlayerUI
   - EventSystem
+  - Artifact
+  - RedSpawn
   layers:
   - Default
   - TransparentFX
