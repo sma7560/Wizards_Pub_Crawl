@@ -7,12 +7,12 @@ using UnityEngine.Networking;
 public class BasicAttack : NetworkBehaviour {
 
     // Should probably make these private and create getters and setters.
-    public float range = 0;
-    public float magRange = 0;
-    public float angleRange;
-    public int damage = 5;
-    public HeroType attackType;
-    public DamageType damageType = DamageType.none;
+    [SyncVar] public float range = 0;
+    [SyncVar] public float magRange = 0;
+    [SyncVar] public float angleRange;
+    [SyncVar] public int damage = 5;
+    [SyncVar] public HeroType attackType;
+    [SyncVar] public DamageType damageType = DamageType.none;
     public GameObject projectilePrefab;
 
     // Use this for initialization
@@ -50,22 +50,24 @@ public class BasicAttack : NetworkBehaviour {
     }
 
     // This function shouldnt be called unless by a local player but just incase, if it is called double check for local-ness...
-    public void SetAttackParameters(float r, int dmg, HeroType atype) {
-        if (!isLocalPlayer) return;
-        attackType = atype;
+    [Command]
+    public void CmdSetAttackParameters() {
+        //if (!isServer) return; Since is command, do not need this
+        NetworkHeroManager nhm = GetComponent<NetworkHeroManager>();
+        attackType = nhm.heroType;
         switch (attackType) {
             case HeroType.magic:
             case HeroType.range:
-                magRange = r;
+                magRange = 10f;
                 damageType = (attackType == HeroType.magic) ? DamageType.magical : DamageType.physical; 
                 break;
             case HeroType.melee:
-                range = r;
+                range = 2f;
                 damageType = DamageType.physical;
                 break;
             default:
-                range = r;
-                magRange = r;
+                range = 2;
+                magRange = 10;
                 damageType = DamageType.none;
                 break;
         }

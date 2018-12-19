@@ -89,7 +89,7 @@ public class HeroController : NetworkBehaviour
             // For setting up 
             if (!isDungeonReady) {
                 isDungeonReady = true;
-                battack.SetAttackParameters(10.0f, heroManager.GetMAttack(), heroManager.heroType);
+                battack.CmdSetAttackParameters();
                 animate.myHeroType = heroManager.heroType;
 
             }

@@ -557,6 +557,8 @@ GameObject:
   - component: {fileID: 114264482646535042}
   - component: {fileID: 114807142659946498}
   - component: {fileID: 114540732394529848}
+  - component: {fileID: 114657268359704742}
+  - component: {fileID: 114177523622537092}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Player
@@ -2566,6 +2568,27 @@ MonoBehaviour:
   attaking: 0
   isWalking: 0
   myHeroType: 0
+--- !u!114 &114177523622537092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533226536124462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 436814f5dbc6a3640a03ead35b690ddb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effects:
+  - {fileID: 1497003176998222, guid: abc71ca57381d1d47af39bf36f9c7f81, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  projectiles:
+  - {fileID: 1835335588317726, guid: f6549e7ab467aed41903e8e4d07c26a1, type: 2}
+  - {fileID: 1746346769401710, guid: 14dfbb68bac30264599e4010b6c3365a, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &114264482646535042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2616,6 +2639,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  moveSpeed: 0
+  atkSpeed: 0
+  mDefence: 0
+  pDefence: 0
+  mAttack: 0
+  pAttack: 0
   modAtkSpeed: 0
   modMDefence: 0
   modPDefence: 0
@@ -2655,6 +2684,24 @@ MonoBehaviour:
     i15: 138
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &114657268359704742
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1533226536124462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920485d845d8337469fb9e7930934466, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equippedSkills:
+  - {fileID: 11400000, guid: 5347a94911eeada4c80609217d2c61d9, type: 2}
+  - {fileID: 11400000, guid: 16565047a36bbb843a1c2907d4c0d160, type: 2}
+  - {fileID: 11400000, guid: 8d4a353bea8510a4d96c13c381b2bd5f, type: 2}
+  - {fileID: 0}
+  nextActiveTime: []
+  knownSkills: []
 --- !u!114 &114807142659946498
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -27,14 +27,14 @@ public class OfflineHeroController : NetworkBehaviour {
 
         Debug.Log("Setting up stats");
         basicAttackController = GetComponent<BasicAttack>();
-        heroManager = GetComponent<NetworkHeroManager>();
+        //heroManager = GetComponent<NetworkHeroManager>();
         animController = GetComponent<TestAnimConrtoller>();
 
         // Setting up heroManager (Network) This is temporary for the test.
-        SetupStats();
+        CmdSetupStats();
         // Setting up basic attack
-        basicAttackController.SetAttackParameters(10.0f, heroManager.GetMAttack(), heroManager.heroType);
-        animController.myHeroType = heroManager.heroType;
+        basicAttackController.CmdSetAttackParameters();
+        animController.myHeroType = HeroType.magic; // For now hard coding this in.
 
         //StartUI();
 
@@ -59,7 +59,9 @@ public class OfflineHeroController : NetworkBehaviour {
 
 
     }
-    private void SetupStats() {
+    [Command]
+    private void CmdSetupStats() {
+        heroManager = GetComponent<NetworkHeroManager>(); // Setting it up on the server...
         int val = 10;
         heroManager.SetAtkSpeed(1);
         heroManager.heroType = HeroType.magic;
@@ -76,6 +78,8 @@ public class OfflineHeroController : NetworkBehaviour {
             transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z));
         }
     }
+    //[Command]
+    //private void CmdSetrota
     private void CharacterMovement()
     {
         //Debug.Log("Horizontal: " + Input.GetAxis("Horizontal"));

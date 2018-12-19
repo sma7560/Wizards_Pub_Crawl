@@ -11,12 +11,12 @@ public class NetworkHeroManager : NetworkBehaviour
     [SyncVar] public readonly int maxHealth = 100; // Stays at 100?
     [SyncVar] public int currentHealth;
 
-    private int moveSpeed; // This will act as a multiplyer for movement speed(Velocity)
-    private int atkSpeed;
-    private int mDefence;
-    private int pDefence;
-    private int mAttack;
-    private int pAttack;
+    [SerializeField][SyncVar] private int moveSpeed; // This will act as a multiplyer for movement speed(Velocity)
+    [SerializeField][SyncVar] private int atkSpeed;
+    [SerializeField][SyncVar] private int mDefence;
+    [SerializeField][SyncVar] private int pDefence;
+    [SerializeField][SyncVar] private int mAttack;
+    [SerializeField][SyncVar] private int pAttack;
 
     public int modAtkSpeed;
     public int modMDefence;

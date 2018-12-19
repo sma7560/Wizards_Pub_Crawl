@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114744830511799880}
   - component: {fileID: 114138081832761490}
   - component: {fileID: 114658265539775506}
+  - component: {fileID: 114317017334176808}
   m_Layer: 0
   m_Name: MatchManager
   m_TagString: MatchManager
@@ -55,6 +56,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prephaseUI: {fileID: 1232863386017794, guid: 6d05e611ccb1e034dab512a8e3b4d08b, type: 2}
+--- !u!114 &114317017334176808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1538059130310694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10653ca56a1f1aa44bfd3bdb539c27a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monster: {fileID: 1788914300484378, guid: 6423fff4acd97ea439348e08f2db2795, type: 2}
 --- !u!114 &114658265539775506
 MonoBehaviour:
   m_ObjectHideFlags: 1
