@@ -10,8 +10,8 @@ public class ArtifactController : MonoBehaviour {
 	private int ownerID;
 	private Vector3 ownerSpawn;
 
-	Vector3 smallscale = new Vector3( 0.8f, 0.8f, 0.8f);	//smaller size when carried
-	Vector3 normalscale;									//normal size on ground
+	Vector3 smallscale = new Vector3( 1f, 1f, 1f);	//smaller size when carried
+	Vector3 normalscale = new Vector3(2f, 2f, 2f);	//normal size on ground
 
     //Common, Rare, Epic, Legendary
     public string rarity 
@@ -42,7 +42,7 @@ public class ArtifactController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-		normalscale = transform.localScale;
+		transform.localScale = normalscale;
         //artifactBody = GetComponent<Rigidbody>();
     }
 
@@ -62,9 +62,11 @@ public class ArtifactController : MonoBehaviour {
     //set player that "picked" up artifact
 	private void OnTriggerEnter(Collider col)
     {
-		switch (col.gameObject.tag)
+		switch (col.gameObject.transform.tag)
         {
 		case ("Player"):
+			Debug.Log ("Player " + ownerID + " has taken the artifact!");
+
 			if (!isCarried) {
 				//make object float above character model's head
 				transform.localScale = smallscale;
@@ -74,7 +76,7 @@ public class ArtifactController : MonoBehaviour {
 				isCarried = true;
 			}
 			break;
-		case ("Spawn"):			//Player enters scoring location (spawn point)
+		case ("SpawnRoom"):			//Player enters scoring location (spawn point)
 			if (isCarried) {
 				//need to check that the spawn is the right one for the player carrying the artifact
 				if (Vector3.Distance (transform.position, ownerSpawn) <= 5) {
