@@ -20,7 +20,7 @@ TagManager:
   - PlayerUI
   - EventSystem
   - Artifact
-  - RedSpawn
+  - SpawnRoom
   layers:
   - Default
   - TransparentFX
