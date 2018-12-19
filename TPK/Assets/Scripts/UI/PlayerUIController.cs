@@ -48,7 +48,7 @@ public class PlayerUIController : MonoBehaviour
     void Update()
     {
         UpdateTimeLeftUI(matchManager.GetTimeLeftInMatch());
-        UpdateCooldowns();
+        //UpdateCooldowns();
     }
 
     /// <summary>

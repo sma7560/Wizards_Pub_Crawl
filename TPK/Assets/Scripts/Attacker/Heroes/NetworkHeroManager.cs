@@ -124,15 +124,57 @@ public class NetworkHeroManager : NetworkBehaviour
     {
         modPAttack = val;
     }
-    
-    // This function should set up which model should be loaded.
+
+    /// <summary>
+    /// THIS IS CURRENTLY BROKEN FOR UPDATING MODEL ON CLIENT.
+    /// This function should set up which model should be loaded.
+    /// </summary>
+    /// <param name="myHero">The hero to set the model of.</param>
     public void SetModel(Hero myHero)
     {
-        transform.GetChild(heroIndex).gameObject.SetActive(false);
+        if (!isServer)
+        {
+            Debug.Log("isLocalPlayer = " + isLocalPlayer);
+            Debug.Log("SetModel() called for client");
+
+            // Get managers
+            MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+            HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+
+            // Setup the hero object we want to change the model of
+            GameObject hero = heroManager.GetHeroObject(matchManager.GetPlayerId());
+            CmdSetModel(hero, myHero);
+        }
+        else if (isServer)
+        {
+            LocalSetModel(transform, myHero);
+        }
+    }
+
+    /// <summary>
+    /// Tell server to change the model of the specified player.
+    /// </summary>
+    /// <param name="myHero">Hero to change to.</param>
+    /// <param name="playerId">Player to change the model of.</param>
+    [Command]
+    private void CmdSetModel(GameObject hero, Hero myHero)
+    {
+        Debug.Log("CmdSetModel called");
+        LocalSetModel(hero.transform, myHero);
+    }
+
+    /// <summary>
+    /// Set the model of the specified hero object.
+    /// </summary>
+    /// <param name="hero">Hero object which we want to change the model of.</param>
+    /// <param name="myHero">Model to change the hero to.</param>
+    private void LocalSetModel(Transform hero, Hero myHero)
+    {
+        Debug.Log("LocalSetModel() called for Player " + hero.gameObject.GetComponent<HeroController>().getPlayerId());
+        hero.GetChild(heroIndex).gameObject.SetActive(false);
         heroIndex = myHero.childIndex;
         heroType = myHero.heroType;
-        transform.GetChild(heroIndex).gameObject.SetActive(true);
-
+        hero.GetChild(heroIndex).gameObject.SetActive(true);
     }
 
     // Set a basic attack to be active

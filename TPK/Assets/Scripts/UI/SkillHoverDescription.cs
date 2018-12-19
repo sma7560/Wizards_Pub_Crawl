@@ -95,7 +95,6 @@ public class SkillHoverDescription : EventTrigger
     public override void OnPointerClick(PointerEventData data)
     {
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-        AbilityManager abilityManager = GameObject.FindGameObjectWithTag("Player").GetComponent<AbilityManager>();
 
         if (!prephaseManager.IsCurrentlyInPrephase())
         {
@@ -103,6 +102,9 @@ public class SkillHoverDescription : EventTrigger
             return;
         }
 
+        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
         PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
 
         if (!transform.name.Contains("Equip"))
