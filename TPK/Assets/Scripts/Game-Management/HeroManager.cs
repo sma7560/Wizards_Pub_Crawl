@@ -17,8 +17,7 @@ public class HeroManager : MonoBehaviour
         // set initial spawn locations
         spawnLocations = new List<Vector3>();
         AddSpawnLocation(new Vector3(0, 0, 0));         // spawn location of Player 1
-        AddSpawnLocation(new Vector3(0, 0, 0));         // spawn location of Player 1
-        //AddSpawnLocation(new Vector3(117f, 0, -42f));   // spawn location of Player 2
+        AddSpawnLocation(new Vector3(117f, 0, -42f));   // spawn location of Player 2
     }
 
     /// <summary>
@@ -47,9 +46,9 @@ public class HeroManager : MonoBehaviour
             int pid = hero.GetComponent<HeroController>().getPlayerId();
             if (id == pid)
             {
-                Debug.Log("Returning Player Object: " + id);
+                //Debug.Log("Returning Player Object: " + id);
                 heroObject = hero;
-                Debug.Log("Abillity Manager Enabled: "+heroObject.GetComponent<AbilityManager>().enabled);
+                //Debug.Log("Abillity Manager Enabled: "+heroObject.GetComponent<AbilityManager>().enabled);
                 break;
             }
         }
