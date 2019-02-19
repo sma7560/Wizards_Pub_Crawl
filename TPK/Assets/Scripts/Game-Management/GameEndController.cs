@@ -17,7 +17,7 @@ public class GameEndController : MonoBehaviour
     void Start()
     {
         //winLoseScreen.enabled = false;
-        mainMenu.onClick.AddListener(TaskReturnMainMenu);
+        mainMenu.onClick.AddListener(taskReturnMainMenu);
 
         //get score of all players
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -42,7 +42,7 @@ public class GameEndController : MonoBehaviour
         }
     }
 
-    public void TaskReturnMainMenu()
+    public void taskReturnMainMenu()
     {
         dungeonController = GameObject.FindGameObjectWithTag("EventSystem").GetComponent<DungeonController>();
         dungeonController.QuitMatch();

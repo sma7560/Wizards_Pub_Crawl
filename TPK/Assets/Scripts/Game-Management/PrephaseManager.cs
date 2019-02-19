@@ -70,7 +70,7 @@ public class PrephaseManager : NetworkBehaviour
         Debug.Log("PREPHASE: UpdatePrephase called");
 
         // Check if current number of players in the match have reached the maximum number
-        if (matchManager.GetNumOfPlayers() >= matchManager.maxPlayers)
+        if (matchManager.GetNumOfPlayers() >= matchManager.GetMaxPlayers())
         {
             // Start the prephase
             state = PrephaseState.RoomFull;
@@ -80,7 +80,7 @@ public class PrephaseManager : NetworkBehaviour
         // Exit match if a player disconnects
         if ((state == PrephaseState.RoomFull ||
              state == PrephaseState.NotActive) &&
-             matchManager.GetNumOfPlayers() < matchManager.maxPlayers)
+             matchManager.GetNumOfPlayers() < matchManager.GetMaxPlayers())
         {
             GameObject.Find("EventSystem").GetComponent<DungeonController>().QuitMatch();
         }

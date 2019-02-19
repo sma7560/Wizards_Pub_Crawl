@@ -19,11 +19,12 @@ public class NetworkManagerExtension : NetworkManager
     public void StartUpHost()
     {
         // Create MatchManager object on server
+        Debug.Log("Instantiate MatchManager on server");
         GameObject managerPrefab = Instantiate(matchManagerPrefab);
         matchManager = managerPrefab.GetComponent<MatchManager>();
         prephaseManager = managerPrefab.GetComponent<PrephaseManager>();
 
-        // Set networking properties
+        // Start host in network
         SetPort();
         networkAddress = GetLocalIPAddress();
         Debug.Log("Hosting on " + networkAddress);
@@ -31,6 +32,7 @@ public class NetworkManagerExtension : NetworkManager
         NetworkClient client = NetworkManager.singleton.StartHost();
         NetworkServer.Spawn(matchManager.gameObject);   // Instantiate MatchManager on the server
         Debug.Log(client.connection);
+
         // Update MatchManager with new player
         if (!matchManager.AddPlayerToMatch(client.connection))
         {
@@ -57,10 +59,16 @@ public class NetworkManagerExtension : NetworkManager
     /// </summary>
     private void SetIPAddress()
     {
-        //Defaulting it to local host.
+        // Get the IP address text box text
         string ipAddress = GameObject.Find("IPText").GetComponent<Text>().text;
-        if (ipAddress == null) ipAddress = "localhost";
 
+        //Defaulting IP address to "localhost"
+        if (ipAddress.Length == 0)
+        {
+            ipAddress = "localhost";
+        }
+
+        // Set the IP address
         NetworkManager.singleton.networkAddress = ipAddress;
     }
 

@@ -4,37 +4,45 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Contains information about the game's current status.
+/// Contains information about the current match's status.
 /// Ie. number of players in the match, time left in match.
 /// </summary>
 public class MatchManager : NetworkBehaviour
 {
-    public readonly int maxPlayers = 2;         // currently only accepting 2 players maximum
-    [SyncVar] private int currentNumOfPlayers = 0;  // the current number of players in the match
-    [SerializeField] private SyncListInt connections;            // list of all connections in the match
-    private int playerId;                       // player ID of the current player
-    private readonly int totalMatchTime = 900;  // total match time (default to 15 minutes)
-    [SyncVar] private float timeLeftMatch;      // time left in the current match
-    private bool matchEnded = false;
+    // Constants
+    private readonly int maxPlayers = 2;                // currently only accepting 2 players maximum
+    private readonly int totalMatchTime = 5;          // total match time (default to 15 minutes)
+
+    // SyncVars
+    [SerializeField] private SyncListInt connections;   // list of all connections in the match
+    [SerializeField] [SyncVar] private int currentNumOfPlayers;          // the current number of players in the match
+    [SerializeField] [SyncVar] private float timeLeftMatch;              // time left in the current match
+
+    // Local variables
+    private int playerId;                               // player ID of the current player
+    private bool matchEnded;                            // if match has ended; needed to ensure EndMatch() is only called once
 
     /// <summary>
     /// Initialize variables.
     /// </summary>
     void Start()
     {
-        Debug.Log("I have woken up, on server:" + isServer);
         if (!isServer) return;          // only the server may initialize MatchManager
-        DontDestroyOnLoad(transform);
+
+        // Initialize variables
         timeLeftMatch = totalMatchTime;
+        matchEnded = false;
+        currentNumOfPlayers = 1;        // start at 1 to account for the server itself
+        DontDestroyOnLoad(transform);   // Do not destroy MatchManager when scene is changed
     }
 
     private void Update()
     {
-        //end game if match is over
-        if ((timeLeftMatch == 0) & (!matchEnded))
+        // locally checks if the match has ended
+        if ((timeLeftMatch <= 0) && !matchEnded)
         {
+            matchEnded = true;
             EndMatch();
-            matchEnded = !matchEnded;
         }
     }
 
@@ -45,7 +53,7 @@ public class MatchManager : NetworkBehaviour
     public bool AddPlayerToMatch(NetworkConnection conn)
     {
         if (!isServer) return false;    // only the server may alter variables
-        Debug.Log("I got Here");
+
         // Add NetworkConnection to connections list
         if (connections == null)
         {
@@ -124,8 +132,16 @@ public class MatchManager : NetworkBehaviour
         return timeLeftMatch;
     }
 
+    /// <returns>
+    /// Returns the maximum number of players that can join the match.
+    /// </returns>
+    public int GetMaxPlayers()
+    {
+        return maxPlayers;
+    }
+
     /// <summary>
-    /// Decrement the match timer by 1 per second.
+    /// Coroutine to decrement the match timer by 1 per second.
     /// </summary>
     public IEnumerator DecrementMatchTime()
     {
@@ -138,7 +154,22 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Called on the server when the match has ended. Instantiates a local scoreboard on server.
+    /// </summary>
     public void EndMatch()
+    {
+        if (!isServer) return;  // only allow server to instantiate the scoreboard
+
+        Instantiate(Resources.Load("GameOverScreen"));
+        RpcEndMatch();
+    }
+
+    /// <summary>
+    /// Server calls this method to end match on all clients. Instantiates local scoreboards on all clients.
+    /// </summary>
+    [ClientRpc]
+    private void RpcEndMatch()
     {
         Instantiate(Resources.Load("GameOverScreen"));
     }
