@@ -1,3 +1,4 @@
-﻿public enum CcType {
+﻿public enum CcType
+{
     push, pull, none
 }

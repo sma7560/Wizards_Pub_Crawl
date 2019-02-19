@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 //This script is for casting skills based on their description from the designated Skill Scriptable object Asset.
-public class AbilityCaster : NetworkBehaviour {
+public class AbilityCaster : NetworkBehaviour
+{
     private Skill currentCastSkill;
-    private Rigidbody rb;
-    private Transform t;
-    private NetworkHeroManager heroStats;
     public GameObject[] effects; // Will use this to store a list of effects to be played on the server
     public GameObject[] projectiles; // Will Use this to store a list of projectiles on the server
     private TestAnimConrtoller anim;
@@ -19,29 +17,28 @@ public class AbilityCaster : NetworkBehaviour {
     void Start()
     {
         //if (!isLocalPlayer) return;
-        // Getting these components to work 
-        rb = GetComponent<Rigidbody>();
-        t = GetComponent<Transform>();
-        heroStats = GetComponent<NetworkHeroManager>();
+        // Getting these components to work
         anim = GetComponent<TestAnimConrtoller>();
     }
     // To do the inital cast of the skill.
     // Order Of events: 1. Determine how to cast and what to affect. 2.Determine if there is movement included. 3. play the visuals associated.
     // This will probably be a command.
-    public void CastSkill(Skill skillToCast) {
+    public void CastSkill(Skill skillToCast)
+    {
         Debug.Log("I am localplayer: " + isLocalPlayer);
         if (!isLocalPlayer) return;
         //Debug.Log(skillToCast.castType);
         currentCastSkill = skillToCast;
         Debug.Log(currentCastSkill.castType);
-        switch (currentCastSkill.castType) {
+        switch (currentCastSkill.castType)
+        {
             case CastType.selfAoe:
                 Debug.Log("Calling Casting on Server");
                 CmdCastSelfAOE(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType);
                 CmdPlayEffect(currentCastSkill.visualEffectIndex);
                 break;
             case CastType.projectile:
-                CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed,currentCastSkill.projectilePrefabIndex);
+                CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex);
                 break;
             case CastType.raycast: // TODO
                 CastRayCast();
@@ -64,14 +61,19 @@ public class AbilityCaster : NetworkBehaviour {
 
     }
     [Command]
-    private void CmdCastSelfAOE(float range, int damage, DamageType dtype) {
+    private void CmdCastSelfAOE(float range, int damage, DamageType dtype)
+    {
         Debug.Log("I got here");
         Collider[] aroundMe = Physics.OverlapSphere(transform.position, range);
-        foreach (Collider hit in aroundMe) {
-            if (hit.tag == "Enemy" || hit.tag == "Player") {
-                if (hit.transform.root != transform) {
+        foreach (Collider hit in aroundMe)
+        {
+            if (hit.tag == "Enemy" || hit.tag == "Player")
+            {
+                if (hit.transform.root != transform)
+                {
                     // Doing stuff in here.
-                    switch (hit.tag) {
+                    switch (hit.tag)
+                    {
                         case "Enemy":
                             // Get enemy component for dealing damage to it.
                             if (hit.GetComponent<EnemyStats>())
@@ -96,12 +98,14 @@ public class AbilityCaster : NetworkBehaviour {
         }
     }
 
-    private void CastSelf() {
+    private void CastSelf()
+    {
         // Casting self.
         Debug.Log("Casting Self Skill");
     }
     [Command]
-    private void CmdCastProjectile(float range, int damage, DamageType dtype, float speed,int pindex) {
+    private void CmdCastProjectile(float range, int damage, DamageType dtype, float speed, int pindex)
+    {
 
         GameObject bolt = Instantiate(projectiles[pindex]);
         bolt.transform.position = transform.position + transform.forward * 1f + transform.up * 1f;
@@ -113,26 +117,31 @@ public class AbilityCaster : NetworkBehaviour {
 
     }
 
-    private void CastRayCast() {
+    private void CastRayCast()
+    {
 
     }
-    private void MoveTeleport() {
+    private void MoveTeleport()
+    {
 
     }
 
     //
-    private void MoveDash() {
+    private void MoveDash()
+    {
     }
 
     // To go over and play the particle effect.
     [Command]
-    private void CmdPlayEffect(int index) {
+    private void CmdPlayEffect(int index)
+    {
         if (effects == null) Debug.Log("Effects not instantiated. on server.");
         GameObject effect = Instantiate(effects[index], transform);
         NetworkServer.Spawn(effect);
         Destroy(effect, 2);
     }
 
-    private void PlayAnimation() {
+    private void PlayAnimation()
+    {
     }
 }

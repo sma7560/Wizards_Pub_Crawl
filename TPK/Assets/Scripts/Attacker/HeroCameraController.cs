@@ -7,7 +7,6 @@ using UnityEngine;
 // Cameras should only be spawned locally?
 public class HeroCameraController : MonoBehaviour
 {
-
     private PrephaseManager prephaseManager;
     private Transform targetTransform;
     private Vector3 dungeonOffset = new Vector3(0, 8, -5);

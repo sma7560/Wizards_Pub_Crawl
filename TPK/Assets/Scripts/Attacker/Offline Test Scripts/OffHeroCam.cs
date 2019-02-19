@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OffHeroCam : MonoBehaviour {
-
+public class OffHeroCam : MonoBehaviour
+{
     private Transform targetTransform;
     private Vector3 dungeonOffset = new Vector3(0, 8, -5);
     private Quaternion dungeonRotation = Quaternion.Euler(45, 0, 0);
@@ -12,12 +12,14 @@ public class OffHeroCam : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         this.transform.position = dungeonOffset;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (targetTransform == null) return;
 
         Vector3 desiredPosition;

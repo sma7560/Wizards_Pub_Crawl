@@ -31,9 +31,9 @@ public class MatchManager : NetworkBehaviour
     private void Update()
     {
         //end game if match is over
-        if((timeLeftMatch == 0)&(!matchEnded))
+        if ((timeLeftMatch == 0) & (!matchEnded))
         {
-            matchEnd();
+            EndMatch();
             matchEnded = !matchEnded;
         }
     }
@@ -138,8 +138,8 @@ public class MatchManager : NetworkBehaviour
         }
     }
 
-    public void matchEnd()
+    public void EndMatch()
     {
-        GameObject gameOver = Instantiate(Resources.Load("GameOverScreen")) as GameObject;
+        Instantiate(Resources.Load("GameOverScreen"));
     }
 }

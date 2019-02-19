@@ -5,20 +5,20 @@ using UnityEngine;
 public class DefenderBehaviour : MonoBehaviour
 {
 
-    public enum defenderMode { spawnMonster, spawnTrap };
+    public enum DefenderMode { spawnMonster, spawnTrap };
 
     //public GameObject monster;
     //public GameObject trap;
     public int energy;
     public int money;
 
-    public defenderMode mode;
+    public DefenderMode mode;
     public Camera defenderCamera;
 
     public IUnityService unityService;
 
-    private Quaternion monsterDefaultRotation = Quaternion.Euler(0, 0, 0);
-    private int currentCardCost = 100; //update this cost to whatever currently seelcted card's cost is
+    //private Quaternion monsterDefaultRotation = Quaternion.Euler(0, 0, 0);
+    private readonly int currentCardCost = 100; //update this cost to whatever currently seelcted card's cost is
 
     private DefenderController defenderServerConnection;
 
@@ -33,12 +33,12 @@ public class DefenderBehaviour : MonoBehaviour
         energy = 1000;
         money = 1000;
 
-        mode = defenderMode.spawnMonster;
+        mode = DefenderMode.spawnMonster;
 
 
         //Setting up an object to handle all network behavious.
         defenderServerConnection = GameObject.FindGameObjectWithTag("DefenderHolder").GetComponent<DefenderController>();
-        StartCoroutine(addEnergy()); //regenerate energy
+        StartCoroutine(AddEnergy()); //regenerate energy
     }
 
     // Update is called once per frame
@@ -64,7 +64,7 @@ public class DefenderBehaviour : MonoBehaviour
                 Debug.Log("raycast hit " + hit.point);
                 switch (mode)
                 {
-                    case defenderMode.spawnMonster:
+                    case DefenderMode.spawnMonster:
                         {
 
                             Vector3 monsterSpawn = hit.point;
@@ -79,7 +79,7 @@ public class DefenderBehaviour : MonoBehaviour
                             energy -= 100;
                             break;
                         }
-                    case defenderMode.spawnTrap:
+                    case DefenderMode.spawnTrap:
                         {
                             Vector3 trapSpawn = hit.point;
                             Transform trapTransform = hit.transform;
@@ -94,15 +94,15 @@ public class DefenderBehaviour : MonoBehaviour
         //switch spawn modes
         if (unityService.GetKeyUp(KeyCode.E))
         {
-            if (mode == defenderMode.spawnMonster)
-                mode = defenderMode.spawnTrap;
-            else if (mode == defenderMode.spawnTrap)
-                mode = defenderMode.spawnMonster;
+            if (mode == DefenderMode.spawnMonster)
+                mode = DefenderMode.spawnTrap;
+            else if (mode == DefenderMode.spawnTrap)
+                mode = DefenderMode.spawnMonster;
         }
     }
 
     //regenerate energy
-    IEnumerator addEnergy()
+    IEnumerator AddEnergy()
     {
         while (true)
         {

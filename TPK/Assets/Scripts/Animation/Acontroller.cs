@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Acontroller : MonoBehaviour {
-	public Animator anim;
+public class Acontroller : MonoBehaviour
+{
+    public Animator anim;
     public Rigidbody rbody;
     private float inputH;
     private float inputV;
@@ -13,14 +14,16 @@ public class Acontroller : MonoBehaviour {
     public GameObject selectedUnit;
 
     // Use this for initialization
-    void Start () {
-		anim = GetComponent<Animator>();
+    void Start()
+    {
+        anim = GetComponent<Animator>();
         rbody = GetComponent<Rigidbody>();
         run = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         /*This is for top down angle with 360 degree rotation
         float translation = Input.GetAxis("Vertical") * speed;
@@ -72,11 +75,11 @@ public class Acontroller : MonoBehaviour {
         float moveX = inputH * 20f * Time.deltaTime;
         float moveZ = inputV * 50f * Time.deltaTime;
 
-        if(moveZ <= 0f)
+        if (moveZ <= 0f)
         {
             moveX = 0f;
         }
-        else if(run)
+        else if (run)
         {
             moveX *= 3f;
             moveZ *= 3f;
@@ -98,4 +101,4 @@ public class Acontroller : MonoBehaviour {
         clone = Instantiate(RangedSpellPrefab, SpawnSpell, Quaternion.identity);
         clone.transform.GetComponent<RangedSpell>().Target = selectedUnit;
     }
-} 
+}

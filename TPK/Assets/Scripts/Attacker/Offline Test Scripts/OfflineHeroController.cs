@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class OfflineHeroController : NetworkBehaviour {
+public class OfflineHeroController : NetworkBehaviour
+{
     public GameObject attackerUI;
     public Vector3 speed;
     private float moveSpeed;
@@ -18,7 +19,8 @@ public class OfflineHeroController : NetworkBehaviour {
     private TestAnimConrtoller animController;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         if (!isLocalPlayer) return;
         moveSpeed = 5.0f;
 
@@ -43,24 +45,25 @@ public class OfflineHeroController : NetworkBehaviour {
         mainCam = Camera.main.GetComponent<Camera>();
         ground = new Plane(Vector3.up, Vector3.zero);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (!isLocalPlayer) return;
         CharacterMovement();
         SetRotation();
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButtonDown(0))
+        {
             basicAttackController.PerformAttack();
             animController.PlayBasicAttack();
         }
         //Debug.Log(heroRigidbody.velocity);
         Debug.DrawLine(transform.position, transform.forward * 20 + transform.position, Color.red);
-
-
-
     }
+
     [Command]
-    private void CmdSetupStats() {
+    private void CmdSetupStats()
+    {
         heroManager = GetComponent<NetworkHeroManager>(); // Setting it up on the server...
         int val = 10;
         heroManager.SetAtkSpeed(1);
@@ -70,14 +73,18 @@ public class OfflineHeroController : NetworkBehaviour {
         heroManager.SetPAttack(val);
         heroManager.SetPDefence(val);
     }
-    private void SetRotation() {
+
+    private void SetRotation()
+    {
         Ray cameraRay = mainCam.ScreenPointToRay(Input.mousePosition);
-        if (ground.Raycast(cameraRay, out rayLength)) {
+        if (ground.Raycast(cameraRay, out rayLength))
+        {
             pointToLookAt = cameraRay.GetPoint(rayLength);
             Debug.DrawLine(cameraRay.origin, pointToLookAt, Color.blue);
             transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z));
         }
     }
+
     //[Command]
     //private void CmdSetrota
     private void CharacterMovement()

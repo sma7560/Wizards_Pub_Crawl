@@ -18,7 +18,7 @@ public class PrephaseUI : MonoBehaviour
     private readonly int defaultPhyDef = 10;
     private readonly int defaultMagDef = 10;
     private readonly int defaultAttributePts = 20;
-    
+
     // Managers
     private PrephaseManager prephaseManager;
     private NetworkHeroManager networkHeroManager;
@@ -49,8 +49,6 @@ public class PrephaseUI : MonoBehaviour
     private Button increaseMagicalDef;
     private Button decreaseAtkSpd;
     private Button increaseAtkSpd;
-    private Button leftCharacterSelection;
-    private Button rightCharacterSelection;
 
     // Default heroes
     private Hero king;
@@ -86,10 +84,6 @@ public class PrephaseUI : MonoBehaviour
         physicalDef = GameObject.Find("PhysDefText").GetComponent<TextMeshProUGUI>();
         magicalDef = GameObject.Find("MagicDefText").GetComponent<TextMeshProUGUI>();
         atkSpd = GameObject.Find("AtkSpdText").GetComponent<TextMeshProUGUI>();
-
-        // Initialize buttons
-        leftCharacterSelection = GameObject.Find("CharSelectLeftButton").GetComponent<Button>();
-        rightCharacterSelection = GameObject.Find("CharSelectRightButton").GetComponent<Button>();
 
         // Setup default values for default heroes
         SetupDefaultHeroes();
@@ -166,7 +160,7 @@ public class PrephaseUI : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    
+
     /// <summary>
     /// Functionality for changing character selected when the corresponding button is pressed.
     /// Order is king < wizard < rogue.
@@ -220,10 +214,10 @@ public class PrephaseUI : MonoBehaviour
     {
         int physDmg = networkHeroManager.GetPAttack();
         int pointsLeft = int.Parse(attributePointsLeft.text);
-        
+
         if (physDmg > defaultPhyDmg)
         {
-            networkHeroManager.SetPAttack(physDmg-1);                      // decrement physical damage stat
+            networkHeroManager.SetPAttack(physDmg - 1);                      // decrement physical damage stat
             attributePointsLeft.text = (pointsLeft + 1).ToString(); // increment attribute points left by 1
             UpdateStats();
         }
@@ -402,7 +396,7 @@ public class PrephaseUI : MonoBehaviour
 
         SetupDefaultStats();
     }
-    
+
     /// <summary>
     /// Sets the default stats of the hero.
     /// </summary>

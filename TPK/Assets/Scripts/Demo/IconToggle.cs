@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IconToggle : MonoBehaviour {
+public class IconToggle : MonoBehaviour
+{
+    //GameObject iconPanel;
+    // Use this for initialization
 
-    GameObject iconPanel;
-	// Use this for initialization
-
-    public void ToggleActive() {
+    public void ToggleActive()
+    {
         gameObject.SetActive(!gameObject.activeSelf);
     }
 

@@ -14,7 +14,7 @@ public class Score
         // Initialize score to 0
         score = 0;
     }
-    
+
     /// <returns>
     /// Returns the score.
     /// </returns>

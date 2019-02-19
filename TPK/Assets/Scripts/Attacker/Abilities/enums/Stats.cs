@@ -1,3 +1,4 @@
-﻿public enum Stats  {
+﻿public enum Stats
+{
     attackSpeed, damage, defence, moveSpeed
 }

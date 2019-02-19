@@ -1,3 +1,4 @@
-﻿public enum HeroType {
+﻿public enum HeroType
+{
     magic, range, melee
 }

@@ -10,12 +10,12 @@ public class NetworkHeroManager : NetworkBehaviour
     // Character Stats.
     [SyncVar] public readonly int maxHealth = 100; // Stays at 100?
     [SyncVar] public int currentHealth;
-    [SerializeField][SyncVar] private int moveSpeed; // This will act as a multiplyer for movement speed(Velocity)
-    [SerializeField][SyncVar] private int atkSpeed;
-    [SerializeField][SyncVar] private int mDefence;
-    [SerializeField][SyncVar] private int pDefence;
-    [SerializeField][SyncVar] private int mAttack;
-    [SerializeField][SyncVar] private int pAttack;
+    [SerializeField] [SyncVar] private int moveSpeed; // This will act as a multiplyer for movement speed(Velocity)
+    [SerializeField] [SyncVar] private int atkSpeed;
+    [SerializeField] [SyncVar] private int mDefence;
+    [SerializeField] [SyncVar] private int pDefence;
+    [SerializeField] [SyncVar] private int mAttack;
+    [SerializeField] [SyncVar] private int pAttack;
 
     public int modAtkSpeed;
     public int modMDefence;
@@ -212,7 +212,8 @@ public class NetworkHeroManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcSetModel(GameObject hero, Hero myHero) {
+    private void RpcSetModel(GameObject hero, Hero myHero)
+    {
 
         //Debug.Log("RPC() called for Player " + hero.GetComponent<HeroController>().getPlayerId());
         hero.transform.GetChild(heroIndex).gameObject.SetActive(false);
@@ -228,7 +229,7 @@ public class NetworkHeroManager : NetworkBehaviour
     /// <param name="myHero">Model to change the hero to.</param>
     private void LocalSetModel(Transform hero, Hero myHero)
     {
-        Debug.Log("LocalSetModel() called for Player " + hero.gameObject.GetComponent<HeroController>().getPlayerId());
+        Debug.Log("LocalSetModel() called for Player " + hero.gameObject.GetComponent<HeroController>().GetPlayerId());
         hero.GetChild(heroIndex).gameObject.SetActive(false);
         heroIndex = myHero.childIndex;
         heroType = myHero.heroType;
@@ -273,10 +274,11 @@ public class NetworkHeroManager : NetworkBehaviour
     }
 
     // Function for healing back to full health.
-    public void SetFullHealth() {
+    public void SetFullHealth()
+    {
         CmdSetFullHealth();
     }
-    
+
     [Command]
     public void CmdSetFullHealth()
     {

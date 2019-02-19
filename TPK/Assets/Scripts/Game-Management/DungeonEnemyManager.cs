@@ -20,25 +20,24 @@ public class DungeonEnemyManager : NetworkBehaviour
         }
 
         //set initial spawn locations
-        setSpawnPoints();
+        SetSpawnPoints();
     }
 
-    public void startSpawn()
+    public void StartSpawn()
     {
         InvokeRepeating("dungeonSpawnMonster", 0f, 10);
     }
 
-    void dungeonSpawnMonster()
+    void DungeonSpawnMonster()
     {
         if (currentNumMonsters > 10)
         {
             return;
         }
 
-        Random random = new Random();
         int randLocation = Random.Range(1, 22);
 
-        CmdSpawnMonster(getSpawnLocationOfMonster(randLocation));
+        CmdSpawnMonster(GetSpawnLocationOfMonster(randLocation));
     }
 
     // Commands for communicating to the server.
@@ -59,7 +58,7 @@ public class DungeonEnemyManager : NetworkBehaviour
 
     //set spawn location. Takes in number of spawn location, and the spawn
     //location as a n array of vector
-    public void setSpawnLocations(int numSpawnLocations, Vector3[] locations)
+    public void SetSpawnLocations(int numSpawnLocations, Vector3[] locations)
     {
         spawnLocation = new Vector3[numSpawnLocations];
         for (int i = 0; i < numSpawnLocations; i++)
@@ -69,13 +68,13 @@ public class DungeonEnemyManager : NetworkBehaviour
     }
 
     //change specific spawn location
-    public void setSpawnLocation(int playerNum, Vector3 location)
+    public void SetSpawnLocation(int playerNum, Vector3 location)
     {
-         spawnLocation[playerNum] = location;
+        spawnLocation[playerNum] = location;
     }
 
     //sets predetermined spawn points
-    public void setSpawnPoints()
+    public void SetSpawnPoints()
     {
         spawnLocation = new Vector3[] {
             new Vector3(28, 0.5f, 11),
@@ -105,7 +104,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     }
 
     //returns spawn location of specified spawn location 
-    public Vector3 getSpawnLocationOfMonster(int spawnLocationAt)
+    public Vector3 GetSpawnLocationOfMonster(int spawnLocationAt)
     {
         return spawnLocation[spawnLocationAt];
     }

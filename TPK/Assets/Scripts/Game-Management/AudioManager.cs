@@ -8,7 +8,7 @@ using UnityEngine;
 public static class AudioManager
 {
     private static float volume = 1.0f;
-    
+
     /// <returns>
     /// Returns the volume set by the player.
     /// </returns>

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class TestAnimConrtoller : NetworkBehaviour {
+public class TestAnimConrtoller : NetworkBehaviour
+{
     public Animator anim;
     public float inputH;
     public float inputV;
@@ -17,14 +18,15 @@ public class TestAnimConrtoller : NetworkBehaviour {
     public float attaking;
     public bool isWalking;
     public HeroType myHeroType;
-    
+
     // Parameters for animator to set
     // FBMove - This is for determining forward backwards movement
     // LRMove - For determining left right movement
     //
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         if (!isLocalPlayer) return;
         // Set Up Animator
         anim = GetComponent<Animator>();
@@ -37,10 +39,11 @@ public class TestAnimConrtoller : NetworkBehaviour {
         isWalking = false;
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-         if (!isLocalPlayer) return;
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!isLocalPlayer) return;
         forward = this.transform.forward;
         forward.y = 0;
         headingAngle = Quaternion.LookRotation(forward).eulerAngles.y;
@@ -54,7 +57,8 @@ public class TestAnimConrtoller : NetworkBehaviour {
             anim.SetBool("isWalking", isWalking);
             SetMovementAnim();
         }
-        else {
+        else
+        {
             isWalking = false;
             anim.SetBool("isWalking", isWalking);
         }
@@ -63,8 +67,10 @@ public class TestAnimConrtoller : NetworkBehaviour {
 
     }
     // This function is for interfacing with the animator
-    public void PlayAnim(SkillType skillType) {
-        switch (skillType) {
+    public void PlayAnim(SkillType skillType)
+    {
+        switch (skillType)
+        {
             case SkillType.buff:
                 anim.SetTrigger("Buff");
                 break;
@@ -79,7 +85,8 @@ public class TestAnimConrtoller : NetworkBehaviour {
         }
 
     }
-    public void PlayBasicAttack() {
+    public void PlayBasicAttack()
+    {
         // On mouse click.
         switch (myHeroType)
         {
@@ -112,7 +119,8 @@ public class TestAnimConrtoller : NetworkBehaviour {
 
     }
     // This function is for setting up the movement for the legs.
-    private void SetMovementAnim() {
+    private void SetMovementAnim()
+    {
 
         if (headingAngle < 45.0f && headingAngle > -45.0f)
         {

@@ -41,7 +41,7 @@ public class EnemyController : NetworkBehaviour
         MakePlayerTargetList();
         TargetClosestPlayer();
     }
-    
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -100,12 +100,15 @@ public class EnemyController : NetworkBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 
-    public void KillMe() {
-        CmdKillme();
+    public void KillMe()
+    {
+        CmdKillMe();
         unityService.Destroy(gameObject);
     }
+
     [Command]
-    private void CmdKillme() {
+    private void CmdKillMe()
+    {
         NetworkServer.Destroy(gameObject);
     }
 }

@@ -40,7 +40,7 @@ public class StatWindowUI : MonoBehaviour
     private void SetupSkills()
     {
         AbilityManager abilityManager = heroManager.GetHeroObject(playerId).GetComponent<AbilityManager>();
-        
+
         for (int i = 0; i < abilityManager.equippedSkills.Length; i++)
         {
             if (abilityManager.equippedSkills[i] != null)

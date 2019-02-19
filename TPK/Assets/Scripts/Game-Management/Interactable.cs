@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-
     public float interactRadius = 2f;
 
     private void OnDrawGizmosSelected()

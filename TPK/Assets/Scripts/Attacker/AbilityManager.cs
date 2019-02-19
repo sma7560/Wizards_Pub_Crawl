@@ -12,7 +12,7 @@ public class AbilityManager : NetworkBehaviour
 
     //private Transform origin;
     //private Rigidbody playerRigid;
-    private int currMarker;
+    //private int currMarker;
     private AbilityCaster caster;
 
     // Use this for initialization

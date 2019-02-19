@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BouncingBolt : BaseProjectile {
-
-    public override void behaviour(Collision col)
+public class BouncingBolt : BaseProjectile
+{
+    public override void Behaviour(Collision col)
     {
-        base.behaviour(col);
+        base.Behaviour(col);
+
         switch (col.collider.tag)
         {
             case "Enemy":

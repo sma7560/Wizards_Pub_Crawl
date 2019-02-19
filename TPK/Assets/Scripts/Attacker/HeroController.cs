@@ -87,7 +87,8 @@ public class HeroController : NetworkBehaviour
         {
             // This will be changed later but setting up the basic attack here. this should be moved to the endphase.
             // For setting up 
-            if (!isDungeonReady) {
+            if (!isDungeonReady)
+            {
                 isDungeonReady = true;
                 battack.CmdSetAttackParameters();
                 animate.myHeroType = heroManager.heroType;
@@ -208,7 +209,7 @@ public class HeroController : NetworkBehaviour
             transform.Rotate(90, 0, 0);                     //turn sideways to show knocked out
 
             Debug.Log("Player " + playerId + " is knocked out");
-            
+
             // starts timer for length of time that character remains knocked out
             StartCoroutine(KnockOutTimer(deathTimer));
         }
@@ -253,19 +254,19 @@ public class HeroController : NetworkBehaviour
     }
 
     //return playerID
-    public int getPlayerId()
+    public int GetPlayerId()
     {
         return playerId;
     }
 
-	//add score
-	public void addScore(int s)
-	{
-		score.IncreaseScore (s);
-	}
+    //add score
+    public void AddScore(int s)
+    {
+        score.IncreaseScore(s);
+    }
 
     //return score
-    public int getScore()
+    public int GetScore()
     {
         return score.GetScore();
     }

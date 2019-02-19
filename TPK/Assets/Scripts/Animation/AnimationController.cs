@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationController : MonoBehaviour {
+public class AnimationController : MonoBehaviour
+{
     public Animator anim;
     public float inputH;
     public float inputV;
@@ -17,12 +18,14 @@ public class AnimationController : MonoBehaviour {
     public bool isWalking;
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }

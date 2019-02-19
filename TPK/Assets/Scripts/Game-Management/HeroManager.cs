@@ -39,11 +39,10 @@ public class HeroManager : MonoBehaviour
     {
         GameObject heroObject = null;
         GameObject[] heroObjects = GameObject.FindGameObjectsWithTag("Player");
-        MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
 
         foreach (GameObject hero in heroObjects)
         {
-            int pid = hero.GetComponent<HeroController>().getPlayerId();
+            int pid = hero.GetComponent<HeroController>().GetPlayerId();
             if (id == pid)
             {
                 //Debug.Log("Returning Player Object: " + id);

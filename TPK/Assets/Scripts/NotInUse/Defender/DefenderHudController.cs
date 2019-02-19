@@ -20,9 +20,9 @@ public class DefenderHudController : MonoBehaviour {
 		try{
 			GameObject defender = GameObject.FindGameObjectWithTag("DefenderCamera");	//finding the main defender script
 
-			if(defender.GetComponent<DefenderBehaviour>().mode == DefenderBehaviour.defenderMode.spawnMonster){		//checking the mode
+			if(defender.GetComponent<DefenderBehaviour>().mode == DefenderBehaviour.DefenderMode.spawnMonster){		//checking the mode
 				textAction.text = "PLACING MONSTER";																	//updating text
-			} else if(defender.GetComponent<DefenderBehaviour>().mode == DefenderBehaviour.defenderMode.spawnTrap){	
+			} else if(defender.GetComponent<DefenderBehaviour>().mode == DefenderBehaviour.DefenderMode.spawnTrap){	
 				textAction.text = "PLACING TRAP";
 			}
 

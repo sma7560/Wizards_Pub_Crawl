@@ -24,8 +24,8 @@ public class DefenderInputPlayTest
         yield return new WaitForSeconds(timeToWaitLong);
 
         // Setup Defender status
-        GameObject networkManagerV2 = GameObject.Find("NetworkManagerV2");
-        NetworkManagerExtension networkManagerExtension = networkManagerV2.GetComponent<NetworkManagerExtension>();
+        //GameObject networkManagerV2 = GameObject.Find("NetworkManagerV2");
+        //NetworkManagerExtension networkManagerExtension = networkManagerV2.GetComponent<NetworkManagerExtension>();
         //networkManagerExtension.StartUpHost();
 
         // Wait for defender status to be initialized
@@ -68,7 +68,7 @@ public class DefenderInputPlayTest
         DefenderBehaviour defenderBehaviour = defenderCamera.GetComponent<DefenderBehaviour>();
 
         // Set defender mode to spawning monsters
-        defenderBehaviour.mode = DefenderBehaviour.defenderMode.spawnMonster;
+        defenderBehaviour.mode = DefenderBehaviour.DefenderMode.spawnMonster;
 
         // Setup mock of UnityService to mock player input
         var unityService = Substitute.For<IUnityService>();
@@ -121,7 +121,7 @@ public class DefenderInputPlayTest
         DefenderBehaviour defenderBehaviour = defenderCamera.GetComponent<DefenderBehaviour>();
 
         // Set defender mode to spawning monsters
-        defenderBehaviour.mode = DefenderBehaviour.defenderMode.spawnMonster;
+        defenderBehaviour.mode = DefenderBehaviour.DefenderMode.spawnMonster;
 
         // Setup mock of UnityService to mock player input
         var unityService = Substitute.For<IUnityService>();
@@ -175,7 +175,7 @@ public class DefenderInputPlayTest
         DefenderBehaviour defenderBehaviour = defenderCamera.GetComponent<DefenderBehaviour>();
 
         // Set defender mode to spawning traps
-        defenderBehaviour.mode = DefenderBehaviour.defenderMode.spawnTrap;
+        defenderBehaviour.mode = DefenderBehaviour.DefenderMode.spawnTrap;
 
         // Setup mock of UnityService to mock player input
         var unityService = Substitute.For<IUnityService>();

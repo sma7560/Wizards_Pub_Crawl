@@ -121,5 +121,5 @@ public class NetworkManagerExtension : NetworkManager
 
         // Send new player information to PrephaseManager
         prephaseManager.UpdatePrephase();
-	}
+    }
 }

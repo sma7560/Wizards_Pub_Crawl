@@ -1,3 +1,4 @@
-﻿public enum MovementType {
+﻿public enum MovementType
+{
     teleport, dash, still
 }

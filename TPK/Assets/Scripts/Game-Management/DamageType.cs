@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum DamageType {
-
-	physical, magical, none
+public enum DamageType
+{
+    physical, magical, none
 }

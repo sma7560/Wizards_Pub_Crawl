@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseProjectile : MonoBehaviour {
+public class BaseProjectile : MonoBehaviour
+{
 
     public float range = 10f;
     public int damage = 1;
@@ -17,9 +18,11 @@ public class BaseProjectile : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        behaviour(collision);
+        Behaviour(collision);
     }
-    public virtual void behaviour(Collision col) {
+
+    public virtual void Behaviour(Collision col)
+    {
         //Debug.Log("Base Behaviour");
 
     }
