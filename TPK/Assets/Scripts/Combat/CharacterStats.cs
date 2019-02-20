@@ -1,12 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Stats related to the character this script is attached to.
+/// </summary>
 public class CharacterStats : NetworkBehaviour
 {
-    public bool localTest;
-
-    [SyncVar]
-    public int currentHealth; //Making it public for now to view in inpsector.
+    public bool localTest;  // used for unit testing
+    
+    [SerializeField] [SyncVar] private int currentHealth;
 
     public int maxHealth;
     public Stat damage;
@@ -26,13 +28,14 @@ public class CharacterStats : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Causes the current character take damage and lose health.
+    /// </summary>
+    /// <param name="dmg">Amount of damage the character should take.</param>
     [Command]
     public void CmdTakeDamage(int dmg)
     {
-        if (!localTest && !isServer)
-        {
-            return;
-        }
+        if (!localTest && !isServer) return;
 
         // Calculate damage to take
         dmg -= defence.GetValue();
@@ -44,11 +47,18 @@ public class CharacterStats : NetworkBehaviour
         Debug.Log(transform.name + " takes " + dmg + " damage. Current health is " + currentHealth + ".");
     }
 
+    /// <returns>
+    /// Getter for current health.
+    /// </returns>
     public int GetCurrentHealth()
     {
         return currentHealth;
     }
 
+    /// <summary>
+    /// Setter for current health.
+    /// </summary>
+    /// <param name="health">Value to set current health to.</param>
     public void SetCurrentHealth(int health)
     {
         if (health > 0)

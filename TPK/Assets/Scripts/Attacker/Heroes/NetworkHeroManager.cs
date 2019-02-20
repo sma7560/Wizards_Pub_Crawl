@@ -8,9 +8,9 @@ using UnityEngine.Networking;
 public class NetworkHeroManager : NetworkBehaviour
 {
     // Character Stats.
-    [SyncVar] public readonly int maxHealth = 100; // Stays at 100?
+    [SyncVar] public readonly int maxHealth = 100;      // Stays at 100 (for now)
     [SyncVar] public int currentHealth;
-    [SerializeField] [SyncVar] private int moveSpeed; // This will act as a multiplyer for movement speed(Velocity)
+    [SerializeField] [SyncVar] private int moveSpeed;   // This will act as a multiplyer for movement speed(Velocity)
     [SerializeField] [SyncVar] private int atkSpeed;
     [SerializeField] [SyncVar] private int mDefence;
     [SerializeField] [SyncVar] private int pDefence;
@@ -23,9 +23,8 @@ public class NetworkHeroManager : NetworkBehaviour
     public int modMAttack;
     public int modPAttack;
 
-
     public int heroIndex;
-    public HeroType heroType; // Might need this for later
+    public HeroType heroType;
 
     // Basic Getters and setters for stats
     public int GetMoveSpeed()
@@ -267,8 +266,10 @@ public class NetworkHeroManager : NetworkBehaviour
                 break;
         }
         // Since health is dealt with in integers do some rounding with the finalDamage Calculated before subtractingd.
+        finalDamage = Mathf.Clamp(finalDamage, 0, int.MaxValue);    // restrict damage to a value between [0, int.MaxValue]
         Debug.Log("Damage: " + Mathf.Round(finalDamage));
         currentHealth = currentHealth - (int)Mathf.Round(finalDamage);
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);   // restrict health to a value between [0, maxHealth]
 
         Debug.Log("My Current Health: " + currentHealth + "/" + maxHealth);
     }
@@ -286,13 +287,18 @@ public class NetworkHeroManager : NetworkBehaviour
         currentHealth = maxHealth;
     }
 
-    // This function is meant to heal the character
+    /// <summary>
+    /// This function heals the character.
+    /// </summary>
+    /// <param name="amount">Amount of health to heal the character by.</param>
     public void Heal(int amount)
     {
         if (!isServer) return;
+
         currentHealth += amount;
-        // Defining max health as max health.
-        if (currentHealth > maxHealth) currentHealth = maxHealth;
+
+        // Restrict current health to a value beyond [0, maxHealth]
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
 }
