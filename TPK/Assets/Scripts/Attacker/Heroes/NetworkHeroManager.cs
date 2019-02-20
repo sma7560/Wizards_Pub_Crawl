@@ -167,72 +167,72 @@ public class NetworkHeroManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// THIS IS CURRENTLY BROKEN FOR UPDATING MODEL ON CLIENT.
-    /// This function should set up which model should be loaded.
+    /// This function sets the model of the hero to the given hero.
+    /// Reference: https://answers.unity.com/questions/1414490/set-active-over-network.html
     /// </summary>
-    /// <param name="myHero">The hero to set the model of.</param>
+    /// <param name="myHero">The hero to set the model to.</param>
     public void SetModel(Hero myHero)
     {
+        if (!hasAuthority) return;  // only the player owning this hero should change its model
+
         MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
-
-        // Setup the hero object we want to change the model of
         GameObject hero = heroManager.GetHeroObject(matchManager.GetPlayerId());
-        CmdSetModel(hero, myHero);
-        //if (!isServer && isLocalPlayer)
-        //{
-        //    Debug.Log("SetModel() called for client");
 
-        //    // Get managers
-        //    MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-        //    HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        int oldHeroIndex = heroIndex;
 
-        //    // Setup the hero object we want to change the model of
-        //    GameObject hero = heroManager.GetHeroObject(matchManager.GetPlayerId());
-        //    CmdSetModel(hero, myHero, matchManager.GetPlayerId());
-        //}
-        //else if (isServer)
-        //{
-        //    LocalSetModel(transform, myHero);
-        //}
+        // Update the player's model locally
+        LocalSetModel(hero, myHero, oldHeroIndex);
+
+        // Send update of player's model to all other players
+        if (isServer)
+        {
+            RpcSetModel(hero, myHero, oldHeroIndex);
+        }
+        else
+        {
+            CmdSetModel(hero, myHero, oldHeroIndex);
+        }
     }
 
     /// <summary>
-    /// Tell server to change the model of the specified player.
+    /// Tell server to change the model of the specified player on the client.
     /// </summary>
+    /// <param name="hero">Hero object to change the model of.</param>
     /// <param name="myHero">Hero to change to.</param>
-    /// <param name="playerId">Player to change the model of.</param>
+    /// <param name="oldHeroIndex">Index of the hero previously selected.</param>
     [Command]
-    private void CmdSetModel(GameObject hero, Hero myHero)
+    private void CmdSetModel(GameObject hero, Hero myHero, int oldHeroIndex)
     {
-        Debug.Log("CmdSetModel called");
-        //LocalSetModel(hero.transform, myHero);
-        RpcSetModel(hero, myHero);
+        LocalSetModel(hero, myHero, oldHeroIndex);
+        RpcSetModel(hero, myHero, oldHeroIndex);
     }
 
+    /// <summary>
+    /// From server, tell all clients to change the model of the specified player.
+    /// </summary>
+    /// <param name="hero">Hero object to change the model of.</param>
+    /// <param name="myHero">Hero to change to.</param>
+    /// <param name="oldHeroIndex">Index of the hero previously selected.</param>
     [ClientRpc]
-    private void RpcSetModel(GameObject hero, Hero myHero)
+    private void RpcSetModel(GameObject hero, Hero myHero, int oldHeroIndex)
     {
+        if (isLocalPlayer) return;  // prevent receiving the notification you started
+        LocalSetModel(hero, myHero, oldHeroIndex);
+    }
 
-        //Debug.Log("RPC() called for Player " + hero.GetComponent<HeroController>().getPlayerId());
-        hero.transform.GetChild(heroIndex).gameObject.SetActive(false);
+    /// <summary>
+    /// Locally sets the model of the player.
+    /// </summary>
+    /// <param name="hero">Hero object to change the model of.</param>
+    /// <param name="myHero">Hero to change to.</param>
+    /// <param name="oldHeroIndex">Index of the hero previously selected.</param>
+    private void LocalSetModel(GameObject hero, Hero myHero, int oldHeroIndex)
+    {
+        hero.transform.GetChild(oldHeroIndex).gameObject.SetActive(false);
         heroIndex = myHero.childIndex;
         heroType = myHero.heroType;
         hero.transform.GetChild(heroIndex).gameObject.SetActive(true);
-    }
-
-    /// <summary>
-    /// Set the model of the specified hero object.
-    /// </summary>
-    /// <param name="hero">Hero object which we want to change the model of.</param>
-    /// <param name="myHero">Model to change the hero to.</param>
-    private void LocalSetModel(Transform hero, Hero myHero)
-    {
-        Debug.Log("LocalSetModel() called for Player " + hero.gameObject.GetComponent<HeroController>().GetPlayerId());
-        hero.GetChild(heroIndex).gameObject.SetActive(false);
-        heroIndex = myHero.childIndex;
-        heroType = myHero.heroType;
-        hero.GetChild(heroIndex).gameObject.SetActive(true);
     }
 
     // Set a basic attack to be active

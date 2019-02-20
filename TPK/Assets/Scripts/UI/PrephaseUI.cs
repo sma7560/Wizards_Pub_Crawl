@@ -11,14 +11,6 @@ public class PrephaseUI : MonoBehaviour
     public TextMeshProUGUI skillDescriptionText;
     public TextMeshProUGUI skillTitleText;
 
-    // Default stat values
-    private readonly int defaultAtkSpd = 1;
-    private readonly int defaultPhyDmg = 10;
-    private readonly int defaultMagDmg = 10;
-    private readonly int defaultPhyDef = 10;
-    private readonly int defaultMagDef = 10;
-    private readonly int defaultAttributePts = 20;
-
     // Managers
     private PrephaseManager prephaseManager;
     private NetworkHeroManager networkHeroManager;
@@ -27,7 +19,6 @@ public class PrephaseUI : MonoBehaviour
 
     // Text elements
     private TextMeshProUGUI playerName;
-    private TextMeshProUGUI attributePointsLeft;
     private TextMeshProUGUI characterSelectedName;
     private TextMeshProUGUI hostIP;
     private TextMeshProUGUI numOfPlayers;
@@ -37,18 +28,6 @@ public class PrephaseUI : MonoBehaviour
     private TextMeshProUGUI physicalDef;
     private TextMeshProUGUI magicalDef;
     private TextMeshProUGUI atkSpd;
-
-    // Button elements
-    private Button decreasePhysicalDmg;
-    private Button increasePhysicalDmg;
-    private Button decreaseMagicalDmg;
-    private Button increaseMagicalDmg;
-    private Button decreasePhysicalDef;
-    private Button increasePhysicalDef;
-    private Button decreaseMagicalDef;
-    private Button increaseMagicalDef;
-    private Button decreaseAtkSpd;
-    private Button increaseAtkSpd;
 
     // Default heroes
     private Hero king;
@@ -74,7 +53,6 @@ public class PrephaseUI : MonoBehaviour
 
         // Initialize text
         playerName = GameObject.Find("PlayerNameText").GetComponent<TextMeshProUGUI>();
-        attributePointsLeft = GameObject.Find("PointsLeftText").GetComponent<TextMeshProUGUI>();
         hostIP = GameObject.Find("HostIPText").GetComponent<TextMeshProUGUI>();
         numOfPlayers = GameObject.Find("CurrentNumOfPlayersText").GetComponent<TextMeshProUGUI>();
         timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
@@ -96,7 +74,7 @@ public class PrephaseUI : MonoBehaviour
         skillDescription.SetActive(false);
 
         // Update UI elements
-        UpdateStats();
+        SetupDefaultStats();
         UpdateCharacterSelectedName();
         UpdateHostIP();
         UpdateNumOfPlayers();
@@ -112,6 +90,7 @@ public class PrephaseUI : MonoBehaviour
     {
         UpdateNumOfPlayers();
         UpdateTimeLeftUI();
+        UpdateStats();
     }
 
     /// <summary>
@@ -180,6 +159,7 @@ public class PrephaseUI : MonoBehaviour
             selectedHero = wizard;
         }
 
+        SetupDefaultStats();
         networkHeroManager.SetModel(selectedHero);
         UpdateCharacterSelectedName();
     }
@@ -203,168 +183,9 @@ public class PrephaseUI : MonoBehaviour
             selectedHero = king;
         }
 
+        SetupDefaultStats();
         networkHeroManager.SetModel(selectedHero);
         UpdateCharacterSelectedName();
-    }
-
-    /// <summary>
-    /// Functionality for decreasing physical damage when the corresponding button is pressed.
-    /// </summary>
-    public void DecreasePhysicalDamage()
-    {
-        int physDmg = networkHeroManager.GetPAttack();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (physDmg > defaultPhyDmg)
-        {
-            networkHeroManager.SetPAttack(physDmg - 1);                      // decrement physical damage stat
-            attributePointsLeft.text = (pointsLeft + 1).ToString(); // increment attribute points left by 1
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for increasing physical damage when the corresponding button is pressed.
-    /// </summary>
-    public void IncreasePhysicalDamage()
-    {
-        int physDmg = networkHeroManager.GetPAttack();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (pointsLeft > 0)
-        {
-            networkHeroManager.SetPAttack(physDmg + 1);                    // increment physical damage stat
-            attributePointsLeft.text = (pointsLeft - 1).ToString(); // decrement attribute points left by 1
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for decreasing magical damage when the corresponding button is pressed.
-    /// </summary>
-    public void DecreaseMagicalDamage()
-    {
-        int magicDmg = networkHeroManager.GetMAttack();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (magicDmg > defaultMagDmg)
-        {
-            networkHeroManager.SetMAttack(magicDmg - 1);
-            attributePointsLeft.text = (pointsLeft + 1).ToString();
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for increasing magical damage when the corresponding button is pressed.
-    /// </summary>
-    public void IncreaseMagicalDamage()
-    {
-        int magicDmg = networkHeroManager.GetMAttack();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (pointsLeft > 0)
-        {
-            networkHeroManager.SetMAttack(magicDmg + 1);
-            attributePointsLeft.text = (pointsLeft - 1).ToString();
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for decreasing physical defence when the corresponding button is pressed.
-    /// </summary>
-    public void DecreasePhysicalDefence()
-    {
-        int physDef = networkHeroManager.GetPDefence();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (physDef > defaultPhyDef)
-        {
-            networkHeroManager.SetPDefence(physDef - 1);
-            attributePointsLeft.text = (pointsLeft + 1).ToString();
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for increasing physical defence when the corresponding button is pressed.
-    /// </summary>
-    public void IncreasePhysicalDefence()
-    {
-        int physDef = networkHeroManager.GetPDefence();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (pointsLeft > 0)
-        {
-            networkHeroManager.SetPDefence(physDef + 1);
-            attributePointsLeft.text = (pointsLeft - 1).ToString();
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for decreasing magical defence when the corresponding button is pressed.
-    /// </summary>
-    public void DecreaseMagicalDefence()
-    {
-        int magicDef = networkHeroManager.GetMDefence();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (magicDef > defaultMagDef)
-        {
-            networkHeroManager.SetMDefence(magicDef - 1);
-            attributePointsLeft.text = (pointsLeft + 1).ToString();
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for increasing magical defence when the corresponding button is pressed.
-    /// </summary>
-    public void IncreaseMagicalDefence()
-    {
-        int magicDef = networkHeroManager.GetMDefence();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (pointsLeft > 0)
-        {
-            networkHeroManager.SetMDefence(magicDef + 1);
-            attributePointsLeft.text = (pointsLeft - 1).ToString();
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for decreasing attack speed when the corresponding button is pressed.
-    /// </summary>
-    public void DecreaseAttackSpeed()
-    {
-        int atkSpd = networkHeroManager.GetAtkSpeed();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (atkSpd > defaultAtkSpd)
-        {
-            networkHeroManager.SetAtkSpeed(atkSpd - 1);
-            attributePointsLeft.text = (pointsLeft + 1).ToString();
-            UpdateStats();
-        }
-    }
-
-    /// <summary>
-    /// Functionality for increasing attack speed when the corresponding button is pressed.
-    /// </summary>
-    public void IncreaseAttackSpeed()
-    {
-        int atkSpd = networkHeroManager.GetAtkSpeed();
-        int pointsLeft = int.Parse(attributePointsLeft.text);
-
-        if (pointsLeft > 0)
-        {
-            networkHeroManager.SetAtkSpeed(atkSpd + 1);
-            attributePointsLeft.text = (pointsLeft - 1).ToString();
-            UpdateStats();
-        }
     }
 
     /// <summary>
@@ -387,8 +208,6 @@ public class PrephaseUI : MonoBehaviour
         rogue.heroType = HeroType.melee;
         rogue.heroName = "Rogue";
         rogue.childIndex = 1;
-
-        SetupDefaultStats();
     }
 
     /// <summary>
@@ -396,13 +215,35 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void SetupDefaultStats()
     {
-        // Set default stat values
-        networkHeroManager.SetAtkSpeed(defaultAtkSpd);
-        networkHeroManager.SetPAttack(defaultPhyDmg);
-        networkHeroManager.SetMAttack(defaultMagDmg);
-        networkHeroManager.SetPDefence(defaultPhyDef);
-        networkHeroManager.SetMDefence(defaultMagDef);
-        attributePointsLeft.text = defaultAttributePts.ToString();
+        // Set default stat values depending on the hero type
+        if (selectedHero == king)
+        {
+            networkHeroManager.SetAtkSpeed(10);
+            networkHeroManager.SetPAttack(10);
+            networkHeroManager.SetMAttack(10);
+            networkHeroManager.SetPDefence(10);
+            networkHeroManager.SetMDefence(10);
+        }
+        else if (selectedHero == wizard)
+        {
+            networkHeroManager.SetAtkSpeed(10);
+            networkHeroManager.SetPAttack(5);
+            networkHeroManager.SetMAttack(15);
+            networkHeroManager.SetPDefence(5);
+            networkHeroManager.SetMDefence(15);
+        }
+        else if (selectedHero == rogue)
+        {
+            networkHeroManager.SetAtkSpeed(15);
+            networkHeroManager.SetPAttack(15);
+            networkHeroManager.SetMAttack(5);
+            networkHeroManager.SetPDefence(10);
+            networkHeroManager.SetMDefence(5);
+        }
+        else
+        {
+            Debug.Log("Selected Hero is not a valid hero.");
+        }
     }
 
     /// <summary>
