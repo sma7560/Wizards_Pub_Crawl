@@ -15,8 +15,8 @@ public class MatchManager : NetworkBehaviour
 
     // SyncVars
     [SerializeField] private SyncListInt connections;   // list of all connections in the match
-    [SerializeField] [SyncVar] private int currentNumOfPlayers;          // the current number of players in the match
-    [SerializeField] [SyncVar] private float timeLeftMatch;              // time left in the current match
+    [SyncVar] private int currentNumOfPlayers;          // the current number of players in the match
+    [SyncVar] private float timeLeftMatch;              // time left in the current match
 
     // Local variables
     private int playerId;                               // player ID of the current player
@@ -52,7 +52,8 @@ public class MatchManager : NetworkBehaviour
     /// <returns>Returns true if a player has been successfully added to the match, else returns false.</returns>
     public bool AddPlayerToMatch(NetworkConnection conn)
     {
-        if (!isServer) return false;    // only the server may alter variables
+        // Only the server may alter variables.
+        if (!isServer) return false;
 
         // Add NetworkConnection to connections list
         if (connections == null)
