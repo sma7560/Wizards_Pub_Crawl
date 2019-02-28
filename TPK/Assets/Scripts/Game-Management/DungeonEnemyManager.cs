@@ -25,7 +25,7 @@ public class DungeonEnemyManager : NetworkBehaviour
 
     public void StartSpawn()
     {
-        InvokeRepeating("dungeonSpawnMonster", 0f, 10);
+        InvokeRepeating("DungeonSpawnMonster", 0f, 10);
     }
 
     void DungeonSpawnMonster()
