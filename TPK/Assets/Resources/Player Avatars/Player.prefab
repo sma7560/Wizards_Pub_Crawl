@@ -2786,7 +2786,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroCam: {fileID: 1742646014484890, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
-  playerUI: {fileID: 1008096885342384, guid: 19619658169d7a048906d5bcb9ce7d42, type: 2}
+  playerUI: {fileID: 1973288185696010, guid: 19619658169d7a048906d5bcb9ce7d42, type: 2}
   localTest: 0
 --- !u!136 &136885870402194014
 CapsuleCollider:
