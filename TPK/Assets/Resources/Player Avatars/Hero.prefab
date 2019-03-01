@@ -8561,9 +8561,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroCam: {fileID: 1742646014484890, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
-  playerUI: {fileID: 1008096885342384, guid: 19619658169d7a048906d5bcb9ce7d42, type: 2}
+  playerUI: {fileID: 1973288185696010, guid: 19619658169d7a048906d5bcb9ce7d42, type: 2}
   localTest: 0
-  heroCombat: {fileID: 114256848107287022}
 --- !u!114 &114256848107287022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8621,6 +8620,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 0
+  moveSpeed: 0
+  atkSpeed: 0
+  mDefence: 0
+  pDefence: 0
+  mAttack: 0
+  pAttack: 0
   modAtkSpeed: 0
   modMDefence: 0
   modPDefence: 0
