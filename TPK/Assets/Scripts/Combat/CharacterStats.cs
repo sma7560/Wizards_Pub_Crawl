@@ -24,7 +24,7 @@ public class CharacterStats : NetworkBehaviour
     {
         if (currentHealth <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
     }
 
@@ -69,5 +69,11 @@ public class CharacterStats : NetworkBehaviour
         {
             currentHealth = 0;
         }
+    }
+
+    //default death function. Will be overwritten for enemies
+    protected virtual void Die()
+    {
+        Destroy(gameObject);
     }
 }
