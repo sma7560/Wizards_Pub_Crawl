@@ -8,6 +8,12 @@ using UnityEngine.Networking;
  */
 public class Item : NetworkBehaviour
 {
+    private void Update()
+    {
+        //rotation animation
+        transform.RotateAround(transform.position, transform.forward, Time.deltaTime * 90f);
+    }
+
     //check if player comes in contact with item
     private void OnTriggerEnter(Collider other)
     {

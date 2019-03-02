@@ -12,10 +12,12 @@ public class EnemyStats : CharacterStats
         float randChance = Random.Range(0f, 100f);
 
         //random chance to drop health pickup
-        if(randChance >= dropRate)
+        if(randChance <= dropRate)
         {
             GameObject monsterDrop = Resources.Load("Items/HealthPickup") as GameObject;
-            Instantiate(monsterDrop, transform.position, Quaternion.Euler(0, 0, 0));
+            Vector3 itemPosition = transform.position;
+            itemPosition.y = itemPosition.y + 0.7f;
+            Instantiate(monsterDrop, itemPosition, Quaternion.Euler(90, 0, 0));
         }
         // Add enemy death animation here
         Destroy(gameObject);
