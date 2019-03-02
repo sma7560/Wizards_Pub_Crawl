@@ -98,7 +98,7 @@ public class ArtifactController : MonoBehaviour
     //artifact has been "dropped"
     public void DroppedArtifact()
     {
-        transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y - 3, playerThatOwns.transform.position.z);
+        transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y +1f, playerThatOwns.transform.position.z);
         playerThatOwns = null;
         isCarried = false;
         //scale size back up
