@@ -19,6 +19,7 @@ public class TestAnimConrtoller : NetworkBehaviour
     public bool isWalking;
     public HeroType myHeroType;
 
+    private MatchManager matchManager;
     private PrephaseManager prephaseManager;
 
     // Parameters for animator to set
@@ -31,6 +32,7 @@ public class TestAnimConrtoller : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         // Set Up Animator
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         anim = GetComponent<Animator>();
         basicNum = 0;
@@ -46,7 +48,7 @@ public class TestAnimConrtoller : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase()) return;
+        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.IsMatchEnded()) return;
 
         forward = this.transform.forward;
         forward.y = 0;

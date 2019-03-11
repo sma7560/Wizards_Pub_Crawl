@@ -33,6 +33,7 @@ public class HeroController : NetworkBehaviour
     private readonly int deathTimer = 4; //default death timer
 
     private PrephaseManager prephaseManager;
+    private MatchManager matchManager;
     public IUnityService unityService;
     //public CharacterCombat heroCombat;
     //private CharacterStats heroStats;
@@ -68,6 +69,7 @@ public class HeroController : NetworkBehaviour
         battack = GetComponent<BasicAttack>();
         animate = GetComponent<TestAnimConrtoller>();
 
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         ground = new Plane(Vector3.up, Vector3.zero);
         //score = new Score();
@@ -82,8 +84,8 @@ public class HeroController : NetworkBehaviour
     {
         if (!isLocalPlayer && !localTest) return;
 
-        // Only allow character movement if hero is not knocked out & game is currently not in prephase
-        if (!isKnockedOut && !prephaseManager.IsCurrentlyInPrephase())
+        // Only allow character movement if hero is not knocked out, game is currently not in prephase, and match has not ended
+        if (!isKnockedOut && !prephaseManager.IsCurrentlyInPrephase() && !matchManager.IsMatchEnded())
         {
             // This will be changed later but setting up the basic attack here. this should be moved to the endphase.
             // For setting up 

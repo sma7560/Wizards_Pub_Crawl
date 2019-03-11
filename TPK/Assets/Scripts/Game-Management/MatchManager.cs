@@ -11,7 +11,7 @@ public class MatchManager : NetworkBehaviour
 {
     // Constants
     private readonly int maxPlayers = 2;                // currently only accepting 2 players maximum
-    private readonly int totalMatchTime = 900;          // total match time (default to 15 minutes)
+    private readonly int totalMatchTime = 10;          // total match time (default to 15 minutes)
 
     // SyncVars
     [SerializeField] private SyncListInt connections;   // list of all connections in the match
@@ -139,6 +139,14 @@ public class MatchManager : NetworkBehaviour
     public int GetMaxPlayers()
     {
         return maxPlayers;
+    }
+    
+    /// <returns>
+    /// Returns whether or not the match has ended. True if match has ended, false otherwise.
+    /// </returns>
+    public bool IsMatchEnded()
+    {
+        return matchEnded;
     }
 
     /// <summary>

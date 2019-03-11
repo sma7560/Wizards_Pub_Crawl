@@ -17,11 +17,14 @@ public class EnemyController : NetworkBehaviour
     int numPlayers;
     CharacterCombat enemyCombat;
 
+    private MatchManager matchManager;
+
     // Use this for initialization
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         enemyCombat = GetComponent<CharacterCombat>();
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
 
         if (unityService == null)
         {
@@ -35,6 +38,13 @@ public class EnemyController : NetworkBehaviour
         // Makes it so it is only moved on server.
         if (!localTest && !isServer)
         {
+            return;
+        }
+
+        // Stop moving if match has ended
+        if (matchManager.IsMatchEnded())
+        {
+            agent.isStopped = true;
             return;
         }
 

@@ -9,7 +9,9 @@ public class ArtifactSpawn : NetworkBehaviour
 
     public GameObject artifact;
     public IUnityService unityService;
+
     private GameObject spawn;
+    private MatchManager matchManager;
 
     //int maxArtifacts;                   //maximum number of artifacts that will appear at once (players - 1)
 
@@ -18,6 +20,7 @@ public class ArtifactSpawn : NetworkBehaviour
     {
         //maxArtifacts = 1;
 
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         spawnlocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
 
         if (unityService == null)
@@ -38,7 +41,7 @@ public class ArtifactSpawn : NetworkBehaviour
     //spawns artifact at a random spawn location, to be called when an artifact is picked up
     public void SpawnArtifactRandom()
     {
-        if (!isServer) return;  // only called on server 
+        if (!isServer || matchManager.IsMatchEnded()) return;  // only called on server 
 
         int i = Random.Range(0, spawnlocations.Length);
         spawn = spawnlocations[i];
