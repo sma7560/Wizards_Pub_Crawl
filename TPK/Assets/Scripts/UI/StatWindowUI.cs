@@ -9,6 +9,7 @@ public class StatWindowUI : MonoBehaviour
     public GameObject skillDescription;
     public TextMeshProUGUI skillDescriptionText;
     public TextMeshProUGUI skillDescriptionTitleText;
+    public GameObject artifactComponent;
 
     private int playerId;
     private NetworkHeroManager networkHeroManager;
@@ -31,7 +32,12 @@ public class StatWindowUI : MonoBehaviour
         skillDescription.SetActive(false);  // set to inactive by default
         SetupSkills();
         SetupStats();
+    }
+
+    void Update()
+    {
         SetupAvatar();
+        SetupArtifact();
     }
 
     /// <summary>
@@ -74,6 +80,37 @@ public class StatWindowUI : MonoBehaviour
     }
 
     /// <summary>
+    /// Setup the "currently carrying" and artifact image.
+    /// </summary>
+    private void SetupArtifact()
+    {
+        GameObject[] artifacts = GameObject.FindGameObjectsWithTag("Artifact"); // list of all artifacts in the game
+        bool isCarryingArtifact = false;    // whether or not the player is currently carrying an artifact
+
+        // Loop through all artifacts in the game and see if any of them are being carried by the current player
+        foreach (GameObject artifact in artifacts)
+        {
+            ArtifactController artifactControl = artifact.GetComponent<ArtifactController>();
+            if (artifactControl.GetOwnerID() == playerId)
+            {
+                isCarryingArtifact = true;
+                break;
+            }
+        }
+
+        // If player is carrying an artifact, activate the UI component
+        if (isCarryingArtifact && !artifactComponent.activeSelf)
+        {
+            artifactComponent.SetActive(true);
+        }
+        else if (!isCarryingArtifact && artifactComponent.activeSelf)
+        {
+            // If player is not carrying an artifact, deactivate the UI component
+            artifactComponent.SetActive(false);
+        }
+    }
+
+    /// <summary>
     /// Setup the hero avatar in the stat window.
     /// </summary>
     private void SetupAvatar()
@@ -82,48 +119,11 @@ public class StatWindowUI : MonoBehaviour
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         GameObject heroAvatar = heroManager.GetHeroObject(playerId);            // avatar of the player's hero
-        GameObject windowAvatar = GameObject.Find("HeroAvatar");                // empty avatar in the stat window
         GameObject heroAvatarCameraObj = GameObject.Find("HeroAvatarCamera");   // camera which will be focused on the hero avatar
 
-        // Setup camera
+        // Setup camera; follows player avatar
         Camera heroAvatarCamera = heroAvatarCameraObj.GetComponent<Camera>();
         heroAvatarCamera.transform.position = heroAvatar.transform.position + new Vector3(0.1f, 1.3f, 2f);
         heroAvatarCamera.transform.rotation = Quaternion.Euler(10, 180, 0);
-
-        // Set the stat window avatar to hero avatar
-        int activeChildIndex = GetActiveChildIndex(heroAvatar); // Get the active child inside player's hero object (represents the hero avatar)
-        heroAvatar = Instantiate(heroAvatar.transform.GetChild(activeChildIndex).gameObject);   // Get the hero avatar object
-        heroAvatar.transform.position = heroManager.GetSpawnLocationOfPlayer(matchManager.GetPlayerId());   // Set window avatar to the player's spawn location
-        heroAvatar.transform.parent = windowAvatar.transform;   // set the hero avatar to child of stat window avatar
-        SetLayerRecursively(heroAvatar, 9);     // Set to StatWindowAvatar layer
-    }
-
-    /// <summary>
-    /// Sets GameObject and all its children layer to the specified layer.
-    /// </summary>
-    /// <param name="obj">GameObject to set layer to.</param>
-    /// <param name="layer">Layer to be set.</param>
-    private void SetLayerRecursively(GameObject obj, int layer)
-    {
-        obj.layer = layer;
-
-        for (int i = 0; i < obj.transform.childCount; i++)
-        {
-            GameObject child = obj.transform.GetChild(i).gameObject;
-            SetLayerRecursively(child, layer);
-        }
-    }
-
-    private int GetActiveChildIndex(GameObject parent)
-    {
-        for (int i = 0; i < parent.transform.childCount; i++)
-        {
-            if (parent.transform.GetChild(i).gameObject.activeSelf)
-            {
-                return i;
-            }
-        }
-
-        return -1;
     }
 }

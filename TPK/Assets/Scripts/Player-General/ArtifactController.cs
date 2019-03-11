@@ -40,6 +40,7 @@ public class ArtifactController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        ownerID = -1;
         transform.localScale = normalscale;
         //artifactBody = GetComponent<Rigidbody>();
     }
@@ -87,7 +88,7 @@ public class ArtifactController : MonoBehaviour
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
                         playerThatOwns.GetComponent<HeroController>().AddScore(1);      //adds a point to scoring player, then deletes itself
-                        GameObject.FindGameObjectWithTag("ArtifactSpawnControl").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
+                        GameObject.FindGameObjectWithTag("EventSystem").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
                         Destroy(gameObject);
                     }
                 }
@@ -103,5 +104,13 @@ public class ArtifactController : MonoBehaviour
         isCarried = false;
         //scale size back up
         transform.localScale = normalscale;
+    }
+
+    /// <returns>
+    /// Returns the player ID currently carrying the artifact.
+    /// </returns>
+    public int GetOwnerID()
+    {
+        return ownerID;
     }
 }
