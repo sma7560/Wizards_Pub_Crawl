@@ -98,18 +98,17 @@ public class HeroController : NetworkBehaviour
             // Perform character movement controls
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
             PerformRotation();
-        }
 
-        Debug.DrawLine(transform.position, transform.forward * 20 + transform.position, Color.red);
+            // Perform an attack
+            if (unityService.GetKeyDown(KeyCode.Space))
+            {
+                battack.PerformAttack();
+                //heroCombat.CmdAttack();
+                animate.PlayBasicAttack();
+            }
+        }
+        
         UpdateUI();
-
-        // Perform an attack
-        if (unityService.GetKeyDown(KeyCode.Space))
-        {
-            battack.PerformAttack();
-            //heroCombat.CmdAttack();
-            animate.PlayBasicAttack();
-        }
     }
 
     // This function is used to get player direction.

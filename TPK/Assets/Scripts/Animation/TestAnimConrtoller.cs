@@ -19,6 +19,8 @@ public class TestAnimConrtoller : NetworkBehaviour
     public bool isWalking;
     public HeroType myHeroType;
 
+    private PrephaseManager prephaseManager;
+
     // Parameters for animator to set
     // FBMove - This is for determining forward backwards movement
     // LRMove - For determining left right movement
@@ -29,6 +31,7 @@ public class TestAnimConrtoller : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         // Set Up Animator
+        prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         anim = GetComponent<Animator>();
         basicNum = 0;
         timeToReset = 1.5f;
@@ -43,7 +46,8 @@ public class TestAnimConrtoller : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase()) return;
+
         forward = this.transform.forward;
         forward.y = 0;
         headingAngle = Quaternion.LookRotation(forward).eulerAngles.y;

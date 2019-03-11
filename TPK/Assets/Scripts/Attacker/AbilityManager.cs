@@ -14,11 +14,14 @@ public class AbilityManager : NetworkBehaviour
     //private Rigidbody playerRigid;
     //private int currMarker;
     private AbilityCaster caster;
+    private PrephaseManager prephaseManager;
 
     // Use this for initialization
     void Start()
     {
         if (!isLocalPlayer) return;
+
+        prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
 
         caster = GetComponent<AbilityCaster>();
         nextActiveTime = new float[equippedSkills.Length];
@@ -33,8 +36,7 @@ public class AbilityManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log("islocal: "+ isLocalPlayer);
-        if (!isLocalPlayer) return;
+        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase()) return;
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && equippedSkills[0] != null && nextActiveTime[0] < Time.time)
         {
