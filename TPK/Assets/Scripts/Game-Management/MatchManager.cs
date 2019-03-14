@@ -170,7 +170,7 @@ public class MatchManager : NetworkBehaviour
     {
         if (!isServer) return;  // only allow server to instantiate the scoreboard
 
-        Instantiate(Resources.Load("GameOverScreen"));
+        Instantiate(Resources.Load("Menu&UI Prefabs/GameOverScreen"));
         RpcEndMatch();
     }
 
@@ -180,6 +180,6 @@ public class MatchManager : NetworkBehaviour
     [ClientRpc]
     private void RpcEndMatch()
     {
-        Instantiate(Resources.Load("GameOverScreen"));
+        Instantiate(Resources.Load("Menu&UI Prefabs/GameOverScreen"));
     }
 }
