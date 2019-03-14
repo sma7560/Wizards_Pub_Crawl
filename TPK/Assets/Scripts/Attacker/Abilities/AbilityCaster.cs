@@ -10,6 +10,7 @@ public class AbilityCaster : NetworkBehaviour
     public GameObject[] effects; // Will use this to store a list of effects to be played on the server
     public GameObject[] projectiles; // Will Use this to store a list of projectiles on the server
     private TestAnimConrtoller anim;
+    private PlayerSoundController playerSounds;
 
     // Probably will need some network synching thing here to command server to do stuff. Maybe Call it server interface.
 
@@ -19,6 +20,7 @@ public class AbilityCaster : NetworkBehaviour
         //if (!isLocalPlayer) return;
         // Getting these components to work
         anim = GetComponent<TestAnimConrtoller>();
+        playerSounds = GetComponent<PlayerSoundController>();
     }
     // To do the inital cast of the skill.
     // Order Of events: 1. Determine how to cast and what to affect. 2.Determine if there is movement included. 3. play the visuals associated.
@@ -113,6 +115,7 @@ public class AbilityCaster : NetworkBehaviour
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * speed;
         bolt.GetComponent<BaseProjectile>().SetProjectileParams(range, damage, dtype); //Give the projectile the parameters;
         NetworkServer.Spawn(bolt);
+        playerSounds.RpcplayDeathBallSoundEffect();
         Destroy(bolt, range);
 
     }
@@ -138,6 +141,7 @@ public class AbilityCaster : NetworkBehaviour
         if (effects == null) Debug.Log("Effects not instantiated. on server.");
         GameObject effect = Instantiate(effects[index], transform);
         NetworkServer.Spawn(effect);
+        playerSounds.RpcplayAoeSound();
         Destroy(effect, 2);
     }
 

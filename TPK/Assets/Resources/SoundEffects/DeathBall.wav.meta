@@ -1,18 +1,15 @@
 fileFormatVersion: 2
-guid: e8a7dab6bd17fa1419314a9bdbe3720a
+guid: 3bdd5da7817c44f47a29f580d23417e0
 labels:
 - usfx
 - imphenzia
-- foley
-- footstep
-- shoes
-- shoe
-- footsteps
-- walk
-- run
-- ground
-- mono
-- gravel
+- magic
+- spell
+- stereo
+- wizard
+- sourcer
+- cast
+- enchant
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6

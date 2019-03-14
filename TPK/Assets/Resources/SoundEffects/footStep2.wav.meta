@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e8a7dab6bd17fa1419314a9bdbe3720a
+guid: d9a50401294cf994db997588f91d42e3
 labels:
 - usfx
 - imphenzia
@@ -12,9 +12,8 @@ labels:
 - run
 - ground
 - mono
-- gravel
+- asphalt
 AudioImporter:
-  externalObjects: {}
   serializedVersion: 6
   defaultSettings:
     loadType: 1
@@ -25,10 +24,8 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
-  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
-  ambisonic: 0
   3D: 1
   userData: 
   assetBundleName: 
