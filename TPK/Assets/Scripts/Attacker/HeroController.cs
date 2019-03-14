@@ -45,6 +45,9 @@ public class HeroController : NetworkBehaviour
 
     private bool isDungeonReady = false;
 
+    public AudioClip attack;
+    AudioSource source;
+    public float vol;
     // Use this for initialization
     void Start()
     {
@@ -77,6 +80,9 @@ public class HeroController : NetworkBehaviour
         // Run startup functions
         StartCamera();
         Spawn();
+
+        source = GetComponent<AudioSource>();
+        vol = AudioManager.GetVolume();
     }
 
     // Update is called once per frame
@@ -99,6 +105,7 @@ public class HeroController : NetworkBehaviour
 
             // Perform character movement controls
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+            source.PlayOneShot(attack, vol);
             PerformRotation();
 
             // Perform an attack
@@ -107,6 +114,7 @@ public class HeroController : NetworkBehaviour
                 battack.PerformAttack();
                 //heroCombat.CmdAttack();
                 animate.PlayBasicAttack();
+                source.PlayOneShot(attack, vol);
             }
         }
         

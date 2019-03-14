@@ -7,6 +7,7 @@ public class AudioPlayerController : MonoBehaviour
     public AudioClip[] music;
     public AudioClip[] fx;
     public AudioSource soundPlayer;
+    
 
     private bool isPlayingMusic;
     private int muiscIndex;
@@ -20,7 +21,13 @@ public class AudioPlayerController : MonoBehaviour
         soundPlayer = gameObject.GetComponent<AudioSource>();
         soundPlayer.clip = music[muiscIndex];
         soundPlayer.Play();
+        
+    }
 
+    public enum Sound
+    {
+        PlayerAttack,
+        move,
     }
 
     // Update is called once per frame

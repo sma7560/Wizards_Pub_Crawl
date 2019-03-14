@@ -13,12 +13,17 @@ public class BasicAttack : NetworkBehaviour
     [SyncVar] public int damage = 5;
     [SyncVar] public HeroType attackType;
     [SyncVar] public DamageType damageType = DamageType.none;
+    public AudioClip shoot;
+    public AudioSource source;
     public GameObject projectilePrefab;
+    public float vol;
 
     // Use this for initialization
     void Start()
     {
         angleRange = 45f;
+        source = GetComponent<AudioSource>();
+        vol = AudioManager.GetVolume();
     }
 
     // Update is called once per frame
@@ -97,6 +102,7 @@ public class BasicAttack : NetworkBehaviour
     private void CmdDoMagic()
     {
         GameObject bolt = Instantiate(projectilePrefab);
+        source.PlayOneShot(shoot, vol);
         bolt.transform.position = transform.position + transform.forward * 1f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 10f;
