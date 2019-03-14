@@ -55,6 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4767703889555330}
+  - component: {fileID: 111938187761469484}
   m_Layer: 0
   m_Name: Speaker
   m_TagString: Untagged
@@ -215,3 +216,18 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300000, guid: f0351f254a370b5409fead2c8cbf025a, type: 3}
+--- !u!111 &111938187761469484
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1848166339704244}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 6911de3a3cb1844418f499b9e22a6ed1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 6911de3a3cb1844418f499b9e22a6ed1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
