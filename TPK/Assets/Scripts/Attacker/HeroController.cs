@@ -105,16 +105,16 @@ public class HeroController : NetworkBehaviour
 
             // Perform character movement controls
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
-            source.PlayOneShot(attack, vol);
             PerformRotation();
 
             // Perform an attack
             if (unityService.GetKeyDown(KeyCode.Space))
             {
                 battack.PerformAttack();
+                source.Play();
                 //heroCombat.CmdAttack();
                 animate.PlayBasicAttack();
-                source.PlayOneShot(attack, vol);
+                
             }
         }
         

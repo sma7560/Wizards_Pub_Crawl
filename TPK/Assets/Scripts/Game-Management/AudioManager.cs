@@ -7,6 +7,14 @@ using UnityEngine;
 /// </summary>
 public static class AudioManager
 {
+
+    public enum Sound
+    {
+        PlayerAttack,
+        move,
+        Shooting,
+
+    }
     private static float volume = 1.0f;
 
     /// <returns>
@@ -30,5 +38,26 @@ public static class AudioManager
         {
             GameObject.Find("EventSystem").GetComponent<AudioSource>().volume = volume;
         }
+    }
+
+    public static void PlaySound(Sound sound)
+    {
+        GameObject soundGameObject = new GameObject("Sound");
+        AudioSource audioSource = soundGameObject.AddComponent<AudioSource>();
+        audioSource.PlayOneShot(GetAudioClip(sound));
+    }
+
+    private static AudioClip GetAudioClip(Sound sound)
+    {
+        foreach (SoundAssets.SoundAudioClip soundAudioClip in SoundAssets.i.soundAudioClipArray)
+        {
+            if (soundAudioClip.sound == sound)
+            {
+                return soundAudioClip.audioClip;
+            }
+        }
+
+        Debug.LogError("Sound" + sound + "dont exist");
+        return null;
     }
 }
