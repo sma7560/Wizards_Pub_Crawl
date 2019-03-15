@@ -30,8 +30,6 @@ public class HeroController : NetworkBehaviour
     private Vector3 pointToLookAt;
 
     private readonly int deathTimer = 4;    // default death timer
-    private bool isKnockedOut;
-    private int playerId;
     private bool isDungeonReady = false;
 
     private GameObject cam;
@@ -42,7 +40,11 @@ public class HeroController : NetworkBehaviour
     private NetworkHeroManager networkHeroManager;
     private BasicAttack battack;
     private TestAnimConrtoller animate;
-    private Score score = new Score();      // current score of the player
+
+    // State variables
+    [SerializeField][SyncVar] private int playerId;
+    private bool isKnockedOut;
+    [SyncVar] private Score score = new Score();      // current score of the player
 
     // Use this for initialization
     void Start()
@@ -67,7 +69,7 @@ public class HeroController : NetworkBehaviour
 
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-        playerId = matchManager.GetPlayerId();
+        SetPlayerId(matchManager.GetPlayerId());
 
         // Run startup functions
         StartCamera();
@@ -276,5 +278,35 @@ public class HeroController : NetworkBehaviour
     public int GetScore()
     {
         return score.GetScore();
+    }
+
+    private void SetPlayerId(int id)
+    {
+        if (!hasAuthority) return;  // only the player owning this hero should change its player id
+
+        playerId = id;
+
+        if (isServer)
+        {
+            RpcSetPlayerId(id);
+        }
+        else
+        {
+            CmdSetPlayerId(id);
+        }
+    }
+
+    [ClientRpc]
+    private void RpcSetPlayerId(int id)
+    {
+        if (isLocalPlayer) return;  // prevent receiving the notification you started
+        playerId = id;
+    }
+
+    [Command]
+    private void CmdSetPlayerId(int id)
+    {
+        playerId = id;
+        RpcSetPlayerId(id);
     }
 }
