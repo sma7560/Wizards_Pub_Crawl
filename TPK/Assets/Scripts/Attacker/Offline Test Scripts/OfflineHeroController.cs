@@ -14,7 +14,7 @@ public class OfflineHeroController : NetworkBehaviour
     private Vector3 pointToLookAt;
 
     // For getting stats for the characters.
-    private NetworkHeroManager heroManager;
+    private HeroModel heroModel;
     private BasicAttack basicAttackController;
     private TestAnimConrtoller animController;
 
@@ -64,14 +64,14 @@ public class OfflineHeroController : NetworkBehaviour
     [Command]
     private void CmdSetupStats()
     {
-        heroManager = GetComponent<NetworkHeroManager>(); // Setting it up on the server...
+        heroModel = GetComponent<HeroModel>(); // Setting it up on the server...
         int val = 10;
-        heroManager.SetAtkSpeed(1);
-        heroManager.heroType = HeroType.magic;
-        heroManager.SetMAttack(val);
-        heroManager.SetMDefence(val);
-        heroManager.SetPAttack(val);
-        heroManager.SetPDefence(val);
+        heroModel.SetAtkSpeed(1);
+        heroModel.SetHeroType(HeroType.magic);
+        heroModel.SetMAttack(val);
+        heroModel.SetMDefence(val);
+        heroModel.SetPAttack(val);
+        heroModel.SetPDefence(val);
     }
 
     private void SetRotation()

@@ -56,8 +56,8 @@ public class BasicAttack : NetworkBehaviour
     public void CmdSetAttackParameters()
     {
         //if (!isServer) return; Since is command, do not need this
-        NetworkHeroManager nhm = GetComponent<NetworkHeroManager>();
-        attackType = nhm.heroType;
+        HeroModel heroModel = GetComponent<HeroModel>();
+        attackType = heroModel.GetHeroType();
         switch (attackType)
         {
             case HeroType.magic:
@@ -142,10 +142,10 @@ public class BasicAttack : NetworkBehaviour
                                 // Deal damage to player via their damage taking script.
                                 Debug.Log("Player is taking damage");
                                 //aroundme[i].GetComponent<NetworkHeroManager>();
-                                if (aroundme[i].GetComponent<NetworkHeroManager>())
+                                if (aroundme[i].GetComponent<HeroModel>())
                                 {
                                     Debug.Log("Applying Damage...");
-                                    aroundme[i].GetComponent<NetworkHeroManager>().CmdTakeDamage(damage, damageType);
+                                    aroundme[i].GetComponent<HeroModel>().CmdTakeDamage(damage, damageType);
 
                                 }
                                 break;

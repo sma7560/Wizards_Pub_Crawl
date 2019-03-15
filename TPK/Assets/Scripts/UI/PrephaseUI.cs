@@ -13,9 +13,9 @@ public class PrephaseUI : MonoBehaviour
 
     // Managers
     private PrephaseManager prephaseManager;
-    private NetworkHeroManager networkHeroManager;
     private MatchManager matchManager;
     private HeroManager heroManager;
+    private HeroModel heroModel;
 
     // Text elements
     private TextMeshProUGUI playerName;
@@ -49,7 +49,7 @@ public class PrephaseUI : MonoBehaviour
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-        networkHeroManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<NetworkHeroManager>();
+        heroModel = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<HeroModel>();
 
         // Initialize text
         playerName = GameObject.Find("PlayerNameText").GetComponent<TextMeshProUGUI>();
@@ -68,7 +68,7 @@ public class PrephaseUI : MonoBehaviour
 
         // Set default currently selected character
         selectedHero = king;
-        networkHeroManager.SetModel(selectedHero);
+        heroModel.SetModel(selectedHero);
 
         // Set skill description to inactive by default
         skillDescription.SetActive(false);
@@ -160,7 +160,7 @@ public class PrephaseUI : MonoBehaviour
         }
 
         SetupDefaultStats();
-        networkHeroManager.SetModel(selectedHero);
+        heroModel.SetModel(selectedHero);
         UpdateCharacterSelectedName();
     }
 
@@ -184,7 +184,7 @@ public class PrephaseUI : MonoBehaviour
         }
 
         SetupDefaultStats();
-        networkHeroManager.SetModel(selectedHero);
+        heroModel.SetModel(selectedHero);
         UpdateCharacterSelectedName();
     }
 
@@ -218,27 +218,27 @@ public class PrephaseUI : MonoBehaviour
         // Set default stat values depending on the hero type
         if (selectedHero == king)
         {
-            networkHeroManager.SetAtkSpeed(10);
-            networkHeroManager.SetPAttack(10);
-            networkHeroManager.SetMAttack(10);
-            networkHeroManager.SetPDefence(10);
-            networkHeroManager.SetMDefence(10);
+            heroModel.SetAtkSpeed(10);
+            heroModel.SetPAttack(10);
+            heroModel.SetMAttack(10);
+            heroModel.SetPDefence(10);
+            heroModel.SetMDefence(10);
         }
         else if (selectedHero == wizard)
         {
-            networkHeroManager.SetAtkSpeed(10);
-            networkHeroManager.SetPAttack(5);
-            networkHeroManager.SetMAttack(15);
-            networkHeroManager.SetPDefence(5);
-            networkHeroManager.SetMDefence(15);
+            heroModel.SetAtkSpeed(10);
+            heroModel.SetPAttack(5);
+            heroModel.SetMAttack(15);
+            heroModel.SetPDefence(5);
+            heroModel.SetMDefence(15);
         }
         else if (selectedHero == rogue)
         {
-            networkHeroManager.SetAtkSpeed(15);
-            networkHeroManager.SetPAttack(15);
-            networkHeroManager.SetMAttack(5);
-            networkHeroManager.SetPDefence(10);
-            networkHeroManager.SetMDefence(5);
+            heroModel.SetAtkSpeed(15);
+            heroModel.SetPAttack(15);
+            heroModel.SetMAttack(5);
+            heroModel.SetPDefence(10);
+            heroModel.SetMDefence(5);
         }
         else
         {
@@ -275,11 +275,11 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdateStats()
     {
-        physicalDmg.text = networkHeroManager.GetPAttack().ToString();
-        magicalDmg.text = networkHeroManager.GetMAttack().ToString();
-        physicalDef.text = networkHeroManager.GetPDefence().ToString();
-        magicalDef.text = networkHeroManager.GetMDefence().ToString();
-        atkSpd.text = networkHeroManager.GetAtkSpeed().ToString();
+        physicalDmg.text = heroModel.GetPAttack().ToString();
+        magicalDmg.text = heroModel.GetMAttack().ToString();
+        physicalDef.text = heroModel.GetPDefence().ToString();
+        magicalDef.text = heroModel.GetMDefence().ToString();
+        atkSpd.text = heroModel.GetAtkSpeed().ToString();
     }
 
     /// <summary>

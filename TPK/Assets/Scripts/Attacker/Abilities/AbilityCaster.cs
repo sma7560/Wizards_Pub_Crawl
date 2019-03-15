@@ -84,7 +84,7 @@ public class AbilityCaster : NetworkBehaviour
                             break;
                         case "Player":
                             // Get other players component for taking damage.
-                            hit.GetComponent<NetworkHeroManager>().CmdTakeDamage(damage, dtype);
+                            hit.GetComponent<HeroModel>().CmdTakeDamage(damage, dtype);
                             break;
                     }
 

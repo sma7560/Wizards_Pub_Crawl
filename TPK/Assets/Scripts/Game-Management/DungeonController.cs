@@ -52,6 +52,7 @@ public class DungeonController : MonoBehaviour
         }
 
         // Call individual update functions
+        SetupUI();
         ToggleUI();
         UpdateAllHealthBars();
         UpdateMusic();
@@ -142,13 +143,13 @@ public class DungeonController : MonoBehaviour
         // Update all player health bars
         foreach (GameObject player in playerObjects)
         {
-            NetworkHeroManager playerStats = player.GetComponent<NetworkHeroManager>(); // get enemy player stats
+            HeroModel playerStats = player.GetComponent<HeroModel>(); // get enemy player stats
             Transform healthBar = player.transform.Find("HealthBar");                   // Transform that holds all player health bar info
 
             // Disable the health bar of current player
             if (matchManager != null &&
                 healthBar != null &&
-                player.GetComponent<HeroController>().GetPlayerId() == matchManager.GetPlayerId())
+                player.GetComponent<HeroModel>().GetPlayerId() == matchManager.GetPlayerId())
             {
                 healthBar.gameObject.SetActive(false);
             }
@@ -162,7 +163,7 @@ public class DungeonController : MonoBehaviour
     /// </summary>
     /// <param name="healthBar">Transform holding all health bar information to be updated.</param>
     /// <param name="stats">Stats to which the health bar will be updated to accordingly.</param>
-    private void UpdateHealthBar(Transform healthBar, NetworkHeroManager stats)
+    private void UpdateHealthBar(Transform healthBar, HeroModel stats)
     {
         // Do nothing if either the health bar or stats given is null
         if (healthBar == null || stats == null)
@@ -172,11 +173,11 @@ public class DungeonController : MonoBehaviour
 
         // Update health bar image to appropriate fill level depending on current health
         Image healthImage = healthBar.Find("Health").GetComponent<Image>();
-        healthImage.fillAmount = (float)stats.currentHealth / (float)stats.maxHealth;
+        healthImage.fillAmount = (float)stats.GetCurrentHealth() / (float)stats.GetMaxHealth();
 
         // Update health bar text with value of current health
         TextMeshProUGUI healthText = healthBar.Find("HealthText").GetComponent<TextMeshProUGUI>();
-        healthText.text = stats.currentHealth + "/" + stats.maxHealth;
+        healthText.text = stats.GetCurrentHealth() + "/" + stats.GetMaxHealth();
 
         // Keep health bar facing towards camera
         SetFacingTowardsCamera(healthBar);
@@ -224,6 +225,25 @@ public class DungeonController : MonoBehaviour
     }
 
     /// <summary>
+    /// Checks current prephase status, and sets up the prephase/player UI as needed.
+    /// </summary>
+    private void SetupUI()
+    {
+        if (prephaseManager.IsCurrentlyInPrephase() && GameObject.FindGameObjectWithTag("PrephaseUI") == null)
+        {
+            // Initialize prephase UI
+            Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));          // Destroy player UI
+            Instantiate(Resources.Load("Menu&UI Prefabs/PrephaseScreen"));  // Start prephase UI
+        }
+        else if (!prephaseManager.IsCurrentlyInPrephase() && GameObject.FindGameObjectWithTag("PlayerUI") == null)
+        {
+            // Initialize player UI
+            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
+            Instantiate(Resources.Load("Menu&UI Prefabs/PlayerUI"));    // Start player UI
+        }
+    }
+
+    /// <summary>
     /// Locally updates all the player names in the scene.
     /// </summary>
     private void UpdatePlayerNames()
@@ -235,7 +255,7 @@ public class DungeonController : MonoBehaviour
         foreach (GameObject player in playerObjects)
         {
             // Get necessary components
-            int playerId = player.GetComponent<HeroController>().GetPlayerId();
+            int playerId = player.GetComponent<HeroModel>().GetPlayerId();
             Transform name = player.transform.Find("Name"); // Transform that holds all player name info
             TextMeshProUGUI nameText = name.Find("NameText").GetComponent<TextMeshProUGUI>();
 

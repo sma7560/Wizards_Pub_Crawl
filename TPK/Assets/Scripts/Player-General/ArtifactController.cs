@@ -52,7 +52,7 @@ public class ArtifactController : MonoBehaviour
         if (isCarried)
         {
             transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3, playerThatOwns.transform.position.z);
-            if (playerThatOwns.GetComponent<HeroController>().IsKnockedOut())
+            if (playerThatOwns.GetComponent<HeroModel>().IsKnockedOut())
             {
                 //player is knocked out, so he drops the artifact
                 DroppedArtifact();
@@ -70,12 +70,12 @@ public class ArtifactController : MonoBehaviour
         {
             case ("Player"):
                 //check to make sure the player isn't knocked out
-                if (!isCarried && !(col.GetComponent<HeroController>().IsKnockedOut()))
+                if (!isCarried && !(col.GetComponent<HeroModel>().IsKnockedOut()))
                 {
                     //make object float above character model's head
                     transform.localScale = smallscale;
                     playerThatOwns = col.gameObject;
-                    ownerID = playerThatOwns.GetComponent<HeroController>().GetPlayerId();
+                    ownerID = playerThatOwns.GetComponent<HeroModel>().GetPlayerId();
                     ownerSpawn = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>().GetSpawnLocationOfPlayer(ownerID);
                     isCarried = true;
                     Debug.Log("Player " + ownerID + " has taken the artifact!");
@@ -87,7 +87,7 @@ public class ArtifactController : MonoBehaviour
                     //need to check that the spawn is the right one for the player carrying the artifact
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
-                        playerThatOwns.GetComponent<HeroController>().AddScore(1);      //adds a point to scoring player, then deletes itself
+                        playerThatOwns.GetComponent<HeroModel>().IncreaseScore(1);  // adds a point to scoring player, then deletes itself
                         GameObject.FindGameObjectWithTag("EventSystem").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
                         Destroy(gameObject);
                     }

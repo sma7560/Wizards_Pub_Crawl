@@ -43,7 +43,7 @@ public class HeroManager : MonoBehaviour
         // Loop through each hero on the scene and check if their id matches the given id
         foreach (GameObject hero in heroObjects)
         {
-            int pid = hero.GetComponent<HeroController>().GetPlayerId();
+            int pid = hero.GetComponent<HeroModel>().GetPlayerId();
             if (id == pid)
             {
                 heroObject = hero;

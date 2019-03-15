@@ -69,7 +69,7 @@ public class EnemyController : NetworkBehaviour
         for (int i = 0; i < targets.Length; i++)
         {
             // Do not target knocked out players
-            if (targets[i].GetComponent<HeroController>().IsKnockedOut())
+            if (targets[i].GetComponent<HeroModel>().IsKnockedOut())
             {
                 continue;
             }

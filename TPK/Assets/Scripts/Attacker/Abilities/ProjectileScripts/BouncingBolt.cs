@@ -19,9 +19,9 @@ public class BouncingBolt : BaseProjectile
                 Destroy(gameObject);
                 break;
             case "Player":
-                if (col.collider.GetComponent<NetworkHeroManager>())
+                if (col.collider.GetComponent<HeroModel>())
                 {
-                    col.collider.GetComponent<NetworkHeroManager>().CmdTakeDamage(damage, damageType);
+                    col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage, damageType);
                 }
                 Destroy(gameObject);
                 // This means you can shoot yourself... so far.
