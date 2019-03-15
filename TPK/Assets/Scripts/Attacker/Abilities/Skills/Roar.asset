@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: Roar
   m_EditorClassIdentifier: 
   skillName: Roar
-  skillDescription: ' roar to damage all creatures near you.near you.'
+  skillDescription: Roar to damage all enemies near you.
   skillIcon: {fileID: 21300000, guid: 6009269492536184da8537291d0146ea, type: 3}
   skillCoolDown: 20
   skillType: 2
