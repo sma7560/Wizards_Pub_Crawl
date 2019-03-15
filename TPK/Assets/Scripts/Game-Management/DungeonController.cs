@@ -6,16 +6,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Used to update dungeon status during dungeon level gameplay.
+/// Updates general dungeon status during dungeon level gameplay.
 /// </summary>
 public class DungeonController : MonoBehaviour
 {
-    // Music
+    // Background music (during dungeon level scene)
     public AudioClip[] music;
     private AudioSource audioSource;
 
-    // Menu objects
+    // Menu & UI game objects
     public GameObject inGameMenu;
+    public Button inGameMenuResumeButton;
     public GameObject statsWindow;
 
     public IUnityService unityService;
@@ -34,10 +35,7 @@ public class DungeonController : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
     }
-
-    /// <summary>
-    /// Updates dungeon status and listens for menu toggling.
-    /// </summary>
+    
     void Update()
     {
         // Initialize pre-phase manager if it is not already initialized
@@ -46,21 +44,10 @@ public class DungeonController : MonoBehaviour
             prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         }
 
-        UpdateMusic();
-
-        // Toggles in-game menu when Esc key pressed
-        if (unityService.GetKeyDown(KeyCode.Escape))
-        {
-            inGameMenu.SetActive(!inGameMenu.activeSelf);
-        }
-
-        // Toggles stats window when K key pressed
-        if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase() && unityService.GetKeyDown(KeyCode.K))
-        {
-            statsWindow.SetActive(!statsWindow.activeSelf);
-        }
-
+        // Call individual update functions
+        ToggleUI();
         UpdateEnemyHealthBars();
+        UpdateMusic();
     }
 
     /// <summary>
@@ -74,7 +61,33 @@ public class DungeonController : MonoBehaviour
     }
 
     /// <summary>
-    /// Start music depending on prephase status.
+    /// Listens for toggling of the in-game menu and stats window.
+    /// In-game menu can be accessed with 'ESC' key.
+    /// Stats window can be accessed with 'K' key.
+    /// </summary>
+    private void ToggleUI()
+    {
+        // Toggles in-game menu when 'ESC' key pressed
+        if (unityService.GetKeyDown(KeyCode.Escape))
+        {
+            inGameMenu.SetActive(!inGameMenu.activeSelf);
+            
+            // Reset in-game menu if it is now inactive
+            if (!inGameMenu.activeSelf)
+            {
+                inGameMenuResumeButton.onClick.Invoke();
+            }
+        }
+
+        // Toggles stats window when 'K' key pressed
+        if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase() && unityService.GetKeyDown(KeyCode.K))
+        {
+            statsWindow.SetActive(!statsWindow.activeSelf);
+        }
+    }
+
+    /// <summary>
+    /// Start music depending on pre-phase status.
     /// </summary>
     private void UpdateMusic()
     {
@@ -99,21 +112,25 @@ public class DungeonController : MonoBehaviour
         }
     }
 
-    // Updates the statuses of all enemy health bars currently in the scene
+    /// <summary>
+    /// Locally updates the values of all enemy health bars currently in the scene.
+    /// </summary>
     private void UpdateEnemyHealthBars()
     {
-        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy"); // Find all enemy objects
+        // Find all enemy objects
+        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
 
+        // Loop through each enemy in the scene
         for (int i = 0; i < enemyObjects.Length; i++)
         {
             EnemyStats enemyStats = enemyObjects[i].GetComponent<EnemyStats>(); // Get enemy stats
-            Transform healthBar = enemyObjects[i].transform.Find("HealthBar");
+            Transform healthBar = enemyObjects[i].transform.Find("HealthBar");  // GameObject that holds all enemy health bar info
 
-            // Update health bar image
+            // Update health bar image to appropriate fill level depending on enemy's current health
             Image healthImage = healthBar.Find("Health").GetComponent<Image>();
             healthImage.fillAmount = (float)enemyStats.GetCurrentHealth() / (float)enemyStats.maxHealth;
 
-            // Update health bar text
+            // Update health bar text with value of enemy's current health
             TextMeshProUGUI healthText = healthBar.Find("HealthText").GetComponent<TextMeshProUGUI>();
             healthText.text = enemyStats.GetCurrentHealth() + "/" + enemyStats.maxHealth;
 

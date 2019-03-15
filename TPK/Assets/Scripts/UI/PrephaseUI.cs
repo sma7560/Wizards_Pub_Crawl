@@ -251,7 +251,7 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdateNumOfPlayers()
     {
-        numOfPlayers.text = matchManager.GetNumOfPlayers().ToString();
+        numOfPlayers.text = matchManager.GetNumOfPlayers().ToString() + " out of " + matchManager.GetMaxPlayers();
     }
 
     /// <summary>

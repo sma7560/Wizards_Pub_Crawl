@@ -55898,6 +55898,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9daec4493653a40f1ad95705104b5986, type: 3}
   - {fileID: 8300000, guid: 1aa11e44a96bc4e84b0f962d299774f0, type: 3}
   inGameMenu: {fileID: 1832227255}
+  inGameMenuResumeButton: {fileID: 1832227256}
   statsWindow: {fileID: 1613396782}
 --- !u!82 &1226987337
 AudioSource:
@@ -82739,6 +82740,12 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1811973455934344, guid: efe42658a1b91e745bbb0e7cbb937151,
     type: 2}
   m_PrefabInternal: {fileID: 1832227254}
+--- !u!114 &1832227256 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114212403890787982, guid: efe42658a1b91e745bbb0e7cbb937151,
+    type: 2}
+  m_PrefabInternal: {fileID: 1832227254}
+  m_Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &1832319121
 GameObject:
   m_ObjectHideFlags: 0
