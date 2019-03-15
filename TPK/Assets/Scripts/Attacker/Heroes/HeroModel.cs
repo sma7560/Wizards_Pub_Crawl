@@ -23,7 +23,7 @@ public class HeroModel : NetworkBehaviour
     private MatchManager matchManager;
 
     // Other state variables
-    [SerializeField][SyncVar] private int playerId;
+    [SyncVar] private int playerId;         // playerId controlling this hero
     [SyncVar] private HeroType heroType;
     [SyncVar] private bool isKnockedOut;
     [SyncVar] private int score;
@@ -39,27 +39,14 @@ public class HeroModel : NetworkBehaviour
 
         score = 0;
         isKnockedOut = false;
-        playerId = -1;
-    }
-
-    /// <summary>
-    /// Called once per frame.
-    /// </summary>
-    void Update()
-    {
-        if (!hasAuthority) return;
-
-        // Initialize MatchManager and playerId
-        if (matchManager == null && GameObject.FindGameObjectWithTag("MatchManager") != null)
-        {
-            matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-            SetPlayerId(matchManager.GetPlayerId());
-        }
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        SetPlayerId(matchManager.GetPlayerId());
     }
 
     /// <summary>
     /// Causes this hero to take a specified amount of damage.
     /// Calculates how much damage the hero should take based on stats, then decrements the hero's health by the calculated amount.
+    /// This function is run on the server using data from the client which called this function.
     /// </summary>
     /// <param name="amount">Amount of damage this hero should take.</param>
     /// <param name="damageType">The damage type of the damage being taken.</param>
@@ -67,9 +54,9 @@ public class HeroModel : NetworkBehaviour
     public void CmdTakeDamage(int amount, DamageType damageType)
     {
         Debug.Log("Damage Check");
-        // Figure out actual amount taken via a calculation.
-        if (!isServer) return; // For Sanity...
-        Debug.Log("I am taking " + amount + " Damage");
+        Debug.Log("I am taking " + amount + " damage");
+
+        // Calculate final damage taken based on stats
         float finalDamage = 0;
 
         switch (damageType)
@@ -85,12 +72,12 @@ public class HeroModel : NetworkBehaviour
                 finalDamage = amount;
                 break;
         }
-        // Since health is dealt with in integers do some rounding with the finalDamage Calculated before subtractingd.
+
         finalDamage = Mathf.Clamp(finalDamage, 0, int.MaxValue);    // restrict damage to [0, int.MaxValue]
-        Debug.Log("Damage: " + Mathf.Round(finalDamage));
         currentHealth = currentHealth - (int)Mathf.Round(finalDamage);
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);   // restrict health to [0, maxHealth]
 
+        Debug.Log("Final damage: " + Mathf.Round(finalDamage));
         Debug.Log("My Current Health: " + currentHealth + "/" + maxHealth);
     }
 
@@ -104,11 +91,7 @@ public class HeroModel : NetworkBehaviour
 
         LocalHeal(amount);
 
-        if (isServer)
-        {
-            RpcHeal(amount);
-        }
-        else
+        if (!isServer)
         {
             CmdHeal(amount);
         }
@@ -118,25 +101,20 @@ public class HeroModel : NetworkBehaviour
         currentHealth += amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);   // Restrict current health to [0, maxHealth]
     }
-    [ClientRpc]
-    private void RpcHeal(int amount)
-    {
-        if (isLocalPlayer) return;
-        LocalHeal(amount);
-    }
     [Command]
     private void CmdHeal(int amount)
     {
         LocalHeal(amount);
-        RpcHeal(amount);
     }
 
     /// ----------------------------------------
     /// -               SETTERS                -
     /// ----------------------------------------
     /// Setters are implemented to synchronize the variables across all players.
-    /// This is done using both ClientRpc and Command, which are both needed to synchronize the variables properly.
-    /// Only the player owning this script can change variables, hence a check on hasAuthority before any variable is set.
+    /// Synchronization is done using SyncVar and Command:
+    ///     - SyncVar synchronizes the value from server to clients.
+    ///     - Command synchronizes the value from client to server.
+    /// Only the player owning this script can change its variables, hence a check on hasAuthority before any variable is set.
 
     /// <summary>
     /// Setter for player id.
@@ -147,26 +125,15 @@ public class HeroModel : NetworkBehaviour
 
         playerId = id;
 
-        if (isServer)
-        {
-            RpcSetPlayerId(id);
-        }
-        else
+        if (!isServer)
         {
             CmdSetPlayerId(id);
         }
-    }
-    [ClientRpc]
-    private void RpcSetPlayerId(int id)
-    {
-        if (isLocalPlayer) return;  // prevent receiving the notification you started
-        playerId = id;
     }
     [Command]
     private void CmdSetPlayerId(int id)
     {
         playerId = id;
-        RpcSetPlayerId(id);
     }
 
     /// <summary>
@@ -178,26 +145,15 @@ public class HeroModel : NetworkBehaviour
 
         this.heroType = heroType;
 
-        if (isServer)
-        {
-            RpcSetHeroType(heroType);
-        }
-        else
+        if (!isServer)
         {
             CmdSetHeroType(heroType);
         }
-    }
-    [ClientRpc]
-    private void RpcSetHeroType(HeroType heroType)
-    {
-        if (isLocalPlayer) return;
-        this.heroType = heroType;
     }
     [Command]
     private void CmdSetHeroType(HeroType heroType)
     {
         this.heroType = heroType;
-        RpcSetHeroType(heroType);
     }
 
     /// <summary>
@@ -209,26 +165,15 @@ public class HeroModel : NetworkBehaviour
 
         moveSpeed = val;
 
-        if (isServer)
-        {
-            RpcSetMoveSpeed(val);
-        }
-        else
+        if (!isServer)
         {
             CmdSetMoveSpeed(val);
         }
-    }
-    [ClientRpc]
-    private void RpcSetMoveSpeed(int val)
-    {
-        if (isLocalPlayer) return;
-        moveSpeed = val;
     }
     [Command]
     private void CmdSetMoveSpeed(int val)
     {
         moveSpeed = val;
-        RpcSetMoveSpeed(val);
     }
 
     /// <summary>
@@ -240,26 +185,15 @@ public class HeroModel : NetworkBehaviour
 
         atkSpeed = val;
 
-        if (isServer)
-        {
-            RpcSetAtkSpeed(val);
-        }
-        else
+        if (!isServer)
         {
             CmdSetAtkSpeed(val);
         }
-    }
-    [ClientRpc]
-    private void RpcSetAtkSpeed(int val)
-    {
-        if (isLocalPlayer) return;
-        atkSpeed = val;
     }
     [Command]
     private void CmdSetAtkSpeed(int val)
     {
         atkSpeed = val;
-        RpcSetAtkSpeed(val);
     }
 
     /// <summary>
@@ -271,26 +205,15 @@ public class HeroModel : NetworkBehaviour
 
         mDefence = val;
 
-        if (isServer)
-        {
-            RpcSetMDefence(val);
-        }
-        else
+        if (!isServer)
         {
             CmdSetMDefence(val);
         }
-    }
-    [ClientRpc]
-    private void RpcSetMDefence(int val)
-    {
-        if (isLocalPlayer) return;
-        mDefence = val;
     }
     [Command]
     private void CmdSetMDefence(int val)
     {
         mDefence = val;
-        RpcSetMDefence(val);
     }
 
     /// <summary>
@@ -302,26 +225,15 @@ public class HeroModel : NetworkBehaviour
 
         pDefence = val;
 
-        if (isServer)
-        {
-            RpcSetPDefence(val);
-        }
-        else
+        if (!isServer)
         {
             CmdSetPDefence(val);
         }
-    }
-    [ClientRpc]
-    private void RpcSetPDefence(int val)
-    {
-        if (isLocalPlayer) return;
-        pDefence = val;
     }
     [Command]
     private void CmdSetPDefence(int val)
     {
         pDefence = val;
-        RpcSetMDefence(val);
     }
 
     /// <summary>
@@ -333,26 +245,15 @@ public class HeroModel : NetworkBehaviour
 
         mAttack = val;
 
-        if (isServer)
-        {
-            RpcSetMAttack(val);
-        }
-        else
+        if (!isServer)
         {
             CmdSetMAttack(val);
         }
-    }
-    [ClientRpc]
-    private void RpcSetMAttack(int val)
-    {
-        if (isLocalPlayer) return;
-        mAttack = val;
     }
     [Command]
     private void CmdSetMAttack(int val)
     {
         mAttack = val;
-        RpcSetMAttack(val);
     }
 
     /// <summary>
@@ -364,26 +265,15 @@ public class HeroModel : NetworkBehaviour
 
         pAttack = val;
 
-        if (isServer)
-        {
-            RpcSetPAttack(val);
-        }
-        else
+        if (!isServer)
         {
             CmdSetPAttack(val);
         }
-    }
-    [ClientRpc]
-    private void RpcSetPAttack(int val)
-    {
-        if (isLocalPlayer) return;
-        pAttack = val;
     }
     [Command]
     private void CmdSetPAttack(int val)
     {
         pAttack = val;
-        RpcSetPAttack(val);
     }
 
     /// <summary>
@@ -395,26 +285,15 @@ public class HeroModel : NetworkBehaviour
 
         currentHealth = maxHealth;
 
-        if (isServer)
-        {
-            RpcSetFullHealth();
-        }
-        else
+        if (!isServer)
         {
             CmdSetFullHealth();
         }
     }
-    [ClientRpc]
-    private void RpcSetFullHealth()
-    {
-        if (isLocalPlayer) return;
-        currentHealth = maxHealth;
-    }
     [Command]
-    public void CmdSetFullHealth()
+    private void CmdSetFullHealth()
     {
         currentHealth = maxHealth;
-        RpcSetFullHealth();
     }
 
     /// <summary>
@@ -426,26 +305,15 @@ public class HeroModel : NetworkBehaviour
 
         this.isKnockedOut = isKnockedOut;
 
-        if (isServer)
-        {
-            RpcSetKnockedOut(isKnockedOut);
-        }
-        else
+        if (!isServer)
         {
             CmdSetKnockedOut(isKnockedOut);
         }
     }
-    [ClientRpc]
-    private void RpcSetKnockedOut(bool isKnockedOut)
-    {
-        if (isLocalPlayer) return;
-        this.isKnockedOut = isKnockedOut;
-    }
     [Command]
-    public void CmdSetKnockedOut(bool isKnockedOut)
+    private void CmdSetKnockedOut(bool isKnockedOut)
     {
         this.isKnockedOut = isKnockedOut;
-        RpcSetKnockedOut(isKnockedOut);
     }
 
     /// <summary>
@@ -458,26 +326,15 @@ public class HeroModel : NetworkBehaviour
 
         score += amount;
 
-        if (isServer)
-        {
-            RpcIncreaseScore(amount);
-        }
-        else
+        if (!isServer)
         {
             CmdIncreaseScore(amount);
         }
     }
-    [ClientRpc]
-    private void RpcIncreaseScore(int amount)
-    {
-        if (isLocalPlayer) return;
-        score += amount;
-    }
     [Command]
-    public void CmdIncreaseScore(int amount)
+    private void CmdIncreaseScore(int amount)
     {
         score += amount;
-        RpcIncreaseScore(amount);
     }
 
     /// <summary>
