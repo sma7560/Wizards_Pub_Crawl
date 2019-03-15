@@ -52,7 +52,7 @@ public class ArtifactController : MonoBehaviour
         if (isCarried)
         {
             transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3, playerThatOwns.transform.position.z);
-            if (playerThatOwns.GetComponent<HeroController>().GetKnockedOutStatus())
+            if (playerThatOwns.GetComponent<HeroController>().IsKnockedOut())
             {
                 //player is knocked out, so he drops the artifact
                 DroppedArtifact();
@@ -70,7 +70,7 @@ public class ArtifactController : MonoBehaviour
         {
             case ("Player"):
                 //check to make sure the player isn't knocked out
-                if (!isCarried && !(col.GetComponent<HeroController>().GetKnockedOutStatus()))
+                if (!isCarried && !(col.GetComponent<HeroController>().IsKnockedOut()))
                 {
                     //make object float above character model's head
                     transform.localScale = smallscale;

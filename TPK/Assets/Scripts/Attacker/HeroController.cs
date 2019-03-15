@@ -1,11 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-// HeroController: script for controlling attacker/hero character.
+/// <summary>
+/// Contains logic for the hero.
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CharacterStats))]
 [RequireComponent(typeof(CharacterCombat))]
@@ -16,11 +17,11 @@ using UnityEngine.UI;
 public class HeroController : NetworkBehaviour
 {
     public GameObject heroCam;
-    public GameObject playerUI; // Player UI for dungeon crawling phase
-    public bool localTest;      // for unit testing to allow the game to run locally
+    public GameObject playerUI;     // Player UI for dungeon crawling phase
 
-    private int playerId;         // id of the player
-    private GameObject cam;
+    // For unit testing
+    public bool localTest;
+    public IUnityService unityService;
 
     // For setting up character direction
     private Camera view;
@@ -28,22 +29,20 @@ public class HeroController : NetworkBehaviour
     private float rayLength;
     private Vector3 pointToLookAt;
 
-    private Rigidbody heroRigidbody;
+    private readonly int deathTimer = 4;    // default death timer
     private bool isKnockedOut;
-    private readonly int deathTimer = 4; //default death timer
+    private int playerId;
+    private bool isDungeonReady = false;
 
+    private GameObject cam;
+    private Rigidbody heroRigidbody;
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
-    public IUnityService unityService;
-    //public CharacterCombat heroCombat;
-    //private CharacterStats heroStats;
     private CharacterMovement characterMovement;
-    private NetworkHeroManager heroManager;
+    private NetworkHeroManager networkHeroManager;
     private BasicAttack battack;
     private TestAnimConrtoller animate;
-    private Score score = new Score();        // current score of the player
-
-    private bool isDungeonReady = false;
+    private Score score = new Score();      // current score of the player
 
     // Use this for initialization
     void Start()
@@ -51,28 +50,24 @@ public class HeroController : NetworkBehaviour
         if (!isLocalPlayer && !localTest) return;
 
         // Initialize variables
-        playerId = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>().GetPlayerId();
-        isKnockedOut = false;
-        characterMovement = new CharacterMovement(10.0f);
         if (unityService == null)
         {
             unityService = new UnityService();
         }
+        
+        isKnockedOut = false;
+
+        characterMovement = new CharacterMovement(10.0f);
+        ground = new Plane(Vector3.up, Vector3.zero);
+
         heroRigidbody = GetComponent<Rigidbody>();
-
-        heroManager = GetComponent<NetworkHeroManager>();
-
-        // These two will be replaced with the network hero manager.
-        //heroStats = GetComponent<CharacterStats>();
-        //heroCombat = GetComponent<CharacterCombat>();
-
+        networkHeroManager = GetComponent<NetworkHeroManager>();
         battack = GetComponent<BasicAttack>();
         animate = GetComponent<TestAnimConrtoller>();
 
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-        ground = new Plane(Vector3.up, Vector3.zero);
-        //score = new Score();
+        playerId = matchManager.GetPlayerId();
 
         // Run startup functions
         StartCamera();
@@ -84,17 +79,17 @@ public class HeroController : NetworkBehaviour
     {
         if (!isLocalPlayer && !localTest) return;
 
-        // Only allow character movement if hero is not knocked out, game is currently not in prephase, and match has not ended
-        if (!isKnockedOut && !prephaseManager.IsCurrentlyInPrephase() && !matchManager.IsMatchEnded())
+        // Only allow controls if hero is not knocked out, game is currently not in prephase, and match has not ended
+        if (!isKnockedOut && !prephaseManager.IsCurrentlyInPrephase() && !matchManager.HasMatchEnded())
         {
+            // TODO:
             // This will be changed later but setting up the basic attack here. this should be moved to the endphase.
             // For setting up 
             if (!isDungeonReady)
             {
                 isDungeonReady = true;
                 battack.CmdSetAttackParameters();
-                animate.myHeroType = heroManager.heroType;
-
+                animate.myHeroType = networkHeroManager.heroType;
             }
 
             // Perform character movement controls
@@ -105,15 +100,23 @@ public class HeroController : NetworkBehaviour
             if (unityService.GetKeyDown(KeyCode.Space))
             {
                 battack.PerformAttack();
-                //heroCombat.CmdAttack();
                 animate.PlayBasicAttack();
             }
         }
         
+        // Perform individual update functions
         UpdateUI();
+
+        // Check for current health status
+        if (networkHeroManager.currentHealth <= 0)
+        {
+            KnockedOut();
+        }
     }
 
-    // This function is used to get player direction.
+    /// <summary>
+    /// Sets the player rotation.
+    /// </summary>
     private void PerformRotation()
     {
         Ray cameraRay = view.ScreenPointToRay(Input.mousePosition);
@@ -122,15 +125,15 @@ public class HeroController : NetworkBehaviour
             pointToLookAt = cameraRay.GetPoint(rayLength);
             Debug.DrawLine(cameraRay.origin, pointToLookAt, Color.blue);
             transform.LookAt(new Vector3(pointToLookAt.x, transform.position.y, pointToLookAt.z));
-
         }
     }
 
     /// <summary>
-    /// This function disables the main view camera in charge of capturing the UI
+    /// This function disables the main view camera in charge of capturing the UI.
     /// </summary>
     private void StartCamera()
     {
+        // TODO:
         // There is a bug here.
         GameObject.FindGameObjectWithTag("MainCamera").SetActive(false);
         cam = Instantiate(heroCam);
@@ -184,35 +187,30 @@ public class HeroController : NetworkBehaviour
 
             // Update health bar and text
             Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
-            healthImage.fillAmount = (float)heroManager.currentHealth / (float)heroManager.maxHealth;
+            healthImage.fillAmount = (float)networkHeroManager.currentHealth / (float)networkHeroManager.maxHealth;
             TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
-            healthText.text = heroManager.currentHealth + "/" + heroManager.maxHealth;
-
-            if (heroManager.currentHealth <= 0)
-            {
-                KnockedOut();
-            }
+            healthText.text = networkHeroManager.currentHealth + "/" + networkHeroManager.maxHealth;
 
             // Update the score on UI
             TextMeshProUGUI scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
             scoreText.text = score.GetScore().ToString();
         }
-
     }
 
-    //when health reaches 0, character is knocked out
+    /// <summary>
+    /// Sets the current status of the hero to knocked out.
+    /// </summary>
     private void KnockedOut()
     {
         if (!isKnockedOut)
         {
             isKnockedOut = true;
-            transform.gameObject.tag = "knockedOutPlayer";  //change tag so enemies won't go after it anymore
-            transform.Rotate(90, 0, 0);                     //turn sideways to show knocked out
+            transform.Rotate(90, 0, 0); // rotate transform sideways to show knocked out
 
-            Debug.Log("Player " + playerId + " is knocked out");
+            Debug.Log("Player " + playerId + " is knocked out.");
 
-            // starts timer for length of time that character remains knocked out
-            StartCoroutine(KnockOutTimer(deathTimer));
+            // start timer for length of time that character remains knocked out
+            StartCoroutine(KnockOutTimer());
         }
     }
 
@@ -229,44 +227,52 @@ public class HeroController : NetworkBehaviour
 
         // Reset variables
         isKnockedOut = false;
-        //heroManager.currentHealth = heroManager.maxHealth;
-        heroManager.SetFullHealth();
-        transform.gameObject.tag = "Player";
+        networkHeroManager.SetFullHealth();
 
-        HeroManager heroState = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        // get spawn location of player
+        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        transform.position = heroManager.GetSpawnLocationOfPlayer(playerId);
 
-        //gets spawn location of player
-        transform.position = heroState.GetSpawnLocationOfPlayer(playerId);
-
-        Debug.Log("Player " + playerId + " spawned at " + heroState.GetSpawnLocationOfPlayer(playerId));
+        Debug.Log("Player " + playerId + " spawned at " + heroManager.GetSpawnLocationOfPlayer(playerId));
     }
 
-    //increment how long until player respawns
-    private IEnumerator KnockOutTimer(float timer)
+    /// <summary>
+    /// Timer which waits for the default amount of time a player remains dead, then spawns the player again.
+    /// </summary>
+    private IEnumerator KnockOutTimer()
     {
-        yield return new WaitForSeconds(timer);
+        yield return new WaitForSeconds(deathTimer);
         Spawn();
     }
 
-    //return if knocked out or not
-    public bool GetKnockedOutStatus()
+    /// <returns>
+    /// Returns true if the player is currently knocked out, else returns false.
+    /// </returns>
+    public bool IsKnockedOut()
     {
         return isKnockedOut;
     }
-
-    //return playerID
+    
+    /// <returns>
+    /// Returns the current player id of the hero (taken from MatchManager).
+    /// </returns>
     public int GetPlayerId()
     {
         return playerId;
     }
 
-    //add score
+    /// <summary>
+    /// Increments this player's score by a specified amount.
+    /// </summary>
+    /// <param name="s">Amount to increment the score by.</param>
     public void AddScore(int s)
     {
         score.IncreaseScore(s);
     }
 
-    //return score
+    /// <returns>
+    /// Returns the score of the current player.
+    /// </returns>
     public int GetScore()
     {
         return score.GetScore();

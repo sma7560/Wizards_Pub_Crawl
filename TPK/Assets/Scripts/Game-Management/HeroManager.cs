@@ -40,19 +40,34 @@ public class HeroManager : MonoBehaviour
         GameObject heroObject = null;
         GameObject[] heroObjects = GameObject.FindGameObjectsWithTag("Player");
 
+        // Loop through each hero on the scene and check if their id matches the given id
         foreach (GameObject hero in heroObjects)
         {
             int pid = hero.GetComponent<HeroController>().GetPlayerId();
             if (id == pid)
             {
-                //Debug.Log("Returning Player Object: " + id);
                 heroObject = hero;
-                //Debug.Log("Abillity Manager Enabled: "+heroObject.GetComponent<AbilityManager>().enabled);
                 break;
             }
         }
 
         return heroObject;
+    }
+
+    /// <returns>
+    /// Returns a list all player transforms.
+    /// </returns>
+    public Transform[] GetAllPlayerTransforms()
+    {
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        Transform[] targets = new Transform[GetComponent<MatchManager>().GetNumOfPlayers()];
+
+        for (int i = 0; i < GetComponent<MatchManager>().GetNumOfPlayers(); i++)
+        {
+            targets[i] = playerObjects[i].GetComponent<Transform>();
+        }
+
+        return targets;
     }
 
     /// <summary>

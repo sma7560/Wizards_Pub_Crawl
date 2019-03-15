@@ -41,7 +41,7 @@ public class ArtifactSpawn : NetworkBehaviour
     //spawns artifact at a random spawn location, to be called when an artifact is picked up
     public void SpawnArtifactRandom()
     {
-        if (!isServer || matchManager.IsMatchEnded()) return;  // only called on server 
+        if (!isServer || matchManager.HasMatchEnded()) return;  // only called on server 
 
         int i = Random.Range(0, spawnlocations.Length);
         spawn = spawnlocations[i];

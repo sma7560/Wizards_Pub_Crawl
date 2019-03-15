@@ -48,7 +48,7 @@ public class TestAnimConrtoller : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.IsMatchEnded()) return;
+        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded()) return;
 
         forward = this.transform.forward;
         forward.y = 0;

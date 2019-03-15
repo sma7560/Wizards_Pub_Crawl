@@ -4,27 +4,32 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
+/// <summary>
+/// Contains all logic regarding enemy AI for player targetting & movement.
+/// </summary>
 [RequireComponent(typeof(CharacterCombat))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyController : NetworkBehaviour
 {
+    // For unit testing purposes
     public bool localTest;
-    public float lookRadius = 10f;
     public IUnityService unityService;
 
-    Transform[] targets;
-    NavMeshAgent agent;
-    int numPlayers;
-    CharacterCombat enemyCombat;
-
+    private readonly float lookRadius = 10f;    // radius where enemy can detect players
+    private NavMeshAgent agent;                 // required to navigate the map
+    private CharacterCombat enemyCombat;
     private MatchManager matchManager;
+    private HeroManager heroManager;
 
-    // Use this for initialization
+    /// <summary>
+    /// Use this for initialization.
+    /// </summary>
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         enemyCombat = GetComponent<CharacterCombat>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
 
         if (unityService == null)
         {
@@ -32,41 +37,44 @@ public class EnemyController : NetworkBehaviour
         }
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Called once per frame.
+    /// </summary>
     void Update()
     {
-        // Makes it so it is only moved on server.
-        if (!localTest && !isServer)
-        {
-            return;
-        }
+        // Enemy behaviour should only occur on the server
+        if (!localTest && !isServer) return;
 
-        // Stop moving if match has ended
-        if (matchManager.IsMatchEnded())
+        // Stop movement if match has ended
+        if (matchManager.HasMatchEnded())
         {
             agent.isStopped = true;
             return;
         }
 
-        MakePlayerTargetList();
+        // Perform targetting AI
         TargetClosestPlayer();
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, lookRadius);
-    }
-
-    // Targets the closest player
+    /// <summary>
+    /// Sets the target of this enemy to the closest player.
+    /// </summary>
     private void TargetClosestPlayer()
     {
+        Transform[] targets = heroManager.GetAllPlayerTransforms(); // list of all player transforms
         float shortestDistance = int.MaxValue;  // distance to the closest player
-        int playerIndex = -1;
+        int playerIndex = -1;   // index of the player in targets array whom is currently targetted
 
         // Get distance of player closest to the enemy
-        for (int i = 0; i < numPlayers; i++)
+        for (int i = 0; i < targets.Length; i++)
         {
+            // Do not target knocked out players
+            if (targets[i].GetComponent<HeroController>().IsKnockedOut())
+            {
+                continue;
+            }
+
+            // Find the index of the closest player
             float distance = Vector3.Distance(targets[i].position, transform.position);
             if (distance < shortestDistance)
             {
@@ -79,29 +87,20 @@ public class EnemyController : NetworkBehaviour
         if (shortestDistance <= lookRadius && playerIndex >= 0)
         {
             agent.SetDestination(targets[playerIndex].position);
+            FaceTarget(targets[playerIndex]);
 
             // If player is within attacking range, attack the player
             if (shortestDistance <= agent.stoppingDistance)
             {
-                FaceTarget(targets[playerIndex]);
                 enemyCombat.Attack(targets[playerIndex]);
             }
         }
     }
 
-    // Make target list containing all players
-    private void MakePlayerTargetList()
-    {
-        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        numPlayers = playerObjects.Length;
-        targets = new Transform[numPlayers];
-        for (int i = 0; i < numPlayers; i++)
-        {
-            targets[i] = playerObjects[i].GetComponent<Transform>();
-        }
-    }
-
-    // Rotate enemy to face the player it is currently attacking
+    /// <summary>
+    /// Rotates this enemy to face its current target.
+    /// </summary>
+    /// <param name="target">Transform of this enemy's current target.</param>
     private void FaceTarget(Transform target)
     {
         float rotationSpeed = 5f;
@@ -110,12 +109,18 @@ public class EnemyController : NetworkBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
 
+    /// <summary>
+    /// Destroys this enemy on the server.
+    /// </summary>
     public void KillMe()
     {
         CmdKillMe();
         unityService.Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Destroys this enemy on all clients.
+    /// </summary>
     [Command]
     private void CmdKillMe()
     {

@@ -212,7 +212,7 @@ public class CombatPlayTest
         yield return new WaitForSeconds(timeToWait);
 
         // Assert that hero is knocked out
-        Assert.IsTrue(heroController.GetKnockedOutStatus(), "Hero is not knocked out!");
+        Assert.IsTrue(heroController.IsKnockedOut(), "Hero is not knocked out!");
 
         yield return null;
     }

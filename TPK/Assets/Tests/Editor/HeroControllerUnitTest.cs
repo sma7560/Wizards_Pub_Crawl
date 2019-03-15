@@ -72,7 +72,7 @@ public class HeroControllerUnitTest
         yield return null;
 
         // Validate initialized properties
-        Assert.IsFalse(heroController.GetKnockedOutStatus(), "Hero is knocked out upon initialization!");
+        Assert.IsFalse(heroController.IsKnockedOut(), "Hero is knocked out upon initialization!");
         Assert.IsNotNull(heroController.unityService, "UnityService is null!");
         Assert.IsNotNull(heroController.GetComponent<Rigidbody>(), "Rigidbody is null!");
         Assert.IsNotNull(heroController.GetComponent<CharacterStats>(), "CharacterStats is null!");

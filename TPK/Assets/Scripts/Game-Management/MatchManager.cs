@@ -144,7 +144,7 @@ public class MatchManager : NetworkBehaviour
     /// <returns>
     /// Returns whether or not the match has ended. True if match has ended, false otherwise.
     /// </returns>
-    public bool IsMatchEnded()
+    public bool HasMatchEnded()
     {
         return matchEnded;
     }
