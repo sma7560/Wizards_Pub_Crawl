@@ -5,6 +5,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+/// <summary>
+/// Attached to every skill slot to allow for hover descriptions.
+/// Also allows for equipping skills by clicking/dragging & dropping during pre-phase.
+/// </summary>
 public class SkillHoverDescription : EventTrigger
 {
     public Skill skill; // the current skill that this script is attached to
@@ -134,11 +138,12 @@ public class SkillHoverDescription : EventTrigger
     /// </summary>
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        // Do nothing if no skill is contained
-        if (skill == null)
-        {
-            return;
-        }
+        // do nothing if no skill is contained or drag and drop is not enabled
+        if (skill == null) return;
+
+        // only allow dragging during pre-phase
+        PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+        if (!prephaseManager.IsCurrentlyInPrephase()) return;
 
         // Initialize canvas
         if (canvas == null)
@@ -163,9 +168,7 @@ public class SkillHoverDescription : EventTrigger
         RectTransform myRect = GetComponent<RectTransform>();
         iconRect.sizeDelta = new Vector2(myRect.rect.width, myRect.rect.height);
 
-        // Disable raycasting for this slot and icon
-        Image myImage = GetComponent<Image>();
-        myImage.raycastTarget = false;
+        // Disable raycasting for this icon
         iconImage.raycastTarget = false;
 
         // Check if dragged skill came from an equipped skill, and unequip it
@@ -217,16 +220,11 @@ public class SkillHoverDescription : EventTrigger
         {
             icon = null;
         }
-
-        // Re-enable raycasting for this slot
-        Image myImage = GetComponent<Image>();
-        myImage.raycastTarget = true;
     }
 
     /// <summary>
     /// Skill has been dropped here.
     /// </summary>
-    /// <param name="eventData"></param>
     public override void OnDrop(PointerEventData eventData)
     {
         // Do not allow dropping skills in slots which are not for equipping skills
