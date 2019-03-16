@@ -58,6 +58,11 @@ public class CharacterCombat : NetworkBehaviour
     // Performs an attack on an specific object (ie. a hero)
     public void Attack(Transform attackedObject)
     {
+        if (isServer)
+        {
+            Debug.Log("Attack called on the server");
+        }
+
         HeroModel attackedStats = attackedObject.GetComponent<HeroModel>();
         if (attackedStats != null && attackCooldown <= 0)
         {

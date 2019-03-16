@@ -189,6 +189,25 @@ public class PrephaseUI : MonoBehaviour
     }
 
     /// <summary>
+    /// Returns the default hero based on its child index.
+    /// </summary>
+    /// <param name="index">child index of the wanted hero.</param>
+    public Hero GetDefaultHero(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return king;
+            case 1:
+                return rogue;
+            case 2:
+                return wizard;
+            default:
+                return null;
+        }
+    }
+
+    /// <summary>
     /// Sets up the default hero types of king, wizard, and rogue.
     /// </summary>
     private void SetupDefaultHeroes()

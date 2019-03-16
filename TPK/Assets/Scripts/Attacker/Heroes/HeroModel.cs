@@ -27,8 +27,7 @@ public class HeroModel : NetworkBehaviour
     [SyncVar] private HeroType heroType;
     [SyncVar] private bool isKnockedOut;
     [SyncVar] private int score;
-
-    private int heroIndex;  // used for setting the character model
+    [SyncVar] private int heroIndex;        // current hero model the player has
 
     /// <summary>
     /// Initialize variables.
@@ -39,6 +38,7 @@ public class HeroModel : NetworkBehaviour
 
         score = 0;
         isKnockedOut = false;
+        heroIndex = 0;
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         SetPlayerId(matchManager.GetPlayerId());
     }
@@ -398,7 +398,7 @@ public class HeroModel : NetworkBehaviour
     /// <param name="hero">Hero object to change the model of.</param>
     /// <param name="myHero">Hero to change to.</param>
     /// <param name="oldHeroIndex">Index of the hero previously selected.</param>
-    private void LocalSetModel(GameObject hero, Hero myHero, int oldHeroIndex)
+    public void LocalSetModel(GameObject hero, Hero myHero, int oldHeroIndex)
     {
         hero.transform.GetChild(oldHeroIndex).gameObject.SetActive(false);
         heroIndex = myHero.childIndex;
@@ -476,5 +476,10 @@ public class HeroModel : NetworkBehaviour
     public int GetScore()
     {
         return score;
+    }
+
+    public int GetHeroIndex()
+    {
+        return heroIndex;
     }
 }
