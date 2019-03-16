@@ -154,17 +154,12 @@ public class AbilityManager : NetworkBehaviour
         }
     }
 
-    //private void InstantiateSkill(int indexOfSkill)
-    //{
-    //    equippedSkills[indexOfSkill].Initialize(origin, playerRigid);
-    //}
-
     /// <summary>
     /// Returns whether or not the specified skill is already equipped.
     /// </summary>
     /// <param name="skill">Skill to check if equipped.</param>
     /// <returns>True if specified skill is already equipped, else returns false.</returns>
-    private bool IsEquipped(Skill skill)
+    public bool IsEquipped(Skill skill)
     {
         for (int i = 0; i < equippedSkills.Length; i++)
         {

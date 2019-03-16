@@ -138,12 +138,18 @@ public class SkillHoverDescription : EventTrigger
     /// </summary>
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        // do nothing if no skill is contained or drag and drop is not enabled
+        // do nothing if no skill is contained
         if (skill == null) return;
 
         // only allow dragging during pre-phase
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         if (!prephaseManager.IsCurrentlyInPrephase()) return;
+
+        // do not allow dragging from skill bank if skill is already equipped
+        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+        if (!transform.name.Contains("Equip") && abilityManager.IsEquipped(skill)) return;
 
         // Initialize canvas
         if (canvas == null)
@@ -174,17 +180,12 @@ public class SkillHoverDescription : EventTrigger
         // Check if dragged skill came from an equipped skill, and unequip it
         if (GameObject.FindGameObjectWithTag("DraggedSkill").transform.parent.name.Contains("Equip"))
         {
-            // Get AbilityManager and PrephaseUI
-            HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
-            MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-            AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
-            PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
-
             // Unequip dragged skill
             Skill draggedSkill = GetSkill(GameObject.FindGameObjectWithTag("DraggedSkill").name);
             abilityManager.UnequipSkill(draggedSkill);
 
             // Reflect the equipped skills change in the UI
+            PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
             prephaseUI.UpdateEquippedSkills();
         }
     }

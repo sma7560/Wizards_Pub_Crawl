@@ -118,6 +118,8 @@ public class PrephaseUI : MonoBehaviour
                 skillImg.sprite = null;
             }
         }
+
+        UpdateSkillBankAvailability();
     }
 
     /// <summary>
@@ -336,6 +338,34 @@ public class PrephaseUI : MonoBehaviour
             if (skill.GetComponent<SkillHoverDescription>().skill == null)
             {
                 skill.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Updates the skill bank to fade out skills that are already equipped.
+    /// </summary>
+    private void UpdateSkillBankAvailability()
+    {
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+
+        // Set opacity of skill images in the skill bank to match availbility
+        for (int i = 0; i < abilityManager.knownSkills.Length; i++)
+        {
+            GameObject skill = GameObject.Find("Skill" + (i + 1));
+            Image skillImg = skill.GetComponent<Image>();
+            var tempColor = skillImg.color;
+
+            if (abilityManager.IsEquipped(abilityManager.knownSkills[i]))
+            {
+                // Set image opacity
+                tempColor.a = 0.05f;
+                skillImg.color = tempColor;
+            }
+            else
+            {
+                tempColor.a = 1.0f;
+                skillImg.color = tempColor;
             }
         }
     }
