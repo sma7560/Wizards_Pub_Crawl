@@ -73,7 +73,7 @@ public class AbilityManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Equips the specified skill.
+    /// Equips the specified skill into the first available slot.
     /// </summary>
     /// <param name="skill">Skill to be equipped.</param>
     public void EquipSkill(Skill skill)
@@ -90,6 +90,28 @@ public class AbilityManager : NetworkBehaviour
 
         //Probably do things here to make it better for the players.
         Debug.Log("Can't equip anymore skills");
+    }
+
+    /// <summary>
+    /// Equips the specified skill into the specified slot.
+    /// </summary>
+    /// <param name="skill">Skill to be equipped.</param>
+    /// <param name="index">Index of slot to equip the skill into.</param>
+    public void EquipSkill(Skill skill, int index)
+    {
+        if (index > equippedSkills.Length - 1 || index < 0)
+        {
+            Debug.Log("Failed attempt to equip skill in invalid slot; attempted at slot index " + index);
+        }
+
+        if (IsEquipped(skill))
+        {
+            Debug.Log(skill.name + " has already been equipped.");
+            return;
+        }
+
+        equippedSkills[index] = skill;
+        Debug.Log("Skill " + equippedSkills[index].skillName + " has been equipped into slot " + index);
     }
 
     /// <returns>

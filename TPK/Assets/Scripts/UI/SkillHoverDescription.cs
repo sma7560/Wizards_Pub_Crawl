@@ -9,6 +9,10 @@ public class SkillHoverDescription : EventTrigger
 {
     public Skill skill; // the current skill that this script is attached to
 
+    // Drag and drop
+    private GameObject icon;    // image of the skill used during dragging
+    private Canvas canvas;      // canvas used for dragging and dropped to render dragged icon on top of everything else
+
     /// <summary>
     /// Enable skill description when skill is hovered over.
     /// </summary>
@@ -94,7 +98,7 @@ public class SkillHoverDescription : EventTrigger
     /// <summary>
     /// When skill in skill bank is clicked, adds it to equipped skills. When equipped skill is clicked, unequips the skill.
     /// </summary>
-    public override void OnPointerClick(PointerEventData data)
+    public override void OnPointerClick(PointerEventData eventData)
     {
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
 
@@ -122,5 +126,169 @@ public class SkillHoverDescription : EventTrigger
 
         // Reflect the equipped skills change in the UI
         prephaseUI.UpdateEquippedSkills();
+    }
+
+    /// <summary>
+    /// This skill has begun to be dragged.
+    /// Create its icon to be dragged.
+    /// </summary>
+    public override void OnBeginDrag(PointerEventData eventData)
+    {
+        // Do nothing if no skill is contained
+        if (skill == null)
+        {
+            return;
+        }
+
+        // Initialize canvas
+        if (canvas == null)
+        {
+            GameObject canvasObj = new GameObject(transform.name);
+            canvas = canvasObj.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        }
+
+        // Create the icon to be dragged
+        icon = new GameObject();
+        icon.transform.SetParent(canvas.transform);
+        icon.name = skill.name;
+        icon.tag = "DraggedSkill";
+
+        // Set the image sprite
+        Image iconImage = icon.AddComponent<Image>();
+        iconImage.sprite = GetComponent<Image>().sprite;
+
+        // Set the dimensions
+        RectTransform iconRect = icon.GetComponent<RectTransform>();
+        RectTransform myRect = GetComponent<RectTransform>();
+        iconRect.sizeDelta = new Vector2(myRect.rect.width, myRect.rect.height);
+
+        // Disable raycasting for this slot and icon
+        Image myImage = GetComponent<Image>();
+        myImage.raycastTarget = false;
+        iconImage.raycastTarget = false;
+
+        // Check if dragged skill came from an equipped skill, and unequip it
+        if (GameObject.FindGameObjectWithTag("DraggedSkill").transform.parent.name.Contains("Equip"))
+        {
+            // Get AbilityManager and PrephaseUI
+            HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+            MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+            AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+            PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
+
+            // Unequip dragged skill
+            Skill draggedSkill = GetSkill(GameObject.FindGameObjectWithTag("DraggedSkill").name);
+            abilityManager.UnequipSkill(draggedSkill);
+
+            // Reflect the equipped skills change in the UI
+            prephaseUI.UpdateEquippedSkills();
+        }
+    }
+
+    /// <summary>
+    /// Called during dragging of the skill.
+    /// Allows an image of the skill to be dragged around the screen.
+    /// </summary>
+    public override void OnDrag(PointerEventData eventData)
+    {
+        if (icon != null)
+        {
+            icon.transform.position = Input.mousePosition;
+        }
+    }
+
+    /// <summary>
+    /// Called when dragging of the skill ends.
+    /// Remove the image that was being dragged.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public override void OnEndDrag(PointerEventData eventData)
+    {
+        // Delete canvas
+        if (canvas != null)
+        {
+            Destroy(canvas.gameObject);
+            canvas = null;
+        }
+
+        // Delete icon
+        if (icon != null)
+        {
+            icon = null;
+        }
+
+        // Re-enable raycasting for this slot
+        Image myImage = GetComponent<Image>();
+        myImage.raycastTarget = true;
+    }
+
+    /// <summary>
+    /// Skill has been dropped here.
+    /// </summary>
+    /// <param name="eventData"></param>
+    public override void OnDrop(PointerEventData eventData)
+    {
+        // Do not allow dropping skills in slots which are not for equipping skills
+        if (!transform.name.Contains("Equip"))
+        {
+            return;
+        }
+
+        // Get AbilityManager and PrephaseUI
+        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+        PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
+        
+        int slotIndex = int.Parse(transform.name.Replace("EquipSkill", "")) - 1;                // get slot index based on slot name
+        Skill droppedSkill = GetSkill(GameObject.FindGameObjectWithTag("DraggedSkill").name);   // get the skill currently being dropped
+
+        // Check if dragged skill came from an equipped skill
+        if (GameObject.FindGameObjectWithTag("DraggedSkill").transform.parent.name.Contains("Equip"))
+        {
+            //abilityManager.UnequipSkill(droppedSkill);
+
+            // Check if this is a swap between two equipped skills
+            if (skill != null)
+            {
+                Skill oldSkill = skill;
+                abilityManager.UnequipSkill(oldSkill);
+
+                // Equip old skill in the other slot which we dragged from
+                int oldIndex = int.Parse(GameObject.FindGameObjectWithTag("DraggedSkill").transform.parent.name.Replace("EquipSkill", "")) - 1;
+                abilityManager.EquipSkill(oldSkill, oldIndex);
+            }
+        }
+
+        // Equip the skill in this slot
+        abilityManager.EquipSkill(droppedSkill, slotIndex);
+
+        // Reflect the equipped skills change in the UI
+        prephaseUI.UpdateEquippedSkills();
+    }
+
+    /// <summary>
+    /// Returns the skill with the given name.
+    /// </summary>
+    /// <param name="name">Name of the wanted skill.</param>
+    /// <returns></returns>
+    private Skill GetSkill(string name)
+    {
+        // Get AbilityManager
+        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+
+        // Loop through all known abilities, and check if one of them matches the given name
+        foreach (Skill s in abilityManager.knownSkills)
+        {
+            if (s.name.Equals(name))
+            {
+                return s;
+            }
+        }
+
+        return null;
     }
 }

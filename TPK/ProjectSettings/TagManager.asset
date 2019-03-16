@@ -21,6 +21,8 @@ TagManager:
   - EventSystem
   - Artifact
   - SpawnRoom
+  - DraggedSkill
+  - DragAndDropCanvas
   layers:
   - Default
   - TransparentFX
