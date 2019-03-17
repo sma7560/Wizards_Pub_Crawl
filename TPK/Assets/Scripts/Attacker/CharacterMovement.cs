@@ -25,15 +25,15 @@ public class CharacterMovement
     // Mathematically speaking it is now correct.
     public Vector3 Calculate(float x, float z)
     {
+        Vector3 posX = new Vector3(1, 0, -1);
+        Vector3 posZ = new Vector3(1, 0, 1);
         if (x != 0 || z != 0)
         {
-            float mag = Mathf.Sqrt((x * x) + (z * z));
-            Vector3 dir = new Vector3(x/mag, 0, z/mag);
-            //Debug.Log(dir.magnitude);
-            //Debug.Log(dir.ToString());
-            return speed * dir.normalized;
 
-            //return new Vector3(x * speed, 0, z * speed);
+            Vector3 dir = (x * posX) + (z * posZ);
+
+            // Normalize the direction vector then multiply it with the desired magnitude.
+            return speed * dir.normalized;
         }
 
         return new Vector3(0, 0, 0);
