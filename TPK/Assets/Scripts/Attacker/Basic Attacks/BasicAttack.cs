@@ -58,38 +58,42 @@ public class BasicAttack : NetworkBehaviour
         //if (!isServer) return; Since is command, do not need this
         HeroModel heroModel = GetComponent<HeroModel>();
         attackType = heroModel.GetHeroType();
-        switch (attackType)
-        {
-            case HeroType.magic:
-            case HeroType.range:
-                magRange = 10f;
-                damageType = (attackType == HeroType.magic) ? DamageType.magical : DamageType.physical;
-                break;
-            case HeroType.melee:
-                range = 2f;
-                damageType = DamageType.physical;
-                break;
-            default:
-                range = 2;
-                magRange = 10;
-                damageType = DamageType.none;
-                break;
-        }
+        attackType = HeroType.range;
+        magRange = 5f;
+        damageType = DamageType.physical;
+        //switch (attackType)
+        //{
+        //    case HeroType.magic:
+        //    case HeroType.range:
+        //        magRange = 10f;
+        //        damageType = (attackType == HeroType.magic) ? DamageType.magical : DamageType.physical;
+        //        break;
+        //    case HeroType.melee:
+        //        range = 2f;
+        //        damageType = DamageType.physical;
+        //        break;
+        //    default:
+        //        range = 2;
+        //        magRange = 10;
+        //        damageType = DamageType.none;
+        //        break;
+        //}
     }
 
     public void PerformAttack()
     {
         if (!isLocalPlayer) return;
-        switch (attackType)
-        {
-            case HeroType.magic:
-            case HeroType.range:
-                CmdDoMagic();
-                break;
-            case HeroType.melee:
-                CmdDoMelee();
-                break;
-        }
+        //switch (attackType)
+        //{
+        //    case HeroType.magic:
+        //    case HeroType.range:
+        //        CmdDoMagic();
+        //        break;
+        //    case HeroType.melee:
+        //        CmdDoMelee();
+        //        break;
+        //}
+        CmdDoMagic();
     }
 
     // This function is a command to spawn the basic attack project tile on the server.
@@ -97,7 +101,7 @@ public class BasicAttack : NetworkBehaviour
     private void CmdDoMagic()
     {
         GameObject bolt = Instantiate(projectilePrefab);
-        bolt.transform.position = transform.position + transform.forward * 1f + transform.up * 1.5f;
+        bolt.transform.position = transform.position + transform.forward * 2f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 10f;
         bolt.GetComponent<Projectile>().SetProjectileParams(magRange, damage, damageType); //Give the projectile the parameters;
