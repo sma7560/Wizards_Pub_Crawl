@@ -8,7 +8,7 @@ public class ArtifactController : MonoBehaviour
     private int ownerID;
     private Vector3 ownerSpawn;
 
-    Vector3 smallscale = new Vector3(1f, 1f, 1f);   //smaller size when carried
+    Vector3 smallscale = new Vector3(1.25f, 1.25f, 1.25f);   //smaller size when carried
     Vector3 normalscale = new Vector3(2f, 2f, 2f);	//normal size on ground
 
     //Common, Rare, Epic, Legendary
@@ -51,16 +51,13 @@ public class ArtifactController : MonoBehaviour
         //if being carried, update location of artifact to where the carrier is
         if (isCarried)
         {
-            transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3, playerThatOwns.transform.position.z);
+            transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3.5f, playerThatOwns.transform.position.z);
             if (playerThatOwns.GetComponent<HeroModel>().IsKnockedOut())
             {
                 //player is knocked out, so he drops the artifact
                 DroppedArtifact();
             }
         }
-
-        //rotation animation
-        transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f);
     }
 
     //set player that "picked" up artifact

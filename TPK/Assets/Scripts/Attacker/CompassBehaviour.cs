@@ -22,7 +22,7 @@ public class CompassBehaviour : MonoBehaviour {
 		objective = GameObject.FindGameObjectWithTag ("Artifact").transform;
 		dist = Mathf.Abs( Vector3.Distance (objective.position, transform.position));
 
-		if (dist >= 3)
+		if (dist >= 4)
 			transform.LookAt (objective);
 		else
 			transform.LookAt (spawn);
