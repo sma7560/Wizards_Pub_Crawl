@@ -2831,7 +2831,8 @@ MonoBehaviour:
   damage: 1
   attackType: 2
   damageType: 0
-  projectilePrefab: {fileID: 0}
+  projectilePrefab: {fileID: 1226874391297848, guid: b898ab10bfd426a49b9e9097aa21a5e2,
+    type: 2}
 --- !u!114 &114430560078861062
 MonoBehaviour:
   m_ObjectHideFlags: 1

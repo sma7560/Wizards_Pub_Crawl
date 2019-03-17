@@ -108,7 +108,8 @@ public class AbilityCaster : NetworkBehaviour
     {
 
         GameObject bolt = Instantiate(projectiles[pindex]);
-        bolt.transform.position = transform.position + transform.forward * 1f + transform.up * 1f;
+        // This should be done locally so the direction is synched on client side to feel better.
+        bolt.transform.position = transform.position + transform.forward * 2f + transform.up * 1f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * speed;
         bolt.GetComponent<BaseProjectile>().SetProjectileParams(range, damage, dtype); //Give the projectile the parameters;
