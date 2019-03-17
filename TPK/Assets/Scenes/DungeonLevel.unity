@@ -75059,8 +75059,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   music:
-  - {fileID: 8300000, guid: 9daec4493653a40f1ad95705104b5986, type: 3}
-  - {fileID: 8300000, guid: 1aa11e44a96bc4e84b0f962d299774f0, type: 3}
+  - {fileID: 8300000, guid: b2ed70b6bd11af94b98f5130add0b72c, type: 3}
+  - {fileID: 8300000, guid: 598364e1a17999e49b57e656167be33b, type: 3}
   inGameMenu: {fileID: 1832227255}
   inGameMenuResumeButton: {fileID: 1832227256}
   statsWindow: {fileID: 1613396782}
