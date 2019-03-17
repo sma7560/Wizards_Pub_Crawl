@@ -217,17 +217,17 @@ public class PrephaseUI : MonoBehaviour
         // Setup default heroes
         king = ScriptableObject.CreateInstance<Hero>();
         king.heroType = HeroType.melee;
-        king.heroName = "King";
+        king.heroName = "Kingly Wizard";
         king.childIndex = 0;
 
         wizard = ScriptableObject.CreateInstance<Hero>();
         wizard.heroType = HeroType.magic;
-        wizard.heroName = "Wizard";
+        wizard.heroName = "Magic Wizard";
         wizard.childIndex = 2;
 
         rogue = ScriptableObject.CreateInstance<Hero>();
         rogue.heroType = HeroType.melee;
-        rogue.heroName = "Rogue";
+        rogue.heroName = "Shifty Wizard";
         rogue.childIndex = 1;
     }
 
