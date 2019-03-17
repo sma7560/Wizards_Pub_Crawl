@@ -23,6 +23,7 @@ TagManager:
   - SpawnRoom
   - DraggedSkill
   - DragAndDropCanvas
+  - Compass
   layers:
   - Default
   - TransparentFX

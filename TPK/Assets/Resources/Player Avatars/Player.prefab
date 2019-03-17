@@ -1951,7 +1951,7 @@ Transform:
   m_GameObject: {fileID: 1389239392925404}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 8.12544, y: 0, z: -9.259614}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4075243609988072}
   - {fileID: 4171094712561990}
@@ -3082,6 +3082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroCam: {fileID: 1742646014484890, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
+  compass: {fileID: 1815674038436722, guid: d0c99e73f0430e741904c42a07e72a9e, type: 2}
   localTest: 0
 --- !u!114 &114953522331739560
 MonoBehaviour:

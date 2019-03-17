@@ -15,6 +15,7 @@ using UnityEngine.UI;
 public class HeroController : NetworkBehaviour
 {
     public GameObject heroCam;
+	public GameObject compass;
 
     // For unit testing
     public bool localTest;
@@ -156,6 +157,8 @@ public class HeroController : NetworkBehaviour
         {
             transform.Rotate(-90, 0, 0);
         }
+
+		Instantiate (compass, transform);
 
         // Reset variables
         heroModel.SetKnockedOut(false);
