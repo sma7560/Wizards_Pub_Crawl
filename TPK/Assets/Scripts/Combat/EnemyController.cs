@@ -21,6 +21,9 @@ public class EnemyController : NetworkBehaviour
     private MatchManager matchManager;
     private HeroManager heroManager;
 
+    private Vector3 currentRandomLocation;
+    private bool isIdleMovement;
+
     /// <summary>
     /// Use this for initialization.
     /// </summary>
@@ -30,6 +33,8 @@ public class EnemyController : NetworkBehaviour
         enemyCombat = GetComponent<CharacterCombat>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+
+        //StartCoroutine(RandomNavSphere(transform.position, 6, -1));
 
         if (unityService == null)
         {
@@ -86,6 +91,10 @@ public class EnemyController : NetworkBehaviour
         // If player is within lookRadius of enemy, follow the player
         if (shortestDistance <= lookRadius && playerIndex >= 0)
         {
+            //stop idle movement
+            isIdleMovement = false;
+            StopCoroutine(RandomNavSphere(transform.position, 6, -1));
+
             agent.SetDestination(targets[playerIndex].position);
             FaceTarget(targets[playerIndex].position);
 
@@ -94,6 +103,11 @@ public class EnemyController : NetworkBehaviour
             {
                 enemyCombat.Attack(targets[playerIndex]);
             }
+        }
+        //otherwise random direction
+        else
+        {
+            idleMovement();
         }
     }
 
@@ -125,5 +139,42 @@ public class EnemyController : NetworkBehaviour
     private void CmdKillMe()
     {
         NetworkServer.Destroy(gameObject);
+    }
+
+    /// <summary>
+    /// Idle movement for enemy.
+    /// </summary>
+    private void idleMovement()
+    {
+        //if not currently idle movement, start random location couroutine
+        if (!isIdleMovement)
+        {
+            StartCoroutine(RandomNavSphere(transform.position, 9, -1));
+            isIdleMovement = true;
+        }
+        agent.SetDestination(currentRandomLocation);
+        FaceTarget(currentRandomLocation);
+    }
+
+    /// <summary>
+    /// Generate random location near specified navmesh agent
+    /// </summary>
+    IEnumerator RandomNavSphere(Vector3 origin, float distance, int layermask)
+    {
+        while (true)
+        {
+            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * distance;
+
+            randomDirection += origin;
+
+            NavMeshHit navHit;
+
+            NavMesh.SamplePosition(randomDirection, out navHit, distance, layermask);
+
+            currentRandomLocation = navHit.position;
+            Debug.Log("New location at " + currentRandomLocation);
+
+            yield return new WaitForSeconds(Random.Range(4f, 6f));
+        }
     }
 }
