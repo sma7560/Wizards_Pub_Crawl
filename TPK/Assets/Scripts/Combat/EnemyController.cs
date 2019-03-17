@@ -87,7 +87,7 @@ public class EnemyController : NetworkBehaviour
         if (shortestDistance <= lookRadius && playerIndex >= 0)
         {
             agent.SetDestination(targets[playerIndex].position);
-            FaceTarget(targets[playerIndex]);
+            FaceTarget(targets[playerIndex].position);
 
             // If player is within attacking range, attack the player
             if (shortestDistance <= agent.stoppingDistance)
@@ -101,10 +101,10 @@ public class EnemyController : NetworkBehaviour
     /// Rotates this enemy to face its current target.
     /// </summary>
     /// <param name="target">Transform of this enemy's current target.</param>
-    private void FaceTarget(Transform target)
+    private void FaceTarget(Vector3 target)
     {
         float rotationSpeed = 5f;
-        Vector3 direction = (target.position - transform.position).normalized;
+        Vector3 direction = (target - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
     }
