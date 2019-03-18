@@ -13,7 +13,6 @@ public class HeroModel : NetworkBehaviour
     [SyncVar] private readonly int maxHealth = 100;
     [SyncVar] private int currentHealth;
     [SyncVar] private int moveSpeed;        // multiplier for move speed (velocity)
-    [SyncVar] private int atkSpeed;
     [SyncVar] private int mDefence;
     [SyncVar] private int pDefence;
     [SyncVar] private int mAttack;
@@ -174,26 +173,6 @@ public class HeroModel : NetworkBehaviour
     private void CmdSetMoveSpeed(int val)
     {
         moveSpeed = val;
-    }
-
-    /// <summary>
-    /// Setter for attack speed.
-    /// </summary>
-    public void SetAtkSpeed(int val)
-    {
-        if (!hasAuthority) return;
-
-        atkSpeed = val;
-
-        if (!isServer)
-        {
-            CmdSetAtkSpeed(val);
-        }
-    }
-    [Command]
-    private void CmdSetAtkSpeed(int val)
-    {
-        atkSpeed = val;
     }
 
     /// <summary>
@@ -426,11 +405,6 @@ public class HeroModel : NetworkBehaviour
     public int GetMoveSpeed()
     {
         return moveSpeed;
-    }
-
-    public int GetAtkSpeed()
-    {
-        return atkSpeed;
     }
 
     public int GetMDefence()

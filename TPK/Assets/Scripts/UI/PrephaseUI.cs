@@ -27,7 +27,6 @@ public class PrephaseUI : MonoBehaviour
     private TextMeshProUGUI magicalDmg;
     private TextMeshProUGUI physicalDef;
     private TextMeshProUGUI magicalDef;
-    private TextMeshProUGUI atkSpd;
 
     // Default heroes
     private Hero king;
@@ -61,7 +60,6 @@ public class PrephaseUI : MonoBehaviour
         magicalDmg = GameObject.Find("MagicDmgText").GetComponent<TextMeshProUGUI>();
         physicalDef = GameObject.Find("PhysDefText").GetComponent<TextMeshProUGUI>();
         magicalDef = GameObject.Find("MagicDefText").GetComponent<TextMeshProUGUI>();
-        atkSpd = GameObject.Find("AtkSpdText").GetComponent<TextMeshProUGUI>();
 
         // Setup default values for default heroes
         SetupDefaultHeroes();
@@ -239,7 +237,6 @@ public class PrephaseUI : MonoBehaviour
         // Set default stat values depending on the hero type
         if (selectedHero == king)
         {
-            heroModel.SetAtkSpeed(10);
             heroModel.SetPAttack(10);
             heroModel.SetMAttack(10);
             heroModel.SetPDefence(10);
@@ -247,7 +244,6 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == wizard)
         {
-            heroModel.SetAtkSpeed(10);
             heroModel.SetPAttack(5);
             heroModel.SetMAttack(15);
             heroModel.SetPDefence(5);
@@ -255,7 +251,6 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == rogue)
         {
-            heroModel.SetAtkSpeed(15);
             heroModel.SetPAttack(15);
             heroModel.SetMAttack(5);
             heroModel.SetPDefence(10);
@@ -300,7 +295,6 @@ public class PrephaseUI : MonoBehaviour
         magicalDmg.text = heroModel.GetMAttack().ToString();
         physicalDef.text = heroModel.GetPDefence().ToString();
         magicalDef.text = heroModel.GetMDefence().ToString();
-        atkSpd.text = heroModel.GetAtkSpeed().ToString();
     }
 
     /// <summary>

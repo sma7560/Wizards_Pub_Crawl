@@ -69,14 +69,12 @@ public class StatWindowUI : MonoBehaviour
         TextMeshProUGUI magicDmg = GameObject.Find("MagicDmgText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI physDef = GameObject.Find("PhysDefText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI magicDef = GameObject.Find("MagicDefText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI atkSpd = GameObject.Find("AtkSpeedText").GetComponent<TextMeshProUGUI>();
 
         // Set text elements to appropriate stats
         physDmg.text = heroModel.GetPAttack().ToString();
         magicDmg.text = heroModel.GetMAttack().ToString();
         physDef.text = heroModel.GetPDefence().ToString();
         magicDef.text = heroModel.GetMDefence().ToString();
-        atkSpd.text = heroModel.GetAtkSpeed().ToString();
     }
 
     /// <summary>
