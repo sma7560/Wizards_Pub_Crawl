@@ -3005,12 +3005,12 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 50
   damage:
-    value: 20
+    value: 10
   defence:
     value: 0
   attackSpeed:
     value: 3
-  dropRate: 30
+  dropRate: 100
 --- !u!114 &114179002446109176
 MonoBehaviour:
   m_ObjectHideFlags: 1

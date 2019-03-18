@@ -24,7 +24,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     {
         //set initial spawn locations
         SetSpawnPoints();
-        InvokeRepeating("DungeonSpawnMonster", 0f, 10);
+        InvokeRepeating("DungeonSpawnMonster", 0f, 5);
     }
 
     void DungeonSpawnMonster()
