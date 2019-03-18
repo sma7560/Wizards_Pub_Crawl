@@ -10,7 +10,7 @@ public class BasicAttack : NetworkBehaviour
     [SyncVar] public float range = 0;
     [SyncVar] public float magRange = 0;
     [SyncVar] public float angleRange;
-    [SyncVar] public int damage = 5;
+    [SyncVar] public int damage = 10;
     [SyncVar] public HeroType attackType;
     [SyncVar] public DamageType damageType = DamageType.none;
     public GameObject projectilePrefab;

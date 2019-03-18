@@ -20,10 +20,10 @@ MonoBehaviour:
   castType: 1
   skillRange: 20
   damageType: 1
-  damageAmount: 2
+  damageAmount: 10
   projectilePrefabIndex: 0
   numProjectiles: 1
-  projectileSpeed: 10
+  projectileSpeed: 12
   ccType: 2
   moveType: 2
   movementDistance: 0
