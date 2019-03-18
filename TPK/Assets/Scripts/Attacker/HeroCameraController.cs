@@ -9,7 +9,7 @@ public class HeroCameraController : MonoBehaviour
 {
     private PrephaseManager prephaseManager;
     private Transform targetTransform;
-    private Vector3 dungeonOffset = new Vector3(-4, 8, -4);
+    private Vector3 dungeonOffset = new Vector3(-5, 10, -5);
     private Quaternion dungeonRotation = Quaternion.Euler(50, 45, 0);
     private Vector3 prephaseOffset = new Vector3(0.1f, 3.0f, 2.5f);
     private Quaternion prephaseRotation = Quaternion.Euler(10, 180, 0);
