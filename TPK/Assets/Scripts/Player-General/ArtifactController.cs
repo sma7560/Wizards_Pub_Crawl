@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
-// Carryable Artifact script
+/// <summary>
+/// Logic for game objective
+/// </summary>
 public class ArtifactController : MonoBehaviour
 {
     private bool isCarried;     //is artifact carried by someone?
