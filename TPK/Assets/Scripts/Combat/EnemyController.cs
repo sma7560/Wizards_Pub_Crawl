@@ -20,9 +20,11 @@ public class EnemyController : NetworkBehaviour
     private CharacterCombat enemyCombat;
     private MatchManager matchManager;
     private HeroManager heroManager;
+    private AnimationEnemyController animation;
 
     private Vector3 currentRandomLocation;
     private bool isIdleMovement;
+    private bool isAttacking;
 
     /// <summary>
     /// Use this for initialization.
@@ -33,6 +35,9 @@ public class EnemyController : NetworkBehaviour
         enemyCombat = GetComponent<CharacterCombat>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+        animation = GetComponent<AnimationEnemyController>();
+
+        isAttacking = false;
 
         //StartCoroutine(RandomNavSphere(transform.position, 6, -1));
 
@@ -97,17 +102,49 @@ public class EnemyController : NetworkBehaviour
 
             agent.SetDestination(targets[playerIndex].position);
             FaceTarget(targets[playerIndex].position);
+            animation.animationWalk(true);
 
             // If player is within attacking range, attack the player
             if (shortestDistance <= agent.stoppingDistance)
             {
+                animation.animationWalk(false);
+                //if (!isAttacking)
+                //{
+                //    //start attacking animation
+                //    isAttacking = true;
+                //    StartCoroutine(attacking());
+                //}
+                animation.playAttack();
                 enemyCombat.Attack(targets[playerIndex]);
             }
+            //stop attacking animation if not in range and was currently attacking
+            //else
+            //{
+            //    if (isAttacking)
+            //    {
+            //        isAttacking = false;
+            //        Debug.Log("Stopped");
+            //        StopCoroutine(attacking());
+            //    }
+            //}
         }
         //otherwise random direction
         else
         {
             idleMovement();
+        }
+    }
+
+    /// <summary>
+    /// Enum for attack animation loop
+    /// </summary>
+    public IEnumerator attacking()
+    {
+        while (isAttacking)
+        {
+            //Debug.Log("attacked");
+            animation.playAttack();
+            yield return new WaitForSeconds(2);
         }
     }
 
@@ -146,6 +183,7 @@ public class EnemyController : NetworkBehaviour
     /// </summary>
     private void idleMovement()
     {
+        animation.animationWalk(true);
         //if not currently idle movement, start random location couroutine
         if (!isIdleMovement)
         {
@@ -154,6 +192,18 @@ public class EnemyController : NetworkBehaviour
         }
         agent.SetDestination(currentRandomLocation);
         FaceTarget(currentRandomLocation);
+
+        // Check if we've reached the destination
+        if (!agent.pathPending)
+        {
+            if (agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    animation.animationWalk(false);
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -172,7 +222,7 @@ public class EnemyController : NetworkBehaviour
             NavMesh.SamplePosition(randomDirection, out navHit, distance, layermask);
 
             currentRandomLocation = navHit.position;
-            Debug.Log("New location at " + currentRandomLocation);
+            //Debug.Log("New location at " + currentRandomLocation);
 
             yield return new WaitForSeconds(Random.Range(4f, 6f));
         }

@@ -60,7 +60,7 @@ public class CharacterCombat : NetworkBehaviour
     {
         if (isServer)
         {
-            Debug.Log("Attack called on the server");
+            //Debug.Log("Attack called on the server");
         }
 
         HeroModel attackedStats = attackedObject.GetComponent<HeroModel>();
