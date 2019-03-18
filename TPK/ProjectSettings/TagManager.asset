@@ -25,6 +25,7 @@ TagManager:
   - DragAndDropCanvas
   - Compass
   - enemySpawnPoint
+  - Fire
   layers:
   - Default
   - TransparentFX
