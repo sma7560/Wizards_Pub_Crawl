@@ -38,6 +38,7 @@ public class HeroController : NetworkBehaviour
     private HeroModel heroModel;
     private BasicAttack battack;
     private TestAnimConrtoller animate;
+	private Vector3 tempVelocity;
 
     // Use this for initialization
     void Start()
@@ -85,8 +86,10 @@ public class HeroController : NetworkBehaviour
             }
 
             // Perform character movement controls
-            heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
-            PerformRotation();
+			tempVelocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+			tempVelocity.y = heroRigidbody.velocity.y;
+			heroRigidbody.velocity = tempVelocity;
+			PerformRotation();
 
             // Perform an attack
             if (unityService.GetKeyDown(KeyCode.Space))
