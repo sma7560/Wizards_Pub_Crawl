@@ -18,13 +18,12 @@ public class DungeonEnemyManager : NetworkBehaviour
         {
             unityService = new UnityService();
         }
-
-        //set initial spawn locations
-        SetSpawnPoints();
     }
 
     public void StartSpawn()
     {
+        //set initial spawn locations
+        SetSpawnPoints();
         InvokeRepeating("DungeonSpawnMonster", 0f, 10);
     }
 
@@ -56,51 +55,17 @@ public class DungeonEnemyManager : NetworkBehaviour
         currentNumMonsters = currentNumMonsters + 1;
     }
 
-    //set spawn location. Takes in number of spawn location, and the spawn
-    //location as a n array of vector
-    public void SetSpawnLocations(int numSpawnLocations, Vector3[] locations)
-    {
-        spawnLocation = new Vector3[numSpawnLocations];
-        for (int i = 0; i < numSpawnLocations; i++)
-        {
-            spawnLocation[i] = locations[i];
-        }
-    }
-
-    //change specific spawn location
-    public void SetSpawnLocation(int playerNum, Vector3 location)
-    {
-        spawnLocation[playerNum] = location;
-    }
-
-    //sets predetermined spawn points
+    //grab spawn points from spawnlocations on map
     public void SetSpawnPoints()
     {
-        spawnLocation = new Vector3[] {
-            new Vector3(28, 0.5f, 11),
-            new Vector3(52, 0.5f, 11),
-            new Vector3(52, 0.5f, -9),
-            new Vector3(27, 0.5f, -9),
-            new Vector3(81, 0.5f, -25),
-            new Vector3(93, 0.5f, -1),
-            new Vector3(102, 0.5f, -1),
-            new Vector3(2, 0.5f, -37),
-            new Vector3(2, 0.5f, 39),
-            new Vector3(55, 0.5f, 26),
-            new Vector3(70, 0.5f, 26),
-            new Vector3(70, 0.5f, 55),
-            new Vector3(55, 0.5f, 55),
-            new Vector3(95, 0.5f, 41),
-            new Vector3(132, 0.5f, 12),
-            new Vector3(132, 0.5f, -10),
-            new Vector3(160, 0.5f, -10),
-            new Vector3(160, 0.5f, 12),
-            new Vector3(184, 0.5f, 12),
-            new Vector3(184, 0.5f, -10),
-            new Vector3(118, 0.5f, -42),
-            new Vector3(94, 0.5f, -60),
-            new Vector3(55, 0.5f, -54)
-        };
+        GameObject[] spawnGameObjects;
+        spawnGameObjects = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
+        spawnLocation = new Vector3[spawnGameObjects.Length];
+        for(int i=0; i< spawnLocation.Length; i++)
+        {
+            spawnLocation[i] = spawnGameObjects[i].transform.position;
+        }
+
     }
 
     //returns spawn location of specified spawn location 
