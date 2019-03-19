@@ -98,7 +98,7 @@ Transform:
   m_GameObject: {fileID: 1930669004023674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.405, z: 0.628}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_Children:
   - {fileID: 4468021027466690}
   - {fileID: 4587676718878412}
@@ -207,7 +207,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.13157845
+        value: 0.21751595
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -215,8 +215,8 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.165214
-        value: 0.17105222
+        time: 0.16182418
+        value: 0.29605222
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 10
   damage: 1
-  damageType: 1
+  damageType: 0
 --- !u!114 &114316806209977068
 MonoBehaviour:
   m_ObjectHideFlags: 1
