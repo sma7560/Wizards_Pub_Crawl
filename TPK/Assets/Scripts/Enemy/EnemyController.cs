@@ -26,6 +26,8 @@ public class EnemyController : NetworkBehaviour
     private Vector3 currentRandomLocation;
     private bool isIdleMovement;
     private bool isAttacking;
+    private float idleRange;
+    private float idleHowOftenDirectionChanged;
 
     /// <summary>
     /// Use this for initialization.
@@ -40,7 +42,9 @@ public class EnemyController : NetworkBehaviour
         myStats = GetComponent<EnemyStats>();
 
         isAttacking = false;
-        agent.speed = myStats.movementSpeed.GetValue();
+        agent.speed = myStats.getMovementSpeed().GetValue();
+        idleRange = myStats.getIdleRange();
+        idleHowOftenDirectionChanged = myStats.getIdleHowOftenDirectionChanged();
 
         //StartCoroutine(RandomNavSphere(transform.position, 6, -1));
 
@@ -101,7 +105,7 @@ public class EnemyController : NetworkBehaviour
         {
             //stop idle movement
             isIdleMovement = false;
-            StopCoroutine(RandomNavSphere(transform.position, 6, -1));
+            StopCoroutine(RandomNavSphere(transform.position, idleRange, idleHowOftenDirectionChanged, -1));
 
             agent.SetDestination(targets[playerIndex].position);
             FaceTarget(targets[playerIndex].position);
@@ -190,7 +194,7 @@ public class EnemyController : NetworkBehaviour
         //if not currently idle movement, start random location couroutine
         if (!isIdleMovement)
         {
-            StartCoroutine(RandomNavSphere(transform.position, 9, -1));
+            StartCoroutine(RandomNavSphere(transform.position, idleRange, idleHowOftenDirectionChanged, -1));
             isIdleMovement = true;
         }
         agent.SetDestination(currentRandomLocation);
@@ -212,22 +216,18 @@ public class EnemyController : NetworkBehaviour
     /// <summary>
     /// Generate random location near specified navmesh agent
     /// </summary>
-    IEnumerator RandomNavSphere(Vector3 origin, float distance, int layermask)
+    IEnumerator RandomNavSphere(Vector3 origin, float distance, float howOften, int layermask)
     {
         while (true)
         {
             Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * distance;
-
             randomDirection += origin;
-
             NavMeshHit navHit;
-
             NavMesh.SamplePosition(randomDirection, out navHit, distance, layermask);
-
             currentRandomLocation = navHit.position;
             //Debug.Log("New location at " + currentRandomLocation);
 
-            yield return new WaitForSeconds(Random.Range(4f, 6f));
+            yield return new WaitForSeconds(Random.Range(howOften-1, howOften+1));
         }
     }
 }

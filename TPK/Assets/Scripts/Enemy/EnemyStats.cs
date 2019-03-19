@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class EnemyStats : CharacterStats
 {
-    public float dropRate = 100f;
-    public Stat movementSpeed;
+    protected float dropRate = 100f;
+    protected Stat movementSpeed = new Stat();
+    protected float idleRange;
+    protected float idleHowOftenDirectionChanged;
 
     //mosnter death overrides default die method
     protected override void Die()
@@ -24,5 +26,25 @@ public class EnemyStats : CharacterStats
         }
         // Add enemy death animation here
         Destroy(gameObject);
+    }
+
+    public float getDropRate()
+    {
+        return dropRate;
+    }
+
+    public float getIdleRange()
+    {
+        return idleRange;
+    }
+
+    public float getIdleHowOftenDirectionChanged()
+    {
+        return idleHowOftenDirectionChanged;
+    }
+
+    public Stat getMovementSpeed()
+    {
+        return movementSpeed;
     }
 }

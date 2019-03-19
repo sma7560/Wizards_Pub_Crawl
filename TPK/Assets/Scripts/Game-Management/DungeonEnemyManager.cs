@@ -7,7 +7,9 @@ using UnityEngine.Networking;
 public class DungeonEnemyManager : NetworkBehaviour
 {
     public IUnityService unityService;
-    public GameObject monster;
+    public GameObject lightMonster;
+    public GameObject mediumMonster;
+    public GameObject heavyMonster;
     private Vector3[] spawnLocation;
     private int currentNumMonsters = 0;
 
@@ -18,6 +20,9 @@ public class DungeonEnemyManager : NetworkBehaviour
         {
             unityService = new UnityService();
         }
+        lightMonster = (Resources.Load("Enemies/LightMonster") as GameObject);
+        mediumMonster = (Resources.Load("Enemies/RegularMonster") as GameObject);
+        heavyMonster = (Resources.Load("Enemies/HeavyMonster") as GameObject);
     }
 
     public void StartSpawn()
@@ -34,13 +39,14 @@ public class DungeonEnemyManager : NetworkBehaviour
             return;
         }
 
-        int randLocation = Random.Range(1, 22);
-
-        CmdSpawnMonster(GetSpawnLocationOfMonster(randLocation));
+        int randLocation = Random.Range(0, spawnLocation.Length+1);
+        int randMonster = Random.Range(0, 3);
+        Debug.Log(randLocation);
+        CmdSpawnMonster(GetSpawnLocationOfMonster(randLocation), getMonsterType(randMonster));
     }
 
     // Commands for communicating to the server.
-    private void CmdSpawnMonster(Vector3 location)
+    private void CmdSpawnMonster(Vector3 location, GameObject monsterType)
     {
         if (!isServer)
         {
@@ -49,7 +55,7 @@ public class DungeonEnemyManager : NetworkBehaviour
         Debug.Log("Monster spawning");
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
         GameObject temp;
-        temp = unityService.Instantiate(monster, location, rotate);
+        temp = unityService.Instantiate(monsterType, location, rotate);
         NetworkServer.Spawn(temp);
         Debug.Log("Monster spawned");
         currentNumMonsters = currentNumMonsters + 1;
@@ -72,5 +78,27 @@ public class DungeonEnemyManager : NetworkBehaviour
     public Vector3 GetSpawnLocationOfMonster(int spawnLocationAt)
     {
         return spawnLocation[spawnLocationAt];
+    }
+
+    //return monster type according to what int is passed in
+    public GameObject getMonsterType(int monsterType)
+    {
+        switch (monsterType)
+        {
+            case 0:
+                {
+                    return lightMonster;
+                }
+            case 1:
+                {
+                    return mediumMonster;
+                }
+            case 2:
+                {
+                    return heavyMonster;
+                }
+        }
+        //should never reach here
+        return lightMonster;
     }
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Inherits from enemy stats. sets up stats for medium sized enemies.
+/// </summary>
 public class MediumEnemyStat : EnemyStats
 {
 	// Use this for initialization
@@ -10,6 +13,8 @@ public class MediumEnemyStat : EnemyStats
         SetCurrentHealth(maxHealth);
         damage.setValue(10);
         defence.setValue(1);
-        movementSpeed.setValue(5);
+        movementSpeed.setValue(4);
+        idleRange = 9;
+        idleHowOftenDirectionChanged = 5;
     }
 }
