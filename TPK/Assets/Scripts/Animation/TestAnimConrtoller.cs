@@ -93,37 +93,14 @@ public class TestAnimConrtoller : NetworkBehaviour
     }
     public void PlayBasicAttack()
     {
-        // On mouse click.
-        switch (myHeroType)
-        {
-            case HeroType.range:
-            case HeroType.magic:
-                anim.SetTrigger("MBasic");
-                break;
-            case HeroType.melee:
-                anim.SetTrigger("PBasic");
-                break;
-        }
-
-        //if (timeElapsed > timeToReset)
-        //{
-        //    timeElapsed = 0;
-        //    switch (myHeroType) {
-        //        case HeroType.range:
-        //        case HeroType.magic:
-        //            anim.SetTrigger("MBasic");
-        //            break;
-        //        case HeroType.melee:
-        //            anim.SetTrigger("PBasic");
-        //            break;
-        //    }
-        //}
-        //else
-        //{
-        //    timeElapsed += Time.deltaTime;
-        //}
-
+        anim.SetTrigger("MBasic");
     }
+
+    public void SetDead(bool status) {
+        anim.SetBool("isDead", status);
+        if (status) anim.SetTrigger("Die");
+    }
+
     // This function is for setting up the movement for the legs.
     private void SetMovementAnim()
     {
