@@ -18,7 +18,7 @@ public class PrephaseManager : NetworkBehaviour
         NotActive
     }
 
-    private readonly int timeLimit = 30;    // value which the countdown starts from when activated
+    private readonly int timeLimit = 10;    // value which the countdown starts from when activated
     private MatchManager matchManager;      // MatchManager to get current num of players
     [SyncVar] private PrephaseState state;  // current status of the prephase
     [SyncVar] private int countdown;        // countdown timer of time left in prephase stage; -1 when prephase is not active
@@ -64,7 +64,7 @@ public class PrephaseManager : NetworkBehaviour
     public void UpdatePrephase()
     {
         if (!isServer) return;
-
+        //if (true)
         // Check if current number of players in the match have reached the maximum number
         if (matchManager.GetNumOfPlayers() >= matchManager.GetMaxPlayers())
         {

@@ -13,6 +13,8 @@ public class BasicAttack : NetworkBehaviour
     [SyncVar] public int damage = 10;
     [SyncVar] public HeroType attackType;
     [SyncVar] public DamageType damageType = DamageType.none;
+    private float cooldown = 0.25f;
+    private float nextActiveTime = 0;
     public GameObject projectilePrefab;
 
     // Use this for initialization
@@ -24,31 +26,6 @@ public class BasicAttack : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //if (!isLocalPlayer) return;
-        //// The code here is temporary.
-        //if (Input.GetKeyDown(KeyCode.F)) {
-        //    if (attackType == HeroType.melee)
-        //    {
-        //        Collider[] aroundMe = Physics.OverlapSphere(this.transform.position, range);
-        //        CmdDoMelee(aroundMe);
-        //    }
-        //    else {
-        //        CmdDoMagic();
-        //    }
-        //}
-        //if (Input.GetMouseButtonDown(1)) {
-        //    switch (attackType) {
-        //        case HeroType.magic:
-        //        case HeroType.range:
-        //            attackType = HeroType.melee;
-        //            break;
-        //        case HeroType.melee:
-        //            attackType = HeroType.magic;
-        //            break;
-
-        //    }
-        //}
     }
 
     // This function shouldnt be called unless by a local player but just incase, if it is called double check for local-ness...
@@ -60,7 +37,7 @@ public class BasicAttack : NetworkBehaviour
         attackType = heroModel.GetHeroType();
         attackType = HeroType.range;
         magRange = 5f;
-        damageType = DamageType.physical;
+        damageType = DamageType.none;
         //switch (attackType)
         //{
         //    case HeroType.magic:
@@ -83,17 +60,10 @@ public class BasicAttack : NetworkBehaviour
     public void PerformAttack()
     {
         if (!isLocalPlayer) return;
-        //switch (attackType)
-        //{
-        //    case HeroType.magic:
-        //    case HeroType.range:
-        //        CmdDoMagic();
-        //        break;
-        //    case HeroType.melee:
-        //        CmdDoMelee();
-        //        break;
-        //}
-        CmdDoMagic();
+        if (Time.time > nextActiveTime) {
+            CmdDoMagic();
+            nextActiveTime = Time.time + cooldown;
+        }
     }
 
     // This function is a command to spawn the basic attack project tile on the server.

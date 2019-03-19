@@ -27,9 +27,11 @@ public class AbilityCaster : NetworkBehaviour
     {
         Debug.Log("I am localplayer: " + isLocalPlayer);
         if (!isLocalPlayer) return;
-        //Debug.Log(skillToCast.castType);
+        StartCoroutine(AnimDelay(skillToCast));
+     
+    }
+    private void PlaySkillEffects(Skill skillToCast) {
         currentCastSkill = skillToCast;
-        Debug.Log(currentCastSkill.castType);
         switch (currentCastSkill.castType)
         {
             case CastType.selfAoe:
@@ -57,10 +59,30 @@ public class AbilityCaster : NetworkBehaviour
                 MoveDash();
                 break;
         }
-        anim.PlayAnim(currentCastSkill.skillType); // Via network animator animations are already synched on network.
-        //CmdPlayEffect(currentCastSkill.visualEffectIndex);
-
     }
+    private IEnumerator AnimDelay(Skill skillToCast) {
+        // Play Animation
+        SkillType st = skillToCast.skillType;
+        anim.PlayAnim(st);
+
+        // Wait
+        switch (st) {
+            case SkillType.buff:
+                yield return new WaitForSeconds(0.30f);
+                break;
+            case SkillType.magicHeavy:
+                yield return new WaitForSeconds(1.10f);
+                break;
+            case SkillType.magicLight:
+                yield return new WaitForSeconds(0.40f);
+                break;
+        }
+
+        // Play skill effect
+        PlaySkillEffects(skillToCast);
+    }
+
+
     [Command]
     private void CmdCastSelfAOE(float range, int damage, DamageType dtype)
     {
@@ -88,12 +110,6 @@ public class AbilityCaster : NetworkBehaviour
                             hit.GetComponent<HeroModel>().CmdTakeDamage(damage, dtype);
                             break;
                     }
-
-                    //Rigidbody r = hit.GetComponent<Rigidbody>();
-                    // Can probably add a pulling effect on this too but not now.
-                    //if (r != null && currentCastSkill.ccType == CcType.push) {
-                    //    r.AddExplosionForce((float)currentCastSkill.damageAmount, t.position, currentCastSkill.skillRange);
-                    //}
                 }
             }
         }
@@ -143,7 +159,8 @@ public class AbilityCaster : NetworkBehaviour
         Destroy(effect, 2);
     }
 
-    private void PlayAnimation()
+    private IEnumerator SpawnAbilityTimer(float delay)
     {
+        yield return new WaitForSeconds(delay);
     }
 }

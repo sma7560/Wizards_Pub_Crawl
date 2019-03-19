@@ -92,10 +92,10 @@ public class HeroController : NetworkBehaviour
 			PerformRotation();
 
             // Perform an attack
-            if (unityService.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButtonDown(0))
             {
-                battack.PerformAttack();
-                animate.PlayBasicAttack();
+                //animate.PlayBasicAttack();
+                StartCoroutine(AttackSpawn());
             }
         }
 
@@ -141,10 +141,11 @@ public class HeroController : NetworkBehaviour
         if (!heroModel.IsKnockedOut())
         {
             heroModel.SetKnockedOut(true);
-            transform.Rotate(90, 0, 0); // rotate transform sideways to show knocked out
+            //transform.Rotate(90, 0, 0); // rotate transform sideways to show knocked out
+            animate.SetDead(true);
 
             Debug.Log("Player " + matchManager.GetPlayerId() + " is knocked out.");
-
+            
             // start timer for length of time that character remains knocked out
             StartCoroutine(KnockOutTimer());
         }
@@ -158,7 +159,7 @@ public class HeroController : NetworkBehaviour
         // Flip the character back to standing position if they were previously knocked out
         if (heroModel.IsKnockedOut())
         {
-            transform.Rotate(-90, 0, 0);
+            animate.SetDead(false);
         }
 
 		Instantiate (compass, transform);
@@ -181,5 +182,11 @@ public class HeroController : NetworkBehaviour
     {
         yield return new WaitForSeconds(deathTimer);
         Spawn();
+    }
+    private IEnumerator AttackSpawn()
+    {
+        animate.PlayBasicAttack();
+        yield return new WaitForSeconds(0.25f);
+        battack.PerformAttack();
     }
 }
