@@ -94,8 +94,8 @@ public class HeroController : NetworkBehaviour
             // Perform an attack
             if (unityService.GetKeyDown(KeyCode.Space))
             {
-                battack.PerformAttack();
                 animate.PlayBasicAttack();
+                battack.PerformAttack();
             }
         }
 
