@@ -833,13 +833,13 @@ GameObject:
   - component: {fileID: 195221206488539316}
   - component: {fileID: 114676256384150072}
   - component: {fileID: 114248443624315608}
-  - component: {fileID: 114072789903388962}
   - component: {fileID: 114899409374344694}
   - component: {fileID: 114887072475825314}
   - component: {fileID: 136444841199286024}
   - component: {fileID: 95999797940763508}
   - component: {fileID: 114015168707189836}
   - component: {fileID: 114639340497001680}
+  - component: {fileID: 114009041688208706}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Enemy
@@ -2979,6 +2979,29 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114009041688208706
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1631425459890508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a2943ebe10b23d46adc57b589d6516b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localTest: 0
+  currentHealth: 0
+  maxHealth: 0
+  damage:
+    value: 0
+  defence:
+    value: 0
+  attackSpeed:
+    value: 0
+  dropRate: 100
+  movementSpeed:
+    value: 0
 --- !u!114 &114015168707189836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2990,27 +3013,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da7202dc96e7ef449f923e39a0dd0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114072789903388962
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1631425459890508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1e8de677b093974d84d2dd9045c0927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  localTest: 0
-  currentHealth: 0
-  maxHealth: 50
-  damage:
-    value: 10
-  defence:
-    value: 0
-  attackSpeed:
-    value: 3
-  dropRate: 100
 --- !u!114 &114179002446109176
 MonoBehaviour:
   m_ObjectHideFlags: 1

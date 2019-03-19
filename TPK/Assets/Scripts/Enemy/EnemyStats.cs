@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyStats : CharacterStats
 {
     public float dropRate = 100f;
+    public Stat movementSpeed;
 
     //mosnter death overrides default die method
     protected override void Die()

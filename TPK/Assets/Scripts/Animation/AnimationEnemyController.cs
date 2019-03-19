@@ -7,7 +7,7 @@ public class AnimationEnemyController : MonoBehaviour {
     private Animator anim;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         anim = GetComponent<Animator>();
 	}
 

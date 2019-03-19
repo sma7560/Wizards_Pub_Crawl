@@ -21,6 +21,7 @@ public class EnemyController : NetworkBehaviour
     private MatchManager matchManager;
     private HeroManager heroManager;
     private AnimationEnemyController animation;
+    private EnemyStats myStats;
 
     private Vector3 currentRandomLocation;
     private bool isIdleMovement;
@@ -36,8 +37,10 @@ public class EnemyController : NetworkBehaviour
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         animation = GetComponent<AnimationEnemyController>();
+        myStats = GetComponent<EnemyStats>();
 
         isAttacking = false;
+        agent.speed = myStats.movementSpeed.GetValue();
 
         //StartCoroutine(RandomNavSphere(transform.position, 6, -1));
 
