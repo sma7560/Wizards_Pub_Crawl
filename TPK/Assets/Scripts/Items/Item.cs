@@ -25,14 +25,8 @@ public class Item : NetworkBehaviour
     }
 
     //item effect. Will be override by specific item effects
-    protected virtual void ItemConsume(Collider other)
+    public virtual void ItemConsume(Collider other)
     {
         //child classes will define this function
-    }
-
-    protected virtual IEnumerator tempBuff(HeroModel currentStat)
-    {
-        //child class will define what buffs 
-        yield return new WaitForSeconds(30);
     }
 }

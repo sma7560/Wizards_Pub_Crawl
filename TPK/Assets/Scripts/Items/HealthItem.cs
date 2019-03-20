@@ -11,7 +11,7 @@ public class HealthItem : Item {
     public int hpHealed = 20;
 
     //override item function with what health consumable does to player
-    public override void ItemConsume(Collider other)
+    protected override void ItemConsume(Collider other)
     {
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
         int currentHp = stats.GetCurrentHealth();
