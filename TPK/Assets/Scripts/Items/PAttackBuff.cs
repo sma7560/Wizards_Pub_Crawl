@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 
 /*
  * health pick-up class, inherits from Item
- */
+ */ 
 public class PAttackBuff : Item
 {
     public int buffAmount = 5;
@@ -21,12 +21,15 @@ public class PAttackBuff : Item
     {
         //get original stat
         int origStat = currentStat.GetPAttack();
+        Debug.Log("Buff start, " + origStat);
         //set stat to include buffs
         currentStat.SetPAttack(origStat + buffAmount);
+        Debug.Log("Buff execute, " + currentStat.GetPAttack());
 
         //buff lasts for 30 seconds
         yield return new WaitForSeconds(30);
         //set stat back to original stat
         currentStat.SetPAttack(origStat);
+        Debug.Log("Buff end, " + currentStat.GetPAttack());
     }
 }
