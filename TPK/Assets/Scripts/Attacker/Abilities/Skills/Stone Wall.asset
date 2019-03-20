@@ -9,22 +9,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d95222f5e77fdac41becb17d82764af4, type: 3}
-  m_Name: BouncingBolt
+  m_Name: Stone Wall
   m_EditorClassIdentifier: 
-  skillName: Bouncing Bolt
-  skillDescription: Fire a bolt of magical energy that bounces off walls until it
-    disapates or hits something nice.
-  skillIcon: {fileID: 21300000, guid: 4bab0f56229a33e44b39703e5c66f384, type: 3}
-  skillCoolDown: 1
-  skillType: 0
+  skillName: Stone Wall
+  skillDescription: Place a protective barriar in front of you. It will block 3 projectiles.
+  skillIcon: {fileID: 21300000, guid: 92d325a98fe2a7f49965b4adfbb0810d, type: 3}
+  skillCoolDown: 10
+  skillType: 1
   castType: 1
   skillRange: 10
-  damageType: 1
-  damageAmount: 10
-  projectilePrefabIndex: 0
+  damageType: 0
+  damageAmount: 0
+  projectilePrefabIndex: 3
   numProjectiles: 1
-  projectileSpeed: 12
+  projectileSpeed: 0
   ccType: 2
   moveType: 2
   movementDistance: 0
-  visualEffectIndex: 1
+  visualEffectIndex: 0

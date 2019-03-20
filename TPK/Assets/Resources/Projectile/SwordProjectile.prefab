@@ -55,11 +55,11 @@ GameObject:
   - component: {fileID: 136966006229575100}
   - component: {fileID: 114316806209977068}
   - component: {fileID: 114867624456600780}
-  - component: {fileID: 114132685480557710}
   - component: {fileID: 54144848989581500}
+  - component: {fileID: 114600597260246800}
   m_Layer: 0
   m_Name: SwordProjectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,20 +272,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &114132685480557710
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930669004023674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd515ef10284bdc418a7d1465468eb9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 10
-  damage: 1
-  damageType: 0
 --- !u!114 &114316806209977068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -318,6 +304,20 @@ MonoBehaviour:
     i15: 34
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114600597260246800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1930669004023674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25f3e8bd012930489bf69f27d4990f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 10
+  damage: 5
+  damageType: 0
 --- !u!114 &114867624456600780
 MonoBehaviour:
   m_ObjectHideFlags: 1

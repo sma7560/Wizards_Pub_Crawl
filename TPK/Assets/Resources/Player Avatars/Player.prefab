@@ -2692,8 +2692,8 @@ MonoBehaviour:
   projectiles:
   - {fileID: 1835335588317726, guid: f6549e7ab467aed41903e8e4d07c26a1, type: 2}
   - {fileID: 1746346769401710, guid: 14dfbb68bac30264599e4010b6c3365a, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1930669004023674, guid: 5e76212a531625147bb905182a48b522, type: 2}
+  - {fileID: 1315817168271206, guid: 1e5cf707d36ede54483aa37e00607f17, type: 2}
 --- !u!114 &114130822925369726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2782,6 +2782,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 16565047a36bbb843a1c2907d4c0d160, type: 2}
   - {fileID: 11400000, guid: 8d4a353bea8510a4d96c13c381b2bd5f, type: 2}
   - {fileID: 11400000, guid: 5347a94911eeada4c80609217d2c61d9, type: 2}
+  - {fileID: 11400000, guid: 3a5ebc87a3ff35745ada7cae8c3b874f, type: 2}
+  - {fileID: 11400000, guid: 4f7151e7e1645a54ba376dd2aa497966, type: 2}
 --- !u!114 &114315844500586120
 MonoBehaviour:
   m_ObjectHideFlags: 1

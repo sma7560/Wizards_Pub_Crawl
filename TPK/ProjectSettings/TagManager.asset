@@ -26,6 +26,7 @@ TagManager:
   - Compass
   - enemySpawnPoint
   - Fire
+  - Projectile
   layers:
   - Default
   - TransparentFX

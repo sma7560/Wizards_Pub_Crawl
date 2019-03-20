@@ -41,7 +41,16 @@ public class AbilityCaster : NetworkBehaviour
                 break;
             case CastType.projectile:
                 Vector3 fwd = transform.forward;
-                CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, fwd.x, fwd.y, fwd.z);
+                Vector3 rh = transform.right; // Left is negative this.
+
+                // Max number of projectiles is 8
+                Vector3[] directions = { fwd, rh + fwd, -rh + fwd, -fwd, -fwd - rh, -fwd + rh, rh, -rh };
+                for (int i = 0; i <= currentCastSkill.numProjectiles-1; i++) {
+                    if (i > 6) break;
+                    CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, directions[i].x, directions[i].y, directions[i].z);
+                }
+                //CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, fwd.x, fwd.y, fwd.z);
+
                 break;
             case CastType.raycast: // TODO
                 CastRayCast();
