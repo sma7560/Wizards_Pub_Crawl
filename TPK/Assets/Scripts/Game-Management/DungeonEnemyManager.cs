@@ -39,9 +39,9 @@ public class DungeonEnemyManager : NetworkBehaviour
             return;
         }
 
-        int randLocation = Random.Range(0, spawnLocation.Length+1);
+        int randLocation = Random.Range(0, spawnLocation.Length);
         int randMonster = Random.Range(0, 3);
-        Debug.Log(randLocation);
+        //Debug.Log(randLocation);
         CmdSpawnMonster(GetSpawnLocationOfMonster(randLocation), getMonsterType(randMonster));
     }
 
@@ -52,12 +52,12 @@ public class DungeonEnemyManager : NetworkBehaviour
         {
             return;
         }
-        Debug.Log("Monster spawning");
+        //Debug.Log("Monster spawning");
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
         GameObject temp;
         temp = unityService.Instantiate(monsterType, location, rotate);
         NetworkServer.Spawn(temp);
-        Debug.Log("Monster spawned");
+        //Debug.Log("Monster spawned");
         currentNumMonsters = currentNumMonsters + 1;
     }
 
