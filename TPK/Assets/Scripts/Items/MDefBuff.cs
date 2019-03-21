@@ -30,4 +30,9 @@ public class MDefBuff : Item
         currentStat.SetMDefence(origStat);
         Destroy(gameObject);
     }
+
+    protected override void rotateAnimation()
+    {
+        transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f);
+    }
 }

@@ -30,4 +30,9 @@ public class MoveSpeedBuff : Item
         currentStat.SetMoveSpeed(origStat);
         Destroy(gameObject);
     }
+
+    protected override void rotateAnimation()
+    {
+        transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f);
+    }
 }

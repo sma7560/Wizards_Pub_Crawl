@@ -11,7 +11,7 @@ public class Item : NetworkBehaviour
     private void Update()
     {
         //rotation animation
-        transform.RotateAround(transform.position, transform.forward, Time.deltaTime * 90f);
+        rotateAnimation();
     }
 
     //check if player comes in contact with item
@@ -35,5 +35,10 @@ public class Item : NetworkBehaviour
     {
         //to be implemented by children
         yield return new WaitForSeconds(5);
+    }
+
+    protected virtual void rotateAnimation()
+    {
+        //to be implemented by children
     }
 }
