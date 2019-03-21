@@ -12,9 +12,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     private MatchManager matchManager;
 
     // Monster types
-    public GameObject lightMonster;
-    public GameObject mediumMonster;
-    public GameObject heavyMonster;
+    public GameObject[] regMonsterList;
 
     private Vector3[] spawnLocation;
     private int currentNumMonsters = 0;
@@ -30,10 +28,12 @@ public class DungeonEnemyManager : NetworkBehaviour
         }
 
         matchManager = GetComponent<MatchManager>();
+    }
 
-        lightMonster = (Resources.Load("Enemies/LightMonster") as GameObject);
-        mediumMonster = (Resources.Load("Enemies/RegularMonster") as GameObject);
-        heavyMonster = (Resources.Load("Enemies/HeavyMonster") as GameObject);
+    private void Update()
+    {
+        GameObject[] currentMonsterList = GameObject.FindGameObjectsWithTag("Enemy");
+        currentNumMonsters = currentMonsterList.Length;
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class DungeonEnemyManager : NetworkBehaviour
         int randLocation = Random.Range(0, spawnLocation.Length);
         int randMonster = Random.Range(0, 3);
         //Debug.Log(randLocation);
-        SpawnMonster(GetSpawnLocationOfMonster(randLocation), GetMonsterType(randMonster));
+        SpawnMonster(GetSpawnLocationOfMonster(randLocation), GetMonsterType());
     }
 
     // Commands for communicating to the server.
@@ -101,19 +101,9 @@ public class DungeonEnemyManager : NetworkBehaviour
     /// Returns the monster type according to what int is passed in.
     /// </returns>
     /// <param name="monsterType">Integer corresponding to the monster type.</param>
-    public GameObject GetMonsterType(int monsterType)
+    public GameObject GetMonsterType()
     {
-        switch (monsterType)
-        {
-            case 0:
-                return lightMonster;
-            case 1:
-                return mediumMonster;
-            case 2:
-                return heavyMonster;
-        }
-
-        Debug.Log("DungeonEnemyManager::GetMonsterType() ERROR: Should never reach here");
-        return lightMonster;
+        int randMonster = Random.Range(0, regMonsterList.Length);
+        return regMonsterList[randMonster];
     }
 }

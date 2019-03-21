@@ -4,33 +4,52 @@ using UnityEngine;
 
 public class EnemyStats : CharacterStats
 {
-    protected float dropRate = 100f;
-    protected Stat movementSpeed = new Stat();
+    [SerializeField]
+    protected GameObject[] droppableItems = new GameObject[3];
+    [SerializeField]
+    //for each item in droppableItems. MUST be same length
+    protected int totalDropRate;
+    [SerializeField]
+    protected Stat movementSpeed;
+    [SerializeField]
     protected float idleRange;
+    [SerializeField]
     protected float idleHowOftenDirectionChanged;
 
     //mosnter death overrides default die method
     protected override void Die()
     {
-        float randChance = Random.Range(0f, 100f);
+        int randChance = Random.Range(0, 101);
 
         //random chance to drop health pickup
-        if(randChance <= dropRate)
+        if(randChance>100-totalDropRate)
         {
-            Debug.Log("Item dropped");
-            GameObject monsterDrop = Resources.Load("Items/HealthPickup") as GameObject;
+            Debug.Log("Item dropping");
+            GameObject monsterDrop = determineItemDrop();
             Vector3 itemPosition = transform.position;
             itemPosition.y = itemPosition.y + 0.7f;
-            Instantiate(monsterDrop, itemPosition, Quaternion.Euler(90, 0, 0));
+            Instantiate(monsterDrop, itemPosition, Quaternion.Euler(0, 0, 0));
             Debug.Log("Item dropped succesfully");
         }
         // Add enemy death animation here
         Destroy(gameObject);
     }
 
-    public float getDropRate()
+    private GameObject determineItemDrop()
     {
-        return dropRate;
+        int randItem = Random.Range(0, 101);
+        if (randItem > 40)
+        {
+            return droppableItems[0];
+        }
+        else if (randItem > 20)
+        {
+            return droppableItems[1];
+        }
+        else
+        {
+            return droppableItems[2];
+        }
     }
 
     public float getIdleRange()
