@@ -27,6 +27,7 @@ TagManager:
   - enemySpawnPoint
   - Fire
   - Projectile
+  - WaitingRoomUI
   layers:
   - Default
   - TransparentFX

@@ -7,9 +7,9 @@ using UnityEngine.UI;
 public class PrephaseUI : MonoBehaviour
 {
     // SkillDescription GameObject
-    public GameObject skillDescription;
-    public TextMeshProUGUI skillDescriptionText;
-    public TextMeshProUGUI skillTitleText;
+    [System.NonSerialized] public GameObject skillDescription;
+    [System.NonSerialized] public TextMeshProUGUI skillDescriptionText;
+    [System.NonSerialized] public TextMeshProUGUI skillTitleText;
 
     // Managers
     private PrephaseManager prephaseManager;
@@ -20,7 +20,6 @@ public class PrephaseUI : MonoBehaviour
     // Text elements
     private TextMeshProUGUI playerName;
     private TextMeshProUGUI characterSelectedName;
-    private TextMeshProUGUI hostIP;
     private TextMeshProUGUI numOfPlayers;
     private TextMeshProUGUI timeLeft;
     private TextMeshProUGUI physicalDmg;
@@ -52,7 +51,6 @@ public class PrephaseUI : MonoBehaviour
 
         // Initialize text
         playerName = GameObject.Find("PlayerNameText").GetComponent<TextMeshProUGUI>();
-        hostIP = GameObject.Find("HostIPText").GetComponent<TextMeshProUGUI>();
         numOfPlayers = GameObject.Find("CurrentNumOfPlayersText").GetComponent<TextMeshProUGUI>();
         timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
         characterSelectedName = GameObject.Find("CharacterNameText").GetComponent<TextMeshProUGUI>();
@@ -74,7 +72,6 @@ public class PrephaseUI : MonoBehaviour
         // Update UI elements
         SetupDefaultStats();
         UpdateCharacterSelectedName();
-        UpdateHostIP();
         UpdateNumOfPlayers();
         UpdatePlayerName();
         UpdateSkillBank();
@@ -295,14 +292,6 @@ public class PrephaseUI : MonoBehaviour
         magicalDmg.text = heroModel.GetMAttack().ToString();
         physicalDef.text = heroModel.GetPDefence().ToString();
         magicalDef.text = heroModel.GetMDefence().ToString();
-    }
-
-    /// <summary>
-    /// Updates the host IP text in UI.
-    /// </summary>
-    private void UpdateHostIP()
-    {
-        hostIP.text = NetworkManagerExtension.GetLocalIPAddress();
     }
 
     /// <summary>

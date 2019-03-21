@@ -229,16 +229,28 @@ public class DungeonController : MonoBehaviour
     /// </summary>
     private void SetupUI()
     {
-        if (prephaseManager.IsCurrentlyInPrephase() && GameObject.FindGameObjectWithTag("PrephaseUI") == null)
+        if ( prephaseManager.GetState() == PrephaseManager.PrephaseState.WaitingForPlayers &&
+             GameObject.FindGameObjectWithTag("WaitingRoomUI") == null )
+        {
+            // Initialize waiting room UI
+            Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));      // Destroy player UI
+            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
+            Instantiate(Resources.Load("Menu&UI Prefabs/WaitingRoom")); // Start waiting room UI
+        }
+        else if ( prephaseManager.GetState() == PrephaseManager.PrephaseState.RoomFull &&
+                  GameObject.FindGameObjectWithTag("PrephaseUI") == null )
         {
             // Initialize prephase UI
             Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));          // Destroy player UI
+            Destroy(GameObject.FindGameObjectWithTag("WaitingRoomUI"));     // Destroy waiting room UI
             Instantiate(Resources.Load("Menu&UI Prefabs/PrephaseScreen"));  // Start prephase UI
         }
-        else if (!prephaseManager.IsCurrentlyInPrephase() && GameObject.FindGameObjectWithTag("PlayerUI") == null)
+        else if ( !prephaseManager.IsCurrentlyInPrephase() &&
+                  GameObject.FindGameObjectWithTag("PlayerUI") == null )
         {
             // Initialize player UI
             Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
+            Destroy(GameObject.FindGameObjectWithTag("WaitingRoomUI")); // Destroy waiting room UI
             Instantiate(Resources.Load("Menu&UI Prefabs/PlayerUI"));    // Start player UI
         }
     }
@@ -275,7 +287,7 @@ public class DungeonController : MonoBehaviour
     {
         Color heroColour;
 
-        switch(playerId)
+        switch (playerId)
         {
             case 1:
                 heroColour = Color.blue;
