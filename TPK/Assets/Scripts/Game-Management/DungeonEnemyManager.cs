@@ -3,37 +3,54 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-//keeps track of enemies
+/// <summary>
+/// Manages all enemies in the dungeon.
+/// </summary>
 public class DungeonEnemyManager : NetworkBehaviour
 {
-    public IUnityService unityService;
+    public IUnityService unityService;  // for unit testing
+    private MatchManager matchManager;
+
+    // Monster types
     public GameObject lightMonster;
     public GameObject mediumMonster;
     public GameObject heavyMonster;
+
     private Vector3[] spawnLocation;
     private int currentNumMonsters = 0;
 
-    // Use this for initialization
+    /// <summary>
+    /// Initialize variables.
+    /// </summary>
     void Start()
     {
         if (unityService == null)
         {
             unityService = new UnityService();
         }
+
+        matchManager = GetComponent<MatchManager>();
+
         lightMonster = (Resources.Load("Enemies/LightMonster") as GameObject);
         mediumMonster = (Resources.Load("Enemies/RegularMonster") as GameObject);
         heavyMonster = (Resources.Load("Enemies/HeavyMonster") as GameObject);
     }
 
+    /// <summary>
+    /// Starts spawning monsters periodically.
+    /// </summary>
     public void StartSpawn()
     {
-        //set initial spawn locations
+        if (!isServer) return;
+
         SetSpawnPoints();
         InvokeRepeating("DungeonSpawnMonster", 0f, 5);
     }
 
-    void DungeonSpawnMonster()
+    private void DungeonSpawnMonster()
     {
+        if (!isServer || matchManager.HasMatchEnded()) return;
+
         if (currentNumMonsters > 10)
         {
             return;
@@ -42,63 +59,61 @@ public class DungeonEnemyManager : NetworkBehaviour
         int randLocation = Random.Range(0, spawnLocation.Length);
         int randMonster = Random.Range(0, 3);
         //Debug.Log(randLocation);
-        CmdSpawnMonster(GetSpawnLocationOfMonster(randLocation), getMonsterType(randMonster));
+        SpawnMonster(GetSpawnLocationOfMonster(randLocation), GetMonsterType(randMonster));
     }
 
     // Commands for communicating to the server.
-    private void CmdSpawnMonster(Vector3 location, GameObject monsterType)
+    private void SpawnMonster(Vector3 location, GameObject monsterType)
     {
-        if (!isServer)
-        {
-            return;
-        }
-        //Debug.Log("Monster spawning");
+        if (!isServer || matchManager.HasMatchEnded()) return;
+
+        Debug.Log("Monster spawning of type " + monsterType.name);
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
-        GameObject temp;
-        temp = unityService.Instantiate(monsterType, location, rotate);
+        GameObject temp = unityService.Instantiate(monsterType, location, rotate);
         NetworkServer.Spawn(temp);
-        //Debug.Log("Monster spawned");
-        currentNumMonsters = currentNumMonsters + 1;
+        currentNumMonsters++;
     }
 
-    //grab spawn points from spawnlocations on map
+    /// <summary>
+    /// Sets the enemy spawn points.
+    /// </summary>
     public void SetSpawnPoints()
     {
-        GameObject[] spawnGameObjects;
-        spawnGameObjects = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
+        GameObject[] spawnGameObjects = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
         spawnLocation = new Vector3[spawnGameObjects.Length];
-        for(int i=0; i< spawnLocation.Length; i++)
+
+        for (int i = 0; i < spawnLocation.Length; i++)
         {
             spawnLocation[i] = spawnGameObjects[i].transform.position;
         }
-
     }
 
-    //returns spawn location of specified spawn location 
+    /// <returns>
+    /// Returns spawn location based on index.
+    /// </returns>
+    /// <param name="spawnLocationAt">Index of spawn location.</param>
     public Vector3 GetSpawnLocationOfMonster(int spawnLocationAt)
     {
         return spawnLocation[spawnLocationAt];
     }
 
-    //return monster type according to what int is passed in
-    public GameObject getMonsterType(int monsterType)
+    /// <returns>
+    /// Returns the monster type according to what int is passed in.
+    /// </returns>
+    /// <param name="monsterType">Integer corresponding to the monster type.</param>
+    public GameObject GetMonsterType(int monsterType)
     {
         switch (monsterType)
         {
             case 0:
-                {
-                    return lightMonster;
-                }
+                return lightMonster;
             case 1:
-                {
-                    return mediumMonster;
-                }
+                return mediumMonster;
             case 2:
-                {
-                    return heavyMonster;
-                }
+                return heavyMonster;
         }
-        //should never reach here
+
+        Debug.Log("DungeonEnemyManager::GetMonsterType() ERROR: Should never reach here");
         return lightMonster;
     }
 }

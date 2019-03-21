@@ -89,8 +89,16 @@ MonoBehaviour:
   - {fileID: 1819568520331248, guid: da8a572ef7e7e464eaa81b231b3d7903, type: 2}
   - {fileID: 1163422252058710, guid: df1458d999e1fc54db4bf23012af813c, type: 2}
   - {fileID: 1538059130310694, guid: 278da71da2d5b654686afb710d5fc2c8, type: 2}
+  - {fileID: 1497003176998222, guid: abc71ca57381d1d47af39bf36f9c7f81, type: 2}
+  - {fileID: 1226874391297848, guid: b898ab10bfd426a49b9e9097aa21a5e2, type: 2}
+  - {fileID: 1835335588317726, guid: f6549e7ab467aed41903e8e4d07c26a1, type: 2}
+  - {fileID: 1746346769401710, guid: 14dfbb68bac30264599e4010b6c3365a, type: 2}
+  - {fileID: 1483567556590242, guid: 41a68bf9f997fc94e92bf2fa827599e3, type: 2}
+  - {fileID: 1315817168271206, guid: 1e5cf707d36ede54483aa37e00607f17, type: 2}
+  - {fileID: 1855816867073744, guid: 1d43da3b20c608d4682601d2afe4a17f, type: 2}
+  - {fileID: 1724826281727900, guid: f879c9d7779cb5641916cc448e02d66a, type: 2}
   m_CustomConfig: 1
-  m_MaxConnections: 2
+  m_MaxConnections: 1
   m_ConnectionConfig:
     m_PacketSize: 1440
     m_FragmentSize: 500
