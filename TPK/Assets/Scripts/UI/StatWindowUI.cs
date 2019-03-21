@@ -31,6 +31,10 @@ public class StatWindowUI : MonoBehaviour
         // Set UI elements
         skillDescription.SetActive(false);  // set to inactive by default
         SetupSkills();
+    }
+
+    private void OnEnable()
+    {
         SetupStats();
     }
 
