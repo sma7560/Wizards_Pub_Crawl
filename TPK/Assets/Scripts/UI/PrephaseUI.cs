@@ -51,7 +51,7 @@ public class PrephaseUI : MonoBehaviour
 
         // Initialize text
         playerName = GameObject.Find("PlayerNameText").GetComponent<TextMeshProUGUI>();
-        numOfPlayers = GameObject.Find("CurrentNumOfPlayersText").GetComponent<TextMeshProUGUI>();
+        numOfPlayers = GameObject.Find("CurrentNumOfPlayersConnectedText").GetComponent<TextMeshProUGUI>();
         timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
         characterSelectedName = GameObject.Find("CharacterNameText").GetComponent<TextMeshProUGUI>();
         physicalDmg = GameObject.Find("PhysDmgText").GetComponent<TextMeshProUGUI>();
