@@ -4066,7 +4066,7 @@ Prefab:
     - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.size
-      value: 12
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 4485449839034864, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
       propertyPath: m_LocalPosition.x

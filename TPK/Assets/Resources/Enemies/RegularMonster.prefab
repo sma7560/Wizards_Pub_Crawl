@@ -2999,9 +2999,6 @@ MonoBehaviour:
     value: 0
   attackSpeed:
     value: 0
-  dropRate: 100
-  movementSpeed:
-    value: 0
 --- !u!114 &114015168707189836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3112,7 +3109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 95999797940763508}
-  m_ParameterSendBits: 0
+  m_ParameterSendBits: 7
   param0: 
   param1: 
   param2: 
