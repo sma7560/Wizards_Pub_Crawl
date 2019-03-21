@@ -21,7 +21,8 @@ public class Item : NetworkBehaviour
         {
             ItemConsume(other);
         }
-        Destroy(gameObject);
+        //disable mesh after player interacts with
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     //item effect. Will be override by specific item effects
@@ -33,6 +34,6 @@ public class Item : NetworkBehaviour
     protected virtual IEnumerator tempBuff(HeroModel currentStat)
     {
         //to be implemented by children
-        yield return new WaitForSeconds(30);
+        yield return new WaitForSeconds(5);
     }
 }

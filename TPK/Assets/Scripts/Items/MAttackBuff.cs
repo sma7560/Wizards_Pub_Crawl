@@ -28,5 +28,6 @@ public class MAttackBuff : Item
         yield return new WaitForSeconds(30);
         //set stat back to original stat
         currentStat.SetMAttack(origStat);
+        Destroy(gameObject);
     }
 }

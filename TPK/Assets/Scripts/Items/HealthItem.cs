@@ -21,6 +21,7 @@ public class HealthItem : Item {
         {
             stats.Heal(hpHealed);
         }
+        Destroy(gameObject);
     }
 
 }

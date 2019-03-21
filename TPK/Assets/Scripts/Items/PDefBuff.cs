@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /*
  * physical attack buff item class, inherits from Item
  */
-public class PDeffBuff : Item
+public class PDefBuff : Item
 {
     public int buffAmount = 5;
 
@@ -28,5 +28,6 @@ public class PDeffBuff : Item
         yield return new WaitForSeconds(30);
         //set stat back to original stat
         currentStat.SetPDefence(origStat);
+        Destroy(gameObject);
     }
 }

@@ -28,5 +28,6 @@ public class MDefBuff : Item
         yield return new WaitForSeconds(30);
         //set stat back to original stat
         currentStat.SetMDefence(origStat);
+        Destroy(gameObject);
     }
 }

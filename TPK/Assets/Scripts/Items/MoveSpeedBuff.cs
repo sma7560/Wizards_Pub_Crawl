@@ -28,5 +28,6 @@ public class MoveSpeedBuff : Item
         yield return new WaitForSeconds(30);
         //set stat back to original stat
         currentStat.SetMoveSpeed(origStat);
+        Destroy(gameObject);
     }
 }

@@ -29,7 +29,9 @@ public class PAttackBuff : Item
         //buff lasts for 30 seconds
         yield return new WaitForSeconds(30);
         //set stat back to original stat
+        //Debug.Log("Buff end, " + currentStat.GetPAttack());
         currentStat.SetPAttack(origStat);
-        Debug.Log("Buff end, " + currentStat.GetPAttack());
+        //Debug.Log("Buff end, " + currentStat.GetPAttack());
+        Destroy(gameObject);
     }
 }
