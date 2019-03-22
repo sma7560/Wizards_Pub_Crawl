@@ -15,7 +15,7 @@ using UnityEngine.UI;
 public class HeroController : NetworkBehaviour
 {
     public GameObject heroCam;
-	public GameObject compass;
+    public GameObject compass;
 
     // For unit testing
     public bool localTest;
@@ -38,14 +38,15 @@ public class HeroController : NetworkBehaviour
     private HeroModel heroModel;
     private BasicAttack battack;
     private TestAnimConrtoller animate;
-	private Vector3 tempVelocity;
+    private Vector3 tempVelocity;
 
-    // Use this for initialization
+    /// <summary>
+    /// Initialize variables.
+    /// </summary>
     void Start()
     {
         if (!isLocalPlayer && !localTest) return;
-
-        // Initialize variables
+        
         if (unityService == null)
         {
             unityService = new UnityService();
@@ -66,8 +67,10 @@ public class HeroController : NetworkBehaviour
         StartCamera();
         Spawn();
     }
-
-    // Update is called once per frame
+    
+    /// <summary>
+    /// Called once per frame.
+    /// </summary>
     void Update()
     {
         if (!isLocalPlayer && !localTest) return;
@@ -86,10 +89,10 @@ public class HeroController : NetworkBehaviour
             }
 
             // Perform character movement controls
-			tempVelocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
-			tempVelocity.y = heroRigidbody.velocity.y;
-			heroRigidbody.velocity = tempVelocity;
-			PerformRotation();
+            tempVelocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+            tempVelocity.y = heroRigidbody.velocity.y;
+            heroRigidbody.velocity = tempVelocity;
+            PerformRotation();
 
             // Perform an attack
             if (Input.GetMouseButtonDown(0))
@@ -99,7 +102,7 @@ public class HeroController : NetworkBehaviour
             }
         }
 
-        // Check for current health status
+        // Check current health status
         if (!prephaseManager.IsCurrentlyInPrephase() && heroModel.GetCurrentHealth() <= 0)
         {
             KnockOut();
@@ -125,8 +128,6 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     private void StartCamera()
     {
-        // TODO:
-        // There is a bug here.
         GameObject.FindGameObjectWithTag("MainCamera").SetActive(false);
         cam = Instantiate(heroCam);
         cam.GetComponent<HeroCameraController>().SetTarget(this.transform);
@@ -134,21 +135,21 @@ public class HeroController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Sets the current status of the hero to knocked out.
+    /// Called when the player should be knocked out.
     /// </summary>
     private void KnockOut()
     {
-        if (!heroModel.IsKnockedOut())
-        {
-            heroModel.SetKnockedOut(true);
-            //transform.Rotate(90, 0, 0); // rotate transform sideways to show knocked out
-            animate.SetDead(true);
+        // Do nothing if hero is already knocked out
+        if (heroModel.IsKnockedOut()) return;
 
-            Debug.Log("Player " + matchManager.GetPlayerId() + " is knocked out.");
-            
-            // start timer for length of time that character remains knocked out
-            StartCoroutine(KnockOutTimer());
-        }
+        // Set status and death animation
+        heroModel.SetKnockedOut(true);
+        animate.SetDead(true);
+
+        // Start timer for length of time that character remains knocked out
+        StartCoroutine(KnockOutTimer());
+
+        Debug.Log("Player " + matchManager.GetPlayerId() + " is knocked out.");
     }
 
     /// <summary>
@@ -156,23 +157,24 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     private void Spawn()
     {
-        // Flip the character back to standing position if they were previously knocked out
+        // Reset animation back to alive animation
         if (heroModel.IsKnockedOut())
         {
             animate.SetDead(false);
         }
 
-		Instantiate (compass, transform);
+        // Show the compass again
+        Instantiate(compass, transform);
 
         // Reset variables
         heroModel.SetKnockedOut(false);
         heroModel.SetFullHealth();
 
-        // get spawn location of player
+        // Set player location back to spawn point
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         transform.position = heroManager.GetSpawnLocationOfPlayer(matchManager.GetPlayerId());
 
-        Debug.Log("Player " + matchManager.GetPlayerId() + " spawned at " + heroManager.GetSpawnLocationOfPlayer(matchManager.GetPlayerId()));
+        Debug.Log("Player " + matchManager.GetPlayerId() + " spawned at " + transform.position);
     }
 
     /// <summary>
@@ -183,6 +185,7 @@ public class HeroController : NetworkBehaviour
         yield return new WaitForSeconds(deathTimer);
         Spawn();
     }
+
     private IEnumerator AttackSpawn()
     {
         animate.PlayBasicAttack();

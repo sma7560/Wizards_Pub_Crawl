@@ -1,50 +1,38 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Logic for game objective
+/// Logic for game objective attached to the artifact prefab.
 /// </summary>
 public class ArtifactController : MonoBehaviour
 {
-    private bool isCarried;     //is artifact carried by someone?
-    private GameObject playerThatOwns; //set to player that is carrying this
-    private int ownerID;
-    private Vector3 ownerSpawn;
+    private bool isCarried;             // whether or not the artifact is currently being carried by a player
+    private GameObject playerThatOwns;  // if artifact held, the player that is currently holding the artifact
+    private int ownerID;                // if artifact held, the player id of the player that is currently holding the artifact
+    private Vector3 ownerSpawn;         // the spawn location of the last player that held this artifact
+    private RarityType rarity;          // rarity of this artifact
 
-    Vector3 smallscale = new Vector3(1.25f, 1.25f, 1.25f);   //smaller size when carried
-    Vector3 normalscale = new Vector3(2f, 2f, 2f);	//normal size on ground
+    Vector3 smallscale = new Vector3(1.25f, 1.25f, 1.25f);  // size used when carried (smaller)
+    Vector3 normalscale = new Vector3(2f, 2f, 2f);	        // size used when artifact is on the ground (larger)
 
-    //Common, Rare, Epic, Legendary
-    public string Rarity
+    /// <summary>
+    /// Rarity of the artifact.
+    /// </summary>
+    public enum RarityType
     {
-        get
-        {
-            return Rarity;
-        }
-        set
-        {
-            Rarity = value;
-        }
+        Common,
+        Rare,
+        Epic,
+        Legendary
     }
 
-    //how many points artifact is worth
-    public string Points
-    {
-        get
-        {
-            return Points;
-        }
-        set
-        {
-            Points = value;
-        }
-    }
-
-    // Use this for initialization
+    /// <summary>
+    /// Initialize variables.
+    /// </summary>
     void Start()
     {
         ownerID = -1;
         transform.localScale = normalscale;
-        //artifactBody = GetComponent<Rigidbody>();
+        rarity = RarityType.Common;
     }
 
 
@@ -62,32 +50,51 @@ public class ArtifactController : MonoBehaviour
         }
     }
 
-    //set player that "picked" up artifact
+    /// <summary>
+    /// Checks the following cases through collision detection:
+    ///     1. player picks up artifact
+    ///     2. player returns artifact to spawn.
+    /// </summary>
+    /// <param name="col">Collider that artifact has collided with.</param>
     private void OnTriggerEnter(Collider col)
     {
         switch (col.gameObject.transform.tag)
         {
             case ("Player"):
-                //check to make sure the player isn't knocked out
-                if (!isCarried && !(col.GetComponent<HeroModel>().IsKnockedOut()))
+                // Check case where player picks up artifact
+                // Ensure that artifact is not already carried and player is not knocked out
+                if (!isCarried && !col.GetComponent<HeroModel>().IsKnockedOut())
                 {
-                    //make object float above character model's head
+                    // Make object float above character model's head
                     transform.localScale = smallscale;
                     playerThatOwns = col.gameObject;
+
+                    // Set owner ID and spawn point
                     ownerID = playerThatOwns.GetComponent<HeroModel>().GetPlayerId();
                     ownerSpawn = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>().GetSpawnLocationOfPlayer(ownerID);
                     isCarried = true;
-                    Debug.Log("Player " + ownerID + " has taken the artifact!");
+
+                    // Broadcast that player has acquired the artifact
+                    GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleAcquired(ownerID);
                 }
                 break;
-            case ("SpawnRoom"):         //Player enters scoring location (spawn point)
+            case ("SpawnRoom"):
+                // Checks case where player enters scoring location (spawn point)
                 if (isCarried)
                 {
-                    //need to check that the spawn is the right one for the player carrying the artifact
+                    // Ensure that this spawn is the right one for the player carrying the artifact
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
-                        playerThatOwns.GetComponent<HeroModel>().IncreaseScore(1);  // adds a point to scoring player, then deletes itself
+                        // Broadcast that player has scored the artifact
+                        GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleScored(ownerID);
+
+                        // Increase the player's score
+                        playerThatOwns.GetComponent<HeroModel>().IncreaseScore(GetScore());
+
+                        // Spawn another artifact
                         GameObject.FindGameObjectWithTag("EventSystem").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
+
+                        // Destroy itself
                         Destroy(gameObject);
                     }
                 }
@@ -95,13 +102,23 @@ public class ArtifactController : MonoBehaviour
         }
     }
 
-    //artifact has been "dropped"
+    /// <summary>
+    /// Called when the artifact is dropped.
+    /// </summary>
     public void DroppedArtifact()
     {
-        transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y +1f, playerThatOwns.transform.position.z);
+        // Broadcast the announcement that artifact is dropped
+        GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleDropped(ownerID);
+
+        // Set position of artifact on the ground where player has died
+        transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 1f, playerThatOwns.transform.position.z);
+
+        // Reset owning player variables
         playerThatOwns = null;
+        ownerID = -1;
         isCarried = false;
-        //scale size back up
+
+        // Scale size of artifact back up
         transform.localScale = normalscale;
     }
 
@@ -111,5 +128,26 @@ public class ArtifactController : MonoBehaviour
     public int GetOwnerID()
     {
         return ownerID;
+    }
+
+    /// <returns>
+    /// Returns the amount of score the artifact will reward based on its rarity.
+    /// </returns>
+    private int GetScore()
+    {
+        switch (rarity)
+        {
+            case RarityType.Common:
+                return 100;
+            case RarityType.Epic:
+                return 250;
+            case RarityType.Legendary:
+                return 500;
+            case RarityType.Rare:
+                return 1000;
+            default:
+                Debug.Log("ArtifactController::GetScore() ERROR: Should not reach here!");
+                return 0;
+        }
     }
 }

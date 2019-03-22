@@ -70,6 +70,35 @@ public class HeroManager : MonoBehaviour
         return targets;
     }
 
+    /// <returns>
+    /// Returns the colour of the player depending on their player id.
+    /// </returns>
+    public Color GetPlayerColour(int playerId)
+    {
+        Color heroColour;
+
+        switch (playerId)
+        {
+            case 1:
+                heroColour = Color.blue;
+                break;
+            case 2:
+                heroColour = Color.red;
+                break;
+            case 3:
+                heroColour = Color.green;
+                break;
+            case 4:
+                heroColour = Color.magenta;
+                break;
+            default:
+                heroColour = Color.black;
+                break;
+        }
+
+        return heroColour;
+    }
+
     /// <summary>
     /// Adds a new spawn location.
     /// </summary>

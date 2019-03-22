@@ -23,6 +23,7 @@ public class DungeonController : MonoBehaviour
 
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
+    private HeroManager heroManager;
 
     /// <summary>
     /// Initialize variables.
@@ -39,16 +40,13 @@ public class DungeonController : MonoBehaviour
 
     void Update()
     {
-        // Initialize match manager if it is not already initialized
-        if (matchManager == null && GameObject.FindGameObjectWithTag("MatchManager") != null)
+        // Initialize managers if it is not already initialized
+        if ( (matchManager == null || prephaseManager == null || heroManager == null) &&
+             GameObject.FindGameObjectWithTag("MatchManager") != null )
         {
             matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-        }
-
-        // Initialize pre-phase manager if it is not already initialized
-        if (prephaseManager == null && GameObject.FindGameObjectWithTag("MatchManager") != null)
-        {
             prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+            heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         }
 
         // Call individual update functions
@@ -101,10 +99,7 @@ public class DungeonController : MonoBehaviour
     private void UpdateMusic()
     {
         // Do not update music if prephase manager is not initialized
-        if (prephaseManager == null)
-        {
-            return;
-        }
+        if (prephaseManager == null) return;
 
         if (prephaseManager.IsCurrentlyInPrephase() && audioSource.clip != music[0])
         {
@@ -229,6 +224,8 @@ public class DungeonController : MonoBehaviour
     /// </summary>
     private void SetupUI()
     {
+        if (prephaseManager == null) return;
+
         if ( prephaseManager.GetState() == PrephaseManager.PrephaseState.WaitingForPlayers &&
              GameObject.FindGameObjectWithTag("WaitingRoomUI") == null )
         {
@@ -260,6 +257,8 @@ public class DungeonController : MonoBehaviour
     /// </summary>
     private void UpdatePlayerNames()
     {
+        if (heroManager == null) return;
+
         // Get all player objects
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
@@ -273,39 +272,10 @@ public class DungeonController : MonoBehaviour
 
             // Set the name
             nameText.text = "Player " + playerId.ToString();
-            nameText.color = GetPlayerColour(playerId);
+            nameText.color = heroManager.GetPlayerColour(playerId);
 
             // Keep name facing towards camera
             SetFacingTowardsCamera(name);
         }
-    }
-
-    /// <returns>
-    /// Returns the colour of the player depending on their player id.
-    /// </returns>
-    private Color GetPlayerColour(int playerId)
-    {
-        Color heroColour;
-
-        switch (playerId)
-        {
-            case 1:
-                heroColour = Color.blue;
-                break;
-            case 2:
-                heroColour = Color.red;
-                break;
-            case 3:
-                heroColour = Color.green;
-                break;
-            case 4:
-                heroColour = Color.magenta;
-                break;
-            default:
-                heroColour = Color.black;
-                break;
-        }
-
-        return heroColour;
     }
 }

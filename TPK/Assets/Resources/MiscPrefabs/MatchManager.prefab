@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114138081832761490}
   - component: {fileID: 114658265539775506}
   - component: {fileID: 114317017334176808}
+  - component: {fileID: 114895216540793724}
   m_Layer: 0
   m_Name: MatchManager
   m_TagString: MatchManager
@@ -96,6 +97,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28d52820fca836e4b88d3481efe9f0e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114895216540793724
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1538059130310694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a07365bc48fd514f8eb19ca9315057b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114904249663755352
