@@ -1167,6 +1167,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa8126ad90efbdc468db7e8d74f7d696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  king: {fileID: 21300000, guid: cea9bd7aa3fbec945bfaa5648ec80e13, type: 3}
+  rogue: {fileID: 21300000, guid: 6323567c38f972c4d8effcfa317a3ad1, type: 3}
+  wizard: {fileID: 21300000, guid: 401e398da05687e438293d4826ca37e8, type: 3}
 --- !u!114 &114825901589662336
 MonoBehaviour:
   m_ObjectHideFlags: 1

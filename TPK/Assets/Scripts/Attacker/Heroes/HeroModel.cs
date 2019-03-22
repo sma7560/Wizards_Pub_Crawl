@@ -26,7 +26,7 @@ public class HeroModel : NetworkBehaviour
     [SyncVar] private HeroType heroType;
     [SyncVar] private bool isKnockedOut;
     [SyncVar] private int score;
-    [SyncVar] private int heroIndex;        // current hero model the player has
+    [SyncVar] private int heroIndex;        // current hero model the player has; 0 = king, 1 = rogue, 2 = wizard
 
     /// <summary>
     /// Initialize variables.

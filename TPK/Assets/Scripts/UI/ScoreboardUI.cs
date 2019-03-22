@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Attached to the scoreboard. Sets the values in the scoreboard.
@@ -9,15 +10,22 @@ using UnityEngine;
 /// </summary>
 public class ScoreboardUI : MonoBehaviour
 {
+    // Icons
+    public Sprite king;
+    public Sprite rogue;
+    public Sprite wizard;
+
     // Managers
     private HeroManager heroManager;
     private MatchManager matchManager;
 
-    // Text elements
+    // UI elements
     private TextMeshProUGUI player1Name;
     private TextMeshProUGUI player2Name;
     private TextMeshProUGUI player1Score;
     private TextMeshProUGUI player2Score;
+    private Image player1Icon;
+    private Image player2Icon;
 
     /// <summary>
     /// Initialize variables.
@@ -32,6 +40,8 @@ public class ScoreboardUI : MonoBehaviour
         player2Name = GameObject.Find("Player2Text").GetComponent<TextMeshProUGUI>();
         player1Score = GameObject.Find("Player1ScoreText").GetComponent<TextMeshProUGUI>();
         player2Score = GameObject.Find("Player2ScoreText").GetComponent<TextMeshProUGUI>();
+        player1Icon = GameObject.Find("Player1Icon").GetComponent<Image>();
+        player2Icon = GameObject.Find("Player2Icon").GetComponent<Image>();
     }
 
     /// <summary>
@@ -86,5 +96,38 @@ public class ScoreboardUI : MonoBehaviour
         // Set the player scores
         player1Score.text = player1.GetComponent<HeroModel>().GetScore().ToString();
         player2Score.text = player2.GetComponent<HeroModel>().GetScore().ToString();
+
+        // Set the player icons
+        switch (player1.GetComponent<HeroModel>().GetHeroIndex())
+        {
+            case 0:
+                player1Icon.sprite = king;
+                break;
+            case 1:
+                player1Icon.sprite = rogue;
+                break;
+            case 2:
+                player1Icon.sprite = wizard;
+                break;
+            default:
+                player1Icon.sprite = king;
+                break;
+        }
+
+        switch (player2.GetComponent<HeroModel>().GetHeroIndex())
+        {
+            case 0:
+                player2Icon.sprite = king;
+                break;
+            case 1:
+                player2Icon.sprite = rogue;
+                break;
+            case 2:
+                player2Icon.sprite = wizard;
+                break;
+            default:
+                player2Icon.sprite = king;
+                break;
+        }
     }
 }
