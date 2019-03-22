@@ -11,9 +11,9 @@ using UnityEngine.UI;
 public class ScoreboardUI : MonoBehaviour
 {
     // Icons
-    public Sprite king;
-    public Sprite rogue;
-    public Sprite wizard;
+    private Sprite king;
+    private Sprite rogue;
+    private Sprite wizard;
 
     // Managers
     private HeroManager heroManager;
@@ -33,15 +33,22 @@ public class ScoreboardUI : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        // Initialize managers
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
 
+        // Get scoreboard UI elements
         player1Name = GameObject.Find("Player1Text").GetComponent<TextMeshProUGUI>();
         player2Name = GameObject.Find("Player2Text").GetComponent<TextMeshProUGUI>();
         player1Score = GameObject.Find("Player1ScoreText").GetComponent<TextMeshProUGUI>();
         player2Score = GameObject.Find("Player2ScoreText").GetComponent<TextMeshProUGUI>();
         player1Icon = GameObject.Find("Player1Icon").GetComponent<Image>();
         player2Icon = GameObject.Find("Player2Icon").GetComponent<Image>();
+
+        // Get icon resources
+        king = Resources.Load<Sprite>("UI Resources/king");
+        rogue = Resources.Load<Sprite>("UI Resources/thief");
+        wizard = Resources.Load<Sprite>("UI Resources/mage");
     }
 
     /// <summary>
