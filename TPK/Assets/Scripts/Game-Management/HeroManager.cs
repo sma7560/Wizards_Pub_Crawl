@@ -99,6 +99,16 @@ public class HeroManager : MonoBehaviour
         return heroColour;
     }
 
+    /// <returns>
+    /// Returns the colour of the player in hex code format.
+    /// </returns>
+    /// <param name="playerId">Id of the player whose colour we are trying to get.</param>
+    public string GetPlayerColourHexCode(int playerId)
+    {
+        Color color = GetComponent<HeroManager>().GetPlayerColour(playerId);
+        return ColorUtility.ToHtmlStringRGB(color);
+    }
+
     /// <summary>
     /// Adds a new spawn location.
     /// </summary>

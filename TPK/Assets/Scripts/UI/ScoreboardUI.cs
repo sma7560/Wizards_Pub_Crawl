@@ -1,0 +1,90 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+
+/// <summary>
+/// Attached to the scoreboard. Sets the values in the scoreboard.
+/// This assumes that there are exactly 2 players - Player 1 and Player 2, otherwise the scoreboard will not be shown.
+/// </summary>
+public class ScoreboardUI : MonoBehaviour
+{
+    // Managers
+    private HeroManager heroManager;
+    private MatchManager matchManager;
+
+    // Text elements
+    private TextMeshProUGUI player1Name;
+    private TextMeshProUGUI player2Name;
+    private TextMeshProUGUI player1Score;
+    private TextMeshProUGUI player2Score;
+
+    /// <summary>
+    /// Initialize variables.
+    /// Note: Awake->Enable->Start
+    /// </summary>
+    void Awake()
+    {
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+
+        player1Name = GameObject.Find("Player1Text").GetComponent<TextMeshProUGUI>();
+        player2Name = GameObject.Find("Player2Text").GetComponent<TextMeshProUGUI>();
+        player1Score = GameObject.Find("Player1ScoreText").GetComponent<TextMeshProUGUI>();
+        player2Score = GameObject.Find("Player2ScoreText").GetComponent<TextMeshProUGUI>();
+    }
+
+    /// <summary>
+    /// Called whenever scoreboard is opened by the player.
+    /// Checks that there are exactly 2 players - Player 1 and Player 2; otherwise, does not open.
+    /// Sets the values in the scoreboard.
+    /// </summary>
+    void OnEnable()
+    {
+        // First check that there are exactly 2 players in the match
+        if (matchManager.GetMaxPlayers() != 2 || matchManager.GetNumOfPlayers() != matchManager.GetMaxPlayers())
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        // Player objects
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        GameObject player1 = null, player2 = null;
+
+        // Check that there are exactly 2 player objects
+        if (playerObjects.Length != 2)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        // Get the player objects
+        foreach (GameObject player in playerObjects)
+        {
+            if (player.GetComponent<HeroModel>().GetPlayerId() == 1)
+            {
+                player1 = player;
+            }
+            else if (player.GetComponent<HeroModel>().GetPlayerId() == 2)
+            {
+                player2 = player;
+            }
+        }
+
+        // Check that both player objects are set properly
+        if (player1 == null || player2 == null)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        // Set the player name text and colour
+        player1Name.text = "<color=#" + heroManager.GetPlayerColourHexCode(1) + ">Player 1</color>";
+        player2Name.text = "<color=#" + heroManager.GetPlayerColourHexCode(2) + ">Player 2</color>";
+
+        // Set the player scores
+        player1Score.text = player1.GetComponent<HeroModel>().GetScore().ToString();
+        player2Score.text = player2.GetComponent<HeroModel>().GetScore().ToString();
+    }
+}

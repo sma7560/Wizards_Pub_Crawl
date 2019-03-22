@@ -18,6 +18,7 @@ public class DungeonController : MonoBehaviour
     public GameObject inGameMenu;
     public Button inGameMenuResumeButton;
     public GameObject statsWindow;
+    public GameObject scoreboard;
 
     public IUnityService unityService;
 
@@ -71,6 +72,7 @@ public class DungeonController : MonoBehaviour
     /// Listens for toggling of the in-game menu and stats window.
     /// In-game menu can be accessed with 'ESC' key.
     /// Stats window can be accessed with 'K' key.
+    /// Scoreboard can be accessed with 'TAB' key.
     /// </summary>
     private void ToggleUI()
     {
@@ -86,10 +88,20 @@ public class DungeonController : MonoBehaviour
             }
         }
 
-        // Toggles stats window when 'K' key pressed
-        if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase() && unityService.GetKeyDown(KeyCode.K))
+        // UI elements which can only be toggled during dungeon phase
+        if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase())
         {
-            statsWindow.SetActive(!statsWindow.activeSelf);
+            // Toggles stats window when 'K' key pressed
+            if (unityService.GetKeyDown(KeyCode.K))
+            {
+                statsWindow.SetActive(!statsWindow.activeSelf);
+            }
+
+            // Toggles scoreboard when 'TAB' key pressed
+            if (unityService.GetKeyDown(KeyCode.Tab))
+            {
+                scoreboard.SetActive(!scoreboard.activeSelf);
+            }
         }
     }
 

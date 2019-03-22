@@ -9,20 +9,38 @@ using UnityEngine.Networking;
 /// </summary>
 public class AnnouncementManager : NetworkBehaviour
 {
+    private enum AnnouncementType
+    {
+        AleAcquired,
+        AleDropped,
+        PlayerDeath,
+        KitchenBossAppeared
+    }
+
     private readonly int secondsToDisplayAnnouncement = 5;  // number of seconds that announcement is displayed for
     private GameObject announcement;                        // GameObject holding everything related to announcements
     private TextMeshProUGUI announcementText;               // holds the text element of the current announcement
+
+    [SerializeField][SyncVar] private bool broadcastingAleDropped;      // whether or not a broadcast for ale dropped is currently being announced
+    [SerializeField][SyncVar] private bool broadcastingPlayerDeath;     // whether or not a broadcast for player death is currently being announced
 
     /// <summary>
     /// Initialize variables.
     /// </summary>
     void Start()
     {
-        // Instantiate the announcement GameObject
+        // Instantiate the announcement GameObject on all players
         announcement = Instantiate(Resources.Load("Menu&UI Prefabs/Announcement")) as GameObject;
         announcementText = GameObject.Find("AnnouncementText").GetComponent<TextMeshProUGUI>();
         announcement.SetActive(false);
         DontDestroyOnLoad(announcement);    // Do not destroy announcement object when scene is changed
+
+        // Initialize booleans
+        if (isServer)
+        {
+            broadcastingAleDropped = false;
+            broadcastingPlayerDeath = false;
+        }
     }
 
     /// <summary>
@@ -30,7 +48,13 @@ public class AnnouncementManager : NetworkBehaviour
     /// </summary>
     void Update()
     {
-        CheckForPlayerDeaths();
+        if (!isServer) return;
+
+        // Only check for player deaths to announce if a death announcement is not already being broadcasted
+        if (!broadcastingAleDropped && !broadcastingPlayerDeath)
+        {
+            CheckForPlayerDeaths();
+        }
     }
 
     /// <summary>
@@ -46,7 +70,8 @@ public class AnnouncementManager : NetworkBehaviour
     }
     private void LocalBroadcastAnnouncementAleAcquired(int playerId)
     {
-        announcementText.text = "<color=#" + GetPlayerColourHexCode(playerId) + ">Player " + playerId + "</color> acquired ale!";
+        string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
+        announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> acquired ale!";
         StartCoroutine(DisplayAnnouncement());
     }
     [ClientRpc]
@@ -69,7 +94,8 @@ public class AnnouncementManager : NetworkBehaviour
     }
     private void LocalBroadcastAnnouncementAleScored(int playerId)
     {
-        announcementText.text = "<color=#" + GetPlayerColourHexCode(playerId) + ">Player " + playerId + "</color> scored the ale!";
+        string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
+        announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> scored the ale!";
         StartCoroutine(DisplayAnnouncement());
     }
     [ClientRpc]
@@ -92,8 +118,9 @@ public class AnnouncementManager : NetworkBehaviour
     }
     private void LocalBroadcastAnnouncementAleDropped(int playerId)
     {
-        announcementText.text = "<color=#" + GetPlayerColourHexCode(playerId) + ">Player " + playerId + "</color> has died and dropped the ale!";
-        StartCoroutine(DisplayAnnouncement());
+        string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
+        announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> has died and dropped the ale!";
+        StartCoroutine(DisplayAnnouncement(AnnouncementType.AleDropped));
     }
     [ClientRpc]
     private void RpcBroadcastAnnouncementAleDropped(int playerId)
@@ -115,8 +142,9 @@ public class AnnouncementManager : NetworkBehaviour
     }
     private void LocalBroadcastAnnouncementPlayerDeath(int playerId)
     {
-        announcementText.text = "<color=#" + GetPlayerColourHexCode(playerId) + ">Player " + playerId + "</color> has died!";
-        StartCoroutine(DisplayAnnouncement());
+        string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
+        announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> has died!";
+        StartCoroutine(DisplayAnnouncement(AnnouncementType.PlayerDeath));
     }
     [ClientRpc]
     private void RpcBroadcastAnnouncementPlayerDeath(int playerId)
@@ -157,14 +185,35 @@ public class AnnouncementManager : NetworkBehaviour
         announcement.SetActive(false);
     }
 
-    /// <returns>
-    /// Returns the colour of the player in hex code format.
-    /// </returns>
-    /// <param name="playerId">Id of the player whose colour we are trying to get.</param>
-    private string GetPlayerColourHexCode(int playerId)
+    /// <summary>
+    /// Coroutine that displays the announcement for a set period of time.
+    /// </summary>
+    private IEnumerator DisplayAnnouncement(AnnouncementType type)
     {
-        Color color = GetComponent<HeroManager>().GetPlayerColour(playerId);
-        return ColorUtility.ToHtmlStringRGB(color);
+        // Set appropriate bools
+        if (type == AnnouncementType.AleDropped)
+        {
+            broadcastingAleDropped = true;
+        }
+        else if (type == AnnouncementType.PlayerDeath)
+        {
+            broadcastingPlayerDeath = true;
+        }
+
+        // Display announcement
+        announcement.SetActive(true);
+        yield return new WaitForSeconds(secondsToDisplayAnnouncement);
+        announcement.SetActive(false);
+
+        // Set appropriate bools
+        if (type == AnnouncementType.AleDropped)
+        {
+            broadcastingAleDropped = false;
+        }
+        else if (type == AnnouncementType.PlayerDeath)
+        {
+            broadcastingPlayerDeath = false;
+        }
     }
 
     /// <summary>
