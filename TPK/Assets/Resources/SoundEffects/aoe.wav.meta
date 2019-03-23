@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3bdd5da7817c44f47a29f580d23417e0
+guid: 4efd08afe44384046bfedf52fba1d95a
 labels:
 - usfx
 - imphenzia
@@ -11,7 +11,6 @@ labels:
 - cast
 - enchant
 AudioImporter:
-  externalObjects: {}
   serializedVersion: 6
   defaultSettings:
     loadType: 1
@@ -22,10 +21,8 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
-  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
-  ambisonic: 0
   3D: 1
   userData: 
   assetBundleName: 

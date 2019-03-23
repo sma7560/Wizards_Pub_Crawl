@@ -1,17 +1,19 @@
 fileFormatVersion: 2
-guid: 3bdd5da7817c44f47a29f580d23417e0
+guid: f41f9339fdeab694d8f37397bfbf3a76
 labels:
 - usfx
 - imphenzia
-- magic
-- spell
-- stereo
-- wizard
-- sourcer
-- cast
-- enchant
+- foley
+- footstep
+- shoes
+- shoe
+- footsteps
+- walk
+- run
+- ground
+- mono
+- gravel
 AudioImporter:
-  externalObjects: {}
   serializedVersion: 6
   defaultSettings:
     loadType: 1
@@ -22,10 +24,8 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
-  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
-  ambisonic: 0
   3D: 1
   userData: 
   assetBundleName: 

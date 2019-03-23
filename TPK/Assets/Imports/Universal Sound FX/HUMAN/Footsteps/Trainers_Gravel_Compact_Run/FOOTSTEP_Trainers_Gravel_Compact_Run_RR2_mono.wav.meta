@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f41f9339fdeab694d8f37397bfbf3a76
+guid: e8a7dab6bd17fa1419314a9bdbe3720a
 labels:
 - usfx
 - imphenzia
@@ -14,6 +14,7 @@ labels:
 - mono
 - gravel
 AudioImporter:
+  externalObjects: {}
   serializedVersion: 6
   defaultSettings:
     loadType: 1
@@ -24,8 +25,10 @@ AudioImporter:
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
+  normalize: 1
   preloadAudioData: 1
   loadInBackground: 0
+  ambisonic: 0
   3D: 1
   userData: 
   assetBundleName: 

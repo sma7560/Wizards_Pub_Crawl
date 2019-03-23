@@ -45,6 +45,9 @@ public class HeroController : NetworkBehaviour
 
     private bool isDungeonReady = false;
 
+    private PlayerSoundController playerSounds;
+    private float stepCoolDown;
+    private float stepRate = 0.5f;
     // Use this for initialization
     void Start()
     {
@@ -77,6 +80,7 @@ public class HeroController : NetworkBehaviour
         // Run startup functions
         StartCamera();
         Spawn();
+        playerSounds = GetComponent<PlayerSoundController>();
     }
 
     // Update is called once per frame
@@ -99,6 +103,14 @@ public class HeroController : NetworkBehaviour
 
             // Perform character movement controls
             heroRigidbody.velocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+            float h = unityService.GetAxisRaw("Horizontal");
+            float v = unityService.GetAxisRaw("Vertical");
+            stepCoolDown -= Time.deltaTime;
+            if ((h != 0 || v != 0)&& stepCoolDown < 0f)
+            {
+                playerSounds.RpcplayFootStep();
+                stepCoolDown = stepRate;
+            }
             PerformRotation();
 
             // Perform an attack
@@ -126,9 +138,11 @@ public class HeroController : NetworkBehaviour
         }
     }
 
+
     /// <summary>
     /// This function disables the main view camera in charge of capturing the UI
     /// </summary>
+    
     private void StartCamera()
     {
         // There is a bug here.
