@@ -11,7 +11,7 @@ public class MainMenuController : MonoBehaviour
 {
     void Start()
     {
-        GameObject.Find("EventSystem").GetComponent<AudioSource>().volume = AudioManager.GetVolume();
+        AudioManager.SetSystemVolume(AudioManager.GetVolume());
     }
 
     /// <summary>
