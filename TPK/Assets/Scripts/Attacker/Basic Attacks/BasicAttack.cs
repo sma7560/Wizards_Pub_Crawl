@@ -10,10 +10,10 @@ public class BasicAttack : NetworkBehaviour
     [SyncVar] public float range = 0;
     [SyncVar] public float magRange = 0;
     [SyncVar] public float angleRange;
-    [SyncVar] public int damage = 10;
+    [SyncVar] public int damage = 20;
     [SyncVar] public HeroType attackType;
     [SyncVar] public DamageType damageType = DamageType.none;
-    private float cooldown = 0.25f;
+    private float cooldown = 0.5f;
     private float nextActiveTime = 0;
     public GameObject projectilePrefab;
 
@@ -66,17 +66,17 @@ public class BasicAttack : NetworkBehaviour
         }
     }
 
-    // This function is a command to spawn the basic attack project tile on the server.
+    // This function is a command to spawn the basic attack projectile on the server.
     [Command]
     private void CmdDoMagic()
     {
         GameObject bolt = Instantiate(projectilePrefab);
         bolt.transform.position = transform.position + transform.forward * 2f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
-        bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 10f;
-        bolt.GetComponent<Projectile>().SetProjectileParams(magRange, damage, damageType); //Give the projectile the parameters;
+        bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 15f;
+        bolt.GetComponent<Projectile>().SetProjectileParams(3, 15, damageType); //Give the projectile the parameters;
         NetworkServer.Spawn(bolt);
-        Destroy(bolt, magRange);
+        Destroy(bolt, 3);
 
     }
 

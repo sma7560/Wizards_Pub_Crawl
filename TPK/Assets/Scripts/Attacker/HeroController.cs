@@ -99,7 +99,7 @@ public class HeroController : NetworkBehaviour
             PerformRotation();
 
             // Perform an attack
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 //animate.PlayBasicAttack();
                 StartCoroutine(AttackSpawn());
