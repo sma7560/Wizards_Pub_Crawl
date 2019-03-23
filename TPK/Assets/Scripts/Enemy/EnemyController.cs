@@ -15,7 +15,7 @@ public class EnemyController : NetworkBehaviour
     public bool localTest;
     public IUnityService unityService;
 
-    private readonly float lookRadius = 10f;    // radius where enemy can detect players
+    private readonly float lookRadius = 20f;    // radius where enemy can detect players
     private NavMeshAgent agent;                 // required to navigate the map
     private CharacterCombat enemyCombat;
     private MatchManager matchManager;
