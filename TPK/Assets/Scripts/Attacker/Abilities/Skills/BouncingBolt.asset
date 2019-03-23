@@ -18,7 +18,7 @@ MonoBehaviour:
   skillCoolDown: 1
   skillType: 0
   castType: 1
-  skillRange: 5
+  skillRange: 3
   damageType: 1
   damageAmount: 10
   projectilePrefabIndex: 0

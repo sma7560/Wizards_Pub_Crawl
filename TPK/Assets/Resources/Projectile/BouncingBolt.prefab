@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc372fdd43870143ab3a75bd3276982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
+  range: 3
   damage: 10
   damageType: 1
 --- !u!114 &114539668150823536
