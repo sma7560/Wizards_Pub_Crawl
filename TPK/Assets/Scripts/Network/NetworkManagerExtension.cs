@@ -29,6 +29,8 @@ public class NetworkManagerExtension : NetworkManager
         if (DoesHostExist())
         {
             CreateErrorPopup("New Match Error", "Could not create a new match, as another match is already being hosted on this IP.");
+            GameObject.Find("HostButton").GetComponent<Button>().interactable = true;
+            GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = true;
             return;
         }
 
