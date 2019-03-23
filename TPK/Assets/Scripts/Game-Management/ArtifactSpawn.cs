@@ -32,12 +32,6 @@ public class ArtifactSpawn : NetworkBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     //spawns artifact at a random spawn location, to be called when an artifact is picked up
     public void SpawnArtifactRandom()
     {
