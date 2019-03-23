@@ -74,6 +74,9 @@ public class ArtifactController : MonoBehaviour
                     ownerSpawn = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>().GetSpawnLocationOfPlayer(ownerID);
                     isCarried = true;
 
+					// Slow down the player on pickup
+					playerThatOwns.GetComponent<HeroController>().ArtifactPickup();
+
                     // Broadcast that player has acquired the artifact
                     GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleAcquired(ownerID);
                 }
@@ -85,6 +88,9 @@ public class ArtifactController : MonoBehaviour
                     // Ensure that this spawn is the right one for the player carrying the artifact
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
+						// Undo character slowdown
+						playerThatOwns.GetComponent<HeroController>().ArtifactDrop();
+						
                         // Broadcast that player has scored the artifact
                         GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleScored(ownerID);
 
@@ -112,6 +118,9 @@ public class ArtifactController : MonoBehaviour
 
         // Set position of artifact on the ground where player has died
         transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 1f, playerThatOwns.transform.position.z);
+
+		// Undo character slowdown
+		playerThatOwns.GetComponent<HeroController>().ArtifactDrop();
 
         // Reset owning player variables
         playerThatOwns = null;

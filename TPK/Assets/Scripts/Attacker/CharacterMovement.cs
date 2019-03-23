@@ -43,4 +43,9 @@ public class CharacterMovement
     {
         return speed;
     }
+
+	public void setSpeed(float s)
+	{
+		speed = s;
+	}
 }

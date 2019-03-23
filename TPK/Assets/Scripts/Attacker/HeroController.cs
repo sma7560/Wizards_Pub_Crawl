@@ -40,6 +40,9 @@ public class HeroController : NetworkBehaviour
     private TestAnimConrtoller animate;
     private Vector3 tempVelocity;
 
+	private float basespeed;
+	private float slowspeed;
+
     /// <summary>
     /// Initialize variables.
     /// </summary>
@@ -51,8 +54,10 @@ public class HeroController : NetworkBehaviour
         {
             unityService = new UnityService();
         }
+		basespeed = 12.0f;
+		slowspeed = 8.0f;
 
-        characterMovement = new CharacterMovement(10.0f);
+        characterMovement = new CharacterMovement(basespeed);
         ground = new Plane(Vector3.up, Vector3.zero);
 
         heroRigidbody = GetComponent<Rigidbody>();
@@ -192,4 +197,14 @@ public class HeroController : NetworkBehaviour
         yield return new WaitForSeconds(0.25f);
         battack.PerformAttack();
     }
+
+	public void ArtifactPickup()
+	{
+		characterMovement.setSpeed (slowspeed);
+	}
+
+	public void ArtifactDrop()
+	{
+		characterMovement.setSpeed (basespeed);
+	}
 }
