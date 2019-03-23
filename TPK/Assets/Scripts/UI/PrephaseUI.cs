@@ -217,12 +217,12 @@ public class PrephaseUI : MonoBehaviour
 
         wizard = ScriptableObject.CreateInstance<Hero>();
         wizard.heroType = HeroType.magic;
-        wizard.heroName = "Magic Wizard";
+        wizard.heroName = "Classic Wizard";
         wizard.childIndex = 2;
 
         rogue = ScriptableObject.CreateInstance<Hero>();
         rogue.heroType = HeroType.melee;
-        rogue.heroName = "Shifty Wizard";
+        rogue.heroName = "Sneaky Wizard";
         rogue.childIndex = 1;
     }
 
