@@ -2274,7 +2274,7 @@ GameObject:
   - component: {fileID: 565630132}
   - component: {fileID: 565630131}
   m_Layer: 5
-  m_Name: Back Button
+  m_Name: BackButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3609,7 +3609,7 @@ GameObject:
   - component: {fileID: 868961992}
   - component: {fileID: 868961991}
   m_Layer: 5
-  m_Name: TextMeshPro Text
+  m_Name: JoinMatchText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5145,6 +5145,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 214112657}
+        m_MethodName: CreatingNewMatch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1294508882
@@ -6049,7 +6060,7 @@ GameObject:
   - component: {fileID: 1708411848}
   - component: {fileID: 1708411847}
   m_Layer: 5
-  m_Name: TextMeshPro Text
+  m_Name: NewMatchText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7909,7 +7920,7 @@ GameObject:
   - component: {fileID: 2070511315}
   - component: {fileID: 2070511314}
   m_Layer: 5
-  m_Name: JoinMatch Button
+  m_Name: JoinMatchButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

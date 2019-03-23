@@ -29,6 +29,7 @@ TagManager:
   - Projectile
   - WaitingRoomUI
   - Error
+  - Announcement
   layers:
   - Default
   - TransparentFX

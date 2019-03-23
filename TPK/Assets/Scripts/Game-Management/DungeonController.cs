@@ -65,7 +65,15 @@ public class DungeonController : MonoBehaviour
     {
         Debug.Log("MATCH QUIT");
         GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().StopHost();
+        GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().SetDoNotDisplayTimeoutError(true);
         SceneManager.LoadScene(SceneManager.GetSceneByName("Menu").buildIndex);
+
+        // Remove all announcement objects
+        GameObject[] announcements = GameObject.FindGameObjectsWithTag("Announcement");
+        foreach (GameObject announcement in announcements)
+        {
+            Destroy(announcement);
+        }
     }
 
     /// <summary>

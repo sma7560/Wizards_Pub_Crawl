@@ -8,14 +8,17 @@ using System.Net.Sockets;
 using System;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class NetworkManagerExtension : NetworkManager
 {
+
     public GameObject matchManagerPrefab;
     private MatchManager matchManager;
     private PrephaseManager prephaseManager;
 
     private readonly int portNumber = 7777;
+    private bool doNotDisplayTimeoutError = false;  // will no longer display timeout error if coroutine is running
 
     /// <summary>
     /// Setting up the host via getting the local IP address and using that as host address.
@@ -70,37 +73,58 @@ public class NetworkManagerExtension : NetworkManager
     }
 
     /// <summary>
-    /// Called when a new client connects to the server.
+    /// Called on the server when a new client connects.
     /// </summary>
     public override void OnServerConnect(NetworkConnection conn)
     {
         base.OnServerConnect(conn);
-
-        // If the new connection is a client, add a player to MatchManager
-        if (!matchManager.AddPlayerToMatch(conn))
-        {
-            // NOTE: will fail for server's connect, when numOfPlayers = 0 (this is expected)
-            Debug.Log("MatchManager failed to add player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
-        }
-
-        // Send new player information to PrephaseManager
-        prephaseManager.UpdatePrephase();
+        
+        matchManager.AddPlayerToMatch(conn);    // Add a player to MatchManager
+        prephaseManager.UpdatePrephase();       // Send new player information to PrephaseManager
     }
 
     /// <summary>
-    /// Called when a client disconnects from the server.
+    /// Called on the server when a player disconnects.
     /// </summary>
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         base.OnServerDisconnect(conn);
 
-        if (!matchManager.RemovePlayerFromMatch(conn))
-        {
-            Debug.Log("MatchManager failed to remove player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
-        }
+        doNotDisplayTimeoutError = true;
+        matchManager.RemovePlayerFromMatch(conn);
+        prephaseManager.UpdatePrephase();   // Send new player information to PrephaseManager
+        CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
+    }
 
-        // Send new player information to PrephaseManager
-        prephaseManager.UpdatePrephase();
+    /// <summary>
+    /// Called on clients when a player disconnects.
+    /// </summary>
+    public override void OnClientDisconnect(NetworkConnection conn)
+    {
+        doNotDisplayTimeoutError = true;
+        CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
+    }
+
+    /// <summary>
+    /// Get host IP Address
+    /// </summary>
+    /// <returns>Returns local IP address</returns>
+    public static string GetLocalIPAddress()
+    {
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        throw new Exception("Local IP Address Not Found!");
+    }
+
+    public void SetDoNotDisplayTimeoutError(bool b)
+    {
+        doNotDisplayTimeoutError = b;
     }
 
     /// <summary>
@@ -122,23 +146,6 @@ public class NetworkManagerExtension : NetworkManager
     }
 
     /// <summary>
-    /// Get host IP Address
-    /// </summary>
-    /// <returns>Returns local IP address</returns>
-    public static string GetLocalIPAddress()
-    {
-        var host = Dns.GetHostEntry(Dns.GetHostName());
-        foreach (var ip in host.AddressList)
-        {
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
-            {
-                return ip.ToString();
-            }
-        }
-        throw new Exception("Local IP Address Not Found!");
-    }
-
-    /// <summary>
     /// Setting up the port for the game.
     /// </summary>
     private void SetPort()
@@ -151,11 +158,11 @@ public class NetworkManagerExtension : NetworkManager
     /// </returns>
     private bool DoesHostExist()
     {
+        SetPort();
         NetworkTransport.Init();
         HostTopology topology = new HostTopology(new ConnectionConfig(), 1);
         int hostId = NetworkTransport.AddHost(topology, portNumber);
         if (hostId >= 0) NetworkTransport.RemoveHost(hostId);
-        NetworkTransport.Shutdown();
 
         // If AddHost() returns a negative number, then it failed; host already exists
         if (hostId < 0)
@@ -178,6 +185,7 @@ public class NetworkManagerExtension : NetworkManager
 
         // Instantiate error popup and set the title and description
         GameObject error = Instantiate(Resources.Load("Menu&UI Prefabs/ErrorPopup")) as GameObject;
+        DontDestroyOnLoad(error);
         GameObject.Find("ErrorTitle").GetComponent<TextMeshProUGUI>().text = title;
         GameObject.Find("ErrorText").GetComponent<TextMeshProUGUI>().text = description;
     }
@@ -190,6 +198,8 @@ public class NetworkManagerExtension : NetworkManager
     /// <param name="description">Description of the timeout error popup.</param>
     private IEnumerator CheckForTimeout()
     {
+        doNotDisplayTimeoutError = false;
+
         // Setup buttons
         GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "CONNECTING...";
         GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = false;
@@ -199,14 +209,16 @@ public class NetworkManagerExtension : NetworkManager
 
         // Wait for timeout period
         yield return new WaitForSeconds(5);
-        if (clientLoadedScene) yield return null;
 
-        // Client did not load new scene; instantiate timeout error popup
-        CreateErrorPopup("Timeout Error", "Timeout has occurred while trying to connect to a match; no match has been found. Please create a new match first.");
+        if (!SceneManager.GetActiveScene().name.Equals(onlineScene) && !doNotDisplayTimeoutError)
+        {
+            // Client did not load the online scene; instantiate timeout error popup
+            CreateErrorPopup("Timeout Error", "Timeout has occurred while trying to connect to a match; no match has been found. Please create a new match first.");
 
-        // Reset buttons
-        GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = true;
-        GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "JOIN MATCH";
-        backButton.SetActive(true);
+            // Reset buttons
+            GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = true;
+            GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "JOIN MATCH";
+            backButton.SetActive(true);
+        }
     }
 }
