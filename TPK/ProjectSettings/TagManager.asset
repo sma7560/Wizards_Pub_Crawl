@@ -28,6 +28,7 @@ TagManager:
   - Fire
   - Projectile
   - WaitingRoomUI
+  - Error
   layers:
   - Default
   - TransparentFX

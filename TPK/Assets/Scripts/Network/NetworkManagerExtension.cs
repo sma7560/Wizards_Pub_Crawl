@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 using System.Net;
 using System.Net.Sockets;
 using System;
+using TMPro;
+using UnityEngine.EventSystems;
 
 public class NetworkManagerExtension : NetworkManager
 {
@@ -13,11 +15,20 @@ public class NetworkManagerExtension : NetworkManager
     private MatchManager matchManager;
     private PrephaseManager prephaseManager;
 
+    private readonly int portNumber = 7777;
+
     /// <summary>
     /// Setting up the host via getting the local IP address and using that as host address.
     /// </summary>
     public void StartUpHost()
     {
+        // Check if host already exists
+        if (DoesHostExist())
+        {
+            CreateErrorPopup("New Match Error", "Could not create a new match, as another match is already being hosted on this IP.");
+            return;
+        }
+
         // Create MatchManager object on server
         Debug.Log("Instantiate MatchManager on server");
         GameObject managerPrefab = Instantiate(matchManagerPrefab);
@@ -49,9 +60,47 @@ public class NetworkManagerExtension : NetworkManager
     /// </summary>
     public void JoinGame()
     {
+        // Join the match
         SetIPAddress();
         SetPort();
         StartClient();
+
+        // Check for timeout
+        StartCoroutine(CheckForTimeout());
+    }
+
+    /// <summary>
+    /// Called when a new client connects to the server.
+    /// </summary>
+    public override void OnServerConnect(NetworkConnection conn)
+    {
+        base.OnServerConnect(conn);
+
+        // If the new connection is a client, add a player to MatchManager
+        if (!matchManager.AddPlayerToMatch(conn))
+        {
+            // NOTE: will fail for server's connect, when numOfPlayers = 0 (this is expected)
+            Debug.Log("MatchManager failed to add player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
+        }
+
+        // Send new player information to PrephaseManager
+        prephaseManager.UpdatePrephase();
+    }
+
+    /// <summary>
+    /// Called when a client disconnects from the server.
+    /// </summary>
+    public override void OnServerDisconnect(NetworkConnection conn)
+    {
+        base.OnServerDisconnect(conn);
+
+        if (!matchManager.RemovePlayerFromMatch(conn))
+        {
+            Debug.Log("MatchManager failed to remove player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
+        }
+
+        // Send new player information to PrephaseManager
+        prephaseManager.UpdatePrephase();
     }
 
     /// <summary>
@@ -94,40 +143,70 @@ public class NetworkManagerExtension : NetworkManager
     /// </summary>
     private void SetPort()
     {
-        networkPort = 7777;
+        networkPort = portNumber;
+    }
+
+    /// <returns>
+    /// Returns whether or not a hosts already exists.
+    /// </returns>
+    private bool DoesHostExist()
+    {
+        NetworkTransport.Init();
+        HostTopology topology = new HostTopology(new ConnectionConfig(), 1);
+        int hostId = NetworkTransport.AddHost(topology, portNumber);
+        if (hostId >= 0) NetworkTransport.RemoveHost(hostId);
+        NetworkTransport.Shutdown();
+
+        // If AddHost() returns a negative number, then it failed; host already exists
+        if (hostId < 0)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// <summary>
-    /// Called when a new client connects to the server.
+    /// Instantiates an error popup if one does not already exist.
     /// </summary>
-    public override void OnServerConnect(NetworkConnection conn)
+    /// <param name="title">Title of the error popup.</param>
+    /// <param name="description">Description of the error.</param>
+    private void CreateErrorPopup(string title, string description)
     {
-        base.OnServerConnect(conn);
+        // Do nothing if another error popup is already shown
+        if (GameObject.FindGameObjectWithTag("Error") != null) return;
 
-        // If the new connection is a client, add a player to MatchManager
-        if (!matchManager.AddPlayerToMatch(conn))
-        {
-            // NOTE: will fail for server's connect, when numOfPlayers = 0 (this is expected)
-            Debug.Log("MatchManager failed to add player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
-        }
-
-        // Send new player information to PrephaseManager
-        prephaseManager.UpdatePrephase();
+        // Instantiate error popup and set the title and description
+        GameObject error = Instantiate(Resources.Load("Menu&UI Prefabs/ErrorPopup")) as GameObject;
+        GameObject.Find("ErrorTitle").GetComponent<TextMeshProUGUI>().text = title;
+        GameObject.Find("ErrorText").GetComponent<TextMeshProUGUI>().text = description;
     }
 
     /// <summary>
-    /// Called when a client disconnects from the server.
+    /// Called whenever the player clicks "Join Match".
+    /// Checks if the player is still trying to join a match. If so, times out and displays an error popup.
     /// </summary>
-    public override void OnServerDisconnect(NetworkConnection conn)
+    /// <param name="title">Title of the timeout error popup.</param>
+    /// <param name="description">Description of the timeout error popup.</param>
+    private IEnumerator CheckForTimeout()
     {
-        base.OnServerDisconnect(conn);
+        // Setup buttons
+        GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "CONNECTING...";
+        GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = false;
+        EventSystem.current.SetSelectedGameObject(null);
+        GameObject backButton = GameObject.Find("BackButton");
+        backButton.SetActive(false);
 
-        if (!matchManager.RemovePlayerFromMatch(conn))
-        {
-            Debug.Log("MatchManager failed to remove player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
-        }
+        // Wait for timeout period
+        yield return new WaitForSeconds(5);
+        if (clientLoadedScene) yield return null;
 
-        // Send new player information to PrephaseManager
-        prephaseManager.UpdatePrephase();
+        // Client did not load new scene; instantiate timeout error popup
+        CreateErrorPopup("Timeout Error", "Timeout has occurred while trying to connect to a match; no match has been found. Please create a new match first.");
+
+        // Reset buttons
+        GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = true;
+        GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "JOIN MATCH";
+        backButton.SetActive(true);
     }
 }

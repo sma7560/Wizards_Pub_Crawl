@@ -29,6 +29,8 @@ public class HeroController : NetworkBehaviour
 
     private readonly int deathTimer = 4;    // default death timer
     private bool isDungeonReady = false;
+    private float baseSpeed;
+    private float slowSpeed;
 
     private GameObject cam;
     private Rigidbody heroRigidbody;
@@ -40,24 +42,21 @@ public class HeroController : NetworkBehaviour
     private TestAnimConrtoller animate;
     private Vector3 tempVelocity;
 
-	private float basespeed;
-	private float slowspeed;
-
     /// <summary>
     /// Initialize variables.
     /// </summary>
     void Start()
     {
         if (!isLocalPlayer && !localTest) return;
-        
+
         if (unityService == null)
         {
             unityService = new UnityService();
         }
-		basespeed = 12.0f;
-		slowspeed = 8.0f;
+        baseSpeed = 12.0f;
+        slowSpeed = 8.0f;
 
-        characterMovement = new CharacterMovement(basespeed);
+        characterMovement = new CharacterMovement(baseSpeed);
         ground = new Plane(Vector3.up, Vector3.zero);
 
         heroRigidbody = GetComponent<Rigidbody>();
@@ -72,7 +71,7 @@ public class HeroController : NetworkBehaviour
         StartCamera();
         Spawn();
     }
-    
+
     /// <summary>
     /// Called once per frame.
     /// </summary>
@@ -198,13 +197,13 @@ public class HeroController : NetworkBehaviour
         battack.PerformAttack();
     }
 
-	public void ArtifactPickup()
-	{
-		characterMovement.setSpeed (slowspeed);
-	}
+    public void ArtifactPickup()
+    {
+        characterMovement.SetSpeed(slowSpeed);
+    }
 
-	public void ArtifactDrop()
-	{
-		characterMovement.setSpeed (basespeed);
-	}
+    public void ArtifactDrop()
+    {
+        characterMovement.SetSpeed(baseSpeed);
+    }
 }

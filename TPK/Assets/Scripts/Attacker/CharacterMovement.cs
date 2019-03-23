@@ -44,7 +44,7 @@ public class CharacterMovement
         return speed;
     }
 
-	public void setSpeed(float s)
+	public void SetSpeed(float s)
 	{
 		speed = s;
 	}

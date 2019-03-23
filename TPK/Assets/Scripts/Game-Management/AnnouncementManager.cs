@@ -223,13 +223,11 @@ public class AnnouncementManager : NetworkBehaviour
         // Set active the appropriate icons depending on announcement type
         if (type == AnnouncementType.AleAcquired || type == AnnouncementType.AleDropped)
         {
-            Debug.Log("left active, right active");
             leftIcon.SetActive(true);    // hero icon
             rightIcon.SetActive(true);   // ale icon
         }
         else if (type == AnnouncementType.KitchenBossAppeared || type == AnnouncementType.PlayerDeath)
         {
-            Debug.Log("left active, right inactive");
             leftIcon.SetActive(true);    // hero/boss icon
             rightIcon.SetActive(false);
         }
