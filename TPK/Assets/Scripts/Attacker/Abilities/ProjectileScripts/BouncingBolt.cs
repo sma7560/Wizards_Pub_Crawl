@@ -26,13 +26,13 @@ public class BouncingBolt : BaseProjectile
                 Destroy(gameObject);
                 // This means you can shoot yourself... so far.
                 break;
-		default:
-			this.damage *= 2;
-			Vector3 v = this.GetComponent<Rigidbody> ().velocity;
-			v.x *= 1.5f;
-			v.z *= 1.5f;
-			this.GetComponent<Rigidbody> ().velocity = v;
-			break;
+			default:
+				this.damage += 10;
+				Vector3 v = this.GetComponent<Rigidbody> ().velocity;
+				v.x *= 1.10f;
+				v.z *= 1.10f;
+				this.GetComponent<Rigidbody> ().velocity = v;
+				break;
 
 
         }
