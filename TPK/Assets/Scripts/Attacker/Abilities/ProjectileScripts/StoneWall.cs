@@ -9,8 +9,14 @@ public class StoneWall : BaseProjectile
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);
-        if (col.collider.tag == "Projectile") {
-            if (++curHits == maxHits) Destroy(gameObject);  
+        switch(col.collider.tag) {
+		case "Projectile":
+			if (++curHits == maxHits)
+				Destroy (gameObject);
+			break;
+		case "Safezone":
+			Destroy (gameObject);
+			break;
         } 
         
     }

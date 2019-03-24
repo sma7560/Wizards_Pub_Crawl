@@ -30,6 +30,7 @@ TagManager:
   - WaitingRoomUI
   - Error
   - Announcement
+  - Safezone
   layers:
   - Default
   - TransparentFX
