@@ -17,9 +17,16 @@ public class AnimationEnemyController : MonoBehaviour {
         anim.SetBool("isWalking", startOrStop);
     }
 
+    // animation for enemy attacking
     public void playAttack()
     {
         Debug.Log("Attacking");
         anim.SetTrigger("attack");
+    }
+
+    // animation for enemy dying
+    public void deathAnimation()
+    {
+        anim.SetTrigger("isDead");
     }
 }

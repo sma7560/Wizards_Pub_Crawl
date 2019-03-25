@@ -15,6 +15,7 @@ public class EnemyStats : CharacterStats
     protected float idleRange;
     [SerializeField]
     protected float idleHowOftenDirectionChanged;
+    private AnimationEnemyController animation;
 
     //mosnter death overrides default die method
     protected override void Die()
@@ -31,7 +32,16 @@ public class EnemyStats : CharacterStats
             Instantiate(monsterDrop, itemPosition, Quaternion.Euler(0, 0, 0));
             Debug.Log("Item dropped succesfully");
         }
-        // Add enemy death animation here
+        StartCoroutine(deathSequence());
+    }
+
+    //death sequence for enemy
+    private IEnumerator deathSequence()
+    {
+        animation = GetComponent<AnimationEnemyController>();
+        animation.deathAnimation();
+        //wait 4 seconds for animation to finish before deleting gameobject
+        yield return new WaitForSeconds(4);
         Destroy(gameObject);
     }
 
