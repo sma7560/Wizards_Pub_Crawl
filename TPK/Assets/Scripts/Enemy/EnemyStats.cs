@@ -16,14 +16,37 @@ public class EnemyStats : CharacterStats
     [SerializeField]
     protected float idleHowOftenDirectionChanged;
     private AnimationEnemyController animation;
+    private bool isDying;
 
     //mosnter death overrides default die method
     protected override void Die()
     {
+        //don't die again if currently dying
+        if (!isDying)
+        {
+            StartCoroutine(deathSequence());
+        }
+    }
+
+    //death sequence for enemy
+    private IEnumerator deathSequence()
+    {
+        isDying = true;
+        animation = GetComponent<AnimationEnemyController>();
+        animation.deathAnimation();
+        //wait 4 seconds for animation to finish before deleting gameobject
+        yield return new WaitForSeconds(3);
+        dropItem();
+        Destroy(gameObject);
+    }
+
+    //function to drop items upon death
+    private void dropItem()
+    {
         int randChance = Random.Range(0, 101);
 
         //random chance to drop health pickup
-        if(randChance>100-totalDropRate)
+        if (randChance > 100 - totalDropRate)
         {
             Debug.Log("Item dropping");
             GameObject monsterDrop = determineItemDrop();
@@ -32,17 +55,6 @@ public class EnemyStats : CharacterStats
             Instantiate(monsterDrop, itemPosition, Quaternion.Euler(0, 0, 0));
             Debug.Log("Item dropped succesfully");
         }
-        StartCoroutine(deathSequence());
-    }
-
-    //death sequence for enemy
-    private IEnumerator deathSequence()
-    {
-        animation = GetComponent<AnimationEnemyController>();
-        animation.deathAnimation();
-        //wait 4 seconds for animation to finish before deleting gameobject
-        yield return new WaitForSeconds(4);
-        Destroy(gameObject);
     }
 
     private GameObject determineItemDrop()
@@ -75,5 +87,10 @@ public class EnemyStats : CharacterStats
     public Stat getMovementSpeed()
     {
         return movementSpeed;
+    }
+
+    public bool getIsDying()
+    {
+        return isDying;
     }
 }

@@ -78,6 +78,12 @@ public class EnemyController : NetworkBehaviour
     /// </summary>
     private void TargetClosestPlayer()
     {
+        //if enemy is currently dying, disable agent to prevent it from moving
+        if (myStats.getIsDying())
+        {
+            agent.enabled = false;
+            return;
+        }
         Transform[] targets = heroManager.GetAllPlayerTransforms(); // list of all player transforms
         float shortestDistance = int.MaxValue;  // distance to the closest player
         int playerIndex = -1;   // index of the player in targets array whom is currently targetted
