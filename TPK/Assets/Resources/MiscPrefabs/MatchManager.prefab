@@ -55,7 +55,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34692765b5fc3f54d8af931d7e9efe04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prephaseUI: {fileID: 1232863386017794, guid: 6d05e611ccb1e034dab512a8e3b4d08b, type: 2}
 --- !u!114 &114317017334176808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -67,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10653ca56a1f1aa44bfd3bdb539c27a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monster: {fileID: 1788914300484378, guid: 6423fff4acd97ea439348e08f2db2795, type: 2}
+  monster: {fileID: 1631425459890508, guid: b9d39eab6d75341488c6fe2bdf1e1c9f, type: 2}
 --- !u!114 &114658265539775506
 MonoBehaviour:
   m_ObjectHideFlags: 1

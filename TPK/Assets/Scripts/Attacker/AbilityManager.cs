@@ -38,7 +38,7 @@ public class AbilityManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.IsMatchEnded()) return;
+        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded()) return;
 
         if (Input.GetKeyDown(KeyCode.Alpha1) && equippedSkills[0] != null && nextActiveTime[0] < Time.time)
         {
@@ -73,7 +73,7 @@ public class AbilityManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Equips the specified skill.
+    /// Equips the specified skill into the first available slot.
     /// </summary>
     /// <param name="skill">Skill to be equipped.</param>
     public void EquipSkill(Skill skill)
@@ -90,6 +90,28 @@ public class AbilityManager : NetworkBehaviour
 
         //Probably do things here to make it better for the players.
         Debug.Log("Can't equip anymore skills");
+    }
+
+    /// <summary>
+    /// Equips the specified skill into the specified slot.
+    /// </summary>
+    /// <param name="skill">Skill to be equipped.</param>
+    /// <param name="index">Index of slot to equip the skill into.</param>
+    public void EquipSkill(Skill skill, int index)
+    {
+        if (index > equippedSkills.Length - 1 || index < 0)
+        {
+            Debug.Log("Failed attempt to equip skill in invalid slot; attempted at slot index " + index);
+        }
+
+        if (IsEquipped(skill))
+        {
+            Debug.Log(skill.name + " has already been equipped.");
+            return;
+        }
+
+        equippedSkills[index] = skill;
+        Debug.Log("Skill " + equippedSkills[index].skillName + " has been equipped into slot " + index);
     }
 
     /// <returns>
@@ -132,17 +154,12 @@ public class AbilityManager : NetworkBehaviour
         }
     }
 
-    //private void InstantiateSkill(int indexOfSkill)
-    //{
-    //    equippedSkills[indexOfSkill].Initialize(origin, playerRigid);
-    //}
-
     /// <summary>
     /// Returns whether or not the specified skill is already equipped.
     /// </summary>
     /// <param name="skill">Skill to check if equipped.</param>
     /// <returns>True if specified skill is already equipped, else returns false.</returns>
-    private bool IsEquipped(Skill skill)
+    public bool IsEquipped(Skill skill)
     {
         for (int i = 0; i < equippedSkills.Length; i++)
         {

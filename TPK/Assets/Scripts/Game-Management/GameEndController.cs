@@ -21,8 +21,8 @@ public class GameEndController : MonoBehaviour
 
         //get score of all players
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        int score1 = players[0].GetComponent<HeroController>().GetScore();
-        int score2 = players[1].GetComponent<HeroController>().GetScore();
+        int score1 = players[0].GetComponent<HeroModel>().GetScore();
+        int score2 = players[1].GetComponent<HeroModel>().GetScore();
 
         player1score.SetText(score1.ToString());
         player2score.SetText(score2.ToString());

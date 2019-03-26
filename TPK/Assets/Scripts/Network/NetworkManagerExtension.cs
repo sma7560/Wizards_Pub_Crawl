@@ -29,7 +29,7 @@ public class NetworkManagerExtension : NetworkManager
         networkAddress = GetLocalIPAddress();
         Debug.Log("Hosting on " + networkAddress);
         NetworkServer.Reset();
-        NetworkClient client = NetworkManager.singleton.StartHost();
+        NetworkClient client = StartHost();
         NetworkServer.Spawn(matchManager.gameObject);   // Instantiate MatchManager on the server
         Debug.Log(client.connection);
 
@@ -51,7 +51,7 @@ public class NetworkManagerExtension : NetworkManager
     {
         SetIPAddress();
         SetPort();
-        NetworkManager.singleton.StartClient();
+        StartClient();
     }
 
     /// <summary>
@@ -69,7 +69,7 @@ public class NetworkManagerExtension : NetworkManager
         }
 
         // Set the IP address
-        NetworkManager.singleton.networkAddress = ipAddress;
+        networkAddress = ipAddress;
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public class NetworkManagerExtension : NetworkManager
     /// </summary>
     private void SetPort()
     {
-        NetworkManager.singleton.networkPort = 7777;
+        networkPort = 7777;
     }
 
     /// <summary>

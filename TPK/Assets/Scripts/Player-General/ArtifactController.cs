@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
-// Carryable Artifact script
+/// <summary>
+/// Logic for game objective
+/// </summary>
 public class ArtifactController : MonoBehaviour
 {
     private bool isCarried;     //is artifact carried by someone?
@@ -8,7 +10,7 @@ public class ArtifactController : MonoBehaviour
     private int ownerID;
     private Vector3 ownerSpawn;
 
-    Vector3 smallscale = new Vector3(1f, 1f, 1f);   //smaller size when carried
+    Vector3 smallscale = new Vector3(1.25f, 1.25f, 1.25f);   //smaller size when carried
     Vector3 normalscale = new Vector3(2f, 2f, 2f);	//normal size on ground
 
     //Common, Rare, Epic, Legendary
@@ -51,16 +53,13 @@ public class ArtifactController : MonoBehaviour
         //if being carried, update location of artifact to where the carrier is
         if (isCarried)
         {
-            transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3, playerThatOwns.transform.position.z);
-            if (playerThatOwns.GetComponent<HeroController>().GetKnockedOutStatus())
+            transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3.5f, playerThatOwns.transform.position.z);
+            if (playerThatOwns.GetComponent<HeroModel>().IsKnockedOut())
             {
                 //player is knocked out, so he drops the artifact
                 DroppedArtifact();
             }
         }
-
-        //rotation animation
-        transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f);
     }
 
     //set player that "picked" up artifact
@@ -70,12 +69,12 @@ public class ArtifactController : MonoBehaviour
         {
             case ("Player"):
                 //check to make sure the player isn't knocked out
-                if (!isCarried && !(col.GetComponent<HeroController>().GetKnockedOutStatus()))
+                if (!isCarried && !(col.GetComponent<HeroModel>().IsKnockedOut()))
                 {
                     //make object float above character model's head
                     transform.localScale = smallscale;
                     playerThatOwns = col.gameObject;
-                    ownerID = playerThatOwns.GetComponent<HeroController>().GetPlayerId();
+                    ownerID = playerThatOwns.GetComponent<HeroModel>().GetPlayerId();
                     ownerSpawn = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>().GetSpawnLocationOfPlayer(ownerID);
                     isCarried = true;
                     Debug.Log("Player " + ownerID + " has taken the artifact!");
@@ -87,7 +86,7 @@ public class ArtifactController : MonoBehaviour
                     //need to check that the spawn is the right one for the player carrying the artifact
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
-                        playerThatOwns.GetComponent<HeroController>().AddScore(1);      //adds a point to scoring player, then deletes itself
+                        playerThatOwns.GetComponent<HeroModel>().IncreaseScore(1);  // adds a point to scoring player, then deletes itself
                         GameObject.FindGameObjectWithTag("EventSystem").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
                         Destroy(gameObject);
                     }

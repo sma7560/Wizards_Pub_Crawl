@@ -19,6 +19,8 @@ public class PlayerUIController : MonoBehaviour
     private TextMeshProUGUI cooldown3;
     private TextMeshProUGUI cooldown4;
 
+    private HeroModel heroModel;    // data of the current player's hero
+
     /// <summary>
     /// Initialize variables.
     /// </summary>
@@ -39,7 +41,10 @@ public class PlayerUIController : MonoBehaviour
         cooldown3.gameObject.SetActive(false);
         cooldown4.gameObject.SetActive(false);
 
+        heroModel = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<HeroModel>();
+
         SetupSkillIcons();
+        SetupHealthBar();
     }
 
     /// <summary>
@@ -49,13 +54,44 @@ public class PlayerUIController : MonoBehaviour
     {
         UpdateTimeLeftUI(matchManager.GetTimeLeftInMatch());
         UpdateCooldowns();
+        UpdateHealthBar();
+        UpdateScore();
+    }
+
+    /// <summary>
+    /// Sets the health bar image to full.
+    /// </summary>
+    private void SetupHealthBar()
+    {
+        Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
+        healthImage.fillAmount = 1;
+    }
+
+    /// <summary>
+    /// Updates the health bar and health text in player UI.
+    /// </summary>
+    private void UpdateHealthBar()
+    {
+        Image healthImage = GameObject.FindGameObjectWithTag("Health").GetComponent<Image>();
+        healthImage.fillAmount = (float)heroModel.GetCurrentHealth() / (float)heroModel.GetMaxHealth();
+        TextMeshProUGUI healthText = GameObject.FindGameObjectWithTag("HealthText").GetComponent<TextMeshProUGUI>();
+        healthText.text = heroModel.GetCurrentHealth() + "/" + heroModel.GetMaxHealth();
+    }
+
+    /// <summary>
+    /// Updates the current score in player UI.
+    /// </summary>
+    private void UpdateScore()
+    {
+        TextMeshProUGUI scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>();
+        scoreText.text = heroModel.GetScore().ToString();
     }
 
     /// <summary>
     /// Updates the match time left in player UI.
     /// </summary>
     /// <param name="timeLeft">Seconds left in the match.</param>
-    public void UpdateTimeLeftUI(float timeLeft)
+    private void UpdateTimeLeftUI(float timeLeft)
     {
         int minuteLeft = Mathf.FloorToInt(timeLeft / 60F);
         int secondLeft = Mathf.FloorToInt(timeLeft - minuteLeft * 60);

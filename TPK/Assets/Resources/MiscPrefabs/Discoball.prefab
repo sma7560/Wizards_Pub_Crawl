@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4725301703735734}
+  - component: {fileID: 111800868759150804}
   m_Layer: 0
   m_Name: Discoball
   m_TagString: Untagged
@@ -111,7 +112,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1464208375947816}
   m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: -1.5, z: 1}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0.732}
   m_LocalScale: {x: 1.0000002, y: 1.0000006, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 4725301703735734}
@@ -159,7 +160,7 @@ Transform:
   - {fileID: 4124418105767490}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 38.250004, z: 0}
 --- !u!23 &23321940569553868
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -287,7 +288,7 @@ Light:
   m_Type: 0
   m_Color: {r: 0.34109113, g: 0.48630434, b: 0.990566, a: 1}
   m_Intensity: 10
-  m_Range: 20
+  m_Range: 25
   m_SpotAngle: 25
   m_CookieSize: 10
   m_Shadows:
@@ -313,3 +314,18 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!111 &111800868759150804
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1457039509150392}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 369228b60081be4409ea94e4deda9d33, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 369228b60081be4409ea94e4deda9d33, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

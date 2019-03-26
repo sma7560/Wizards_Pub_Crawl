@@ -13,11 +13,11 @@ public class HealthItem : Item {
     //override item function with what health consumable does to player
     public override void ItemConsume(Collider other)
     {
-        NetworkHeroManager stats = other.gameObject.GetComponent<NetworkHeroManager>();
-        int currentHp = stats.currentHealth;
+        HeroModel stats = other.gameObject.GetComponent<HeroModel>();
+        int currentHp = stats.GetCurrentHealth();
 
         //if health is less than max, heal player
-        if (currentHp < stats.maxHealth)
+        if (currentHp < stats.GetMaxHealth())
         {
             stats.Heal(hpHealed);
         }
