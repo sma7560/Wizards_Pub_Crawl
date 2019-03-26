@@ -2,20 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PiercingShot : MonoBehaviour {
+public class PiercingShot : BaseProjectile {
 
-	public float range = 2f;
-	public int damage = 20;
-	public DamageType damageType = DamageType.magical;
-
-	public void SetProjectileParams(float r, int dmg, DamageType dtype)
-	{
-		range = r;
-		damage = dmg;
-		damageType = dtype;
-	}
-
-	void OnTriggerEnter(Collider col)
+	public override void Behaviour(Collider col)
 	{
 
 		switch (col.transform.tag)

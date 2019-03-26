@@ -14,7 +14,7 @@ MonoBehaviour:
   skillName: Sword Toss
   skillDescription: Fling a fast dagger forward dealing moderate physical damage.
   skillIcon: {fileID: 21300000, guid: ab0d206558b917f4dbabee838185c5e6, type: 3}
-  skillCoolDown: 2
+  skillCoolDown: 1
   skillType: 0
   castType: 1
   skillRange: 2

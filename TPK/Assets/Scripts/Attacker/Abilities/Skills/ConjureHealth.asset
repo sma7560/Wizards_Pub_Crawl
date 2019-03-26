@@ -9,21 +9,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d95222f5e77fdac41becb17d82764af4, type: 3}
-  m_Name: Roar
+  m_Name: ConjureHealth
   m_EditorClassIdentifier: 
-  skillName: Roar
-  skillDescription: Roar to damage all enemies near you.
-  skillIcon: {fileID: 21300000, guid: 6009269492536184da8537291d0146ea, type: 3}
-  skillCoolDown: 3
-  skillType: 2
-  castType: 0
-  skillRange: 10
-  damageType: 1
+  skillName: Conjure Health
+  skillDescription: Conjure a health potion in front you. Healing magic is not yet
+    possible.
+  skillIcon: {fileID: 21300000, guid: 445200db47faa7b4dbfcc911074cb708, type: 3}
+  skillCoolDown: 10
+  skillType: 0
+  castType: 1
+  skillRange: 300
+  damageType: 2
   damageAmount: 20
-  projectilePrefabIndex: 0
-  numProjectiles: 0
+  projectilePrefabIndex: 5
+  numProjectiles: 1
   projectileSpeed: 0
-  ccType: 0
+  ccType: 2
   moveType: 2
   movementDistance: 0
   visualEffectIndex: 0

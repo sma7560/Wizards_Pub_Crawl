@@ -10,7 +10,7 @@ public class AbilityCaster : NetworkBehaviour
     public GameObject[] effects; // Will use this to store a list of effects to be played on the server
     public GameObject[] projectiles; // Will Use this to store a list of projectiles on the server
     private TestAnimConrtoller anim;
-
+    private HeroModel stats;
     // Probably will need some network synching thing here to command server to do stuff. Maybe Call it server interface.
 
     // On Start of this script get the animation
@@ -19,6 +19,7 @@ public class AbilityCaster : NetworkBehaviour
         //if (!isLocalPlayer) return;
         // Getting these components to work
         anim = GetComponent<TestAnimConrtoller>();
+        stats = GetComponent<HeroModel>();
     }
     // To do the inital cast of the skill.
     // Order Of events: 1. Determine how to cast and what to affect. 2.Determine if there is movement included. 3. play the visuals associated.

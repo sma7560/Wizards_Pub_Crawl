@@ -14,7 +14,7 @@ MonoBehaviour:
   skillName: Death Ball
   skillDescription: A slow moving ball that deals heavy damage.
   skillIcon: {fileID: 21300000, guid: ab84d013438f84c41aef7c0ad9337a37, type: 3}
-  skillCoolDown: 20
+  skillCoolDown: 3
   skillType: 1
   castType: 1
   skillRange: 20

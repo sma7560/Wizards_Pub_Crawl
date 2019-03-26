@@ -14,7 +14,7 @@ MonoBehaviour:
   skillName: Piercing Shot
   skillDescription: Shoot an arrow that can pierce multiple enemies.
   skillIcon: {fileID: 21300000, guid: fb2fb148430557941a676bf4cd5ad85e, type: 3}
-  skillCoolDown: 5
+  skillCoolDown: 2
   skillType: 0
   castType: 1
   skillRange: 2
@@ -22,7 +22,7 @@ MonoBehaviour:
   damageAmount: 20
   projectilePrefabIndex: 4
   numProjectiles: 1
-  projectileSpeed: 20
+  projectileSpeed: 30
   ccType: 2
   moveType: 2
   movementDistance: 0

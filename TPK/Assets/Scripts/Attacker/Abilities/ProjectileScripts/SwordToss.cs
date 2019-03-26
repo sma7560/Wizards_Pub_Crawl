@@ -25,9 +25,10 @@ public class SwordToss : BaseProjectile
                 }
                 // This means you can shoot yourself... so far.
                 break;
-            default:
-                Destroy(gameObject);
-                break;
+            //default:
+            //    Destroy(gameObject);
+            //    break;
         }
+        Destroy(gameObject);
     }
 }
