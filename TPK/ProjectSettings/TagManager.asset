@@ -21,6 +21,16 @@ TagManager:
   - EventSystem
   - Artifact
   - SpawnRoom
+  - DraggedSkill
+  - DragAndDropCanvas
+  - Compass
+  - enemySpawnPoint
+  - Fire
+  - Projectile
+  - WaitingRoomUI
+  - Error
+  - Announcement
+  - Safezone
   layers:
   - Default
   - TransparentFX

@@ -37,9 +37,9 @@ public class Projectile : MonoBehaviour
                 }
                 break;
             case "Player":
-                if (col.collider.GetComponent<NetworkHeroManager>())
+                if (col.collider.GetComponent<HeroModel>())
                 {
-                    col.collider.GetComponent<NetworkHeroManager>().CmdTakeDamage(damage, DamageType.none);
+                    col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage, DamageType.none);
                 }
                 // This means you can shoot yourself... so far.
                 break;

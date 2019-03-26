@@ -130,7 +130,7 @@ public class AttackerStatePlayTest
         yield return new WaitForSeconds(timeToWait);
 
         // Assert that hero is not knocked out
-        Assert.IsFalse(heroController.GetKnockedOutStatus());
+        //Assert.IsFalse(heroController.IsKnockedOut());
 
         yield return null;
     }
@@ -159,7 +159,7 @@ public class AttackerStatePlayTest
         yield return new WaitForSeconds(timeToWait);
 
         // Assert that hero is not knocked out
-        Assert.IsTrue(heroController.GetKnockedOutStatus());
+        //Assert.IsTrue(heroController.IsKnockedOut());
 
         yield return null;
     }

@@ -7,27 +7,25 @@ using UnityEngine.UI;
 public class PrephaseUI : MonoBehaviour
 {
     // SkillDescription GameObject
-    public GameObject skillDescription;
-    public TextMeshProUGUI skillDescriptionText;
-    public TextMeshProUGUI skillTitleText;
+    [System.NonSerialized] public GameObject skillDescription;
+    [System.NonSerialized] public TextMeshProUGUI skillDescriptionText;
+    [System.NonSerialized] public TextMeshProUGUI skillTitleText;
 
     // Managers
     private PrephaseManager prephaseManager;
-    private NetworkHeroManager networkHeroManager;
     private MatchManager matchManager;
     private HeroManager heroManager;
+    private HeroModel heroModel;
 
     // Text elements
     private TextMeshProUGUI playerName;
     private TextMeshProUGUI characterSelectedName;
-    private TextMeshProUGUI hostIP;
     private TextMeshProUGUI numOfPlayers;
     private TextMeshProUGUI timeLeft;
     private TextMeshProUGUI physicalDmg;
     private TextMeshProUGUI magicalDmg;
     private TextMeshProUGUI physicalDef;
     private TextMeshProUGUI magicalDef;
-    private TextMeshProUGUI atkSpd;
 
     // Default heroes
     private Hero king;
@@ -49,26 +47,24 @@ public class PrephaseUI : MonoBehaviour
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-        networkHeroManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<NetworkHeroManager>();
+        heroModel = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<HeroModel>();
 
         // Initialize text
         playerName = GameObject.Find("PlayerNameText").GetComponent<TextMeshProUGUI>();
-        hostIP = GameObject.Find("HostIPText").GetComponent<TextMeshProUGUI>();
-        numOfPlayers = GameObject.Find("CurrentNumOfPlayersText").GetComponent<TextMeshProUGUI>();
+        numOfPlayers = GameObject.Find("CurrentNumOfPlayersConnectedText").GetComponent<TextMeshProUGUI>();
         timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
         characterSelectedName = GameObject.Find("CharacterNameText").GetComponent<TextMeshProUGUI>();
         physicalDmg = GameObject.Find("PhysDmgText").GetComponent<TextMeshProUGUI>();
         magicalDmg = GameObject.Find("MagicDmgText").GetComponent<TextMeshProUGUI>();
         physicalDef = GameObject.Find("PhysDefText").GetComponent<TextMeshProUGUI>();
         magicalDef = GameObject.Find("MagicDefText").GetComponent<TextMeshProUGUI>();
-        atkSpd = GameObject.Find("AtkSpdText").GetComponent<TextMeshProUGUI>();
 
         // Setup default values for default heroes
         SetupDefaultHeroes();
 
         // Set default currently selected character
         selectedHero = king;
-        networkHeroManager.SetModel(selectedHero);
+        heroModel.SetModel(selectedHero);
 
         // Set skill description to inactive by default
         skillDescription.SetActive(false);
@@ -76,7 +72,6 @@ public class PrephaseUI : MonoBehaviour
         // Update UI elements
         SetupDefaultStats();
         UpdateCharacterSelectedName();
-        UpdateHostIP();
         UpdateNumOfPlayers();
         UpdatePlayerName();
         UpdateSkillBank();
@@ -118,6 +113,8 @@ public class PrephaseUI : MonoBehaviour
                 skillImg.sprite = null;
             }
         }
+
+        UpdateSkillBankAvailability();
     }
 
     /// <summary>
@@ -160,7 +157,7 @@ public class PrephaseUI : MonoBehaviour
         }
 
         SetupDefaultStats();
-        networkHeroManager.SetModel(selectedHero);
+        heroModel.SetModel(selectedHero);
         UpdateCharacterSelectedName();
     }
 
@@ -184,8 +181,27 @@ public class PrephaseUI : MonoBehaviour
         }
 
         SetupDefaultStats();
-        networkHeroManager.SetModel(selectedHero);
+        heroModel.SetModel(selectedHero);
         UpdateCharacterSelectedName();
+    }
+
+    /// <summary>
+    /// Returns the default hero based on its child index.
+    /// </summary>
+    /// <param name="index">child index of the wanted hero.</param>
+    public Hero GetDefaultHero(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return king;
+            case 1:
+                return rogue;
+            case 2:
+                return wizard;
+            default:
+                return null;
+        }
     }
 
     /// <summary>
@@ -196,17 +212,17 @@ public class PrephaseUI : MonoBehaviour
         // Setup default heroes
         king = ScriptableObject.CreateInstance<Hero>();
         king.heroType = HeroType.melee;
-        king.heroName = "King";
+        king.heroName = "Kingly Wizard";
         king.childIndex = 0;
 
         wizard = ScriptableObject.CreateInstance<Hero>();
         wizard.heroType = HeroType.magic;
-        wizard.heroName = "Wizard";
+        wizard.heroName = "Classic Wizard";
         wizard.childIndex = 2;
 
         rogue = ScriptableObject.CreateInstance<Hero>();
         rogue.heroType = HeroType.melee;
-        rogue.heroName = "Rogue";
+        rogue.heroName = "Sneaky Wizard";
         rogue.childIndex = 1;
     }
 
@@ -218,27 +234,24 @@ public class PrephaseUI : MonoBehaviour
         // Set default stat values depending on the hero type
         if (selectedHero == king)
         {
-            networkHeroManager.SetAtkSpeed(10);
-            networkHeroManager.SetPAttack(10);
-            networkHeroManager.SetMAttack(10);
-            networkHeroManager.SetPDefence(10);
-            networkHeroManager.SetMDefence(10);
+            heroModel.SetPAttack(10);
+            heroModel.SetMAttack(10);
+            heroModel.SetPDefence(10);
+            heroModel.SetMDefence(10);
         }
         else if (selectedHero == wizard)
         {
-            networkHeroManager.SetAtkSpeed(10);
-            networkHeroManager.SetPAttack(5);
-            networkHeroManager.SetMAttack(15);
-            networkHeroManager.SetPDefence(5);
-            networkHeroManager.SetMDefence(15);
+            heroModel.SetPAttack(5);
+            heroModel.SetMAttack(15);
+            heroModel.SetPDefence(5);
+            heroModel.SetMDefence(15);
         }
         else if (selectedHero == rogue)
         {
-            networkHeroManager.SetAtkSpeed(15);
-            networkHeroManager.SetPAttack(15);
-            networkHeroManager.SetMAttack(5);
-            networkHeroManager.SetPDefence(10);
-            networkHeroManager.SetMDefence(5);
+            heroModel.SetPAttack(15);
+            heroModel.SetMAttack(5);
+            heroModel.SetPDefence(10);
+            heroModel.SetMDefence(5);
         }
         else
         {
@@ -251,7 +264,7 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdateNumOfPlayers()
     {
-        numOfPlayers.text = matchManager.GetNumOfPlayers().ToString();
+        numOfPlayers.text = matchManager.GetNumOfPlayers().ToString() + " out of " + matchManager.GetMaxPlayers();
     }
 
     /// <summary>
@@ -275,19 +288,10 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdateStats()
     {
-        physicalDmg.text = networkHeroManager.GetPAttack().ToString();
-        magicalDmg.text = networkHeroManager.GetMAttack().ToString();
-        physicalDef.text = networkHeroManager.GetPDefence().ToString();
-        magicalDef.text = networkHeroManager.GetMDefence().ToString();
-        atkSpd.text = networkHeroManager.GetAtkSpeed().ToString();
-    }
-
-    /// <summary>
-    /// Updates the host IP text in UI.
-    /// </summary>
-    private void UpdateHostIP()
-    {
-        hostIP.text = NetworkManagerExtension.GetLocalIPAddress();
+        physicalDmg.text = heroModel.GetPAttack().ToString();
+        magicalDmg.text = heroModel.GetMAttack().ToString();
+        physicalDef.text = heroModel.GetPDefence().ToString();
+        magicalDef.text = heroModel.GetMDefence().ToString();
     }
 
     /// <summary>
@@ -317,6 +321,34 @@ public class PrephaseUI : MonoBehaviour
             if (skill.GetComponent<SkillHoverDescription>().skill == null)
             {
                 skill.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Updates the skill bank to fade out skills that are already equipped.
+    /// </summary>
+    private void UpdateSkillBankAvailability()
+    {
+        AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+
+        // Set opacity of skill images in the skill bank to match availbility
+        for (int i = 0; i < abilityManager.knownSkills.Length; i++)
+        {
+            GameObject skill = GameObject.Find("Skill" + (i + 1));
+            Image skillImg = skill.GetComponent<Image>();
+            var tempColor = skillImg.color;
+
+            if (abilityManager.IsEquipped(abilityManager.knownSkills[i]))
+            {
+                // Set image opacity
+                tempColor.a = 0.05f;
+                skillImg.color = tempColor;
+            }
+            else
+            {
+                tempColor.a = 1.0f;
+                skillImg.color = tempColor;
             }
         }
     }

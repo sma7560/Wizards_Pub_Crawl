@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[RequireComponent(typeof(CharacterStats))]
+/// <summary>
+/// Contains logic for the combat of the game.
+/// </summary>
 public class CharacterCombat : NetworkBehaviour
 {
-
     private CharacterStats myStats;
     private float attackCooldown = 0;
 
@@ -57,11 +58,15 @@ public class CharacterCombat : NetworkBehaviour
     // Performs an attack on an specific object (ie. a hero)
     public void Attack(Transform attackedObject)
     {
-        NetworkHeroManager attackedStats = attackedObject.GetComponent<NetworkHeroManager>();
+        if (isServer)
+        {
+            //Debug.Log("Attack called on the server");
+        }
+
+        HeroModel attackedStats = attackedObject.GetComponent<HeroModel>();
         if (attackedStats != null && attackCooldown <= 0)
         {
             attackedStats.CmdTakeDamage(myStats.damage.GetValue(), DamageType.physical);
-            Debug.Log(attackedStats.currentHealth);
             attackCooldown = 1f / myStats.attackSpeed.GetValue();
         }
     }

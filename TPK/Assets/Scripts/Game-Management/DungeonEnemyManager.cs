@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-//keeps track of enemies
+/// <summary>
+/// Manages all enemies in the dungeon.
+/// </summary>
 public class DungeonEnemyManager : NetworkBehaviour
 {
-    public IUnityService unityService;
-    public GameObject monster;
+    public IUnityService unityService;  // for unit testing
+    private MatchManager matchManager;
+
+    // Monster types
+    public GameObject[] regMonsterList;
+
     private Vector3[] spawnLocation;
     private int currentNumMonsters = 0;
 
-    // Use this for initialization
+    /// <summary>
+    /// Initialize variables.
+    /// </summary>
     void Start()
     {
         if (unityService == null)
@@ -19,93 +27,83 @@ public class DungeonEnemyManager : NetworkBehaviour
             unityService = new UnityService();
         }
 
-        //set initial spawn locations
-        SetSpawnPoints();
+        matchManager = GetComponent<MatchManager>();
     }
 
+    private void Update()
+    {
+        GameObject[] currentMonsterList = GameObject.FindGameObjectsWithTag("Enemy");
+        currentNumMonsters = currentMonsterList.Length;
+    }
+
+    /// <summary>
+    /// Starts spawning monsters periodically.
+    /// </summary>
     public void StartSpawn()
     {
-        InvokeRepeating("DungeonSpawnMonster", 0f, 10);
+        if (!isServer) return;
+
+        SetSpawnPoints();
+        InvokeRepeating("DungeonSpawnMonster", 0f, 5);
     }
 
-    void DungeonSpawnMonster()
+    private void DungeonSpawnMonster()
     {
+        if (!isServer || matchManager.HasMatchEnded()) return;
+
         if (currentNumMonsters > 10)
         {
             return;
         }
 
-        int randLocation = Random.Range(1, 22);
-
-        CmdSpawnMonster(GetSpawnLocationOfMonster(randLocation));
+        int randLocation = Random.Range(0, spawnLocation.Length);
+        int randMonster = Random.Range(0, 3);
+        //Debug.Log(randLocation);
+        SpawnMonster(GetSpawnLocationOfMonster(randLocation), GetMonsterType());
     }
 
     // Commands for communicating to the server.
-    private void CmdSpawnMonster(Vector3 location)
+    private void SpawnMonster(Vector3 location, GameObject monsterType)
     {
-        if (!isServer)
-        {
-            return;
-        }
-        Debug.Log("Monster spawning");
+        if (!isServer || matchManager.HasMatchEnded()) return;
+
+        Debug.Log("Monster spawning of type " + monsterType.name);
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
-        GameObject temp;
-        temp = unityService.Instantiate(monster, location, rotate);
+        GameObject temp = unityService.Instantiate(monsterType, location, rotate);
         NetworkServer.Spawn(temp);
-        Debug.Log("Monster spawned");
-        currentNumMonsters = currentNumMonsters + 1;
+        currentNumMonsters++;
     }
 
-    //set spawn location. Takes in number of spawn location, and the spawn
-    //location as a n array of vector
-    public void SetSpawnLocations(int numSpawnLocations, Vector3[] locations)
-    {
-        spawnLocation = new Vector3[numSpawnLocations];
-        for (int i = 0; i < numSpawnLocations; i++)
-        {
-            spawnLocation[i] = locations[i];
-        }
-    }
-
-    //change specific spawn location
-    public void SetSpawnLocation(int playerNum, Vector3 location)
-    {
-        spawnLocation[playerNum] = location;
-    }
-
-    //sets predetermined spawn points
+    /// <summary>
+    /// Sets the enemy spawn points.
+    /// </summary>
     public void SetSpawnPoints()
     {
-        spawnLocation = new Vector3[] {
-            new Vector3(28, 0.5f, 11),
-            new Vector3(52, 0.5f, 11),
-            new Vector3(52, 0.5f, -9),
-            new Vector3(27, 0.5f, -9),
-            new Vector3(81, 0.5f, -25),
-            new Vector3(93, 0.5f, -1),
-            new Vector3(102, 0.5f, -1),
-            new Vector3(2, 0.5f, -37),
-            new Vector3(2, 0.5f, 39),
-            new Vector3(55, 0.5f, 26),
-            new Vector3(70, 0.5f, 26),
-            new Vector3(70, 0.5f, 55),
-            new Vector3(55, 0.5f, 55),
-            new Vector3(95, 0.5f, 41),
-            new Vector3(132, 0.5f, 12),
-            new Vector3(132, 0.5f, -10),
-            new Vector3(160, 0.5f, -10),
-            new Vector3(160, 0.5f, 12),
-            new Vector3(184, 0.5f, 12),
-            new Vector3(184, 0.5f, -10),
-            new Vector3(118, 0.5f, -42),
-            new Vector3(94, 0.5f, -60),
-            new Vector3(55, 0.5f, -54)
-        };
+        GameObject[] spawnGameObjects = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
+        spawnLocation = new Vector3[spawnGameObjects.Length];
+
+        for (int i = 0; i < spawnLocation.Length; i++)
+        {
+            spawnLocation[i] = spawnGameObjects[i].transform.position;
+        }
     }
 
-    //returns spawn location of specified spawn location 
+    /// <returns>
+    /// Returns spawn location based on index.
+    /// </returns>
+    /// <param name="spawnLocationAt">Index of spawn location.</param>
     public Vector3 GetSpawnLocationOfMonster(int spawnLocationAt)
     {
         return spawnLocation[spawnLocationAt];
+    }
+
+    /// <returns>
+    /// Returns the monster type according to what int is passed in.
+    /// </returns>
+    /// <param name="monsterType">Integer corresponding to the monster type.</param>
+    public GameObject GetMonsterType()
+    {
+        int randMonster = Random.Range(0, regMonsterList.Length);
+        return regMonsterList[randMonster];
     }
 }

@@ -16,8 +16,8 @@ public class HeroManager : MonoBehaviour
     {
         // set initial spawn locations
         spawnLocations = new List<Vector3>();
-        AddSpawnLocation(new Vector3(-25.5f, 0, 40.5f));         // spawn location of Player 1
-        AddSpawnLocation(new Vector3(-25.5f, 0, -39.5f));   // spawn location of Player 2
+        AddSpawnLocation(new Vector3(-55f, 0.65f, 100f));         // spawn location of Player 1
+        AddSpawnLocation(new Vector3(-55f, 0.65f, 20f));   // spawn location of Player 2
     }
 
     /// <summary>
@@ -40,19 +40,73 @@ public class HeroManager : MonoBehaviour
         GameObject heroObject = null;
         GameObject[] heroObjects = GameObject.FindGameObjectsWithTag("Player");
 
+        // Loop through each hero on the scene and check if their id matches the given id
         foreach (GameObject hero in heroObjects)
         {
-            int pid = hero.GetComponent<HeroController>().GetPlayerId();
+            int pid = hero.GetComponent<HeroModel>().GetPlayerId();
             if (id == pid)
             {
-                //Debug.Log("Returning Player Object: " + id);
                 heroObject = hero;
-                //Debug.Log("Abillity Manager Enabled: "+heroObject.GetComponent<AbilityManager>().enabled);
                 break;
             }
         }
 
         return heroObject;
+    }
+
+    /// <returns>
+    /// Returns a list all player transforms.
+    /// </returns>
+    public Transform[] GetAllPlayerTransforms()
+    {
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        Transform[] targets = new Transform[GetComponent<MatchManager>().GetNumOfPlayers()];
+
+        for (int i = 0; i < GetComponent<MatchManager>().GetNumOfPlayers(); i++)
+        {
+            targets[i] = playerObjects[i].GetComponent<Transform>();
+        }
+
+        return targets;
+    }
+
+    /// <returns>
+    /// Returns the colour of the player depending on their player id.
+    /// </returns>
+    public Color GetPlayerColour(int playerId)
+    {
+        Color heroColour;
+
+        switch (playerId)
+        {
+            case 1:
+                heroColour = Color.blue;
+                break;
+            case 2:
+                heroColour = Color.red;
+                break;
+            case 3:
+                heroColour = Color.green;
+                break;
+            case 4:
+                heroColour = Color.magenta;
+                break;
+            default:
+                heroColour = Color.black;
+                break;
+        }
+
+        return heroColour;
+    }
+
+    /// <returns>
+    /// Returns the colour of the player in hex code format.
+    /// </returns>
+    /// <param name="playerId">Id of the player whose colour we are trying to get.</param>
+    public string GetPlayerColourHexCode(int playerId)
+    {
+        Color color = GetComponent<HeroManager>().GetPlayerColour(playerId);
+        return ColorUtility.ToHtmlStringRGB(color);
     }
 
     /// <summary>

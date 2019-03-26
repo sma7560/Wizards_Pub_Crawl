@@ -12,7 +12,7 @@ public class StatWindowUI : MonoBehaviour
     public GameObject artifactComponent;
 
     private int playerId;
-    private NetworkHeroManager networkHeroManager;
+    private HeroModel heroModel;
     private HeroManager heroManager;
 
     /// <summary>
@@ -26,11 +26,15 @@ public class StatWindowUI : MonoBehaviour
 
         // Get networkHeroManager for hero stats
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
-        networkHeroManager = heroManager.GetHeroObject(playerId).GetComponent<NetworkHeroManager>();
+        heroModel = heroManager.GetHeroObject(playerId).GetComponent<HeroModel>();
 
         // Set UI elements
         skillDescription.SetActive(false);  // set to inactive by default
         SetupSkills();
+    }
+
+    private void OnEnable()
+    {
         SetupStats();
     }
 
@@ -69,14 +73,12 @@ public class StatWindowUI : MonoBehaviour
         TextMeshProUGUI magicDmg = GameObject.Find("MagicDmgText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI physDef = GameObject.Find("PhysDefText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI magicDef = GameObject.Find("MagicDefText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI atkSpd = GameObject.Find("AtkSpeedText").GetComponent<TextMeshProUGUI>();
 
         // Set text elements to appropriate stats
-        physDmg.text = networkHeroManager.GetPAttack().ToString();
-        magicDmg.text = networkHeroManager.GetMAttack().ToString();
-        physDef.text = networkHeroManager.GetPDefence().ToString();
-        magicDef.text = networkHeroManager.GetMDefence().ToString();
-        atkSpd.text = networkHeroManager.GetAtkSpeed().ToString();
+        physDmg.text = heroModel.GetPAttack().ToString();
+        magicDmg.text = heroModel.GetMAttack().ToString();
+        physDef.text = heroModel.GetPDefence().ToString();
+        magicDef.text = heroModel.GetMDefence().ToString();
     }
 
     /// <summary>
@@ -123,7 +125,7 @@ public class StatWindowUI : MonoBehaviour
 
         // Setup camera; follows player avatar
         Camera heroAvatarCamera = heroAvatarCameraObj.GetComponent<Camera>();
-        heroAvatarCamera.transform.position = heroAvatar.transform.position + new Vector3(0.1f, 1.3f, 2f);
+        heroAvatarCamera.transform.position = heroAvatar.transform.position + new Vector3(0.1f, 2.3f, 3.5f);
         heroAvatarCamera.transform.rotation = Quaternion.Euler(10, 180, 0);
     }
 }

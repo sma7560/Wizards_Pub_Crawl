@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-// This script is to setting up listeners for the button for Joining game.
+/// <summary>
+/// Attached to the JoinMatch button.
+/// Sets up the listener for joining the game.
+/// </summary>
 public class JoinListenerSetup : MonoBehaviour
 {
     private GameObject networkManager;
-    // Use this for initialization
+
+    /// <summary>
+    /// Initialization.
+    /// </summary>
     void Awake()
     {
         networkManager = GameObject.Find("NetworkManagerV2");
@@ -16,5 +22,17 @@ public class JoinListenerSetup : MonoBehaviour
 
         // To re-add all required listeners.
         this.GetComponent<Button>().onClick.AddListener(networkManager.GetComponent<NetworkManagerExtension>().JoinGame);
+    }
+
+    /// <summary>
+    /// Called once per frame.
+    /// </summary>
+    void Update()
+    {
+        // Listens for enter key press to join match
+        if (this.GetComponent<Button>().interactable && (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.Return)))
+        {
+            networkManager.GetComponent<NetworkManagerExtension>().JoinGame();
+        }
     }
 }

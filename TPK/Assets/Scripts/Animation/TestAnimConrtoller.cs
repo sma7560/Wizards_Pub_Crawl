@@ -48,7 +48,7 @@ public class TestAnimConrtoller : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.IsMatchEnded()) return;
+        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded()) return;
 
         forward = this.transform.forward;
         forward.y = 0;
@@ -93,37 +93,14 @@ public class TestAnimConrtoller : NetworkBehaviour
     }
     public void PlayBasicAttack()
     {
-        // On mouse click.
-        switch (myHeroType)
-        {
-            case HeroType.range:
-            case HeroType.magic:
-                anim.SetTrigger("MBasic");
-                break;
-            case HeroType.melee:
-                anim.SetTrigger("PBasic");
-                break;
-        }
-
-        //if (timeElapsed > timeToReset)
-        //{
-        //    timeElapsed = 0;
-        //    switch (myHeroType) {
-        //        case HeroType.range:
-        //        case HeroType.magic:
-        //            anim.SetTrigger("MBasic");
-        //            break;
-        //        case HeroType.melee:
-        //            anim.SetTrigger("PBasic");
-        //            break;
-        //    }
-        //}
-        //else
-        //{
-        //    timeElapsed += Time.deltaTime;
-        //}
-
+        anim.SetTrigger("MBasic");
     }
+
+    public void SetDead(bool status) {
+        anim.SetBool("isDead", status);
+        if (status) anim.SetTrigger("Die");
+    }
+
     // This function is for setting up the movement for the legs.
     private void SetMovementAnim()
     {

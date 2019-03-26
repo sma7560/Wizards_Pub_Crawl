@@ -21,11 +21,11 @@ GameObject:
   - component: {fileID: 4572650796493654}
   - component: {fileID: 33588836409660034}
   - component: {fileID: 23453970468420640}
-  - component: {fileID: 114599812637522294}
   - component: {fileID: 54500075159580880}
   - component: {fileID: 136205504807074612}
   - component: {fileID: 114151029304454614}
   - component: {fileID: 114216489898791136}
+  - component: {fileID: 114366401664105830}
   m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
@@ -68,14 +68,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1597178547230058}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 1.223, y: 0.471, z: 14.94}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 2}
   m_Children:
   - {fileID: 4171920864944066}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!23 &23453970468420640
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -131,7 +131,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!96 &96846285199630458
 TrailRenderer:
@@ -177,8 +177,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.00869751
-        value: 0.02631569
+        time: 0
+        value: 0.20697975
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
   m_InterpolateMovement: 1
---- !u!114 &114599812637522294
+--- !u!114 &114366401664105830
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,11 +295,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1597178547230058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd515ef10284bdc418a7d1465468eb9a, type: 3}
+  m_Script: {fileID: 11500000, guid: 989f2e45d398f0e45a27b3d9c1f85acd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
-  damage: 1
+  range: 2
+  damage: 20
   damageType: 0
 --- !u!136 &136205504807074612
 CapsuleCollider:
@@ -308,9 +308,9 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1597178547230058}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.029490098
+  m_Radius: 0.05
   m_Height: 0.9374399
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}

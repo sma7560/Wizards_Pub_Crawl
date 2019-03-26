@@ -6,21 +6,25 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
-/// Used to update dungeon status during dungeon level gameplay.
+/// Locally updates general dungeon status during dungeon level gameplay.
 /// </summary>
 public class DungeonController : MonoBehaviour
 {
-    // Music
+    // Background music (during dungeon level scene)
     public AudioClip[] music;
     private AudioSource audioSource;
 
-    // Menu objects
+    // Menu & UI game objects
     public GameObject inGameMenu;
+    public Button inGameMenuResumeButton;
     public GameObject statsWindow;
+    public GameObject scoreboard;
 
     public IUnityService unityService;
 
     private PrephaseManager prephaseManager;
+    private MatchManager matchManager;
+    private HeroManager heroManager;
 
     /// <summary>
     /// Initialize variables.
@@ -35,32 +39,23 @@ public class DungeonController : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
-    /// <summary>
-    /// Updates dungeon status and listens for menu toggling.
-    /// </summary>
     void Update()
     {
-        // Initialize pre-phase manager if it is not already initialized
-        if (prephaseManager == null && GameObject.FindGameObjectWithTag("MatchManager") != null)
+        // Initialize managers if it is not already initialized
+        if ( (matchManager == null || prephaseManager == null || heroManager == null) &&
+             GameObject.FindGameObjectWithTag("MatchManager") != null )
         {
+            matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
             prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+            heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         }
 
+        // Call individual update functions
+        SetupUI();
+        ToggleUI();
+        UpdateAllHealthBars();
         UpdateMusic();
-
-        // Toggles in-game menu when Esc key pressed
-        if (unityService.GetKeyDown(KeyCode.Escape))
-        {
-            inGameMenu.SetActive(!inGameMenu.activeSelf);
-        }
-
-        // Toggles stats window when K key pressed
-        if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase() && unityService.GetKeyDown(KeyCode.K))
-        {
-            statsWindow.SetActive(!statsWindow.activeSelf);
-        }
-
-        UpdateEnemyHealthBars();
+        UpdatePlayerNames();
     }
 
     /// <summary>
@@ -70,62 +65,237 @@ public class DungeonController : MonoBehaviour
     {
         Debug.Log("MATCH QUIT");
         GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().StopHost();
+        GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().SetDoNotDisplayTimeoutError(true);
         SceneManager.LoadScene(SceneManager.GetSceneByName("Menu").buildIndex);
+
+        // Remove all announcement objects
+        GameObject[] announcements = GameObject.FindGameObjectsWithTag("Announcement");
+        foreach (GameObject announcement in announcements)
+        {
+            Destroy(announcement);
+        }
     }
 
     /// <summary>
-    /// Start music depending on prephase status.
+    /// Listens for toggling of the in-game menu and stats window.
+    /// In-game menu can be accessed with 'ESC' key.
+    /// Stats window can be accessed with 'K' key.
+    /// Scoreboard can be accessed with 'TAB' key.
     /// </summary>
-    private void UpdateMusic()
+    private void ToggleUI()
     {
-        if (prephaseManager != null)
+        // Toggles in-game menu when 'ESC' key pressed
+        if (unityService.GetKeyDown(KeyCode.Escape))
         {
-            if (prephaseManager.IsCurrentlyInPrephase() &&
-                audioSource.clip != music[0])
+            inGameMenu.SetActive(!inGameMenu.activeSelf);
+
+            // Reset in-game menu if it is now inactive
+            if (!inGameMenu.activeSelf)
             {
-                // If in pre-phase and music is not already playing, play it
-                audioSource.clip = music[0];
-                audioSource.volume = AudioManager.GetVolume();
-                audioSource.Play();
+                inGameMenuResumeButton.onClick.Invoke();
             }
-            else if (!prephaseManager.IsCurrentlyInPrephase() &&
-                      audioSource.clip != music[1])
+        }
+
+        // UI elements which can only be toggled during dungeon phase
+        if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase())
+        {
+            // Toggles stats window when 'K' key pressed
+            if (unityService.GetKeyDown(KeyCode.K))
             {
-                // If in dungeon phase and music is not already playing, play it
-                audioSource.clip = music[1];
-                audioSource.volume = AudioManager.GetVolume();
-                audioSource.Play();
+                statsWindow.SetActive(!statsWindow.activeSelf);
+            }
+
+            // Toggles scoreboard when 'TAB' key pressed
+            if (unityService.GetKeyDown(KeyCode.Tab))
+            {
+                scoreboard.SetActive(!scoreboard.activeSelf);
             }
         }
     }
 
-    // Updates the statuses of all enemy health bars currently in the scene
-    private void UpdateEnemyHealthBars()
+    /// <summary>
+    /// Start music depending on pre-phase status.
+    /// </summary>
+    private void UpdateMusic()
     {
-        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy"); // Find all enemy objects
+        // Do not update music if prephase manager is not initialized
+        if (prephaseManager == null) return;
 
-        for (int i = 0; i < enemyObjects.Length; i++)
+        if (prephaseManager.IsCurrentlyInPrephase() && audioSource.clip != music[0])
         {
-            EnemyStats enemyStats = enemyObjects[i].GetComponent<EnemyStats>(); // Get enemy stats
-            Transform healthBar = enemyObjects[i].transform.Find("HealthBar");
+            // If in pre-phase and music is not already playing, play it
+            audioSource.clip = music[0];
+            audioSource.volume = AudioManager.GetVolume();
+            audioSource.Play();
+        }
+        else if (!prephaseManager.IsCurrentlyInPrephase() && audioSource.clip != music[1])
+        {
+            // If in dungeon phase and music is not already playing, play it
+            audioSource.clip = music[1];
+            audioSource.volume = AudioManager.GetVolume();
+            audioSource.Play();
+        }
+    }
 
-            // Update health bar image
-            Image healthImage = healthBar.Find("Health").GetComponent<Image>();
-            healthImage.fillAmount = (float)enemyStats.GetCurrentHealth() / (float)enemyStats.maxHealth;
+    /// <summary>
+    /// Locally updates the values of all health bars currently in the scene.
+    /// </summary>
+    private void UpdateAllHealthBars()
+    {
+        // Get all monster & player objects
+        GameObject[] enemyObjects = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
 
-            // Update health bar text
-            TextMeshProUGUI healthText = healthBar.Find("HealthText").GetComponent<TextMeshProUGUI>();
-            healthText.text = enemyStats.GetCurrentHealth() + "/" + enemyStats.maxHealth;
+        // Update all monster health bars
+        foreach (GameObject enemy in enemyObjects)
+        {
+            EnemyStats enemyStats = enemy.GetComponent<EnemyStats>(); // Get enemy stats
+            Transform healthBar = enemy.transform.Find("HealthBar");  // Transform that holds all enemy health bar info
 
-            // Keep health bar facing towards camera
-            Camera camera = Camera.current;
-            if (camera != null)
+            UpdateHealthBar(healthBar, enemyStats);
+        }
+
+        // Update all player health bars
+        foreach (GameObject player in playerObjects)
+        {
+            HeroModel playerStats = player.GetComponent<HeroModel>(); // get enemy player stats
+            Transform healthBar = player.transform.Find("HealthBar");                   // Transform that holds all player health bar info
+
+            // Disable the health bar of current player
+            if (matchManager != null &&
+                healthBar != null &&
+                player.GetComponent<HeroModel>().GetPlayerId() == matchManager.GetPlayerId())
             {
-                Vector3 v = camera.transform.position - healthBar.position;
-                v.x = v.z = 0.0f;
-                healthBar.LookAt(camera.transform.position - v);    // Fix position towards of camera
-                healthBar.rotation = (camera.transform.rotation);   // Fix rotation towards camera
+                healthBar.gameObject.SetActive(false);
             }
+
+            UpdateHealthBar(healthBar, playerStats);
+        }
+    }
+
+    /// <summary>
+    /// Updates the individual given health bar according to the given stats.
+    /// </summary>
+    /// <param name="healthBar">Transform holding all health bar information to be updated.</param>
+    /// <param name="stats">Stats to which the health bar will be updated to accordingly.</param>
+    private void UpdateHealthBar(Transform healthBar, HeroModel stats)
+    {
+        // Do nothing if either the health bar or stats given is null
+        if (healthBar == null || stats == null)
+        {
+            return;
+        }
+
+        // Update health bar image to appropriate fill level depending on current health
+        Image healthImage = healthBar.Find("Health").GetComponent<Image>();
+        healthImage.fillAmount = (float)stats.GetCurrentHealth() / (float)stats.GetMaxHealth();
+
+        // Update health bar text with value of current health
+        TextMeshProUGUI healthText = healthBar.Find("HealthText").GetComponent<TextMeshProUGUI>();
+        healthText.text = stats.GetCurrentHealth() + "/" + stats.GetMaxHealth();
+
+        // Keep health bar facing towards camera
+        SetFacingTowardsCamera(healthBar);
+    }
+
+    /// <summary>
+    /// Updates the individual given health bar according to the given stats.
+    /// </summary>
+    /// <param name="healthBar">Transform holding all health bar information to be updated.</param>
+    /// <param name="stats">Stats to which the health bar will be updated to accordingly.</param>
+    private void UpdateHealthBar(Transform healthBar, CharacterStats stats)
+    {
+        // Do nothing if either the health bar or stats given is null
+        if (healthBar == null || stats == null)
+        {
+            return;
+        }
+
+        // Update health bar image to appropriate fill level depending on current health
+        Image healthImage = healthBar.Find("Health").GetComponent<Image>();
+        healthImage.fillAmount = (float)stats.GetCurrentHealth() / (float)stats.maxHealth;
+
+        // Update health bar text with value of current health
+        TextMeshProUGUI healthText = healthBar.Find("HealthText").GetComponent<TextMeshProUGUI>();
+        healthText.text = stats.GetCurrentHealth() + "/" + stats.maxHealth;
+
+        // Keep health bar facing towards camera
+        SetFacingTowardsCamera(healthBar);
+    }
+
+    /// <summary>
+    /// Sets the given transform to always face towards the camera.
+    /// </summary>
+    /// <param name="t">Transform to face towards the camera.</param>
+    private void SetFacingTowardsCamera(Transform t)
+    {
+        Camera camera = Camera.current;
+        if (camera != null)
+        {
+            Vector3 v = camera.transform.position - t.position;
+            v.x = v.z = 0.0f;
+            t.LookAt(camera.transform.position - v);    // Fix position towards of camera
+            t.rotation = (camera.transform.rotation);   // Fix rotation towards camera
+        }
+    }
+
+    /// <summary>
+    /// Checks current prephase status, and sets up the prephase/player UI as needed.
+    /// </summary>
+    private void SetupUI()
+    {
+        if (prephaseManager == null) return;
+
+        if ( prephaseManager.GetState() == PrephaseManager.PrephaseState.WaitingForPlayers &&
+             GameObject.FindGameObjectWithTag("WaitingRoomUI") == null )
+        {
+            // Initialize waiting room UI
+            Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));      // Destroy player UI
+            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
+            Instantiate(Resources.Load("Menu&UI Prefabs/WaitingRoom")); // Start waiting room UI
+        }
+        else if ( prephaseManager.GetState() == PrephaseManager.PrephaseState.RoomFull &&
+                  GameObject.FindGameObjectWithTag("PrephaseUI") == null )
+        {
+            // Initialize prephase UI
+            Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));          // Destroy player UI
+            Destroy(GameObject.FindGameObjectWithTag("WaitingRoomUI"));     // Destroy waiting room UI
+            Instantiate(Resources.Load("Menu&UI Prefabs/PrephaseScreen"));  // Start prephase UI
+        }
+        else if ( !prephaseManager.IsCurrentlyInPrephase() &&
+                  GameObject.FindGameObjectWithTag("PlayerUI") == null )
+        {
+            // Initialize player UI
+            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
+            Destroy(GameObject.FindGameObjectWithTag("WaitingRoomUI")); // Destroy waiting room UI
+            Instantiate(Resources.Load("Menu&UI Prefabs/PlayerUI"));    // Start player UI
+        }
+    }
+
+    /// <summary>
+    /// Locally updates all the player names in the scene.
+    /// </summary>
+    private void UpdatePlayerNames()
+    {
+        if (heroManager == null) return;
+
+        // Get all player objects
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+
+        // Update name of each player
+        foreach (GameObject player in playerObjects)
+        {
+            // Get necessary components
+            int playerId = player.GetComponent<HeroModel>().GetPlayerId();
+            Transform name = player.transform.Find("Name"); // Transform that holds all player name info
+            TextMeshProUGUI nameText = name.Find("NameText").GetComponent<TextMeshProUGUI>();
+
+            // Set the name
+            nameText.text = "Player " + playerId.ToString();
+            nameText.color = heroManager.GetPlayerColour(playerId);
+
+            // Keep name facing towards camera
+            SetFacingTowardsCamera(name);
         }
     }
 }
