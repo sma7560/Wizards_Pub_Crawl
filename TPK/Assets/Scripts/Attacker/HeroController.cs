@@ -42,8 +42,6 @@ public class HeroController : NetworkBehaviour
     private TestAnimConrtoller animate;
     private Vector3 tempVelocity;
 
-    private bool isDungeonReady = false;
-
     private PlayerSoundController playerSounds;
     private float stepCoolDown;
     private float stepRate = 0.5f;
