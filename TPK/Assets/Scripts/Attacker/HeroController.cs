@@ -15,7 +15,7 @@ using UnityEngine.UI;
 public class HeroController : NetworkBehaviour
 {
     public GameObject heroCam;
-	public GameObject compass;
+    public GameObject compass;
 
     // For unit testing
     public bool localTest;
@@ -29,6 +29,8 @@ public class HeroController : NetworkBehaviour
 
     private readonly int deathTimer = 4;    // default death timer
     private bool isDungeonReady = false;
+    private float baseSpeed;
+    private float slowSpeed;
 
     private GameObject cam;
     private Rigidbody heroRigidbody;
@@ -38,23 +40,29 @@ public class HeroController : NetworkBehaviour
     private HeroModel heroModel;
     private BasicAttack battack;
     private TestAnimConrtoller animate;
-	private Vector3 tempVelocity;
+    private Vector3 tempVelocity;
+
 
     private PlayerSoundController playerSounds;
     private float stepCoolDown;
     private float stepRate = 0.5f;
-    // Use this for initialization
+
+    /// <summary>
+    /// Initialize variables.
+    /// </summary>
+
     void Start()
     {
         if (!isLocalPlayer && !localTest) return;
 
-        // Initialize variables
         if (unityService == null)
         {
             unityService = new UnityService();
         }
+        baseSpeed = 12.0f;
+        slowSpeed = 8.0f;
 
-        characterMovement = new CharacterMovement(10.0f);
+        characterMovement = new CharacterMovement(baseSpeed);
         ground = new Plane(Vector3.up, Vector3.zero);
 
         heroRigidbody = GetComponent<Rigidbody>();
@@ -71,7 +79,9 @@ public class HeroController : NetworkBehaviour
         playerSounds = GetComponent<PlayerSoundController>();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Called once per frame.
+    /// </summary>
     void Update()
     {
         if (!isLocalPlayer && !localTest) return;
@@ -90,9 +100,9 @@ public class HeroController : NetworkBehaviour
             }
 
             // Perform character movement controls
-			tempVelocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
-			tempVelocity.y = heroRigidbody.velocity.y;
-			heroRigidbody.velocity = tempVelocity;
+            tempVelocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+            tempVelocity.y = heroRigidbody.velocity.y;
+            heroRigidbody.velocity = tempVelocity;
             float h = unityService.GetAxisRaw("Horizontal");
             float v = unityService.GetAxisRaw("Vertical");
             stepCoolDown -= Time.deltaTime;
@@ -104,14 +114,14 @@ public class HeroController : NetworkBehaviour
             PerformRotation();
 
             // Perform an attack
-            if (unityService.GetKeyDown(KeyCode.Space))
+            if (Input.GetMouseButton(0))
             {
-                battack.PerformAttack();
-                animate.PlayBasicAttack();
+                //animate.PlayBasicAttack();
+                StartCoroutine(AttackSpawn());
             }
         }
 
-        // Check for current health status
+        // Check current health status
         if (!prephaseManager.IsCurrentlyInPrephase() && heroModel.GetCurrentHealth() <= 0)
         {
             KnockOut();
@@ -139,8 +149,6 @@ public class HeroController : NetworkBehaviour
     
     private void StartCamera()
     {
-        // TODO:
-        // There is a bug here.
         GameObject.FindGameObjectWithTag("MainCamera").SetActive(false);
         cam = Instantiate(heroCam);
         cam.GetComponent<HeroCameraController>().SetTarget(this.transform);
@@ -148,20 +156,21 @@ public class HeroController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Sets the current status of the hero to knocked out.
+    /// Called when the player should be knocked out.
     /// </summary>
     private void KnockOut()
     {
-        if (!heroModel.IsKnockedOut())
-        {
-            heroModel.SetKnockedOut(true);
-            transform.Rotate(90, 0, 0); // rotate transform sideways to show knocked out
+        // Do nothing if hero is already knocked out
+        if (heroModel.IsKnockedOut()) return;
 
-            Debug.Log("Player " + matchManager.GetPlayerId() + " is knocked out.");
+        // Set status and death animation
+        heroModel.SetKnockedOut(true);
+        animate.SetDead(true);
 
-            // start timer for length of time that character remains knocked out
-            StartCoroutine(KnockOutTimer());
-        }
+        // Start timer for length of time that character remains knocked out
+        StartCoroutine(KnockOutTimer());
+
+        Debug.Log("Player " + matchManager.GetPlayerId() + " is knocked out.");
     }
 
     /// <summary>
@@ -169,23 +178,24 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     private void Spawn()
     {
-        // Flip the character back to standing position if they were previously knocked out
+        // Reset animation back to alive animation
         if (heroModel.IsKnockedOut())
         {
-            transform.Rotate(-90, 0, 0);
+            animate.SetDead(false);
         }
 
-		Instantiate (compass, transform);
+        // Show the compass again
+        Instantiate(compass, transform);
 
         // Reset variables
         heroModel.SetKnockedOut(false);
         heroModel.SetFullHealth();
 
-        // get spawn location of player
+        // Set player location back to spawn point
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         transform.position = heroManager.GetSpawnLocationOfPlayer(matchManager.GetPlayerId());
 
-        Debug.Log("Player " + matchManager.GetPlayerId() + " spawned at " + heroManager.GetSpawnLocationOfPlayer(matchManager.GetPlayerId()));
+        Debug.Log("Player " + matchManager.GetPlayerId() + " spawned at " + transform.position);
     }
 
     /// <summary>
@@ -195,5 +205,22 @@ public class HeroController : NetworkBehaviour
     {
         yield return new WaitForSeconds(deathTimer);
         Spawn();
+    }
+
+    private IEnumerator AttackSpawn()
+    {
+        animate.PlayBasicAttack();
+        yield return new WaitForSeconds(0.25f);
+        battack.PerformAttack();
+    }
+
+    public void ArtifactPickup()
+    {
+        characterMovement.SetSpeed(slowSpeed);
+    }
+
+    public void ArtifactDrop()
+    {
+        characterMovement.SetSpeed(baseSpeed);
     }
 }

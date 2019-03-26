@@ -25,6 +25,12 @@ TagManager:
   - DragAndDropCanvas
   - Compass
   - enemySpawnPoint
+  - Fire
+  - Projectile
+  - WaitingRoomUI
+  - Error
+  - Announcement
+  - Safezone
   layers:
   - Default
   - TransparentFX

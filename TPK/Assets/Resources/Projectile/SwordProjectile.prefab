@@ -55,11 +55,11 @@ GameObject:
   - component: {fileID: 136966006229575100}
   - component: {fileID: 114316806209977068}
   - component: {fileID: 114867624456600780}
-  - component: {fileID: 114132685480557710}
   - component: {fileID: 54144848989581500}
+  - component: {fileID: 114600597260246800}
   m_Layer: 0
   m_Name: SwordProjectile
-  m_TagString: Untagged
+  m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,7 +98,7 @@ Transform:
   m_GameObject: {fileID: 1930669004023674}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.405, z: 0.628}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 5, y: 3, z: 3}
   m_Children:
   - {fileID: 4468021027466690}
   - {fileID: 4587676718878412}
@@ -160,7 +160,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!96 &96579445763927460
 TrailRenderer:
@@ -207,7 +207,7 @@ TrailRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.13157845
+        value: 0.21751595
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -215,8 +215,8 @@ TrailRenderer:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.165214
-        value: 0.17105222
+        time: 0.16182418
+        value: 0.29605222
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -272,20 +272,6 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_Autodestruct: 0
   m_Emitting: 1
---- !u!114 &114132685480557710
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930669004023674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd515ef10284bdc418a7d1465468eb9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 10
-  damage: 1
-  damageType: 1
 --- !u!114 &114316806209977068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -318,6 +304,20 @@ MonoBehaviour:
     i15: 34
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
+--- !u!114 &114600597260246800
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1930669004023674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a25f3e8bd012930489bf69f27d4990f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 10
+  damage: 25
+  damageType: 0
 --- !u!114 &114867624456600780
 MonoBehaviour:
   m_ObjectHideFlags: 1

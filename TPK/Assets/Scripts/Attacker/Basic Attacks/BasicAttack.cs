@@ -10,9 +10,11 @@ public class BasicAttack : NetworkBehaviour
     [SyncVar] public float range = 0;
     [SyncVar] public float magRange = 0;
     [SyncVar] public float angleRange;
-    [SyncVar] public int damage = 5;
+    [SyncVar] public int damage = 20;
     [SyncVar] public HeroType attackType;
     [SyncVar] public DamageType damageType = DamageType.none;
+    private float cooldown = 0.5f;
+    private float nextActiveTime = 0;
     public GameObject projectilePrefab;
 
     // Use this for initialization
@@ -24,31 +26,6 @@ public class BasicAttack : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //if (!isLocalPlayer) return;
-        //// The code here is temporary.
-        //if (Input.GetKeyDown(KeyCode.F)) {
-        //    if (attackType == HeroType.melee)
-        //    {
-        //        Collider[] aroundMe = Physics.OverlapSphere(this.transform.position, range);
-        //        CmdDoMelee(aroundMe);
-        //    }
-        //    else {
-        //        CmdDoMagic();
-        //    }
-        //}
-        //if (Input.GetMouseButtonDown(1)) {
-        //    switch (attackType) {
-        //        case HeroType.magic:
-        //        case HeroType.range:
-        //            attackType = HeroType.melee;
-        //            break;
-        //        case HeroType.melee:
-        //            attackType = HeroType.magic;
-        //            break;
-
-        //    }
-        //}
     }
 
     // This function shouldnt be called unless by a local player but just incase, if it is called double check for local-ness...
@@ -60,7 +37,7 @@ public class BasicAttack : NetworkBehaviour
         attackType = heroModel.GetHeroType();
         attackType = HeroType.range;
         magRange = 5f;
-        damageType = DamageType.physical;
+        damageType = DamageType.none;
         //switch (attackType)
         //{
         //    case HeroType.magic:
@@ -83,30 +60,23 @@ public class BasicAttack : NetworkBehaviour
     public void PerformAttack()
     {
         if (!isLocalPlayer) return;
-        //switch (attackType)
-        //{
-        //    case HeroType.magic:
-        //    case HeroType.range:
-        //        CmdDoMagic();
-        //        break;
-        //    case HeroType.melee:
-        //        CmdDoMelee();
-        //        break;
-        //}
-        CmdDoMagic();
+        if (Time.time > nextActiveTime) {
+            CmdDoMagic();
+            nextActiveTime = Time.time + cooldown;
+        }
     }
 
-    // This function is a command to spawn the basic attack project tile on the server.
+    // This function is a command to spawn the basic attack projectile on the server.
     [Command]
     private void CmdDoMagic()
     {
         GameObject bolt = Instantiate(projectilePrefab);
         bolt.transform.position = transform.position + transform.forward * 2f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
-        bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 10f;
-        bolt.GetComponent<Projectile>().SetProjectileParams(magRange, damage, damageType); //Give the projectile the parameters;
+        bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 15f;
+        bolt.GetComponent<Projectile>().SetProjectileParams(3, 15, damageType); //Give the projectile the parameters;
         NetworkServer.Spawn(bolt);
-        Destroy(bolt, magRange);
+        Destroy(bolt, 3);
 
     }
 

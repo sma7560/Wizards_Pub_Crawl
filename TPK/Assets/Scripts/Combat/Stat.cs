@@ -12,4 +12,9 @@ public class Stat
     {
         return value;
     }
+
+    public virtual void setValue(int newValue)
+    {
+        value = newValue;
+    }
 }

@@ -29,9 +29,11 @@ public class AbilityCaster : NetworkBehaviour
     {
         Debug.Log("I am localplayer: " + isLocalPlayer);
         if (!isLocalPlayer) return;
-        //Debug.Log(skillToCast.castType);
+        StartCoroutine(AnimDelay(skillToCast));
+     
+    }
+    private void PlaySkillEffects(Skill skillToCast) {
         currentCastSkill = skillToCast;
-        Debug.Log(currentCastSkill.castType);
         switch (currentCastSkill.castType)
         {
             case CastType.selfAoe:
@@ -41,7 +43,16 @@ public class AbilityCaster : NetworkBehaviour
                 break;
             case CastType.projectile:
                 Vector3 fwd = transform.forward;
-                CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, fwd.x, fwd.y, fwd.z);
+                Vector3 rh = transform.right; // Left is negative this.
+
+                // Max number of projectiles is 8
+                Vector3[] directions = { fwd, rh + fwd, -rh + fwd, -fwd, -fwd - rh, -fwd + rh, rh, -rh };
+                for (int i = 0; i <= currentCastSkill.numProjectiles-1; i++) {
+                    if (i > 6) break;
+                    CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, directions[i].x, directions[i].y, directions[i].z);
+                }
+                //CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, fwd.x, fwd.y, fwd.z);
+
                 break;
             case CastType.raycast: // TODO
                 CastRayCast();
@@ -59,10 +70,30 @@ public class AbilityCaster : NetworkBehaviour
                 MoveDash();
                 break;
         }
-        anim.PlayAnim(currentCastSkill.skillType); // Via network animator animations are already synched on network.
-        //CmdPlayEffect(currentCastSkill.visualEffectIndex);
-
     }
+    private IEnumerator AnimDelay(Skill skillToCast) {
+        // Play Animation
+        SkillType st = skillToCast.skillType;
+        anim.PlayAnim(st);
+
+        // Wait
+        switch (st) {
+            case SkillType.buff:
+                yield return new WaitForSeconds(0.30f);
+                break;
+            case SkillType.magicHeavy:
+                yield return new WaitForSeconds(1.10f);
+                break;
+            case SkillType.magicLight:
+                yield return new WaitForSeconds(0.40f);
+                break;
+        }
+
+        // Play skill effect
+        PlaySkillEffects(skillToCast);
+    }
+
+
     [Command]
     private void CmdCastSelfAOE(float range, int damage, DamageType dtype)
     {
@@ -90,12 +121,6 @@ public class AbilityCaster : NetworkBehaviour
                             hit.GetComponent<HeroModel>().CmdTakeDamage(damage, dtype);
                             break;
                     }
-
-                    //Rigidbody r = hit.GetComponent<Rigidbody>();
-                    // Can probably add a pulling effect on this too but not now.
-                    //if (r != null && currentCastSkill.ccType == CcType.push) {
-                    //    r.AddExplosionForce((float)currentCastSkill.damageAmount, t.position, currentCastSkill.skillRange);
-                    //}
                 }
             }
         }
@@ -147,7 +172,8 @@ public class AbilityCaster : NetworkBehaviour
         Destroy(effect, 2);
     }
 
-    private void PlayAnimation()
+    private IEnumerator SpawnAbilityTimer(float delay)
     {
+        yield return new WaitForSeconds(delay);
     }
 }

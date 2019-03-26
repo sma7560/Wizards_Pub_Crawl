@@ -3,74 +3,107 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-//keeps track of enemies
+/// <summary>
+/// Manages all enemies in the dungeon.
+/// </summary>
 public class DungeonEnemyManager : NetworkBehaviour
 {
-    public IUnityService unityService;
-    public GameObject monster;
+    public IUnityService unityService;  // for unit testing
+    private MatchManager matchManager;
+
+    // Monster types
+    public GameObject[] regMonsterList;
+
     private Vector3[] spawnLocation;
     private int currentNumMonsters = 0;
 
-    // Use this for initialization
+    /// <summary>
+    /// Initialize variables.
+    /// </summary>
     void Start()
     {
         if (unityService == null)
         {
             unityService = new UnityService();
         }
+
+        matchManager = GetComponent<MatchManager>();
     }
 
+    private void Update()
+    {
+        GameObject[] currentMonsterList = GameObject.FindGameObjectsWithTag("Enemy");
+        currentNumMonsters = currentMonsterList.Length;
+    }
+
+    /// <summary>
+    /// Starts spawning monsters periodically.
+    /// </summary>
     public void StartSpawn()
     {
-        //set initial spawn locations
+        if (!isServer) return;
+
         SetSpawnPoints();
         InvokeRepeating("DungeonSpawnMonster", 0f, 5);
     }
 
-    void DungeonSpawnMonster()
+    private void DungeonSpawnMonster()
     {
+        if (!isServer || matchManager.HasMatchEnded()) return;
+
         if (currentNumMonsters > 10)
         {
             return;
         }
 
-        int randLocation = Random.Range(1, 22);
-
-        CmdSpawnMonster(GetSpawnLocationOfMonster(randLocation));
+        int randLocation = Random.Range(0, spawnLocation.Length);
+        int randMonster = Random.Range(0, 3);
+        //Debug.Log(randLocation);
+        SpawnMonster(GetSpawnLocationOfMonster(randLocation), GetMonsterType());
     }
 
     // Commands for communicating to the server.
-    private void CmdSpawnMonster(Vector3 location)
+    private void SpawnMonster(Vector3 location, GameObject monsterType)
     {
-        if (!isServer)
-        {
-            return;
-        }
-        Debug.Log("Monster spawning");
+        if (!isServer || matchManager.HasMatchEnded()) return;
+
+        Debug.Log("Monster spawning of type " + monsterType.name);
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
-        GameObject temp;
-        temp = unityService.Instantiate(monster, location, rotate);
+        GameObject temp = unityService.Instantiate(monsterType, location, rotate);
         NetworkServer.Spawn(temp);
-        Debug.Log("Monster spawned");
-        currentNumMonsters = currentNumMonsters + 1;
+        currentNumMonsters++;
     }
 
-    //grab spawn points from spawnlocations on map
+    /// <summary>
+    /// Sets the enemy spawn points.
+    /// </summary>
     public void SetSpawnPoints()
     {
-        GameObject[] spawnGameObjects;
-        spawnGameObjects = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
+        GameObject[] spawnGameObjects = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
         spawnLocation = new Vector3[spawnGameObjects.Length];
-        for(int i=0; i< spawnLocation.Length; i++)
+
+        for (int i = 0; i < spawnLocation.Length; i++)
         {
             spawnLocation[i] = spawnGameObjects[i].transform.position;
         }
-
     }
 
-    //returns spawn location of specified spawn location 
+    /// <returns>
+    /// Returns spawn location based on index.
+    /// </returns>
+    /// <param name="spawnLocationAt">Index of spawn location.</param>
     public Vector3 GetSpawnLocationOfMonster(int spawnLocationAt)
     {
         return spawnLocation[spawnLocationAt];
+    }
+
+    /// <returns>
+    /// Returns the monster type according to what int is passed in.
+    /// </returns>
+    /// <param name="monsterType">Integer corresponding to the monster type.</param>
+    public GameObject GetMonsterType()
+    {
+        int randMonster = Random.Range(0, regMonsterList.Length);
+        return regMonsterList[randMonster];
     }
 }

@@ -7,7 +7,7 @@ public class AnimationEnemyController : MonoBehaviour {
     private Animator anim;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         anim = GetComponent<Animator>();
 	}
 
@@ -17,9 +17,16 @@ public class AnimationEnemyController : MonoBehaviour {
         anim.SetBool("isWalking", startOrStop);
     }
 
+    // animation for enemy attacking
     public void playAttack()
     {
         Debug.Log("Attacking");
         anim.SetTrigger("attack");
+    }
+
+    // animation for enemy dying
+    public void deathAnimation()
+    {
+        anim.SetTrigger("isDead");
     }
 }

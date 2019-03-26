@@ -64,7 +64,7 @@ public class PrephaseManager : NetworkBehaviour
     public void UpdatePrephase()
     {
         if (!isServer) return;
-
+        //if (true)
         // Check if current number of players in the match have reached the maximum number
         if (matchManager.GetNumOfPlayers() >= matchManager.GetMaxPlayers())
         {

@@ -22,7 +22,7 @@ MonoBehaviour:
   damageAmount: 100
   projectilePrefabIndex: 1
   numProjectiles: 1
-  projectileSpeed: 2
+  projectileSpeed: 8
   ccType: 2
   moveType: 2
   movementDistance: 0

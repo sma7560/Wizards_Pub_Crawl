@@ -31,6 +31,10 @@ public class StatWindowUI : MonoBehaviour
         // Set UI elements
         skillDescription.SetActive(false);  // set to inactive by default
         SetupSkills();
+    }
+
+    private void OnEnable()
+    {
         SetupStats();
     }
 
@@ -121,7 +125,7 @@ public class StatWindowUI : MonoBehaviour
 
         // Setup camera; follows player avatar
         Camera heroAvatarCamera = heroAvatarCameraObj.GetComponent<Camera>();
-        heroAvatarCamera.transform.position = heroAvatar.transform.position + new Vector3(0.1f, 1.3f, 2f);
+        heroAvatarCamera.transform.position = heroAvatar.transform.position + new Vector3(0.1f, 2.3f, 3.5f);
         heroAvatarCamera.transform.rotation = Quaternion.Euler(10, 180, 0);
     }
 }
