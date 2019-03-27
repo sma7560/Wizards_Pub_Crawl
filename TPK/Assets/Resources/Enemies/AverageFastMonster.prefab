@@ -3294,7 +3294,7 @@ MonoBehaviour:
   - {fileID: 1134632399540438, guid: 350e545050c06fa408f4382e60e9b935, type: 2}
   totalDropRate: 60
   movementSpeed:
-    value: 6
+    value: 8
   idleRange: 14
   idleHowOftenDirectionChanged: 6
 --- !u!114 &114769152364748164

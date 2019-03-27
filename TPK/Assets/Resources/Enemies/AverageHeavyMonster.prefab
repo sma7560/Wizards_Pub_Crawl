@@ -1436,7 +1436,7 @@ Transform:
   m_GameObject: {fileID: 1054455361937872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.43, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 4, y: 3.5, z: 4}
   m_Children:
   - {fileID: 4683953620569182}
   - {fileID: 4994672989671400}
@@ -3036,11 +3036,11 @@ MonoBehaviour:
     value: 12
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
-  - {fileID: 1694335109300724, guid: 76904631b0a35524ebb7691d75158dd2, type: 2}
+  - {fileID: 1099201270792784, guid: b01bf58c3a6c0dc4a9377a37dff7883e, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   totalDropRate: 60
   movementSpeed:
-    value: 2
+    value: 3
   idleRange: 8
   idleHowOftenDirectionChanged: 6
 --- !u!114 &114116359630930558
