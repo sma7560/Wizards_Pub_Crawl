@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 /*
  * health pick-up class, inherits from Item
  */
-public class MDefBuff : Item
+public class DefenseItem : Item
 {
     public int buffAmount = 5;
 
@@ -21,13 +21,17 @@ public class MDefBuff : Item
     {
         //get original stat
         int origStat = currentStat.GetDefence();
+        //Debug.Log("Buff start, " + origStat);
         //set stat to include buffs
         currentStat.SetDefence(origStat + buffAmount);
+        //Debug.Log("Buff execute, " + currentStat.GetDefence());
 
         //buff lasts for 30 seconds
         yield return new WaitForSeconds(30);
         //set stat back to original stat
+        //Debug.Log("Buff end, " + currentStat.GetPAttack());
         currentStat.SetDefence(origStat);
+        //Debug.Log("Buff end, " + currentStat.GetPAttack());
         Destroy(gameObject);
     }
 
