@@ -13,9 +13,9 @@ public class DungeonEnemyManager : NetworkBehaviour
 
     // Monster types
     public GameObject[] regMonsterList;
-
-    private Vector3[] spawnLocation;
     private int currentNumMonsters = 0;
+
+    private List<Vector3> spawnLocations = new List<Vector3>();
 
     /// <summary>
     /// Initialize variables.
@@ -32,6 +32,10 @@ public class DungeonEnemyManager : NetworkBehaviour
 
     private void Update()
     {
+        if(spawnLocations.Count <=0)
+        {
+            SetSpawnPoints();
+        }
         GameObject[] currentMonsterList = GameObject.FindGameObjectsWithTag("Enemy");
         currentNumMonsters = currentMonsterList.Length;
     }
@@ -42,23 +46,24 @@ public class DungeonEnemyManager : NetworkBehaviour
     public void StartSpawn()
     {
         if (!isServer) return;
-
-        SetSpawnPoints();
-        InvokeRepeating("DungeonSpawnMonster", 0f, 5);
+        for(int i =5; i<=5; i++)
+        {
+            DungeonSpawnMonster();
+        }
+        InvokeRepeating("DungeonSpawnMonster", 0f, 4);
     }
 
     private void DungeonSpawnMonster()
     {
         if (!isServer || matchManager.HasMatchEnded()) return;
 
-        if (currentNumMonsters > 10)
+        if (currentNumMonsters > 16)
         {
             return;
         }
 
-        int randLocation = Random.Range(0, spawnLocation.Length);
+        int randLocation = Random.Range(0, spawnLocations.Count);
         int randMonster = Random.Range(0, 3);
-        //Debug.Log(randLocation);
         SpawnMonster(GetSpawnLocationOfMonster(randLocation), GetMonsterType());
     }
 
@@ -67,7 +72,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     {
         if (!isServer || matchManager.HasMatchEnded()) return;
 
-        Debug.Log("Monster spawning of type " + monsterType.name);
+        //Debug.Log("Monster spawning of type " + monsterType.name);
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
         GameObject temp = unityService.Instantiate(monsterType, location, rotate);
         NetworkServer.Spawn(temp);
@@ -80,11 +85,10 @@ public class DungeonEnemyManager : NetworkBehaviour
     public void SetSpawnPoints()
     {
         GameObject[] spawnGameObjects = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
-        spawnLocation = new Vector3[spawnGameObjects.Length];
 
-        for (int i = 0; i < spawnLocation.Length; i++)
+        for (int i = 0; i < spawnGameObjects.Length; i++)
         {
-            spawnLocation[i] = spawnGameObjects[i].transform.position;
+            spawnLocations.Add(spawnGameObjects[i].transform.position);
         }
     }
 
@@ -94,7 +98,10 @@ public class DungeonEnemyManager : NetworkBehaviour
     /// <param name="spawnLocationAt">Index of spawn location.</param>
     public Vector3 GetSpawnLocationOfMonster(int spawnLocationAt)
     {
-        return spawnLocation[spawnLocationAt];
+        Vector3 spawnLocation = spawnLocations[spawnLocationAt];
+        spawnLocations.RemoveAt(spawnLocationAt);
+        Debug.Log(spawnLocations.Count);
+        return spawnLocation;
     }
 
     /// <returns>
