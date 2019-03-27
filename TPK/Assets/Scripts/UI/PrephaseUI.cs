@@ -246,7 +246,7 @@ public class PrephaseUI : MonoBehaviour
         {
             heroModel.SetAttack(5);
             heroModel.SetDefence(5);
-            heroModel.SetMoveSpeed(15);
+            heroModel.SetMoveSpeed(12);
         }
         else
         {

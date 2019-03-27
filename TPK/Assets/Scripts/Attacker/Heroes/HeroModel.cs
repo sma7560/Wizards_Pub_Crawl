@@ -18,6 +18,7 @@ public class HeroModel : NetworkBehaviour
 
     // Managers
     private MatchManager matchManager;
+    private CharacterMovement characterMovement;
 
     // Other state variables
     [SyncVar] private int playerId;         // playerId controlling this hero
@@ -33,6 +34,7 @@ public class HeroModel : NetworkBehaviour
     {
         if (!hasAuthority) return;
 
+        characterMovement = new CharacterMovement(0);
         score = 0;
         isKnockedOut = false;
         heroIndex = 0;
@@ -163,6 +165,7 @@ public class HeroModel : NetworkBehaviour
         if (!hasAuthority) return;
 
         moveSpeed = val;
+        characterMovement.SetSpeed(moveSpeed);
 
         if (!isServer)
         {
@@ -405,5 +408,10 @@ public class HeroModel : NetworkBehaviour
     public int GetHeroIndex()
     {
         return heroIndex;
+    }
+
+    public CharacterMovement GetCharacterMovement()
+    {
+        return characterMovement;
     }
 }
