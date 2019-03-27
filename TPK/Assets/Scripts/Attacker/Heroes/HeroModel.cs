@@ -13,10 +13,8 @@ public class HeroModel : NetworkBehaviour
     [SyncVar] private readonly int maxHealth = 100;
     [SyncVar] private int currentHealth;
     [SyncVar] private int moveSpeed;        // multiplier for move speed (velocity)
-    [SyncVar] private int mDefence;
-    [SyncVar] private int pDefence;
-    [SyncVar] private int mAttack;
-    [SyncVar] private int pAttack;
+    [SyncVar] private int defence;
+    [SyncVar] private int attack;
 
     // Managers
     private MatchManager matchManager;
@@ -58,19 +56,21 @@ public class HeroModel : NetworkBehaviour
         // Calculate final damage taken based on stats
         float finalDamage = 0;
 
-        switch (damageType)
-        {
-            case DamageType.magical:
-                finalDamage = (float)(10 / mDefence) * amount;
-                break;
-            case DamageType.physical:
-                finalDamage = (10 / pDefence) * amount;
-                break;
-            case DamageType.none:
-                // The none case can be used to describe things such as true damage.
-                finalDamage = amount;
-                break;
-        }
+        finalDamage = (float)(10 / defence) * amount;
+
+        //switch (damageType)
+        //{
+        //    case DamageType.magical:
+        //        finalDamage = (float)(10 / mDefence) * amount;
+        //        break;
+        //    case DamageType.physical:
+        //        finalDamage = (10 / pDefence) * amount;
+        //        break;
+        //    case DamageType.none:
+        //        // The none case can be used to describe things such as true damage.
+        //        finalDamage = amount;
+        //        break;
+        //}
 
         finalDamage = Mathf.Clamp(finalDamage, 0, int.MaxValue);    // restrict damage to [0, int.MaxValue]
         currentHealth = currentHealth - (int)Mathf.Round(finalDamage);
@@ -176,83 +176,43 @@ public class HeroModel : NetworkBehaviour
     }
 
     /// <summary>
-    /// Setter for magic defense.
+    /// Setter for defense.
     /// </summary>
-    public void SetMDefence(int val)
+    public void SetDefence(int val)
     {
         if (!hasAuthority) return;
 
-        mDefence = val;
+        defence = val;
 
         if (!isServer)
         {
-            CmdSetMDefence(val);
+            CmdSetDefence(val);
         }
     }
     [Command]
-    private void CmdSetMDefence(int val)
+    private void CmdSetDefence(int val)
     {
-        mDefence = val;
+        defence = val;
     }
 
     /// <summary>
-    /// Setter for physical defense.
+    /// Setter for attack.
     /// </summary>
-    public void SetPDefence(int val)
+    public void SetAttack(int val)
     {
         if (!hasAuthority) return;
 
-        pDefence = val;
+        attack = val;
 
         if (!isServer)
         {
-            CmdSetPDefence(val);
+            CmdSetAttack(val);
         }
     }
     [Command]
-    private void CmdSetPDefence(int val)
+    private void CmdSetAttack(int val)
     {
-        pDefence = val;
-    }
-
-    /// <summary>
-    /// Setter for magic attack.
-    /// </summary>
-    public void SetMAttack(int val)
-    {
-        if (!hasAuthority) return;
-
-        mAttack = val;
-
-        if (!isServer)
-        {
-            CmdSetMAttack(val);
-        }
-    }
-    [Command]
-    private void CmdSetMAttack(int val)
-    {
-        mAttack = val;
-    }
-
-    /// <summary>
-    /// Setter for physical attack.
-    /// </summary>
-    public void SetPAttack(int val)
-    {
-        if (!hasAuthority) return;
-
-        pAttack = val;
-
-        if (!isServer)
-        {
-            CmdSetPAttack(val);
-        }
-    }
-    [Command]
-    private void CmdSetPAttack(int val)
-    {
-        pAttack = val;
+        attack = val;
     }
 
     /// <summary>
@@ -407,24 +367,14 @@ public class HeroModel : NetworkBehaviour
         return moveSpeed;
     }
 
-    public int GetMDefence()
+    public int GetDefence()
     {
-        return mDefence;
+        return defence;
     }
 
-    public int GetPDefence()
+    public int GetAttack()
     {
-        return pDefence;
-    }
-
-    public int GetMAttack()
-    {
-        return mAttack;
-    }
-
-    public int GetPAttack()
-    {
-        return pAttack;
+        return attack;
     }
 
     public int GetPlayerId()
