@@ -11,6 +11,7 @@ public class AbilityCaster : NetworkBehaviour
     public GameObject[] projectiles; // Will Use this to store a list of projectiles on the server
     private TestAnimConrtoller anim;
     private HeroModel stats;
+    private PlayerSoundController playerSounds;
     // Probably will need some network synching thing here to command server to do stuff. Maybe Call it server interface.
 
     // On Start of this script get the animation
@@ -20,6 +21,7 @@ public class AbilityCaster : NetworkBehaviour
         // Getting these components to work
         anim = GetComponent<TestAnimConrtoller>();
         stats = GetComponent<HeroModel>();
+        playerSounds = GetComponent<PlayerSoundController>();
     }
     // To do the inital cast of the skill.
     // Order Of events: 1. Determine how to cast and what to affect. 2.Determine if there is movement included. 3. play the visuals associated.
@@ -96,6 +98,7 @@ public class AbilityCaster : NetworkBehaviour
     [Command]
     private void CmdCastSelfAOE(float range, int damage, DamageType dtype)
     {
+        playerSounds.RpcplayAoeSound();
         Debug.Log("I got here");
         Collider[] aroundMe = Physics.OverlapSphere(transform.position, range);
         foreach (Collider hit in aroundMe)
@@ -133,6 +136,7 @@ public class AbilityCaster : NetworkBehaviour
     [Command]
     private void CmdCastProjectile(float range, int damage, DamageType dtype, float speed, int pindex, float x, float y, float z)
     {
+        playerSounds.RpcplayDeathBallSoundEffect();
         Vector3 fwd = new Vector3(x, y, z);
         GameObject bolt = Instantiate(projectiles[pindex]);
         // This should be done locally so the direction is synched on client side to feel better.
