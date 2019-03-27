@@ -29,14 +29,11 @@ public class HeroController : NetworkBehaviour
 
     private readonly int deathTimer = 4;    // default death timer
     private bool isDungeonReady = false;
-    private float baseSpeed;
-    private float slowSpeed;
 
     private GameObject cam;
     private Rigidbody heroRigidbody;
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
-    private CharacterMovement characterMovement;
     private HeroModel heroModel;
     private BasicAttack battack;
     private TestAnimConrtoller animate;
@@ -53,10 +50,7 @@ public class HeroController : NetworkBehaviour
         {
             unityService = new UnityService();
         }
-        baseSpeed = 12.0f;
-        slowSpeed = 8.0f;
 
-        characterMovement = new CharacterMovement(baseSpeed);
         ground = new Plane(Vector3.up, Vector3.zero);
 
         heroRigidbody = GetComponent<Rigidbody>();
@@ -66,6 +60,7 @@ public class HeroController : NetworkBehaviour
 
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+
 
         // Run startup functions
         StartCamera();
@@ -93,7 +88,7 @@ public class HeroController : NetworkBehaviour
             }
 
             // Perform character movement controls
-            tempVelocity = characterMovement.Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+            tempVelocity = heroModel.GetCharacterMovement().Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
             tempVelocity.y = heroRigidbody.velocity.y;
             heroRigidbody.velocity = tempVelocity;
             PerformRotation();
@@ -199,11 +194,11 @@ public class HeroController : NetworkBehaviour
 
     public void ArtifactPickup()
     {
-        characterMovement.SetSpeed(slowSpeed);
+        heroModel.SetMoveSpeed(heroModel.GetMoveSpeed() - 4);
     }
 
     public void ArtifactDrop()
     {
-        characterMovement.SetSpeed(baseSpeed);
+        heroModel.SetMoveSpeed(heroModel.GetMoveSpeed() + 4);
     }
 }
