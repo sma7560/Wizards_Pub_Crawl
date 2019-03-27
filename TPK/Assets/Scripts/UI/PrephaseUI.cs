@@ -22,10 +22,9 @@ public class PrephaseUI : MonoBehaviour
     private TextMeshProUGUI characterSelectedName;
     private TextMeshProUGUI numOfPlayers;
     private TextMeshProUGUI timeLeft;
-    private TextMeshProUGUI physicalDmg;
-    private TextMeshProUGUI magicalDmg;
-    private TextMeshProUGUI physicalDef;
-    private TextMeshProUGUI magicalDef;
+    private TextMeshProUGUI attack;
+    private TextMeshProUGUI defense;
+    private TextMeshProUGUI moveSpeed;
 
     // Default heroes
     private Hero king;
@@ -54,10 +53,9 @@ public class PrephaseUI : MonoBehaviour
         numOfPlayers = GameObject.Find("CurrentNumOfPlayersConnectedText").GetComponent<TextMeshProUGUI>();
         timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
         characterSelectedName = GameObject.Find("CharacterNameText").GetComponent<TextMeshProUGUI>();
-        physicalDmg = GameObject.Find("PhysDmgText").GetComponent<TextMeshProUGUI>();
-        magicalDmg = GameObject.Find("MagicDmgText").GetComponent<TextMeshProUGUI>();
-        physicalDef = GameObject.Find("PhysDefText").GetComponent<TextMeshProUGUI>();
-        magicalDef = GameObject.Find("MagicDefText").GetComponent<TextMeshProUGUI>();
+        attack = GameObject.Find("AttackText").GetComponent<TextMeshProUGUI>();
+        defense = GameObject.Find("DefText").GetComponent<TextMeshProUGUI>();
+        moveSpeed = GameObject.Find("SpeedText").GetComponent<TextMeshProUGUI>();
 
         // Setup default values for default heroes
         SetupDefaultHeroes();
@@ -234,24 +232,21 @@ public class PrephaseUI : MonoBehaviour
         // Set default stat values depending on the hero type
         if (selectedHero == king)
         {
-            heroModel.SetPAttack(10);
-            heroModel.SetMAttack(10);
-            heroModel.SetPDefence(10);
-            heroModel.SetMDefence(10);
+            heroModel.SetAttack(10);
+            heroModel.SetDefence(10);
+            heroModel.SetMoveSpeed(10);
         }
         else if (selectedHero == wizard)
         {
-            heroModel.SetPAttack(5);
-            heroModel.SetMAttack(15);
-            heroModel.SetPDefence(5);
-            heroModel.SetMDefence(15);
+            heroModel.SetAttack(15);
+            heroModel.SetDefence(5);
+            heroModel.SetMoveSpeed(10);
         }
         else if (selectedHero == rogue)
         {
-            heroModel.SetPAttack(15);
-            heroModel.SetMAttack(5);
-            heroModel.SetPDefence(10);
-            heroModel.SetMDefence(5);
+            heroModel.SetAttack(5);
+            heroModel.SetDefence(5);
+            heroModel.SetMoveSpeed(15);
         }
         else
         {
@@ -288,10 +283,9 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdateStats()
     {
-        physicalDmg.text = heroModel.GetPAttack().ToString();
-        magicalDmg.text = heroModel.GetMAttack().ToString();
-        physicalDef.text = heroModel.GetPDefence().ToString();
-        magicalDef.text = heroModel.GetMDefence().ToString();
+        attack.text = heroModel.GetAttack().ToString();
+        defense.text = heroModel.GetDefence().ToString();
+        moveSpeed.text = heroModel.GetMoveSpeed().ToString();
     }
 
     /// <summary>

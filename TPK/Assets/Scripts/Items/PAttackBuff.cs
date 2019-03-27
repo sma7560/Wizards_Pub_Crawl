@@ -20,17 +20,17 @@ public class PAttackBuff : Item
     protected override IEnumerator tempBuff(HeroModel currentStat)
     {
         //get original stat
-        int origStat = currentStat.GetPAttack();
+        int origStat = currentStat.GetAttack();
         Debug.Log("Buff start, " + origStat);
         //set stat to include buffs
-        currentStat.SetPAttack(origStat + buffAmount);
-        Debug.Log("Buff execute, " + currentStat.GetPAttack());
+        currentStat.SetAttack(origStat + buffAmount);
+        Debug.Log("Buff execute, " + currentStat.GetAttack());
 
         //buff lasts for 30 seconds
         yield return new WaitForSeconds(30);
         //set stat back to original stat
         //Debug.Log("Buff end, " + currentStat.GetPAttack());
-        currentStat.SetPAttack(origStat);
+        currentStat.SetAttack(origStat);
         //Debug.Log("Buff end, " + currentStat.GetPAttack());
         Destroy(gameObject);
     }

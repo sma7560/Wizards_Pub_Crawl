@@ -20,9 +20,9 @@ public class Item : NetworkBehaviour
         if (other.gameObject.tag == "Player")
         {
             ItemConsume(other);
+            //disable mesh after player interacts with
+            gameObject.transform.GetChild(0).gameObject.SetActive(false);
         }
-        //disable mesh after player interacts with
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     //item effect. Will be override by specific item effects

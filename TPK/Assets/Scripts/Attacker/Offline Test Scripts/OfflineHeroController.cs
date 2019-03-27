@@ -67,10 +67,8 @@ public class OfflineHeroController : NetworkBehaviour
         heroModel = GetComponent<HeroModel>(); // Setting it up on the server...
         int val = 10;
         heroModel.SetHeroType(HeroType.magic);
-        heroModel.SetMAttack(val);
-        heroModel.SetMDefence(val);
-        heroModel.SetPAttack(val);
-        heroModel.SetPDefence(val);
+        heroModel.SetAttack(val);
+        heroModel.SetDefence(val);
     }
 
     private void SetRotation()

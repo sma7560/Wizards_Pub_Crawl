@@ -20,14 +20,14 @@ public class MAttackBuff : Item
     protected override IEnumerator tempBuff(HeroModel currentStat)
     {
         //get original stat
-        int origStat = currentStat.GetMAttack();
+        int origStat = currentStat.GetAttack();
         //set stat to include buffs
-        currentStat.SetMAttack(origStat + buffAmount);
+        currentStat.SetAttack(origStat + buffAmount);
 
         //buff lasts for 30 seconds
         yield return new WaitForSeconds(30);
         //set stat back to original stat
-        currentStat.SetMAttack(origStat);
+        currentStat.SetAttack(origStat);
         Destroy(gameObject);
     }
 

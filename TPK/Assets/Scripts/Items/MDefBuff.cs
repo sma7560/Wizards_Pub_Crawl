@@ -20,14 +20,14 @@ public class MDefBuff : Item
     protected override IEnumerator tempBuff(HeroModel currentStat)
     {
         //get original stat
-        int origStat = currentStat.GetMDefence();
+        int origStat = currentStat.GetDefence();
         //set stat to include buffs
-        currentStat.SetMDefence(origStat + buffAmount);
+        currentStat.SetDefence(origStat + buffAmount);
 
         //buff lasts for 30 seconds
         yield return new WaitForSeconds(30);
         //set stat back to original stat
-        currentStat.SetMDefence(origStat);
+        currentStat.SetDefence(origStat);
         Destroy(gameObject);
     }
 
