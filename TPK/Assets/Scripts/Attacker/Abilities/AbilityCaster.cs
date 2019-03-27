@@ -35,6 +35,7 @@ public class AbilityCaster : NetworkBehaviour
     }
     private void PlaySkillEffects(Skill skillToCast) {
         currentCastSkill = skillToCast;
+        float finalDmg = currentCastSkill.damageAmount;
         switch (currentCastSkill.castType)
         {
             case CastType.selfAoe:
