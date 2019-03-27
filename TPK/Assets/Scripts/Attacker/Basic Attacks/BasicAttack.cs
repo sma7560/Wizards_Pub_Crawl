@@ -10,7 +10,7 @@ public class BasicAttack : NetworkBehaviour
     [SyncVar] public float range = 0;
     [SyncVar] public float magRange = 0;
     [SyncVar] public float angleRange;
-    [SyncVar] public int damage = 20;
+    [SyncVar] public int damage;
     [SyncVar] public HeroType attackType;
     [SyncVar] public DamageType damageType = DamageType.none;
     private float cooldown = 0.5f;
@@ -38,23 +38,7 @@ public class BasicAttack : NetworkBehaviour
         attackType = HeroType.range;
         magRange = 5f;
         damageType = DamageType.none;
-        //switch (attackType)
-        //{
-        //    case HeroType.magic:
-        //    case HeroType.range:
-        //        magRange = 10f;
-        //        damageType = (attackType == HeroType.magic) ? DamageType.magical : DamageType.physical;
-        //        break;
-        //    case HeroType.melee:
-        //        range = 2f;
-        //        damageType = DamageType.physical;
-        //        break;
-        //    default:
-        //        range = 2;
-        //        magRange = 10;
-        //        damageType = DamageType.none;
-        //        break;
-        //}
+        damage = heroModel.GetAttack();
     }
 
     public void PerformAttack()
@@ -74,7 +58,7 @@ public class BasicAttack : NetworkBehaviour
         bolt.transform.position = transform.position + transform.forward * 2f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 15f;
-        bolt.GetComponent<Projectile>().SetProjectileParams(3, 15, damageType); //Give the projectile the parameters;
+        bolt.GetComponent<Projectile>().SetProjectileParams(3, damage, damageType); //Give the projectile the parameters;
         NetworkServer.Spawn(bolt);
         Destroy(bolt, 3);
 

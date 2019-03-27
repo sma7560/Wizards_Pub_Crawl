@@ -35,12 +35,13 @@ public class AbilityCaster : NetworkBehaviour
     }
     private void PlaySkillEffects(Skill skillToCast) {
         currentCastSkill = skillToCast;
-        float finalDmg = currentCastSkill.damageAmount;
+        float finalDmg = currentCastSkill.damageAmount * (1 + (stats.GetAttack()/50));
+        int fd = (int)finalDmg;
         switch (currentCastSkill.castType)
         {
             case CastType.selfAoe:
                 Debug.Log("Calling Casting on Server");
-                CmdCastSelfAOE(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType);
+                CmdCastSelfAOE(currentCastSkill.skillRange, fd, currentCastSkill.damageType);
                 CmdPlayEffect(currentCastSkill.visualEffectIndex);
                 break;
             case CastType.projectile:
@@ -51,7 +52,7 @@ public class AbilityCaster : NetworkBehaviour
                 Vector3[] directions = { fwd, rh + fwd, -rh + fwd, -fwd, -fwd - rh, -fwd + rh, rh, -rh };
                 for (int i = 0; i <= currentCastSkill.numProjectiles-1; i++) {
                     if (i > 6) break;
-                    CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, directions[i].x, directions[i].y, directions[i].z);
+                    CmdCastProjectile(currentCastSkill.skillRange, fd, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, directions[i].x, directions[i].y, directions[i].z);
                 }
                 //CmdCastProjectile(currentCastSkill.skillRange, currentCastSkill.damageAmount, currentCastSkill.damageType, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, fwd.x, fwd.y, fwd.z);
 

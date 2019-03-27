@@ -56,7 +56,7 @@ public class HeroModel : NetworkBehaviour
         // Calculate final damage taken based on stats
         float finalDamage = 0;
 
-        finalDamage = (float)(10 / defence) * amount;
+        finalDamage = amount * (1 - (defence / 50));
 
         //switch (damageType)
         //{
