@@ -38,7 +38,7 @@ public class CharacterStats : NetworkBehaviour
         if (!localTest && !isServer) return;
 
         // Calculate damage to take
-        dmg -= defence.GetValue();
+        //dmg -= defence.GetValue();
         dmg = Mathf.Clamp(dmg, 0, int.MaxValue);    // restrict damage to a value between [0, int.MaxValue]
 
         // Update current health

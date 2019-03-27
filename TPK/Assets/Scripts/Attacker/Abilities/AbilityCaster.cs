@@ -179,4 +179,33 @@ public class AbilityCaster : NetworkBehaviour
     {
         yield return new WaitForSeconds(delay);
     }
+    // 0 for Attack, 1 for Defence, 2 for Movement
+    private IEnumerator BuffAbilityTimer(int statToChange, int amount, int duration)
+    {
+
+        switch (statToChange) {
+            case 0:
+                stats.SetAttack(stats.GetAttack() + amount);
+                break;
+            case 1:
+                stats.SetDefence(stats.GetDefence() + amount);
+                break;
+            case 2:
+                stats.SetMoveSpeed(stats.GetMoveSpeed() + amount);
+                break;
+        }
+        yield return new WaitForSeconds(duration);
+        switch (statToChange)
+        {
+            case 0:
+                stats.SetAttack(stats.GetAttack() - amount);
+                break;
+            case 1:
+                stats.SetDefence(stats.GetDefence() - amount);
+                break;
+            case 2:
+                stats.SetMoveSpeed(stats.GetMoveSpeed() - amount);
+                break;
+        }
+    }
 }
