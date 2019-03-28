@@ -125,14 +125,14 @@ public class DungeonController : MonoBehaviour
         {
             // If in pre-phase and music is not already playing, play it
             audioSource.clip = music[0];
-            audioSource.volume = AudioManager.GetVolume();
+            audioSource.volume = AudioManager.GetBgVolume();
             audioSource.Play();
         }
         else if (!prephaseManager.IsCurrentlyInPrephase() && audioSource.clip != music[1])
         {
             // If in dungeon phase and music is not already playing, play it
             audioSource.clip = music[1];
-            audioSource.volume = AudioManager.GetVolume();
+            audioSource.volume = AudioManager.GetBgVolume();
             audioSource.Play();
         }
     }

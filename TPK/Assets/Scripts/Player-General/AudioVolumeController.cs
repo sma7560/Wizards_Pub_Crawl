@@ -17,8 +17,8 @@ public class AudioVolumeController : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        volumePopup = GameObject.Find("VolumePopup");
-        volumeText = GameObject.Find("VolumeText").GetComponent<TextMeshProUGUI>();
+        volumePopup = transform.Find("VolumePopup").gameObject;
+        volumeText = volumePopup.transform.Find("VolumeText").gameObject.GetComponent<TextMeshProUGUI>();
         volumePopup.SetActive(false);
     }
 
@@ -28,7 +28,21 @@ public class AudioVolumeController : MonoBehaviour
     void OnEnable()
     {
         Slider volumeSlider = GetComponent<Slider>();
-        volumeSlider.value = AudioManager.GetVolumeIgnoreMute();
+
+        // Set the slider value
+        if (transform.parent.name == "BackgroundMusic")
+        {
+            volumeSlider.value = AudioManager.GetBgVolumeIgnoreMute();
+        }
+        else if (transform.parent.name == "SfxMusic")
+        {
+            volumeSlider.value = AudioManager.GetSfxVolumeIgnoreMute();
+        }
+        else
+        {
+            Debug.Log("Error; could not recognize audio type of this slider!");
+        }
+
         volumeSlider.onValueChanged.AddListener(delegate { VolumeChange(volumeSlider); });
     }
 
@@ -38,7 +52,18 @@ public class AudioVolumeController : MonoBehaviour
     /// <param name="volumeSlider">Slider that controls the volume levels.</param>
     private void VolumeChange(Slider volumeSlider)
     {
-        AudioManager.SetVolume(volumeSlider.value);
+        if (transform.parent.name == "BackgroundMusic")
+        {
+            AudioManager.SetBgVolume(volumeSlider.value);
+        }
+        else if (transform.parent.name == "SfxMusic")
+        {
+            AudioManager.SetSfxVolume(volumeSlider.value);
+        }
+        else
+        {
+            Debug.Log("Error; could not recognize audio type of this slider!");
+        }
     }
 
     /// <summary>
@@ -63,7 +88,18 @@ public class AudioVolumeController : MonoBehaviour
         volumePopup.GetComponent<RectTransform>().anchorMax = handle.anchorMax;
 
         // Set volume popup text
-        volumeText.text = (int)(AudioManager.GetVolumeIgnoreMute() * 100) + "%";
+        if (transform.parent.name == "BackgroundMusic")
+        {
+            volumeText.text = (int)(AudioManager.GetBgVolumeIgnoreMute() * 100) + "%";
+        }
+        else if (transform.parent.name == "SfxMusic")
+        {
+            volumeText.text = (int)(AudioManager.GetSfxVolumeIgnoreMute() * 100) + "%";
+        }
+        else
+        {
+            Debug.Log("Error; could not recognize audio type of this slider!");
+        }
 
         // Enable volume popup
         volumePopup.SetActive(true);
@@ -76,11 +112,22 @@ public class AudioVolumeController : MonoBehaviour
     public void OnDrag()
     {
         // Set position of volume popup
-        RectTransform handle = GameObject.Find("Handle").GetComponent<RectTransform>();
+        RectTransform handle = transform.Find("HandleSlideArea").Find("Handle").GetComponent<RectTransform>();
         volumePopup.GetComponent<RectTransform>().anchorMin = handle.anchorMin;
         volumePopup.GetComponent<RectTransform>().anchorMax = handle.anchorMax;
 
         // Set volume popup text
-        volumeText.text = (int)(AudioManager.GetVolumeIgnoreMute() * 100) + "%";
+        if (transform.parent.name == "BackgroundMusic")
+        {
+            volumeText.text = (int)(AudioManager.GetBgVolumeIgnoreMute() * 100) + "%";
+        }
+        else if (transform.parent.name == "SfxMusic")
+        {
+            volumeText.text = (int)(AudioManager.GetSfxVolumeIgnoreMute() * 100) + "%";
+        }
+        else
+        {
+            Debug.Log("Error; could not recognize audio type of this slider!");
+        }
     }
 }

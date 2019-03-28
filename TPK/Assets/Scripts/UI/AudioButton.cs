@@ -24,26 +24,65 @@ public class AudioButton : MonoBehaviour
         image = GetComponent<Image>();
 
         // Set sprite based on mute status
-        if (AudioManager.GetMute())
+        if (transform.parent.name == "BackgroundMusic")
         {
+            if (AudioManager.GetBgMute())
+            {
+                image.sprite = audioOff;
+            }
+            else
+            {
+                image.sprite = audioOn;
+            }
+        }
+        else if (transform.parent.name == "SfxMusic")
+        {
+            if (AudioManager.GetSfxMute())
+            {
+                image.sprite = audioOff;
+            }
+            else
+            {
+                image.sprite = audioOn;
+            }
+        }
+        else
+        {
+            Debug.Log("Error; could not recognize audio type of this slider!");
+        }
+    }
+
+    /// <summary>
+    /// Behaviour when the button is clicked.
+    /// Toggles between muting and unmuting the background music.
+    /// </summary>
+    public void ToggleBgMute()
+    {
+        // Toggle mute
+        AudioManager.SetBgMute(!AudioManager.GetBgMute());
+
+        if (AudioManager.GetBgMute())
+        {
+            // Set muted audio sprite
             image.sprite = audioOff;
         }
         else
         {
+            // Set unmuted audio sprite
             image.sprite = audioOn;
         }
     }
 
     /// <summary>
     /// Behaviour when the button is clicked.
-    /// Toggles between muting and unmuting the music.
+    /// Toggles between muting and unmuting the sound effects.
     /// </summary>
-    public void ToggleMute()
+    public void ToggleSfxMute()
     {
         // Toggle mute
-        AudioManager.SetMute(!AudioManager.GetMute());
+        AudioManager.SetSfxMute(!AudioManager.GetSfxMute());
 
-        if (AudioManager.GetMute())
+        if (AudioManager.GetSfxMute())
         {
             // Set muted audio sprite
             image.sprite = audioOff;
