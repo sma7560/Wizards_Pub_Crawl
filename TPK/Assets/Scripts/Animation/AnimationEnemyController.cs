@@ -20,7 +20,6 @@ public class AnimationEnemyController : MonoBehaviour {
     // animation for enemy attacking
     public void playAttack()
     {
-        Debug.Log("Attacking");
         anim.SetTrigger("attack");
     }
 

@@ -100,7 +100,6 @@ public class DungeonEnemyManager : NetworkBehaviour
     {
         Vector3 spawnLocation = spawnLocations[spawnLocationAt];
         spawnLocations.RemoveAt(spawnLocationAt);
-        Debug.Log(spawnLocations.Count);
         return spawnLocation;
     }
 
