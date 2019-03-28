@@ -46,7 +46,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     public void StartSpawn()
     {
         if (!isServer) return;
-        for(int i =5; i<=5; i++)
+        for(int i =1; i<=5; i++)
         {
             DungeonSpawnMonster();
         }

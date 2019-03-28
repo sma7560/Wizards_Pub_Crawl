@@ -3130,11 +3130,11 @@ MonoBehaviour:
     value: 2
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
-  - {fileID: 1092102203862810, guid: 958a507976526a44fa6b4bc9066bc5ef, type: 2}
-  - {fileID: 1510906600242454, guid: e293e8e378432af488aed24b90be7397, type: 2}
+  - {fileID: 1515895262486480, guid: 178e7e33a478ea3408513547e5cb2c3b, type: 2}
+  - {fileID: 1099201270792784, guid: b01bf58c3a6c0dc4a9377a37dff7883e, type: 2}
   totalDropRate: 80
   movementSpeed:
-    value: 4
+    value: 6
   idleRange: 10
   idleHowOftenDirectionChanged: 5
 --- !u!114 &114711062114650932
