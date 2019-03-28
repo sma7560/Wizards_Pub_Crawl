@@ -31,6 +31,7 @@ TagManager:
   - Error
   - Announcement
   - Safezone
+  - StatWindow
   layers:
   - Default
   - TransparentFX

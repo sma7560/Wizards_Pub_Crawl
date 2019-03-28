@@ -161,22 +161,22 @@ public class PrephaseUI : MonoBehaviour
         if (selectedHero == king)
         {
             selectedHero = armored;
-            statGraph.sprite = kingStat;
+            statGraph.sprite = knightStat;
         }
         else if (selectedHero == wizard)
         {
             selectedHero = king;
-            statGraph.sprite = wizardStat;
+            statGraph.sprite = kingStat;
         }
         else if (selectedHero == rogue)
         {
             selectedHero = wizard;
-            statGraph.sprite = rogueStat;
+            statGraph.sprite = wizardStat;
         }
         else if (selectedHero == armored)
         {
             selectedHero = rogue;
-            statGraph.sprite = knightStat;
+            statGraph.sprite = rogueStat;
         }
 
         SetupDefaultStats();
