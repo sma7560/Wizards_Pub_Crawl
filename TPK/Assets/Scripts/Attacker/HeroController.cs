@@ -29,6 +29,7 @@ public class HeroController : NetworkBehaviour
 
     private readonly int deathTimer = 4;    // default death timer
     private bool isDungeonReady = false;
+    private int baseSpeed;
 
     private GameObject cam;
     private Rigidbody heroRigidbody;
@@ -194,11 +195,12 @@ public class HeroController : NetworkBehaviour
 
     public void ArtifactPickup()
     {
-        heroModel.SetMoveSpeed(heroModel.GetMoveSpeed() - 4);
+        baseSpeed = heroModel.GetMoveSpeed();
+        heroModel.SetMoveSpeed((int)(heroModel.GetMoveSpeed() * 0.75));
     }
 
     public void ArtifactDrop()
     {
-        heroModel.SetMoveSpeed(heroModel.GetMoveSpeed() + 4);
+        heroModel.SetMoveSpeed(baseSpeed);
     }
 }
