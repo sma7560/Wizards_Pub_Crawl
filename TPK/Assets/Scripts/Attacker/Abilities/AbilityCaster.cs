@@ -191,7 +191,7 @@ public class AbilityCaster : NetworkBehaviour
                 stats.SetDefence(stats.GetDefence() + amount);
                 break;
             case 2:
-                stats.SetMoveSpeed(stats.GetMoveSpeed() + amount);
+                stats.SetCurrentMoveSpeed(stats.GetCurrentMoveSpeed() + amount);
                 break;
         }
         yield return new WaitForSeconds(duration);
@@ -204,7 +204,7 @@ public class AbilityCaster : NetworkBehaviour
                 stats.SetDefence(stats.GetDefence() - amount);
                 break;
             case 2:
-                stats.SetMoveSpeed(stats.GetMoveSpeed() - amount);
+                stats.SetCurrentMoveSpeed(stats.GetCurrentMoveSpeed() - amount);
                 break;
         }
     }

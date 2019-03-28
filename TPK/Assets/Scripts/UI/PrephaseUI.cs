@@ -250,25 +250,25 @@ public class PrephaseUI : MonoBehaviour
         {
             heroModel.SetAttack(10);
             heroModel.SetDefence(10);
-            heroModel.SetMoveSpeed(10);
+            heroModel.SetBaseMoveSpeed(10);
         }
         else if (selectedHero == wizard)
         {
             heroModel.SetAttack(15);
             heroModel.SetDefence(5);
-            heroModel.SetMoveSpeed(10);
+            heroModel.SetBaseMoveSpeed(10);
         }
         else if (selectedHero == rogue)
         {
             heroModel.SetAttack(10);
             heroModel.SetDefence(0);
-            heroModel.SetMoveSpeed(12);
+            heroModel.SetBaseMoveSpeed(12);
         }
         else if (selectedHero == armored)
         {
             heroModel.SetAttack(10);
             heroModel.SetDefence(15);
-            heroModel.SetMoveSpeed(8);
+            heroModel.SetBaseMoveSpeed(8);
         }
         else
         {
@@ -307,7 +307,7 @@ public class PrephaseUI : MonoBehaviour
     {
         attack.text = heroModel.GetAttack().ToString();
         defense.text = heroModel.GetDefence().ToString();
-        moveSpeed.text = heroModel.GetMoveSpeed().ToString();
+        moveSpeed.text = heroModel.GetCurrentMoveSpeed().ToString();
     }
 
     /// <summary>

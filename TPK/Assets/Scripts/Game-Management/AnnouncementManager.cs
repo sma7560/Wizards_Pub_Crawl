@@ -14,14 +14,13 @@ public class AnnouncementManager : NetworkBehaviour
     private Sprite king;
     private Sprite rogue;
     private Sprite wizard;
-    private Sprite kitchenBoss;
+    private Sprite knight;
 
     private enum AnnouncementType
     {
         AleAcquired,
         AleDropped,
-        PlayerDeath,
-        KitchenBossAppeared
+        PlayerDeath
     }
 
     private readonly int secondsToDisplayAnnouncement = 5;  // number of seconds that announcement is displayed for
@@ -50,7 +49,7 @@ public class AnnouncementManager : NetworkBehaviour
         king = Resources.Load<Sprite>("UI Resources/king");
         rogue = Resources.Load<Sprite>("UI Resources/thief");
         wizard = Resources.Load<Sprite>("UI Resources/mage");
-        kitchenBoss = Resources.Load<Sprite>("UI Resources/mug");
+        knight = Resources.Load<Sprite>("UI Resources/knight");
 
         // Initialize booleans
         if (isServer)
@@ -182,30 +181,6 @@ public class AnnouncementManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Broadcasts that a boss enemy has appeared in the kitchen.
-    /// </summary>
-    public void BroadcastAnnouncementKitchenBossAppearance()
-    {
-        if (!isServer) return;
-
-        LocalBroadcastAnnouncementKitchenBossAppearance();
-        RpcBroadcastAnnouncementKitchenBossAppearance();
-    }
-    private void LocalBroadcastAnnouncementKitchenBossAppearance()
-    {
-        announcementText.text = "A boss monster has appeared in the kitchen!";
-        leftIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-370f, 0f);
-        leftIcon.GetComponent<Image>().sprite = kitchenBoss;
-        StartCoroutine(DisplayAnnouncement(AnnouncementType.KitchenBossAppeared));
-    }
-    [ClientRpc]
-    private void RpcBroadcastAnnouncementKitchenBossAppearance()
-    {
-        if (isLocalPlayer) return;
-        LocalBroadcastAnnouncementKitchenBossAppearance();
-    }
-
-    /// <summary>
     /// Coroutine that displays the announcement for a set period of time.
     /// </summary>
     private IEnumerator DisplayAnnouncement(AnnouncementType type)
@@ -226,7 +201,7 @@ public class AnnouncementManager : NetworkBehaviour
             leftIcon.SetActive(true);    // hero icon
             rightIcon.SetActive(true);   // ale icon
         }
-        else if (type == AnnouncementType.KitchenBossAppeared || type == AnnouncementType.PlayerDeath)
+        else if (type == AnnouncementType.PlayerDeath)
         {
             leftIcon.SetActive(true);    // hero/boss icon
             rightIcon.SetActive(false);
@@ -282,8 +257,8 @@ public class AnnouncementManager : NetworkBehaviour
             case 1:
                 leftIcon.GetComponent<Image>().sprite = rogue;
                 break;
-            case 2:
-                leftIcon.GetComponent<Image>().sprite = wizard;
+            case 3:
+                leftIcon.GetComponent<Image>().sprite = knight;
                 break;
             default:
                 leftIcon.GetComponent<Image>().sprite = king;

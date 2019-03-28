@@ -14,6 +14,7 @@ public class ScoreboardUI : MonoBehaviour
     private Sprite king;
     private Sprite rogue;
     private Sprite wizard;
+    private Sprite knight;
 
     // Managers
     private HeroManager heroManager;
@@ -49,6 +50,7 @@ public class ScoreboardUI : MonoBehaviour
         king = Resources.Load<Sprite>("UI Resources/king");
         rogue = Resources.Load<Sprite>("UI Resources/thief");
         wizard = Resources.Load<Sprite>("UI Resources/mage");
+        knight = Resources.Load<Sprite>("UI Resources/knight");
     }
 
     /// <summary>
@@ -116,6 +118,9 @@ public class ScoreboardUI : MonoBehaviour
             case 2:
                 player1Icon.sprite = wizard;
                 break;
+            case 3:
+                player1Icon.sprite = knight;
+                break;
             default:
                 player1Icon.sprite = king;
                 break;
@@ -131,6 +136,9 @@ public class ScoreboardUI : MonoBehaviour
                 break;
             case 2:
                 player2Icon.sprite = wizard;
+                break;
+            case 3:
+                player1Icon.sprite = knight;
                 break;
             default:
                 player2Icon.sprite = king;

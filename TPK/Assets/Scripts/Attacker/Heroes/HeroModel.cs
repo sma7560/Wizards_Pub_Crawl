@@ -12,7 +12,8 @@ public class HeroModel : NetworkBehaviour
     // Stats
     [SyncVar] private readonly int maxHealth = 100;
     [SyncVar] private int currentHealth;
-    [SyncVar] private int moveSpeed;        // multiplier for move speed (velocity)
+    [SyncVar] private int baseMoveSpeed;
+    [SyncVar] private int currentMoveSpeed;
     [SyncVar] private int defence;
     [SyncVar] private int attack;
 
@@ -158,24 +159,45 @@ public class HeroModel : NetworkBehaviour
     }
 
     /// <summary>
-    /// Setter for move speed.
+    /// Setter for base move speed.
     /// </summary>
-    public void SetMoveSpeed(int val)
+    public void SetBaseMoveSpeed(int val)
     {
         if (!hasAuthority) return;
 
-        moveSpeed = val;
-        characterMovement.SetSpeed(moveSpeed);
+        baseMoveSpeed = val;
+        characterMovement.SetSpeed(val);
 
         if (!isServer)
         {
-            CmdSetMoveSpeed(val);
+            CmdSetBaseSpeed(val);
         }
     }
     [Command]
-    private void CmdSetMoveSpeed(int val)
+    private void CmdSetBaseSpeed(int val)
     {
-        moveSpeed = val;
+        baseMoveSpeed = val;
+    }
+
+    /// <summary>
+    /// Setter for current move speed.
+    /// </summary>
+    public void SetCurrentMoveSpeed(int val)
+    {
+        if (!hasAuthority) return;
+
+        currentMoveSpeed = val;
+        characterMovement.SetSpeed(val);
+
+        if (!isServer)
+        {
+            CmdSetCurrentMoveSpeed(val);
+        }
+    }
+    [Command]
+    private void CmdSetCurrentMoveSpeed(int val)
+    {
+        currentMoveSpeed = val;
     }
 
     /// <summary>
@@ -365,9 +387,14 @@ public class HeroModel : NetworkBehaviour
         return heroType;
     }
 
-    public int GetMoveSpeed()
+    public int GetBaseMoveSpeed()
     {
-        return moveSpeed;
+        return baseMoveSpeed;
+    }
+
+    public int GetCurrentMoveSpeed()
+    {
+        return currentMoveSpeed;
     }
 
     public int GetDefence()

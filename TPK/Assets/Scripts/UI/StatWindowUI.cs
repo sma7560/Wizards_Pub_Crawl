@@ -76,7 +76,7 @@ public class StatWindowUI : MonoBehaviour
         // Set text elements to appropriate stats
         atkText.text = heroModel.GetAttack().ToString();
         defText.text = heroModel.GetDefence().ToString();
-        spdText.text = heroModel.GetMoveSpeed().ToString();
+        spdText.text = heroModel.GetCurrentMoveSpeed().ToString();
     }
 
     /// <summary>

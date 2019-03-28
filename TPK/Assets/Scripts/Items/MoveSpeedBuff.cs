@@ -20,14 +20,14 @@ public class MoveSpeedBuff : Item
     protected override IEnumerator tempBuff(HeroModel currentStat)
     {
         //get original stat
-        int origStat = currentStat.GetMoveSpeed();
+        int origStat = currentStat.GetCurrentMoveSpeed();
         //set stat to include buffs
-        currentStat.SetMoveSpeed(origStat + buffAmount);
+        currentStat.SetCurrentMoveSpeed(origStat + buffAmount);
 
         //buff lasts for 30 seconds
         yield return new WaitForSeconds(30);
         //set stat back to original stat
-        currentStat.SetMoveSpeed(origStat);
+        currentStat.SetCurrentMoveSpeed(origStat);
         Destroy(gameObject);
     }
 

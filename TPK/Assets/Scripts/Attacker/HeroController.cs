@@ -29,13 +29,11 @@ public class HeroController : NetworkBehaviour
 
     private readonly int deathTimer = 4;    // default death timer
     private bool isDungeonReady = false;
-    private int baseSpeed;
 
     private GameObject cam;
     private Rigidbody heroRigidbody;
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
-    private HeroModel heroModel;
     private BasicAttack battack;
     private TestAnimConrtoller animate;
     private Vector3 tempVelocity;
@@ -55,7 +53,6 @@ public class HeroController : NetworkBehaviour
         ground = new Plane(Vector3.up, Vector3.zero);
 
         heroRigidbody = GetComponent<Rigidbody>();
-        heroModel = GetComponent<HeroModel>();
         battack = GetComponent<BasicAttack>();
         animate = GetComponent<TestAnimConrtoller>();
 
@@ -76,7 +73,7 @@ public class HeroController : NetworkBehaviour
         if (!isLocalPlayer && !localTest) return;
 
         // Only allow controls if hero is not knocked out, game is currently not in prephase, and match has not ended
-        if (!heroModel.IsKnockedOut() && !prephaseManager.IsCurrentlyInPrephase() && !matchManager.HasMatchEnded())
+        if (!GetComponent<HeroModel>().IsKnockedOut() && !prephaseManager.IsCurrentlyInPrephase() && !matchManager.HasMatchEnded())
         {
             // TODO:
             // This will be changed later but setting up the basic attack here. this should be moved to the endphase.
@@ -85,11 +82,11 @@ public class HeroController : NetworkBehaviour
             {
                 isDungeonReady = true;
                 battack.CmdSetAttackParameters();
-                animate.myHeroType = heroModel.GetHeroType();
+                animate.myHeroType = GetComponent<HeroModel>().GetHeroType();
             }
 
             // Perform character movement controls
-            tempVelocity = heroModel.GetCharacterMovement().Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+            tempVelocity = GetComponent<HeroModel>().GetCharacterMovement().Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
             tempVelocity.y = heroRigidbody.velocity.y;
             heroRigidbody.velocity = tempVelocity;
             PerformRotation();
@@ -103,7 +100,7 @@ public class HeroController : NetworkBehaviour
         }
 
         // Check current health status
-        if (!prephaseManager.IsCurrentlyInPrephase() && heroModel.GetCurrentHealth() <= 0)
+        if (!prephaseManager.IsCurrentlyInPrephase() && GetComponent<HeroModel>().GetCurrentHealth() <= 0)
         {
             KnockOut();
         }
@@ -140,10 +137,10 @@ public class HeroController : NetworkBehaviour
     private void KnockOut()
     {
         // Do nothing if hero is already knocked out
-        if (heroModel.IsKnockedOut()) return;
+        if (GetComponent<HeroModel>().IsKnockedOut()) return;
 
         // Set status and death animation
-        heroModel.SetKnockedOut(true);
+        GetComponent<HeroModel>().SetKnockedOut(true);
         animate.SetDead(true);
 
         // Start timer for length of time that character remains knocked out
@@ -158,7 +155,7 @@ public class HeroController : NetworkBehaviour
     private void Spawn()
     {
         // Reset animation back to alive animation
-        if (heroModel.IsKnockedOut())
+        if (GetComponent<HeroModel>().IsKnockedOut())
         {
             animate.SetDead(false);
         }
@@ -167,8 +164,8 @@ public class HeroController : NetworkBehaviour
         Instantiate(compass, transform);
 
         // Reset variables
-        heroModel.SetKnockedOut(false);
-        heroModel.SetFullHealth();
+        GetComponent<HeroModel>().SetKnockedOut(false);
+        GetComponent<HeroModel>().SetFullHealth();
 
         // Set player location back to spawn point
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
@@ -195,12 +192,11 @@ public class HeroController : NetworkBehaviour
 
     public void ArtifactPickup()
     {
-        baseSpeed = heroModel.GetMoveSpeed();
-        heroModel.SetMoveSpeed((int)(heroModel.GetMoveSpeed() * 0.75));
+        GetComponent<HeroModel>().SetCurrentMoveSpeed((int)(GetComponent<HeroModel>().GetBaseMoveSpeed() * 0.75));
     }
 
     public void ArtifactDrop()
     {
-        heroModel.SetMoveSpeed(baseSpeed);
+        GetComponent<HeroModel>().SetCurrentMoveSpeed(GetComponent<HeroModel>().GetBaseMoveSpeed());
     }
 }
