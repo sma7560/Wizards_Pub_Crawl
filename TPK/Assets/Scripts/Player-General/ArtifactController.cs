@@ -11,6 +11,10 @@ public class ArtifactController : MonoBehaviour
     private Vector3 ownerSpawn;         // the spawn location of the last player that held this artifact
     private RarityType rarity;          // rarity of this artifact
 
+
+	private int playerBasespeed;		//basespeed of player carrying the artifact
+	private int playerSlowdown;			//25% move speed reduction to be applied on pickup
+
     Vector3 smallscale = new Vector3(1.25f, 1.25f, 1.25f);  // size used when carried (smaller)
     Vector3 normalscale = new Vector3(2f, 2f, 2f);	        // size used when artifact is on the ground (larger)
 
@@ -75,7 +79,10 @@ public class ArtifactController : MonoBehaviour
                     isCarried = true;
 
 					// Slow down the player on pickup
-					playerThatOwns.GetComponent<HeroController>().ArtifactPickup();
+					playerBasespeed = playerThatOwns.GetComponent<HeroModel>().GetBaseMoveSpeed();
+					playerSlowdown = (int) (playerBasespeed * 0.25);
+					playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
+						playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() - playerSlowdown);
 
                     // Broadcast that player has acquired the artifact
                     GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleAcquired(ownerID);
@@ -89,7 +96,10 @@ public class ArtifactController : MonoBehaviour
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
 						// Undo character slowdown
-						playerThatOwns.GetComponent<HeroController>().ArtifactDrop();
+						playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
+							playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() + playerSlowdown);
+						playerBasespeed = 0;
+						playerSlowdown = 0;
 						
                         // Broadcast that player has scored the artifact
                         GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleScored(ownerID);
@@ -120,7 +130,10 @@ public class ArtifactController : MonoBehaviour
         transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 1f, playerThatOwns.transform.position.z);
 
 		// Undo character slowdown
-		playerThatOwns.GetComponent<HeroController>().ArtifactDrop();
+		playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
+			playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() + playerSlowdown);
+		playerBasespeed = 0;
+		playerSlowdown = 0;
 
         // Reset owning player variables
         playerThatOwns = null;

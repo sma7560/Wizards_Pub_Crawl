@@ -189,14 +189,4 @@ public class HeroController : NetworkBehaviour
         yield return new WaitForSeconds(0.25f);
         battack.PerformAttack();
     }
-
-    public void ArtifactPickup()
-    {
-        GetComponent<HeroModel>().SetCurrentMoveSpeed((int)(GetComponent<HeroModel>().GetBaseMoveSpeed() * 0.75));
-    }
-
-    public void ArtifactDrop()
-    {
-        GetComponent<HeroModel>().SetCurrentMoveSpeed(GetComponent<HeroModel>().GetBaseMoveSpeed());
-    }
 }
