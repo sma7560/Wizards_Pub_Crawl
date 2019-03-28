@@ -30,6 +30,7 @@ public class PrephaseUI : MonoBehaviour
     private Hero king;
     private Hero wizard;
     private Hero rogue;
+    private Hero armored;
 
     // Currently selected hero
     private Hero selectedHero;
@@ -143,7 +144,7 @@ public class PrephaseUI : MonoBehaviour
     {
         if (selectedHero == king)
         {
-            selectedHero = rogue;
+            selectedHero = armored;
         }
         else if (selectedHero == wizard)
         {
@@ -152,6 +153,10 @@ public class PrephaseUI : MonoBehaviour
         else if (selectedHero == rogue)
         {
             selectedHero = wizard;
+        }
+        else if (selectedHero == armored)
+        {
+            selectedHero = rogue;
         }
 
         SetupDefaultStats();
@@ -175,6 +180,10 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == rogue)
         {
+            selectedHero = armored;
+        }
+        else if (selectedHero == armored)
+        {
             selectedHero = king;
         }
 
@@ -197,6 +206,8 @@ public class PrephaseUI : MonoBehaviour
                 return rogue;
             case 2:
                 return wizard;
+            case 3:
+                return armored;
             default:
                 return null;
         }
@@ -222,6 +233,11 @@ public class PrephaseUI : MonoBehaviour
         rogue.heroType = HeroType.melee;
         rogue.heroName = "Sneaky Wizard";
         rogue.childIndex = 1;
+
+        armored = ScriptableObject.CreateInstance<Hero>();
+        armored.heroType = HeroType.melee;
+        armored.heroName = "Armoured Wizard";
+        armored.childIndex = 3;
     }
 
     /// <summary>
@@ -244,9 +260,15 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == rogue)
         {
-            heroModel.SetAttack(5);
-            heroModel.SetDefence(5);
+            heroModel.SetAttack(10);
+            heroModel.SetDefence(0);
             heroModel.SetMoveSpeed(12);
+        }
+        else if (selectedHero == armored)
+        {
+            heroModel.SetAttack(10);
+            heroModel.SetDefence(15);
+            heroModel.SetMoveSpeed(8);
         }
         else
         {
