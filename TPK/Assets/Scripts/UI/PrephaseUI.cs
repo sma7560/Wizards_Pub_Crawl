@@ -302,6 +302,9 @@ public class PrephaseUI : MonoBehaviour
         {
             Debug.Log("Selected Hero is not a valid hero.");
         }
+
+		heroModel.SetFullHealth ();
+
     }
 
     /// <summary>
