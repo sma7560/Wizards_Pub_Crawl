@@ -34,9 +34,4 @@ public class DefenseItem : Item
         //Debug.Log("Buff end, " + currentStat.GetPAttack());
         Destroy(gameObject);
     }
-
-    protected override void rotateAnimation()
-    {
-        transform.RotateAround(transform.position, transform.up, Time.deltaTime * 90f);
-    }
 }

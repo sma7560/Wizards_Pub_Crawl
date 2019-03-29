@@ -23,10 +23,4 @@ public class HealthItem : Item {
         }
         Destroy(gameObject);
     }
-
-    protected override void rotateAnimation()
-    {
-        transform.RotateAround(transform.position, transform.forward, Time.deltaTime * 90f);
-    }
-
 }

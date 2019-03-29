@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 4241744431675450}
   - component: {fileID: 33813622530630642}
   - component: {fileID: 23762984284081554}
+  - component: {fileID: 111844355297855998}
   m_Layer: 0
   m_Name: SM_Wep_Shield_Ornate_01
   m_TagString: Untagged
@@ -53,7 +54,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1569550995611124}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 4441318523330558}
@@ -66,7 +67,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1099201270792784}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.169871, y: 0.031216145, z: 48.52551}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4241744431675450}
@@ -125,8 +126,23 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.9473443, y: 3.3176723, z: 1.2089424}
-  m_Center: {x: -0.015338898, y: 2.048199, z: 0.087236404}
+  m_Size: {x: 2, y: 5, z: 2}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!111 &111844355297855998
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1569550995611124}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: b687e7f7bb1a7684c972dc6d89201e74, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: b687e7f7bb1a7684c972dc6d89201e74, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114094055881614176
 MonoBehaviour:
   m_ObjectHideFlags: 1

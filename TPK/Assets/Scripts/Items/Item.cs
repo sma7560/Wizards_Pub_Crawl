@@ -8,11 +8,6 @@ using UnityEngine.Networking;
  */
 public class Item : NetworkBehaviour
 {
-    private void Update()
-    {
-        //rotation animation
-        rotateAnimation();
-    }
 
     //check if player comes in contact with item
     private void OnTriggerEnter(Collider other)
@@ -35,10 +30,5 @@ public class Item : NetworkBehaviour
     {
         //to be implemented by children
         yield return new WaitForSeconds(5);
-    }
-
-    protected virtual void rotateAnimation()
-    {
-        //to be implemented by children
     }
 }
