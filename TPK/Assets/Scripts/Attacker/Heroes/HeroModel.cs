@@ -101,7 +101,7 @@ public class HeroModel : NetworkBehaviour
     /// </returns>
     public bool IsAttackBuffed()
     {
-        if (baseAttack != currentAttack)
+        if (currentAttack > baseAttack)
         {
             return true;
         }
@@ -114,7 +114,7 @@ public class HeroModel : NetworkBehaviour
     /// </returns>
     public bool IsDefBuffed()
     {
-        if (baseDefense != currentDefense)
+        if (currentDefense > baseDefense)
         {
             return true;
         }
@@ -127,7 +127,7 @@ public class HeroModel : NetworkBehaviour
     /// </returns>
     public bool IsSpeedBuffed()
     {
-        if (baseMoveSpeed != currentMoveSpeed)
+        if (currentMoveSpeed > baseMoveSpeed)
         {
             return true;
         }
