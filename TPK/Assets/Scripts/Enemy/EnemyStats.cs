@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class EnemyStats : CharacterStats
 {
@@ -17,6 +18,15 @@ public class EnemyStats : CharacterStats
     protected float idleHowOftenDirectionChanged;
     private AnimationEnemyController animation;
     private bool isDying;
+    private IUnityService unityService;
+
+    private void Start()
+    {
+        if (unityService == null)
+        {
+            unityService = new UnityService();
+        }
+    }
 
     //mosnter death overrides default die method
     protected override void Die()
@@ -43,6 +53,7 @@ public class EnemyStats : CharacterStats
     //function to drop items upon death
     private void dropItem()
     {
+        if (!isServer) return;
         int randChance = Random.Range(0, 101);
 
         //random chance to drop health pickup
@@ -52,8 +63,9 @@ public class EnemyStats : CharacterStats
             GameObject monsterDrop = determineItemDrop();
             Vector3 itemPosition = transform.position;
             itemPosition.y = itemPosition.y + 0.7f;
-            Instantiate(monsterDrop, itemPosition, Quaternion.Euler(0, 0, 0));
-            Debug.Log("Item dropped succesfully");
+            GameObject temp = unityService.Instantiate(monsterDrop, itemPosition, Quaternion.Euler(0, 0, 0));
+            NetworkServer.Spawn(temp);
+            Debug.Log(monsterDrop.name + " dropped succesfully");
         }
     }
 

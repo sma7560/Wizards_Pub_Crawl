@@ -3323,8 +3323,8 @@ MonoBehaviour:
     value: 2
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
-  - {fileID: 1303991450632026, guid: 9d97ca1e8e5176746ac5f668989b40fe, type: 2}
-  - {fileID: 1303991450632026, guid: 9d97ca1e8e5176746ac5f668989b40fe, type: 2}
+  - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
+  - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   totalDropRate: 40
   movementSpeed:
     value: 6
