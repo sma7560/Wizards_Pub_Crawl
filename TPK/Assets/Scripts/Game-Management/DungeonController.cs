@@ -16,7 +16,7 @@ public class DungeonController : MonoBehaviour
 
     // Menu & UI game objects
     private GameObject inGameMenu;
-    public Button inGameMenuResumeButton;
+    private Button inGameMenuResumeButton;
     private GameObject statWindow;
     private GameObject scoreboard;
 
@@ -92,6 +92,7 @@ public class DungeonController : MonoBehaviour
             // Reset in-game menu if it is now inactive
             if (!inGameMenu.activeSelf)
             {
+                inGameMenuResumeButton = inGameMenu.transform.Find("Panel").Find("OptionsMenu").Find("ResumeButton").GetComponent<Button>();
                 inGameMenuResumeButton.onClick.Invoke();
             }
         }
@@ -309,6 +310,23 @@ public class DungeonController : MonoBehaviour
 
             // Keep name facing towards camera
             SetFacingTowardsCamera(name);
+        }
+    }
+
+    /// <summary>
+    /// Locally updates all player buffs in the scene.
+    /// </summary>
+    private void UpdateBuffs()
+    {
+        // Get all player objects
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+
+        // Update buffs of each player
+        foreach (GameObject player in playerObjects)
+        {
+            // Get necessary components
+            int playerId = player.GetComponent<HeroModel>().GetPlayerId();
+            Transform name = player.transform.Find("Buffs"); // Transform that holds all buff-related info
         }
     }
 }

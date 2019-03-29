@@ -84,11 +84,12 @@ public class StatWindowUI : MonoBehaviour
         else if (speedDif > 0)
         {
             // slow down
-            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + "(<color=#FF0000>" + Math.Abs(speedDif).ToString() + "</color>)";
+            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#FF0000>(" + speedDif.ToString() + ")</color>";
         }
         else
         {
-            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + "(<color=#00FF00>" + Math.Abs(speedDif).ToString() + "</color>)";
+            // speed up
+            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#00FF00>(+" + speedDif.ToString() + ")</color>";
         }
 
         // Set text elements to appropriate stats

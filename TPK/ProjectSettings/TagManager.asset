@@ -32,6 +32,7 @@ TagManager:
   - Announcement
   - Safezone
   - StatWindow
+  - Scoreboard
   layers:
   - Default
   - TransparentFX

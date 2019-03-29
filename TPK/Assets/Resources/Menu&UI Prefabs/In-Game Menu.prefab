@@ -662,6 +662,7 @@ GameObject:
   - component: {fileID: 223513364702685538}
   - component: {fileID: 114778789727604324}
   - component: {fileID: 114775464307786394}
+  - component: {fileID: 114447110961538118}
   m_Layer: 5
   m_Name: In-Game Menu
   m_TagString: Untagged
@@ -2009,6 +2010,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114447110961538118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1811973455934344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074a53645ee443942a412c127d061297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114468522536441562
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3138,8 +3150,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: QuitMatch
+      - m_Target: {fileID: 114447110961538118}
+        m_MethodName: QuitButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
