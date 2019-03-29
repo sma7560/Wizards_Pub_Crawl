@@ -20,6 +20,11 @@ public class DungeonController : MonoBehaviour
     private GameObject statWindow;
     private GameObject scoreboard;
 
+    // Buff sprites
+    public Sprite atkBuff;
+    public Sprite defBuff;
+    public Sprite spdBuff;
+
     public IUnityService unityService;
 
     private PrephaseManager prephaseManager;
@@ -56,6 +61,7 @@ public class DungeonController : MonoBehaviour
         UpdateAllHealthBars();
         UpdateMusic();
         UpdatePlayerNames();
+        UpdateBuffs();
     }
 
     /// <summary>
@@ -190,10 +196,12 @@ public class DungeonController : MonoBehaviour
         // Update health bar image to appropriate fill level depending on current health
         Image healthImage = healthBar.Find("Health").GetComponent<Image>();
         healthImage.fillAmount = (float)stats.GetCurrentHealth() / (float)stats.GetMaxHealth();
+        RenderOnTop(healthImage);
 
         // Update health bar text with value of current health
         TextMeshProUGUI healthText = healthBar.Find("HealthText").GetComponent<TextMeshProUGUI>();
         healthText.text = stats.GetCurrentHealth() + "/" + stats.GetMaxHealth();
+        RenderOnTop(healthText);
 
         // Keep health bar facing towards camera
         SetFacingTowardsCamera(healthBar);
@@ -233,10 +241,7 @@ public class DungeonController : MonoBehaviour
         Camera camera = Camera.current;
         if (camera != null)
         {
-            Vector3 v = camera.transform.position - t.position;
-            v.x = v.z = 0.0f;
-            t.LookAt(camera.transform.position - v);    // Fix position towards of camera
-            t.rotation = (camera.transform.rotation);   // Fix rotation towards camera
+            t.rotation = Quaternion.LookRotation(camera.transform.forward);    // Fix rotation towards camera
         }
     }
 
@@ -303,6 +308,7 @@ public class DungeonController : MonoBehaviour
             int playerId = player.GetComponent<HeroModel>().GetPlayerId();
             Transform name = player.transform.Find("Name"); // Transform that holds all player name info
             TextMeshProUGUI nameText = name.Find("NameText").GetComponent<TextMeshProUGUI>();
+            RenderOnTop(nameText);
 
             // Set the name
             nameText.text = "Player " + playerId.ToString();
@@ -325,8 +331,70 @@ public class DungeonController : MonoBehaviour
         foreach (GameObject player in playerObjects)
         {
             // Get necessary components
-            int playerId = player.GetComponent<HeroModel>().GetPlayerId();
-            Transform name = player.transform.Find("Buffs"); // Transform that holds all buff-related info
+            Transform buffs = player.transform.Find("Buffs"); // Transform that holds all buff-related info
+            Image[] buffImages = new Image[3];
+            buffImages[0] = buffs.Find("Buff1").GetComponent<Image>();
+            buffImages[1] = buffs.Find("Buff2").GetComponent<Image>();
+            buffImages[2] = buffs.Find("Buff3").GetComponent<Image>();
+            HeroModel heroModel = player.GetComponent<HeroModel>();
+
+            // Render buffs always on top
+            RenderOnTop(buffImages[0]);
+            RenderOnTop(buffImages[1]);
+            RenderOnTop(buffImages[2]);
+
+            // Check if player has buffs; set sprite icon for buff if they do
+            int numBuffs = 0;
+            if (heroModel.IsAttackBuffed())
+            {
+                buffImages[numBuffs].sprite = atkBuff;
+                buffImages[numBuffs].color = new Color(1f, 1f, 1f, 1f);
+                numBuffs++;
+            }
+            if (heroModel.IsDefBuffed())
+            {
+                buffImages[numBuffs].sprite = defBuff;
+                buffImages[numBuffs].color = new Color(1f, 1f, 1f, 1f);
+                numBuffs++;
+            }
+            if (heroModel.IsSpeedBuffed())
+            {
+                buffImages[numBuffs].sprite = spdBuff;
+                buffImages[numBuffs].color = new Color(1f, 1f, 1f, 1f);
+                numBuffs++;
+            }
+
+            // Disable unneeded buff images
+            for (int i = numBuffs; i < 3; i++)
+            {
+                // Sets opacity to transparent
+                buffImages[i].color = new Color(1f, 1f, 1f, 0f);
+            }
+
+            // Keep buff icons facing towards camera
+            SetFacingTowardsCamera(buffs);
         }
+    }
+
+    /// <summary>
+    /// Sets the material to always render on top.
+    /// </summary>
+    /// <param name="img">Image to always render on top.</param>
+    private void RenderOnTop(Image img)
+    {
+        Material mat = img.materialForRendering;
+        mat.SetInt("unity_GUIZTestMode", (int)UnityEngine.Rendering.CompareFunction.Always);
+        img.material = mat;
+    }
+
+    /// <summary>
+    /// Sets the material to always render on top.
+    /// </summary>
+    /// <param name="text">Text to always render on top.</param>
+    private void RenderOnTop(TextMeshProUGUI text)
+    {
+        Material mat = text.materialForRendering;
+        mat.SetInt("unity_GUIZTestMode", (int)UnityEngine.Rendering.CompareFunction.Always);
+        text.material = mat;
     }
 }

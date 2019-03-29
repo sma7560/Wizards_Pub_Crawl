@@ -38,7 +38,7 @@ public class BasicAttack : NetworkBehaviour
         attackType = HeroType.range;
         magRange = 5f;
         damageType = DamageType.none;
-        damage = heroModel.GetAttack();
+        damage = heroModel.GetCurrentAttack();
     }
 
     public void PerformAttack()

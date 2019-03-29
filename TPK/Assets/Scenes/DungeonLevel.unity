@@ -495,6 +495,9 @@ MonoBehaviour:
   music:
   - {fileID: 8300000, guid: b2ed70b6bd11af94b98f5130add0b72c, type: 3}
   - {fileID: 8300000, guid: 598364e1a17999e49b57e656167be33b, type: 3}
+  atkBuff: {fileID: 21300000, guid: 0d06a430a2fae1c4c842b86cefcbdb5a, type: 3}
+  defBuff: {fileID: 21300000, guid: f0b12383c1012d244a4d6052d95ff544, type: 3}
+  spdBuff: {fileID: 21300000, guid: 422515290f7b4ec4facd437155751b8b, type: 3}
 --- !u!82 &1226987337
 AudioSource:
   m_ObjectHideFlags: 0

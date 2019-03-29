@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -11,11 +9,14 @@ public class HeroModel : NetworkBehaviour
 {
     // Stats
     [SyncVar] private int maxHealth;
-    [SyncVar] private int currentHealth;
     [SyncVar] private int baseMoveSpeed;
+    [SyncVar] private int baseDefense;
+    [SyncVar] private int baseAttack;
+
+    [SyncVar] private int currentHealth;
+    [SyncVar] private int currentDefense;
+    [SyncVar] private int currentAttack;
     [SyncVar] private int currentMoveSpeed;
-    [SyncVar] private int defence;
-    [SyncVar] private int attack;
 
     // Managers
     private MatchManager matchManager;
@@ -59,21 +60,7 @@ public class HeroModel : NetworkBehaviour
         // Calculate final damage taken based on stats
         float finalDamage = 0;
 
-        finalDamage = amount * (1 - (defence / 50));
-
-        //switch (damageType)
-        //{
-        //    case DamageType.magical:
-        //        finalDamage = (float)(10 / mDefence) * amount;
-        //        break;
-        //    case DamageType.physical:
-        //        finalDamage = (10 / pDefence) * amount;
-        //        break;
-        //    case DamageType.none:
-        //        // The none case can be used to describe things such as true damage.
-        //        finalDamage = amount;
-        //        break;
-        //}
+        finalDamage = amount * (1 - (currentDefense / 50));
 
         finalDamage = Mathf.Clamp(finalDamage, 0, int.MaxValue);    // restrict damage to [0, int.MaxValue]
         currentHealth = currentHealth - (int)Mathf.Round(finalDamage);
@@ -107,6 +94,45 @@ public class HeroModel : NetworkBehaviour
     private void CmdHeal(int amount)
     {
         LocalHeal(amount);
+    }
+
+    /// <returns>
+    /// Returns true if character's current attack differs from their base atack.
+    /// </returns>
+    public bool IsAttackBuffed()
+    {
+        if (baseAttack != currentAttack)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <returns>
+    /// Returns true if character's current defense differs from their base defense.
+    /// </returns>
+    public bool IsDefBuffed()
+    {
+        if (baseDefense != currentDefense)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <returns>
+    /// Returns true if character's current speed differs from their base speed.
+    /// </returns>
+    public bool IsSpeedBuffed()
+    {
+        if (baseMoveSpeed != currentMoveSpeed)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     /// ----------------------------------------
@@ -166,7 +192,7 @@ public class HeroModel : NetworkBehaviour
         if (!hasAuthority) return;
 
         baseMoveSpeed = val;
-        SetCurrentMoveSpeed(val);
+        currentMoveSpeed = val;
         characterMovement.SetSpeed(val);
 
         if (!isServer)
@@ -178,6 +204,7 @@ public class HeroModel : NetworkBehaviour
     private void CmdSetBaseSpeed(int val)
     {
         baseMoveSpeed = val;
+        currentMoveSpeed = val;
     }
 
     /// <summary>
@@ -202,43 +229,87 @@ public class HeroModel : NetworkBehaviour
     }
 
     /// <summary>
-    /// Setter for defense.
+    /// Setter for base defense.
     /// </summary>
-    public void SetDefence(int val)
+    public void SetBaseDefense(int val)
     {
         if (!hasAuthority) return;
 
-        defence = val;
+        baseDefense = val;
+        currentDefense = val;
 
         if (!isServer)
         {
-            CmdSetDefence(val);
+            CmdSetBaseDefense(val);
         }
     }
     [Command]
-    private void CmdSetDefence(int val)
+    private void CmdSetBaseDefense(int val)
     {
-        defence = val;
+        baseDefense = val;
+        currentDefense = val;
     }
 
     /// <summary>
-    /// Setter for attack.
+    /// Setter for current defense.
     /// </summary>
-    public void SetAttack(int val)
+    public void SetCurrentDefense(int val)
     {
         if (!hasAuthority) return;
 
-        attack = val;
+        currentDefense = val;
 
         if (!isServer)
         {
-            CmdSetAttack(val);
+            CmdSetCurrentDefense(val);
         }
     }
     [Command]
-    private void CmdSetAttack(int val)
+    private void CmdSetCurrentDefense(int val)
     {
-        attack = val;
+        currentDefense = val;
+    }
+
+    /// <summary>
+    /// Setter for base attack.
+    /// </summary>
+    public void SetBaseAttack(int val)
+    {
+        if (!hasAuthority) return;
+
+        baseAttack = val;
+        currentAttack = val;
+
+        if (!isServer)
+        {
+            CmdSetBaseAttack(val);
+        }
+    }
+    [Command]
+    private void CmdSetBaseAttack(int val)
+    {
+        baseAttack = val;
+        currentAttack = val;
+    }
+
+    /// <summary>
+    /// Setter for current attack.
+    /// </summary>
+    public void SetCurrentAttack(int val)
+    {
+        if (!hasAuthority) return;
+
+        currentAttack = val;
+
+        if (!isServer)
+        {
+            CmdSetCurrentAttack(val);
+        }
+    }
+    [Command]
+    private void CmdSetCurrentAttack(int val)
+    {
+        currentAttack = val;
     }
 
     /// <summary>
@@ -413,19 +484,29 @@ public class HeroModel : NetworkBehaviour
         return baseMoveSpeed;
     }
 
+    public int GetBaseDefense()
+    {
+        return baseDefense;
+    }
+
+    public int GetBaseAttack()
+    {
+        return baseAttack;
+    }
+
     public int GetCurrentMoveSpeed()
     {
         return currentMoveSpeed;
     }
 
-    public int GetDefence()
+    public int GetCurrentDefense()
     {
-        return defence;
+        return currentDefense;
     }
 
-    public int GetAttack()
+    public int GetCurrentAttack()
     {
-        return attack;
+        return currentAttack;
     }
 
     public int GetPlayerId()

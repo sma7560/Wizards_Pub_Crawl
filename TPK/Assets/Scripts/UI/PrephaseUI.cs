@@ -272,29 +272,29 @@ public class PrephaseUI : MonoBehaviour
         // Set default stat values depending on the hero type
         if (selectedHero == king)
         {
-            heroModel.SetAttack(10);
-            heroModel.SetDefence(10);
+            heroModel.SetBaseAttack(10);
+            heroModel.SetBaseDefense(10);
             heroModel.SetBaseMoveSpeed(10);
             heroModel.SetMaxHealth(100);
         }
         else if (selectedHero == wizard)
         {
-            heroModel.SetAttack(15);
-            heroModel.SetDefence(5);
+            heroModel.SetBaseAttack(15);
+            heroModel.SetBaseDefense(5);
             heroModel.SetBaseMoveSpeed(10);
             heroModel.SetMaxHealth(80);
         }
         else if (selectedHero == rogue)
         {
-            heroModel.SetAttack(10);
-            heroModel.SetDefence(0);
+            heroModel.SetBaseAttack(10);
+            heroModel.SetBaseDefense(0);
             heroModel.SetBaseMoveSpeed(12);
             heroModel.SetMaxHealth(100);
         }
         else if (selectedHero == armored)
         {
-            heroModel.SetAttack(10);
-            heroModel.SetDefence(15);
+            heroModel.SetBaseAttack(10);
+            heroModel.SetBaseDefense(15);
             heroModel.SetBaseMoveSpeed(8);
             heroModel.SetMaxHealth(150);
         }
@@ -336,9 +336,9 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     private void UpdateStats()
     {
-        attack.text = heroModel.GetAttack().ToString();
-        defense.text = heroModel.GetDefence().ToString();
-        moveSpeed.text = heroModel.GetBaseMoveSpeed().ToString();
+        attack.text = heroModel.GetCurrentAttack().ToString();
+        defense.text = heroModel.GetCurrentDefense().ToString();
+        moveSpeed.text = heroModel.GetCurrentMoveSpeed().ToString();
         health.text = heroModel.GetMaxHealth().ToString();
     }
 

@@ -75,8 +75,12 @@ public class StatWindowUI : MonoBehaviour
         TextMeshProUGUI spdText = GameObject.Find("SpeedText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI healthText = GameObject.Find("MaxHealthText").GetComponent<TextMeshProUGUI>();
 
-        // Get potential speed differences
+        // Get differences in current and base stats
         int speedDif = heroModel.GetBaseMoveSpeed() - heroModel.GetCurrentMoveSpeed();
+        int atkDif = heroModel.GetBaseAttack() - heroModel.GetCurrentAttack();
+        int defDif = heroModel.GetBaseDefense() - heroModel.GetCurrentDefense();
+
+        // Set speed text
         if (speedDif == 0)
         {
             spdText.text = heroModel.GetBaseMoveSpeed().ToString();
@@ -84,17 +88,47 @@ public class StatWindowUI : MonoBehaviour
         else if (speedDif > 0)
         {
             // slow down
-            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#FF0000>(" + speedDif.ToString() + ")</color>";
+            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#FF0000>(-" + Math.Abs(speedDif).ToString() + ")</color>";
         }
         else
         {
             // speed up
-            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#00FF00>(+" + speedDif.ToString() + ")</color>";
+            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#00FF00>(+" + Math.Abs(speedDif).ToString() + ")</color>";
         }
 
-        // Set text elements to appropriate stats
-        atkText.text = heroModel.GetAttack().ToString();
-        defText.text = heroModel.GetDefence().ToString();
+        // Set attack text
+        if (atkDif == 0)
+        {
+            atkText.text = heroModel.GetBaseAttack().ToString();
+        }
+        else if (atkDif > 0)
+        {
+            // slow down
+            atkText.text = heroModel.GetBaseAttack().ToString() + " <color=#FF0000>(-" + Math.Abs(atkDif).ToString() + ")</color>";
+        }
+        else
+        {
+            // speed up
+            atkText.text = heroModel.GetBaseAttack().ToString() + " <color=#00FF00>(+" + Math.Abs(atkDif).ToString() + ")</color>";
+        }
+
+        // Set defense text
+        if (defDif == 0)
+        {
+            defText.text = heroModel.GetBaseDefense().ToString();
+        }
+        else if (defDif > 0)
+        {
+            // slow down
+            defText.text = heroModel.GetBaseDefense().ToString() + " <color=#FF0000>(-" + Math.Abs(defDif).ToString() + ")</color>";
+        }
+        else
+        {
+            // speed up
+            defText.text = heroModel.GetBaseDefense().ToString() + " <color=#00FF00>(+" + Math.Abs(defDif).ToString() + ")</color>";
+        }
+
+        // Set health text
         healthText.text = heroModel.GetMaxHealth().ToString();
     }
 
