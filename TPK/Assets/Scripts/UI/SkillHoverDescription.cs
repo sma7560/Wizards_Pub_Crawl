@@ -59,7 +59,7 @@ public class SkillHoverDescription : EventTrigger
         else if (skill != null)
         {
             // Show skill description in stat window if skill is not null
-            StatWindowUI statWindow = GameObject.Find("StatWindow").GetComponent<StatWindowUI>();
+            StatWindowUI statWindow = GameObject.FindGameObjectWithTag("StatWindow").GetComponent<StatWindowUI>();
             skillDescription = statWindow.skillDescription;
             skillDescriptionText = statWindow.skillDescriptionText;
             skillTitleText = statWindow.skillDescriptionTitleText;
@@ -89,7 +89,7 @@ public class SkillHoverDescription : EventTrigger
         }
         else
         {
-            StatWindowUI statWindow = GameObject.Find("StatWindow").GetComponent<StatWindowUI>();
+            StatWindowUI statWindow = GameObject.FindGameObjectWithTag("StatWindow").GetComponent<StatWindowUI>();
             skillDescription = statWindow.skillDescription;
         }
 

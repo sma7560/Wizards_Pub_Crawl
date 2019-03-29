@@ -25,12 +25,20 @@ public class PrephaseUI : MonoBehaviour
     private TextMeshProUGUI attack;
     private TextMeshProUGUI defense;
     private TextMeshProUGUI moveSpeed;
+    private TextMeshProUGUI health;
 
     // Default heroes
     private Hero king;
     private Hero wizard;
     private Hero rogue;
     private Hero armored;
+
+    // Stat graphs
+    private Image statGraph;
+    private Sprite kingStat;
+    private Sprite wizardStat;
+    private Sprite rogueStat;
+    private Sprite knightStat;
 
     // Currently selected hero
     private Hero selectedHero;
@@ -57,6 +65,14 @@ public class PrephaseUI : MonoBehaviour
         attack = GameObject.Find("AttackText").GetComponent<TextMeshProUGUI>();
         defense = GameObject.Find("DefText").GetComponent<TextMeshProUGUI>();
         moveSpeed = GameObject.Find("SpeedText").GetComponent<TextMeshProUGUI>();
+        health = GameObject.Find("HealthStatGraphText").GetComponent<TextMeshProUGUI>();
+
+        // Initialize stat graphs
+        statGraph = GameObject.Find("StatGraph").GetComponent<Image>();
+        kingStat = Resources.Load<Sprite>("UI Resources/stat graphs/king stat");
+        wizardStat = Resources.Load<Sprite>("UI Resources/stat graphs/classic stat");
+        rogueStat = Resources.Load<Sprite>("UI Resources/stat graphs/sneaky stat");
+        knightStat = Resources.Load<Sprite>("UI Resources/stat graphs/tank stat");
 
         // Setup default values for default heroes
         SetupDefaultHeroes();
@@ -145,18 +161,22 @@ public class PrephaseUI : MonoBehaviour
         if (selectedHero == king)
         {
             selectedHero = armored;
+            statGraph.sprite = knightStat;
         }
         else if (selectedHero == wizard)
         {
             selectedHero = king;
+            statGraph.sprite = kingStat;
         }
         else if (selectedHero == rogue)
         {
             selectedHero = wizard;
+            statGraph.sprite = wizardStat;
         }
         else if (selectedHero == armored)
         {
             selectedHero = rogue;
+            statGraph.sprite = rogueStat;
         }
 
         SetupDefaultStats();
@@ -173,18 +193,22 @@ public class PrephaseUI : MonoBehaviour
         if (selectedHero == king)
         {
             selectedHero = wizard;
+            statGraph.sprite = wizardStat;
         }
         else if (selectedHero == wizard)
         {
             selectedHero = rogue;
+            statGraph.sprite = rogueStat;
         }
         else if (selectedHero == rogue)
         {
             selectedHero = armored;
+            statGraph.sprite = knightStat;
         }
         else if (selectedHero == armored)
         {
             selectedHero = king;
+            statGraph.sprite = kingStat;
         }
 
         SetupDefaultStats();
@@ -251,29 +275,36 @@ public class PrephaseUI : MonoBehaviour
             heroModel.SetAttack(10);
             heroModel.SetDefence(10);
             heroModel.SetBaseMoveSpeed(10);
+            heroModel.SetMaxHealth(100);
         }
         else if (selectedHero == wizard)
         {
             heroModel.SetAttack(15);
             heroModel.SetDefence(5);
             heroModel.SetBaseMoveSpeed(10);
+            heroModel.SetMaxHealth(80);
         }
         else if (selectedHero == rogue)
         {
             heroModel.SetAttack(10);
             heroModel.SetDefence(0);
             heroModel.SetBaseMoveSpeed(12);
+            heroModel.SetMaxHealth(100);
         }
         else if (selectedHero == armored)
         {
             heroModel.SetAttack(10);
             heroModel.SetDefence(15);
             heroModel.SetBaseMoveSpeed(8);
+            heroModel.SetMaxHealth(150);
         }
         else
         {
             Debug.Log("Selected Hero is not a valid hero.");
         }
+
+		heroModel.SetFullHealth ();
+
     }
 
     /// <summary>
@@ -307,7 +338,8 @@ public class PrephaseUI : MonoBehaviour
     {
         attack.text = heroModel.GetAttack().ToString();
         defense.text = heroModel.GetDefence().ToString();
-        moveSpeed.text = heroModel.GetCurrentMoveSpeed().ToString();
+        moveSpeed.text = heroModel.GetBaseMoveSpeed().ToString();
+        health.text = heroModel.GetMaxHealth().ToString();
     }
 
     /// <summary>

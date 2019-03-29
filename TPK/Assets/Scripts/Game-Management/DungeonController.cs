@@ -15,10 +15,10 @@ public class DungeonController : MonoBehaviour
     private AudioSource audioSource;
 
     // Menu & UI game objects
-    public GameObject inGameMenu;
-    public Button inGameMenuResumeButton;
-    public GameObject statsWindow;
-    public GameObject scoreboard;
+    private GameObject inGameMenu;
+    private Button inGameMenuResumeButton;
+    private GameObject statWindow;
+    private GameObject scoreboard;
 
     public IUnityService unityService;
 
@@ -92,6 +92,7 @@ public class DungeonController : MonoBehaviour
             // Reset in-game menu if it is now inactive
             if (!inGameMenu.activeSelf)
             {
+                inGameMenuResumeButton = inGameMenu.transform.Find("Panel").Find("OptionsMenu").Find("ResumeButton").GetComponent<Button>();
                 inGameMenuResumeButton.onClick.Invoke();
             }
         }
@@ -102,7 +103,7 @@ public class DungeonController : MonoBehaviour
             // Toggles stats window when 'K' key pressed
             if (unityService.GetKeyDown(KeyCode.K))
             {
-                statsWindow.SetActive(!statsWindow.activeSelf);
+                statWindow.SetActive(!statWindow.activeSelf);
             }
 
             // Toggles scoreboard when 'TAB' key pressed
@@ -246,6 +247,13 @@ public class DungeonController : MonoBehaviour
     {
         if (prephaseManager == null) return;
 
+        // Initialize in-game UI
+        if (inGameMenu == null)
+        {
+            inGameMenu = Instantiate(Resources.Load("Menu&UI Prefabs/In-Game Menu") as GameObject);
+            inGameMenu.SetActive(false);
+        }
+
         if ( prephaseManager.GetState() == PrephaseManager.PrephaseState.WaitingForPlayers &&
              GameObject.FindGameObjectWithTag("WaitingRoomUI") == null )
         {
@@ -269,6 +277,12 @@ public class DungeonController : MonoBehaviour
             Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
             Destroy(GameObject.FindGameObjectWithTag("WaitingRoomUI")); // Destroy waiting room UI
             Instantiate(Resources.Load("Menu&UI Prefabs/PlayerUI"));    // Start player UI
+
+            // Initialize stat window and scoreboard
+            statWindow = Instantiate(Resources.Load("Menu&UI Prefabs/StatWindow") as GameObject);
+            scoreboard = Instantiate(Resources.Load("Menu&UI Prefabs/Scoreboard") as GameObject);
+            statWindow.SetActive(false);
+            scoreboard.SetActive(false);
         }
     }
 
@@ -296,6 +310,23 @@ public class DungeonController : MonoBehaviour
 
             // Keep name facing towards camera
             SetFacingTowardsCamera(name);
+        }
+    }
+
+    /// <summary>
+    /// Locally updates all player buffs in the scene.
+    /// </summary>
+    private void UpdateBuffs()
+    {
+        // Get all player objects
+        GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
+
+        // Update buffs of each player
+        foreach (GameObject player in playerObjects)
+        {
+            // Get necessary components
+            int playerId = player.GetComponent<HeroModel>().GetPlayerId();
+            Transform name = player.transform.Find("Buffs"); // Transform that holds all buff-related info
         }
     }
 }

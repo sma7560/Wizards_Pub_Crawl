@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 114788837608871554}
   m_Layer: 5
   m_Name: Scoreboard
-  m_TagString: Untagged
+  m_TagString: Scoreboard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1029,7 +1029,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Player 2
+  m_text: N/A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -1097,9 +1097,9 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 114757628999912766}
-    characterCount: 8
+    characterCount: 3
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 0
     wordCount: 2
     linkCount: 0
     lineCount: 1
@@ -1167,9 +1167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa8126ad90efbdc468db7e8d74f7d696, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  king: {fileID: 21300000, guid: cea9bd7aa3fbec945bfaa5648ec80e13, type: 3}
-  rogue: {fileID: 21300000, guid: 6323567c38f972c4d8effcfa317a3ad1, type: 3}
-  wizard: {fileID: 21300000, guid: 401e398da05687e438293d4826ca37e8, type: 3}
 --- !u!114 &114825901589662336
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1355,7 +1352,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Player 1
+  m_text: N/A
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -1423,9 +1420,9 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 114921676434658328}
-    characterCount: 8
+    characterCount: 3
     spriteCount: 0
-    spaceCount: 1
+    spaceCount: 0
     wordCount: 2
     linkCount: 0
     lineCount: 1

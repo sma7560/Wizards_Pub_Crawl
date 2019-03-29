@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -72,11 +73,29 @@ public class StatWindowUI : MonoBehaviour
         TextMeshProUGUI atkText = GameObject.Find("AttackText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI defText = GameObject.Find("DefenseText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI spdText = GameObject.Find("SpeedText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI healthText = GameObject.Find("MaxHealthText").GetComponent<TextMeshProUGUI>();
+
+        // Get potential speed differences
+        int speedDif = heroModel.GetBaseMoveSpeed() - heroModel.GetCurrentMoveSpeed();
+        if (speedDif == 0)
+        {
+            spdText.text = heroModel.GetBaseMoveSpeed().ToString();
+        }
+        else if (speedDif > 0)
+        {
+            // slow down
+            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#FF0000>(" + speedDif.ToString() + ")</color>";
+        }
+        else
+        {
+            // speed up
+            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#00FF00>(+" + speedDif.ToString() + ")</color>";
+        }
 
         // Set text elements to appropriate stats
         atkText.text = heroModel.GetAttack().ToString();
         defText.text = heroModel.GetDefence().ToString();
-        spdText.text = heroModel.GetCurrentMoveSpeed().ToString();
+        healthText.text = heroModel.GetMaxHealth().ToString();
     }
 
     /// <summary>

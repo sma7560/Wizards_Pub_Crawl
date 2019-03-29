@@ -10,7 +10,7 @@ using UnityEngine.Networking;
 public class HeroModel : NetworkBehaviour
 {
     // Stats
-    [SyncVar] private readonly int maxHealth = 100;
+    [SyncVar] private int maxHealth;
     [SyncVar] private int currentHealth;
     [SyncVar] private int baseMoveSpeed;
     [SyncVar] private int currentMoveSpeed;
@@ -166,6 +166,7 @@ public class HeroModel : NetworkBehaviour
         if (!hasAuthority) return;
 
         baseMoveSpeed = val;
+        SetCurrentMoveSpeed(val);
         characterMovement.SetSpeed(val);
 
         if (!isServer)
@@ -238,6 +239,26 @@ public class HeroModel : NetworkBehaviour
     private void CmdSetAttack(int val)
     {
         attack = val;
+    }
+
+    /// <summary>
+    /// Setter for max health.
+    /// </summary>
+    public void SetMaxHealth(int val)
+    {
+        if (!hasAuthority) return;
+
+        maxHealth = val;
+
+        if (!isServer)
+        {
+            CmdSetMaxHealth(val);
+        }
+    }
+    [Command]
+    private void CmdSetMaxHealth(int val)
+    {
+        maxHealth = val;
     }
 
     /// <summary>

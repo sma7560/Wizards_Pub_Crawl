@@ -138,7 +138,7 @@ public class ScoreboardUI : MonoBehaviour
                 player2Icon.sprite = wizard;
                 break;
             case 3:
-                player1Icon.sprite = knight;
+                player2Icon.sprite = knight;
                 break;
             default:
                 player2Icon.sprite = king;
