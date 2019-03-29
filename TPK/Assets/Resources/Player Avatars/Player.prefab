@@ -2990,7 +2990,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   compsToDisable:
   - {fileID: 114915267049302874}
-  - {fileID: 114167101043750000}
   - {fileID: 114233560057753346}
 --- !u!114 &114650885857295646
 MonoBehaviour:
@@ -3208,7 +3207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 95648987732545322}
-  m_ParameterSendBits: 4095
+  m_ParameterSendBits: 1535
   param0: 
   param1: 
   param2: 

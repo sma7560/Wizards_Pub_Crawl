@@ -30,11 +30,12 @@ public class TestAnimConrtoller : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        if (!isLocalPlayer) return;
+
+        anim = GetComponent<Animator>();
+        if (!isLocalPlayer) return; // Return after setting the animator.
         // Set Up Animator
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-        anim = GetComponent<Animator>();
         basicNum = 0;
         timeToReset = 1.5f;
         timeElapsed = 0;
@@ -75,16 +76,20 @@ public class TestAnimConrtoller : NetworkBehaviour
     // This function is for interfacing with the animator
     public void PlayAnim(SkillType skillType)
     {
+        if (!isLocalPlayer) return;
         switch (skillType)
         {
             case SkillType.buff:
                 anim.SetTrigger("Buff");
+                CmdPlayBuff();
                 break;
             case SkillType.magicLight:
                 anim.SetTrigger("MLight");
+                CmdPlayLight();
                 break;
             case SkillType.magicHeavy:
                 anim.SetTrigger("MHeavy");
+                CmdPlayheavy();
                 break;
             default:
                 break;
@@ -93,12 +98,16 @@ public class TestAnimConrtoller : NetworkBehaviour
     }
     public void PlayBasicAttack()
     {
+        if (!isLocalPlayer) return;
         anim.SetTrigger("MBasic");
     }
 
     public void SetDead(bool status) {
+
+        if (!isLocalPlayer) return;
         anim.SetBool("isDead", status);
         if (status) anim.SetTrigger("Die");
+        CmdSetDead(status);
     }
 
     // This function is for setting up the movement for the legs.
@@ -241,5 +250,49 @@ public class TestAnimConrtoller : NetworkBehaviour
                 anim.SetFloat("FBMove", 0.0f);
             }
         }
+    }
+    // Commands to synchronize Animations
+    [Command]
+    private void CmdSetDead(bool status) {
+
+        RpcSetDead(status);
+    }
+    [Command]
+    private void CmdPlayBuff()
+    {
+        RpcPlayBuff();
+    }
+    [Command]
+    private void CmdPlayLight()
+    {
+        RpcPlayLight();
+    }
+    [Command]
+    private void CmdPlayheavy()
+    {
+        RpcPlayheavy();
+    }
+    [ClientRpc]
+    private void RpcSetDead(bool status) {
+        if (isLocalPlayer) return;
+        anim.SetBool("isDead", status);
+        if (status) anim.SetTrigger("Die");
+    }
+    [ClientRpc]
+    private void RpcPlayBuff() {
+        if (isLocalPlayer) return;
+        anim.SetTrigger("Buff");
+    }
+    [ClientRpc]
+    private void RpcPlayLight()
+    {
+        if (isLocalPlayer) return;
+        anim.SetTrigger("MLight");
+    }
+    [ClientRpc]
+    private void RpcPlayheavy()
+    {
+        if (isLocalPlayer) return;
+        anim.SetTrigger("MHeavy");
     }
 }
