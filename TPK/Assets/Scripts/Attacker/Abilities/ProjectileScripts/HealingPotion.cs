@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class HealingPotion : BaseProjectile {
 
-    public override void Behaviour(Collision col)
+    public override void Behaviour(Collider col)
     {
-       
+        HeroModel stats = col.gameObject.GetComponent<HeroModel>();
+        int currentHp = stats.GetCurrentHealth();
         base.Behaviour(col);
-        if (col.collider.tag == "Player") {
-            if (col.collider.GetComponent<HeroModel>())
+
+        Debug.Log("Healing Player");
+        if (col.tag == "Player") {
+            if (currentHp < stats.GetMaxHealth())
             {
-                col.collider.GetComponent<HeroModel>().Heal(damage);
+                stats.CmdHeal(damage);
             }
             Destroy(gameObject);
         }
+        Debug.Log("Healed");
+
     }
 }
