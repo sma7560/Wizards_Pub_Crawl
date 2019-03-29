@@ -75,8 +75,12 @@ public class StatWindowUI : MonoBehaviour
         TextMeshProUGUI spdText = GameObject.Find("SpeedText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI healthText = GameObject.Find("MaxHealthText").GetComponent<TextMeshProUGUI>();
 
-        // Get potential speed differences
+        // Get differences in current and base stats
         int speedDif = heroModel.GetBaseMoveSpeed() - heroModel.GetCurrentMoveSpeed();
+        int atkDif = heroModel.GetBaseAttack() - heroModel.GetCurrentAttack();
+        int defDif = heroModel.GetBaseDefense() - heroModel.GetCurrentDefense();
+
+        // Set speed text
         if (speedDif == 0)
         {
             spdText.text = heroModel.GetBaseMoveSpeed().ToString();
@@ -84,17 +88,47 @@ public class StatWindowUI : MonoBehaviour
         else if (speedDif > 0)
         {
             // slow down
-            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#FF0000>(" + speedDif.ToString() + ")</color>";
+            spdText.text = "<color=#FF0000>" + heroModel.GetCurrentMoveSpeed().ToString() + "</color> (" + heroModel.GetBaseMoveSpeed().ToString() + ")";
         }
         else
         {
             // speed up
-            spdText.text = heroModel.GetBaseMoveSpeed().ToString() + " <color=#00FF00>(+" + speedDif.ToString() + ")</color>";
+            spdText.text = "<color=#00FF00>" + heroModel.GetCurrentMoveSpeed().ToString() + "</color> (" + heroModel.GetBaseMoveSpeed().ToString() + ")";
         }
 
-        // Set text elements to appropriate stats
-        atkText.text = heroModel.GetAttack().ToString();
-        defText.text = heroModel.GetDefence().ToString();
+        // Set attack text
+        if (atkDif == 0)
+        {
+            atkText.text = heroModel.GetBaseAttack().ToString();
+        }
+        else if (atkDif > 0)
+        {
+            // slow down
+            atkText.text = "<color=#FF0000>" + heroModel.GetCurrentAttack().ToString() + "</color> (" + heroModel.GetBaseAttack().ToString() + ")";
+        }
+        else
+        {
+            // speed up
+            atkText.text = "<color=#00FF00>" + heroModel.GetCurrentAttack().ToString() + "</color> (" + heroModel.GetBaseAttack().ToString() + ")";
+        }
+
+        // Set defense text
+        if (defDif == 0)
+        {
+            defText.text = heroModel.GetBaseDefense().ToString();
+        }
+        else if (defDif > 0)
+        {
+            // slow down
+            defText.text = "<color=#FF0000>" + heroModel.GetCurrentDefense().ToString() + "</color> (" + heroModel.GetBaseDefense().ToString() + ")";
+        }
+        else
+        {
+            // speed up
+            defText.text = "<color=#00FF00>" + heroModel.GetCurrentDefense().ToString() + "</color> (" + heroModel.GetBaseDefense().ToString() + ")";
+        }
+
+        // Set health text
         healthText.text = heroModel.GetMaxHealth().ToString();
     }
 

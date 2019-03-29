@@ -257,6 +257,9 @@ public class AnnouncementManager : NetworkBehaviour
             case 1:
                 leftIcon.GetComponent<Image>().sprite = rogue;
                 break;
+            case 2:
+                leftIcon.GetComponent<Image>().sprite = wizard;
+                break;
             case 3:
                 leftIcon.GetComponent<Image>().sprite = knight;
                 break;

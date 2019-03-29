@@ -35,7 +35,7 @@ public class AbilityCaster : NetworkBehaviour
     }
     private void PlaySkillEffects(Skill skillToCast) {
         currentCastSkill = skillToCast;
-        float finalDmg = currentCastSkill.damageAmount * (1 + (stats.GetAttack()/50));
+        float finalDmg = currentCastSkill.damageAmount * (1 + (stats.GetCurrentAttack()/50));
         int fd = (int)finalDmg;
         switch (currentCastSkill.castType)
         {
@@ -185,10 +185,10 @@ public class AbilityCaster : NetworkBehaviour
 
         switch (statToChange) {
             case 0:
-                stats.SetAttack(stats.GetAttack() + amount);
+                stats.SetCurrentAttack(stats.GetCurrentAttack() + amount);
                 break;
             case 1:
-                stats.SetDefence(stats.GetDefence() + amount);
+                stats.SetCurrentDefense(stats.GetCurrentDefense() + amount);
                 break;
             case 2:
                 stats.SetCurrentMoveSpeed(stats.GetCurrentMoveSpeed() + amount);
@@ -198,10 +198,10 @@ public class AbilityCaster : NetworkBehaviour
         switch (statToChange)
         {
             case 0:
-                stats.SetAttack(stats.GetAttack() - amount);
+                stats.SetCurrentAttack(stats.GetCurrentAttack() - amount);
                 break;
             case 1:
-                stats.SetDefence(stats.GetDefence() - amount);
+                stats.SetCurrentDefense(stats.GetCurrentDefense() - amount);
                 break;
             case 2:
                 stats.SetCurrentMoveSpeed(stats.GetCurrentMoveSpeed() - amount);

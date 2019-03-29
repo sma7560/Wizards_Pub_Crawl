@@ -38,7 +38,7 @@ public class BasicAttack : NetworkBehaviour
         attackType = HeroType.range;
         magRange = 5f;
         damageType = DamageType.none;
-        damage = heroModel.GetAttack();
+        damage = heroModel.GetCurrentAttack();
     }
 
     public void PerformAttack()
@@ -54,11 +54,12 @@ public class BasicAttack : NetworkBehaviour
     [Command]
     private void CmdDoMagic()
     {
+        HeroModel heroModel = GetComponent<HeroModel>();
         GameObject bolt = Instantiate(projectilePrefab);
         bolt.transform.position = transform.position + transform.forward * 2f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 15f;
-        bolt.GetComponent<Projectile>().SetProjectileParams(3, damage, damageType); //Give the projectile the parameters;
+        bolt.GetComponent<Projectile>().SetProjectileParams(3, heroModel.GetCurrentAttack(), damageType); //Give the projectile the parameters;
         NetworkServer.Spawn(bolt);
         Destroy(bolt, 3);
 
