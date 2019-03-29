@@ -19,15 +19,37 @@ public class MoveSpeedBuff : Item
 
     protected override IEnumerator tempBuff(HeroModel currentStat)
     {
-        //get original stat
-        int origStat = currentStat.GetCurrentMoveSpeed();
-        //set stat to include buffs
-        currentStat.SetCurrentMoveSpeed(origStat + buffAmount);
+		//max buff amt is base speed + buff amount, can't exceed that
+		int maxspeed = currentStat.GetBaseMoveSpeed () + buffAmount;
 
-        //buff lasts for 30 seconds
-        yield return new WaitForSeconds(30);
-        //set stat back to original stat
-        currentStat.SetCurrentMoveSpeed(origStat);
+		//do nothing if player already buffed to maxspeed
+		if(currentStat.GetCurrentMoveSpeed() >= maxspeed)
+		{
+			Destroy(gameObject);
+		}
+
+		int potentialBuffAmt = currentStat.GetCurrentMoveSpeed() + buffAmount;
+
+		//if player is debuffed, the buffed speed might still be under the max speed
+		if (potentialBuffAmt <= maxspeed) 
+		{
+			currentStat.SetCurrentMoveSpeed (potentialBuffAmt);
+
+		} 
+		//otherwise it may exceed the maxspeed
+		else
+		{
+			//reducing buff amount so that it can bring player to max speed
+			buffAmount = maxspeed - currentStat.GetCurrentMoveSpeed ();
+			currentStat.SetCurrentMoveSpeed (maxspeed);
+
+		}
+
+		//buff lasts for 30 seconds
+		yield return new WaitForSeconds (30);
+		//set stat back to original stat
+		currentStat.SetCurrentMoveSpeed (currentStat.GetCurrentMoveSpeed () - buffAmount);
+
         Destroy(gameObject);
     }
 
