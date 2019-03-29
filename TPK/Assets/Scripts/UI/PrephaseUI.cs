@@ -293,10 +293,10 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == armored)
         {
-            heroModel.SetBaseAttack(10);
-            heroModel.SetBaseDefense(15);
+            heroModel.SetBaseAttack(12);
+            heroModel.SetBaseDefense(20);
             heroModel.SetBaseMoveSpeed(8);
-            heroModel.SetMaxHealth(150);
+            heroModel.SetMaxHealth(175);
         }
         else
         {

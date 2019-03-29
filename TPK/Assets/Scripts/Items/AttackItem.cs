@@ -30,7 +30,8 @@ public class AttackItem : Item
         yield return new WaitForSeconds(30);
         //set stat back to original stat
         //Debug.Log("Buff end, " + currentStat.GetPAttack());
-        currentStat.SetCurrentAttack(origStat);
+        origStat = currentStat.GetCurrentAttack();
+        currentStat.SetCurrentAttack(origStat - buffAmount);
         //Debug.Log("Buff end, " + currentStat.GetPAttack());
         Destroy(gameObject);
     }
