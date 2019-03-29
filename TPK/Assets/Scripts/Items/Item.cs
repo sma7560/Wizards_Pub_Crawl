@@ -8,12 +8,20 @@ using UnityEngine.Networking;
  */
 public class Item : NetworkBehaviour
 {
+    private bool isUsed = false;
 
     //check if player comes in contact with item
     private void OnTriggerEnter(Collider other)
     {
+        //don't trigger item use if item has already been used
+        if (isUsed)
+        {
+            return;
+        }
+
         if (other.gameObject.tag == "Player")
         {
+            isUsed = true;
             ItemConsume(other);
             //disable mesh after player interacts with
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
