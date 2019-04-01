@@ -478,7 +478,7 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!1001 &2083621622
+--- !u!1001 &1924620830
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
