@@ -45,21 +45,28 @@ public class BasicAttack : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         if (Time.time > nextActiveTime) {
-            CmdDoMagic();
+            Debug.Log("I Number " + GetComponent<HeroModel>().GetPlayerId() + " am attacking");
+            int id = GetComponent<HeroModel>().GetPlayerId();
+            CmdDoMagic(id);
             nextActiveTime = Time.time + cooldown;
         }
     }
 
+
     // This function is a command to spawn the basic attack projectile on the server.
     [Command]
-    private void CmdDoMagic()
+    private void CmdDoMagic(int id)
     {
         HeroModel heroModel = GetComponent<HeroModel>();
+        Debug.Log("Player ID: " + heroModel.GetPlayerId());
         GameObject bolt = Instantiate(projectilePrefab);
         bolt.transform.position = transform.position + transform.forward * 2f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
-        bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 15f;
-        bolt.GetComponent<Projectile>().SetProjectileParams(3, heroModel.GetCurrentAttack(), damageType); //Give the projectile the parameters;
+        // The speed of the basic Attack projectile.
+        bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 28f;
+        Debug.Log("Attack Value: " + heroModel.GetCurrentAttack() + ", Attacker ID:"+ id);
+        bolt.GetComponent<Projectile>().SetProjectileParams(3, heroModel.GetCurrentAttack(), damageType, id); //Give the projectile the parameters;
+        Debug.Log("Damage: "+ bolt.GetComponent<Projectile>().damage + ", ID: " + bolt.GetComponent<Projectile>().playerID);
         NetworkServer.Spawn(bolt);
         Destroy(bolt, 3);
 

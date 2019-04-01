@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class BaseProjectile : MonoBehaviour
+public class BaseProjectile : NetworkBehaviour
 {
 
     public float range;
@@ -18,10 +19,12 @@ public class BaseProjectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!isServer) return;
         Behaviour(collision);
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (!isServer) return;
         Behaviour(other);
     }
     public virtual void Behaviour(Collision col)
