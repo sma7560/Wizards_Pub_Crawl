@@ -19,7 +19,7 @@ public class HealthItem : Item {
         //if health is less than max, heal player
         if (currentHp < stats.GetMaxHealth())
         {
-            stats.Heal(hpHealed);
+            stats.CmdHeal(hpHealed);
         }
         Destroy(gameObject);
     }

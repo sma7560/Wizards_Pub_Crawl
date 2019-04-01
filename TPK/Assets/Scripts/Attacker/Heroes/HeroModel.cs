@@ -69,31 +69,11 @@ public class HeroModel : NetworkBehaviour
         Debug.Log("Final damage: " + Mathf.Round(finalDamage));
         Debug.Log("My Current Health: " + currentHealth + "/" + maxHealth);
     }
-
-    /// <summary>
-    /// This function heals the character by a specified amount.
-    /// </summary>
-    /// <param name="amount">Amount of health to heal the character by.</param>
-    public void Heal(int amount)
-    {
-        if (!hasAuthority) return;
-
-        LocalHeal(amount);
-
-        if (!isServer)
-        {
-            CmdHeal(amount);
-        }
-    }
-    private void LocalHeal(int amount)
+    [Command]
+    public void CmdHeal(int amount)
     {
         currentHealth += amount;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);   // Restrict current health to [0, maxHealth]
-    }
-    [Command]
-    private void CmdHeal(int amount)
-    {
-        LocalHeal(amount);
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 
     /// <returns>
