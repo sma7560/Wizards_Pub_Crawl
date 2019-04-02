@@ -478,7 +478,7 @@ MonoBehaviour:
     i15: 0
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!1001 &1924620830
+--- !u!1001 &1305173530
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -520,14 +520,6 @@ Prefab:
     - target: {fileID: 1560607077659312, guid: ef5883bc61ccb3d41a0b433535a5b874, type: 2}
       propertyPath: m_Name
       value: Map1 (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 1254383273654262, guid: ef5883bc61ccb3d41a0b433535a5b874, type: 2}
-      propertyPath: m_Name
-      value: Lair
-      objectReference: {fileID: 0}
-    - target: {fileID: 1463109445634898, guid: ef5883bc61ccb3d41a0b433535a5b874, type: 2}
-      propertyPath: m_Name
-      value: TreasureRoom
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef5883bc61ccb3d41a0b433535a5b874, type: 2}
