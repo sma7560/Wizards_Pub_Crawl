@@ -35,7 +35,11 @@ public class AbilityCaster : NetworkBehaviour
     }
     private void PlaySkillEffects(Skill skillToCast) {
         currentCastSkill = skillToCast;
-        float finalDmg = currentCastSkill.damageAmount * (1 + (stats.GetCurrentAttack()/50));
+        float atk = (float)stats.GetCurrentAttack();
+        atk = atk / 50;
+        Debug.Log("Calculated percentage modification: " + atk);
+        float finalDmg = currentCastSkill.damageAmount * (1 + atk);
+        Debug.Log("Final Damage Calculated:" + (int)finalDmg);
         int fd = (int)finalDmg;
         switch (currentCastSkill.castType)
         {
@@ -138,6 +142,7 @@ public class AbilityCaster : NetworkBehaviour
     [Command]
     private void CmdCastProjectile(float range, int damage, DamageType dtype, float speed, int pindex, float x, float y, float z)
     {
+        Debug.Log("Damage: " + damage);
         playerSounds.RpcplayDeathBallSoundEffect();
         Vector3 fwd = new Vector3(x, y, z);
         GameObject bolt = Instantiate(projectiles[pindex]);

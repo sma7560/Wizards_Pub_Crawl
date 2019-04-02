@@ -12,9 +12,11 @@ public class HealingPotion : BaseProjectile {
 
         Debug.Log("Healing Player");
         if (col.tag == "Player") {
-            if (currentHp < stats.GetMaxHealth())
+            int maxHealth = stats.GetMaxHealth();
+            float healAmount = maxHealth * 0.2f;
+            if (currentHp < maxHealth)
             {
-                stats.CmdHeal(damage);
+                stats.CmdHeal((int)healAmount);
             }
             Destroy(gameObject);
         }
