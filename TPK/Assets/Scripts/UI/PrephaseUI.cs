@@ -279,7 +279,7 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == wizard)
         {
-            heroModel.SetBaseAttack(15);
+            heroModel.SetBaseAttack(20);
             heroModel.SetBaseDefense(5);
             heroModel.SetBaseMoveSpeed(10);
             heroModel.SetMaxHealth(80);
@@ -289,14 +289,14 @@ public class PrephaseUI : MonoBehaviour
             heroModel.SetBaseAttack(10);
             heroModel.SetBaseDefense(0);
             heroModel.SetBaseMoveSpeed(12);
-            heroModel.SetMaxHealth(100);
+            heroModel.SetMaxHealth(50);
         }
         else if (selectedHero == armored)
         {
             heroModel.SetBaseAttack(12);
             heroModel.SetBaseDefense(20);
             heroModel.SetBaseMoveSpeed(8);
-            heroModel.SetMaxHealth(175);
+            heroModel.SetMaxHealth(200);
         }
         else
         {
