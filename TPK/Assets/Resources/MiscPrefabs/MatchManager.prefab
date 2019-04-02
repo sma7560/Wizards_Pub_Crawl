@@ -67,7 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10653ca56a1f1aa44bfd3bdb539c27a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  regMonsterList:
+  monsterList:
   - {fileID: 1036949641504044, guid: e6b49b7d190dc9d43806b71e22586f10, type: 2}
   - {fileID: 1762061723888932, guid: 7079e597572e73f43a2165bfec03b73e, type: 2}
   - {fileID: 1679088358450538, guid: 105edc357df05c84c82d1887f46f1926, type: 2}
