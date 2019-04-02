@@ -143,7 +143,7 @@ public class PrephaseManager : NetworkBehaviour
             countdown--;
         }
 
-        if (countdown <= 0)
+        if (countdown == 0)
         {
             // If countdown timer reaches 0, end the prephase
             EndPrephase();
