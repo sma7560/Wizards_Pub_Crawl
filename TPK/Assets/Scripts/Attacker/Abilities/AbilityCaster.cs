@@ -142,7 +142,7 @@ public class AbilityCaster : NetworkBehaviour
         Vector3 fwd = new Vector3(x, y, z);
         GameObject bolt = Instantiate(projectiles[pindex]);
         // This should be done locally so the direction is synched on client side to feel better.
-        bolt.transform.position = transform.position + fwd * 2f + transform.up * 1f;
+        bolt.transform.position = transform.position + fwd * 2f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * speed;
         bolt.GetComponent<BaseProjectile>().SetProjectileParams(range, damage, dtype); //Give the projectile the parameters;
