@@ -59,8 +59,9 @@ public class HeroModel : NetworkBehaviour
 
         // Calculate final damage taken based on stats
         float finalDamage = 0;
-
-        finalDamage = amount * (1 - (currentDefense / 50));
+        float dmgReduce = (float)currentDefense;
+        dmgReduce = dmgReduce / 50;
+        finalDamage = amount * (1 - dmgReduce);
 
         finalDamage = Mathf.Clamp(finalDamage, 0, int.MaxValue);    // restrict damage to [0, int.MaxValue]
         currentHealth = currentHealth - (int)Mathf.Round(finalDamage);

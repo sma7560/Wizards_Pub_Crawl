@@ -255,7 +255,7 @@ public class PrephaseUI : MonoBehaviour
 
         rogue = ScriptableObject.CreateInstance<Hero>();
         rogue.heroType = HeroType.melee;
-        rogue.heroName = "Sneaky Wizard";
+        rogue.heroName = "Shifty Wizard";
         rogue.childIndex = 1;
 
         armored = ScriptableObject.CreateInstance<Hero>();
@@ -286,7 +286,7 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == rogue)
         {
-            heroModel.SetBaseAttack(10);
+            heroModel.SetBaseAttack(8);
             heroModel.SetBaseDefense(0);
             heroModel.SetBaseMoveSpeed(12);
             heroModel.SetMaxHealth(50);
@@ -296,7 +296,7 @@ public class PrephaseUI : MonoBehaviour
             heroModel.SetBaseAttack(12);
             heroModel.SetBaseDefense(20);
             heroModel.SetBaseMoveSpeed(8);
-            heroModel.SetMaxHealth(200);
+            heroModel.SetMaxHealth(150);
         }
         else
         {

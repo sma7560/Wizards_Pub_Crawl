@@ -3033,7 +3033,7 @@ MonoBehaviour:
   defence:
     value: 4
   attackSpeed:
-    value: 12
+    value: 1
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1099201270792784, guid: b01bf58c3a6c0dc4a9377a37dff7883e, type: 2}
