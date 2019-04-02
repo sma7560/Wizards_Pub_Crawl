@@ -114,6 +114,7 @@ public class PrephaseManager : NetworkBehaviour
         state = PrephaseState.NotActive;
         countdown = -1;     // set countdown back to default of -1 when prephase is not active
         StartCoroutine(matchManager.DecrementMatchTime());  // Start decrementing the match timer
+        GetComponent<AnnouncementManager>().BroadcastAnnouncementObjective();   // send instructional announcement to all players
 
         // start spawning monsters
         GameObject.FindGameObjectWithTag("MatchManager").GetComponent<DungeonEnemyManager>().StartSpawn();
@@ -142,7 +143,7 @@ public class PrephaseManager : NetworkBehaviour
             countdown--;
         }
 
-        if (countdown <= 0)
+        if (countdown == 0)
         {
             // If countdown timer reaches 0, end the prephase
             EndPrephase();
