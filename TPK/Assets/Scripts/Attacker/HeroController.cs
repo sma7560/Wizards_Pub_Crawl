@@ -49,8 +49,8 @@ public class HeroController : NetworkBehaviour
         {
             unityService = new UnityService();
         }
-
-        ground = new Plane(Vector3.up, Vector3.zero);
+        Vector3 floor = new Vector3(0, 1.5f, 0);
+        ground = new Plane(Vector3.up, floor);
 
         heroRigidbody = GetComponent<Rigidbody>();
         battack = GetComponent<BasicAttack>();
