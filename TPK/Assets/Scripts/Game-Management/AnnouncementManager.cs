@@ -16,8 +16,13 @@ public class AnnouncementManager : NetworkBehaviour
     private Sprite wizard;
     private Sprite knight;
 
+    // Sprite icons of items
+    private Sprite compass;
+    private Sprite ale;
+
     private enum AnnouncementType
     {
+        Objective,
         AleAcquired,
         AleDropped,
         PlayerDeath
@@ -50,6 +55,8 @@ public class AnnouncementManager : NetworkBehaviour
         rogue = Resources.Load<Sprite>("UI Resources/thief");
         wizard = Resources.Load<Sprite>("UI Resources/mage");
         knight = Resources.Load<Sprite>("UI Resources/knight");
+        compass = Resources.Load<Sprite>("UI Resources/compass");
+        ale = Resources.Load<Sprite>("UI Resources/mug");
 
         // Initialize booleans
         if (isServer)
@@ -74,6 +81,30 @@ public class AnnouncementManager : NetworkBehaviour
     }
 
     /// <summary>
+    /// Broadcasts instructions on what to do when the game starts.
+    /// </summary>
+    public void BroadcastAnnouncementObjective()
+    {
+        if (!isServer) return;
+
+        LocalBroadcastAnnouncementObjective();
+        RpcBroadcastAnnouncementObjective();
+    }
+    private void LocalBroadcastAnnouncementObjective()
+    {
+        announcementText.text = "Follow the compass to find ale!";
+        rightIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(260f, 0f);
+        rightIcon.GetComponent<Image>().sprite = compass;
+        StartCoroutine(DisplayAnnouncement(AnnouncementType.Objective));
+    }
+    [ClientRpc]
+    private void RpcBroadcastAnnouncementObjective()
+    {
+        if (isLocalPlayer) return;
+        LocalBroadcastAnnouncementObjective();
+    }
+
+    /// <summary>
     /// Broadcasts that a player has acquired ale.
     /// </summary>
     /// <param name="playerId">Id of the player who has acquired the ale.</param>
@@ -89,6 +120,7 @@ public class AnnouncementManager : NetworkBehaviour
         string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
         announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> acquired ale!";
         SetHeroIcon(playerId);
+        rightIcon.GetComponent<Image>().sprite = ale;
         leftIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-200f, 0f);
         rightIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(200f, 0f);
         StartCoroutine(DisplayAnnouncement(AnnouncementType.AleAcquired));
@@ -116,6 +148,7 @@ public class AnnouncementManager : NetworkBehaviour
         string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
         announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> scored the ale!";
         SetHeroIcon(playerId);
+        rightIcon.GetComponent<Image>().sprite = ale;
         leftIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-210f, 0f);
         rightIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(210f, 0f);
         StartCoroutine(DisplayAnnouncement(AnnouncementType.AleAcquired));
@@ -143,6 +176,7 @@ public class AnnouncementManager : NetworkBehaviour
         string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
         announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> has died and dropped the ale!";
         SetHeroIcon(playerId);
+        rightIcon.GetComponent<Image>().sprite = ale;
         leftIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-330f, 0f);
         rightIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(330f, 0f);
         StartCoroutine(DisplayAnnouncement(AnnouncementType.AleDropped));
@@ -205,6 +239,11 @@ public class AnnouncementManager : NetworkBehaviour
         {
             leftIcon.SetActive(true);    // hero/boss icon
             rightIcon.SetActive(false);
+        }
+        else if (type == AnnouncementType.Objective)
+        {
+            leftIcon.SetActive(false);
+            rightIcon.SetActive(true);  // compass icon
         }
 
         // Display announcement
