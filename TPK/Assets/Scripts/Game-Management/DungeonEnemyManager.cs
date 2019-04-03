@@ -11,9 +11,11 @@ public class DungeonEnemyManager : NetworkBehaviour
     public IUnityService unityService;  // for unit testing
     private MatchManager matchManager;
 
-    // Monster types
-    public GameObject[] regMonsterList;
+    //Monster types
+    [SerializeField]
+    private List<GameObject> monsterList;
     private int currentNumMonsters = 0;
+    private int heavyMonsters = 0;
 
     private List<Vector3> spawnLocations = new List<Vector3>();
 
@@ -36,8 +38,6 @@ public class DungeonEnemyManager : NetworkBehaviour
         {
             SetSpawnPoints();
         }
-        GameObject[] currentMonsterList = GameObject.FindGameObjectsWithTag("Enemy");
-        currentNumMonsters = currentMonsterList.Length;
     }
 
     /// <summary>
@@ -50,32 +50,47 @@ public class DungeonEnemyManager : NetworkBehaviour
         {
             DungeonSpawnMonster();
         }
+        //call summon monster every 4 seconds
         InvokeRepeating("DungeonSpawnMonster", 0f, 4);
     }
 
+    /// <summary>
+    /// Spawn monster
+    /// </summary>
     private void DungeonSpawnMonster()
     {
         if (!isServer || matchManager.HasMatchEnded()) return;
 
+        //only spawn monster if current spawned monsters number less than 16
+        GameObject[] currentMonsterList = GameObject.FindGameObjectsWithTag("Enemy");
+        currentNumMonsters = currentMonsterList.Length;
         if (currentNumMonsters > 16)
         {
             return;
         }
 
+
+        //randomly select one of the spawn locations
         int randLocation = Random.Range(0, spawnLocations.Count);
-        int randMonster = Random.Range(0, 3);
-        SpawnMonster(GetSpawnLocationOfMonster(randLocation), GetMonsterType());
+        //get list of current spawnable enemy types
+        List<GameObject> currentSpawnableEnemies = getCurrentSpawnableMonsterList(currentMonsterList);
+        //randomly select one of the spawnable enemies
+        GameObject randMonster = currentSpawnableEnemies[Random.Range(0, currentSpawnableEnemies.Count)];
+        //call function to spawn monster on server
+        SpawnMonster(GetSpawnLocationOfMonster(randLocation), randMonster);
     }
 
-    // Commands for communicating to the server.
+
+    /// <summary>
+    /// Spawn monster on server
+    /// </summary>
     private void SpawnMonster(Vector3 location, GameObject monsterType)
     {
         if (!isServer || matchManager.HasMatchEnded()) return;
 
-        //Debug.Log("Monster spawning of type " + monsterType.name);
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
-        GameObject temp = unityService.Instantiate(monsterType, location, rotate);
-        NetworkServer.Spawn(temp);
+        GameObject monsterToSpawn = unityService.Instantiate(monsterType, location, rotate);
+        NetworkServer.Spawn(monsterToSpawn);
         currentNumMonsters++;
     }
 
@@ -103,13 +118,30 @@ public class DungeonEnemyManager : NetworkBehaviour
         return spawnLocation;
     }
 
-    /// <returns>
-    /// Returns the monster type according to what int is passed in.
-    /// </returns>
-    /// <param name="monsterType">Integer corresponding to the monster type.</param>
-    public GameObject GetMonsterType()
+    /// <summary>
+    /// returns all spawnable enemy types if less than 4 heavy monsters, otherwise return only non-heavy enemy types
+    /// </summary>
+    private List<GameObject> getCurrentSpawnableMonsterList (GameObject[] currentMonsters)
     {
-        int randMonster = Random.Range(0, regMonsterList.Length);
-        return regMonsterList[randMonster];
+        int temp = 0;
+        List<GameObject> monsterListWithoutHeavy = new List<GameObject>();
+        //count all heavy monsters
+        foreach (GameObject enemy in currentMonsters)
+        {
+            if (enemy.name.Contains("Heavy"))
+            {
+                temp++;
+            }
+            monsterListWithoutHeavy.Add(enemy);
+        }
+        
+        if(temp>=4)
+        {
+            return monsterListWithoutHeavy;
+        }
+        else
+        {
+            return monsterList;
+        }
     }
 }
