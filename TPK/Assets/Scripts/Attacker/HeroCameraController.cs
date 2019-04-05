@@ -65,7 +65,7 @@ public class HeroCameraController : MonoBehaviour
 		//mousewheel zoom and reset
 		if (Input.GetAxis ("Mouse ScrollWheel") > 0 && cam.orthographicSize > 5)
 			cam.orthographicSize -= 1;
-		else if (Input.GetAxis ("Mouse ScrollWheel") < 0 && cam.orthographicSize < 20)
+		else if (Input.GetAxis ("Mouse ScrollWheel") < 0 && cam.orthographicSize < 16)
 			cam.orthographicSize += 1;
 		else if (Input.GetMouseButton (2))
 			cam.orthographicSize = 12;
