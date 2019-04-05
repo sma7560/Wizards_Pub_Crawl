@@ -23,6 +23,9 @@ public class PiercingShot : BaseProjectile {
 					}
 				// This means you can shoot yourself... so far.
 				break;
+			//pierces projectiles and shields
+			case "Projectile":
+				break;
 			default:
 				Destroy (gameObject);
 				break;
