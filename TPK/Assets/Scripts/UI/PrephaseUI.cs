@@ -272,10 +272,10 @@ public class PrephaseUI : MonoBehaviour
         // Set default stat values depending on the hero type
         if (selectedHero == king)
         {
-            heroModel.SetBaseAttack(10);
-            heroModel.SetBaseDefense(10);
-            heroModel.SetBaseMoveSpeed(10);
-            heroModel.SetMaxHealth(100);
+            heroModel.SetBaseAttack(11);
+            heroModel.SetBaseDefense(11);
+            heroModel.SetBaseMoveSpeed(11);
+            heroModel.SetMaxHealth(110);
         }
         else if (selectedHero == wizard)
         {
@@ -294,7 +294,7 @@ public class PrephaseUI : MonoBehaviour
         else if (selectedHero == armored)
         {
             heroModel.SetBaseAttack(12);
-            heroModel.SetBaseDefense(20);
+            heroModel.SetBaseDefense(18);
             heroModel.SetBaseMoveSpeed(8);
             heroModel.SetMaxHealth(150);
         }
