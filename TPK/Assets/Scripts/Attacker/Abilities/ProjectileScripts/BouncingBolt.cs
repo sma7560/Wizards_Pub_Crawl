@@ -34,7 +34,7 @@ public class BouncingBolt : BaseProjectile
 				this.damage += 10;
 				Vector3 v = this.GetComponent<Rigidbody> ().velocity;
 				//speed is capped
-				if (v.magnitude <= 22) {
+				if (v.magnitude <= 20) {
 					v.x *= 1.10f;
 					v.z *= 1.10f;
 					this.GetComponent<Rigidbody> ().velocity = v;
