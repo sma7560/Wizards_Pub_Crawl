@@ -30,9 +30,11 @@ public class BouncingBolt : BaseProjectile
 				Destroy(gameObject);
 				break;
 			default:
+				//every bounce increases damage and speed
 				this.damage += 10;
 				Vector3 v = this.GetComponent<Rigidbody> ().velocity;
-				if (v.magnitude <= 30) {
+				//speed is capped
+				if (v.magnitude <= 22) {
 					v.x *= 1.10f;
 					v.z *= 1.10f;
 					this.GetComponent<Rigidbody> ().velocity = v;
