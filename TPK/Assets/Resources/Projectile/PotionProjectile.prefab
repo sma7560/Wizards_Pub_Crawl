@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114055136321723584}
   - component: {fileID: 65026888184176848}
   - component: {fileID: 114241399995884602}
+  - component: {fileID: 111055679568972426}
   m_Layer: 0
   m_Name: PotionProjectile
   m_TagString: Untagged
@@ -115,6 +116,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.19051391, y: 0.27728498, z: 0.16498995}
   m_Center: {x: -0.000000029802322, y: 0.13864237, z: 0}
+--- !u!111 &111055679568972426
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1262062845541922}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 2be3f07c52f8f4e46ac5928bb109c920, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: b687e7f7bb1a7684c972dc6d89201e74, type: 2}
+  - {fileID: 7400000, guid: 2be3f07c52f8f4e46ac5928bb109c920, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114041316071580256
 MonoBehaviour:
   m_ObjectHideFlags: 1
