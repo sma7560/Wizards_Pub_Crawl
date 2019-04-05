@@ -275,7 +275,7 @@ public class PrephaseUI : MonoBehaviour
             heroModel.SetBaseAttack(11);
             heroModel.SetBaseDefense(11);
             heroModel.SetBaseMoveSpeed(11);
-            heroModel.SetMaxHealth(110);
+            heroModel.SetMaxHealth(111);
         }
         else if (selectedHero == wizard)
         {
