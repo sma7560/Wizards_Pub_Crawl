@@ -13,17 +13,19 @@ public class HeroCameraController : MonoBehaviour
     private Transform targetTransform;
 
     // Camera positioning
-    private Vector3 dungeonOffset = new Vector3(-5, 10, -5);
+    private Vector3 dungeonOffset = new Vector3(-10, 20, -10);
     private Quaternion dungeonRotation = Quaternion.Euler(50, 45, 0);
     private Vector3 prephaseOffset = new Vector3(0.1f, 3.0f, 2.5f);
     private Quaternion prephaseRotation = Quaternion.Euler(10, 180, 0);
-    private Vector3 waitingRoomPosition = new Vector3(86.5f, 2.5f, 22f);
+    private Vector3 waitingRoomPosition = new Vector3(85f, 2.5f, 22f);
     private Quaternion waitingRoomRotation = Quaternion.Euler(10, 180, 0);
+	private Camera cam;
 
     // Use this for initialization
     void Start()
     {
         this.transform.position = dungeonOffset;
+		cam = GetComponent<Camera> ();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
     }
 
@@ -59,6 +61,14 @@ public class HeroCameraController : MonoBehaviour
 
         transform.position = desiredPosition;
         transform.rotation = desiredRotation;
+
+		//mousewheel zoom and reset
+		if (Input.GetAxis ("Mouse ScrollWheel") > 0 && cam.orthographicSize > 5)
+			cam.orthographicSize -= 1;
+		else if (Input.GetAxis ("Mouse ScrollWheel") < 0 && cam.orthographicSize < 20)
+			cam.orthographicSize += 1;
+		else if (Input.GetMouseButton (2))
+			cam.orthographicSize = 12;
     }
 
     public void SetTarget(Transform target)

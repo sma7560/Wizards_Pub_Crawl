@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028328, g: 0.22571322, b: 0.30692163, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -214,6 +214,16 @@ Prefab:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224790566277675858, guid: 9d97ca1e8e5176746ac5f668989b40fe,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 224401130170245280, guid: 9d97ca1e8e5176746ac5f668989b40fe,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d97ca1e8e5176746ac5f668989b40fe, type: 2}
   m_IsPrefabAsset: 0
@@ -364,15 +374,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4368276180567698, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -5
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4368276180567698, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4368276180567698, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -5
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4368276180567698, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
       propertyPath: m_LocalRotation.x
@@ -404,8 +414,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 20704049431496314, guid: 42dfd701ce691264cb2ed343c697fc33,
         type: 2}
+      propertyPath: far clip plane
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 20704049431496314, guid: 42dfd701ce691264cb2ed343c697fc33,
+        type: 2}
       propertyPath: orthographic size
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42dfd701ce691264cb2ed343c697fc33, type: 2}
