@@ -299,14 +299,6 @@ Prefab:
       propertyPath: m_Name
       value: Map1 (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 4289061691759532, guid: ef5883bc61ccb3d41a0b433535a5b874, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289061691759532, guid: ef5883bc61ccb3d41a0b433535a5b874, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef5883bc61ccb3d41a0b433535a5b874, type: 2}
   m_IsPrefabAsset: 0
