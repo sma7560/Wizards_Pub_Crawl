@@ -56,8 +56,27 @@ public class TestAnimConrtoller : NetworkBehaviour
         headingAngle = Quaternion.LookRotation(forward).eulerAngles.y;
         if (headingAngle > 180f) headingAngle -= 360f; // Keeps it between -180 and 180
         //Debug.Log("Horizontal: " + Input.GetAxisRaw("Horizontal"));
-        inputH = Input.GetAxisRaw("Horizontal");
-        inputV = Input.GetAxisRaw("Vertical");
+
+        inputV = 0;
+        inputH = 0;
+
+        if (Input.GetKey(CustomKeyBinding.GetForwardKey()))
+        {
+            inputV++;
+        }
+        if (Input.GetKey(CustomKeyBinding.GetBackKey()))
+        {
+            inputV--;
+        }
+        if (Input.GetKey(CustomKeyBinding.GetRightKey()))
+        {
+            inputH++;
+        }
+        if (Input.GetKey(CustomKeyBinding.GetLeftKey()))
+        {
+            inputH--;
+        }
+
         if (inputH != 0 || inputV != 0)
         {
             isWalking = true;

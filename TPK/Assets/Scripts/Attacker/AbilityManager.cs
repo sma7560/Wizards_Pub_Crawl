@@ -40,25 +40,25 @@ public class AbilityManager : NetworkBehaviour
     {
         if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded()) return;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1) && equippedSkills[0] != null && nextActiveTime[0] < Time.time)
+        if (Input.GetKeyDown(CustomKeyBinding.GetSkill1Key()) && equippedSkills[0] != null && nextActiveTime[0] < Time.time)
         {
             CastSkill(0);
             nextActiveTime[0] = Time.time + equippedSkills[0].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && equippedSkills[1] != null && nextActiveTime[1] < Time.time)
+        if (Input.GetKeyDown(CustomKeyBinding.GetSkill2Key()) && equippedSkills[1] != null && nextActiveTime[1] < Time.time)
         {
             CastSkill(1);
             nextActiveTime[1] = Time.time + equippedSkills[1].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3) && equippedSkills[2] != null && nextActiveTime[2] < Time.time)
+        if (Input.GetKeyDown(CustomKeyBinding.GetSkill3Key()) && equippedSkills[2] != null && nextActiveTime[2] < Time.time)
         {
             CastSkill(2);
             nextActiveTime[2] = Time.time + equippedSkills[2].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha4) && equippedSkills[3] != null && nextActiveTime[3] < Time.time)
+        if (Input.GetKeyDown(CustomKeyBinding.GetSkill4Key()) && equippedSkills[3] != null && nextActiveTime[3] < Time.time)
         {
             CastSkill(3);
             nextActiveTime[3] = Time.time + equippedSkills[3].skillCoolDown;
