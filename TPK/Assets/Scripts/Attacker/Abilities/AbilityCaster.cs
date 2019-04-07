@@ -177,7 +177,7 @@ public class AbilityCaster : NetworkBehaviour
         if (effects == null) Debug.Log("Effects not instantiated. on server.");
         GameObject effect = Instantiate(effects[index], transform);
         NetworkServer.Spawn(effect);
-        Destroy(effect, 2);
+        //Destroy(effect, 2);
     }
 
     private IEnumerator SpawnAbilityTimer(float delay)
