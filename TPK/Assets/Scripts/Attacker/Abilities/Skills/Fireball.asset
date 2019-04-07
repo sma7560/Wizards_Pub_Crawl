@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d95222f5e77fdac41becb17d82764af4, type: 3}
+  m_Name: Fireball
+  m_EditorClassIdentifier: 
+  skillName: Fireball
+  skillDescription: Hurl an explosive ball of fire forward.
+  skillIcon: {fileID: 21300000, guid: 99730a0bf76061f44a8419f9fc80a226, type: 3}
+  skillCoolDown: 5
+  skillType: 1
+  castType: 1
+  skillRange: 10
+  damageType: 1
+  damageAmount: 30
+  projectilePrefabIndex: 7
+  numProjectiles: 1
+  projectileSpeed: 15
+  ccType: 2
+  moveType: 2
+  movementDistance: 0
+  visualEffectIndex: 0
