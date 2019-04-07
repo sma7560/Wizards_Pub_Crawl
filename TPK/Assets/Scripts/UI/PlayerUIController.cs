@@ -56,7 +56,6 @@ public class PlayerUIController : MonoBehaviour
 
         SetupSkillIcons();
         SetupHealthBar();
-        SetupSkillHotkeyText();
     }
 
     /// <summary>
@@ -68,6 +67,7 @@ public class PlayerUIController : MonoBehaviour
         UpdateCooldowns();
         UpdateHealthBar();
         UpdateScore();
+        SetupSkillHotkeyText();
     }
 
     /// <summary>
