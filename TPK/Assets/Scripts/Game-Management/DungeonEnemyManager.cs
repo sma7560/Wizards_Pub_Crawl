@@ -12,10 +12,8 @@ public class DungeonEnemyManager : NetworkBehaviour
     private MatchManager matchManager;
 
     //Monster types
-    [SerializeField]
-    private List<GameObject> monsterList;
+    [SerializeField] private List<GameObject> monsterList;
     private int currentNumMonsters = 0;
-    private int heavyMonsters = 0;
 
     private List<Vector3> spawnLocations = new List<Vector3>();
 

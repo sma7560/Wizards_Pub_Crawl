@@ -215,7 +215,6 @@ GameObject:
   - component: {fileID: 114760950008989360}
   - component: {fileID: 136018190103124330}
   - component: {fileID: 95229368177001582}
-  - component: {fileID: 114472411507318136}
   - component: {fileID: 114371089266014400}
   - component: {fileID: 114502783156656158}
   m_Layer: 0
@@ -3097,17 +3096,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactRadius: 2
---- !u!114 &114472411507318136
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1144098748625114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1da7202dc96e7ef449f923e39a0dd0dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114502783156656158
 MonoBehaviour:
   m_ObjectHideFlags: 1

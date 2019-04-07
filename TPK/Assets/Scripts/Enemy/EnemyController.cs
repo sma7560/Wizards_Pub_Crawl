@@ -20,7 +20,7 @@ public class EnemyController : NetworkBehaviour
     private CharacterCombat enemyCombat;
     private MatchManager matchManager;
     private HeroManager heroManager;
-    private AnimationEnemyController animation;
+    private Animator animator;
     private EnemyStats myStats;
 
     private Vector3 currentRandomLocation;
@@ -38,7 +38,7 @@ public class EnemyController : NetworkBehaviour
         enemyCombat = GetComponent<CharacterCombat>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
-        animation = GetComponent<AnimationEnemyController>();
+        animator = GetComponent<Animator>();
         myStats = GetComponent<EnemyStats>();
 
         isAttacking = false;
@@ -115,19 +115,19 @@ public class EnemyController : NetworkBehaviour
 
             agent.SetDestination(targets[playerIndex].position);
             FaceTarget(targets[playerIndex].position);
-            animation.animationWalk(true);
+            animator.SetBool("isWalking", true);
 
             // If player is within attacking range, attack the player
             if (shortestDistance <= agent.stoppingDistance)
             {
-                animation.animationWalk(false);
+                animator.SetBool("isWalking", false);
                 //if (!isAttacking)
                 //{
                 //    //start attacking animation
                 //    isAttacking = true;
                 //    StartCoroutine(attacking());
                 //}
-                animation.playAttack();
+                animator.SetTrigger("attack");
                 enemyCombat.Attack(targets[playerIndex]);
             }
             //stop attacking animation if not in range and was currently attacking
@@ -156,7 +156,7 @@ public class EnemyController : NetworkBehaviour
         while (isAttacking)
         {
             //Debug.Log("attacked");
-            animation.playAttack();
+            animator.SetTrigger("attack");
             yield return new WaitForSeconds(2);
         }
     }
@@ -199,7 +199,7 @@ public class EnemyController : NetworkBehaviour
     /// </summary>
     private void idleMovement()
     {
-        animation.animationWalk(true);
+        animator.SetBool("isWalking", true);
         //if not currently idle movement, start random location couroutine
         if (!isIdleMovement)
         {
@@ -216,7 +216,7 @@ public class EnemyController : NetworkBehaviour
             {
                 if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
                 {
-                    animation.animationWalk(false);
+                    animator.SetBool("isWalking", false);
                 }
             }
         }

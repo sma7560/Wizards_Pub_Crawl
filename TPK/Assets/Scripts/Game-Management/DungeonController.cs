@@ -43,6 +43,7 @@ public class DungeonController : MonoBehaviour
         }
 
         audioSource = GetComponent<AudioSource>();
+        CustomKeyBinding.SetupCustomKeyBindings();
     }
 
     void Update()

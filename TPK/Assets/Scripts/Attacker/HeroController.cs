@@ -96,7 +96,7 @@ public class HeroController : NetworkBehaviour
             PerformRotation();
 
             // Perform an attack
-            if (Input.GetKeyDown(CustomKeyBinding.GetBasicAttackKey()))
+            if (Input.GetKey(CustomKeyBinding.GetBasicAttackKey()))
             {
                 //animate.PlayBasicAttack();
                 StartCoroutine(AttackSpawn());

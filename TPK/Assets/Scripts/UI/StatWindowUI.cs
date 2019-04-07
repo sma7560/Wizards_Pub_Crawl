@@ -170,7 +170,6 @@ public class StatWindowUI : MonoBehaviour
     {
         // Initialize variables
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
-        MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         GameObject heroAvatar = heroManager.GetHeroObject(playerId);            // avatar of the player's hero
         GameObject heroAvatarCameraObj = GameObject.Find("HeroAvatarCamera");   // camera which will be focused on the hero avatar
 

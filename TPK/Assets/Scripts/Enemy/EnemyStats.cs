@@ -16,7 +16,7 @@ public class EnemyStats : CharacterStats
     protected float idleRange;
     [SerializeField]
     protected float idleHowOftenDirectionChanged;
-    private AnimationEnemyController animation;
+    private Animator animator;
     private bool isDying;
     private IUnityService unityService;
 
@@ -42,8 +42,8 @@ public class EnemyStats : CharacterStats
     private IEnumerator deathSequence()
     {
         isDying = true;
-        animation = GetComponent<AnimationEnemyController>();
-        animation.deathAnimation();
+        animator = GetComponent<Animator>();
+        animator.SetTrigger("isDead");
         //wait 4 seconds for animation to finish before deleting gameobject
         yield return new WaitForSeconds(3);
         dropItem();
