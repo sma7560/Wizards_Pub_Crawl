@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: Flame Wall
   m_EditorClassIdentifier: 
   skillName: Flame Wall
-  skillDescription: Conjure a wall of fire to burn enemies that walk through it.
+  skillDescription: 'Conjure a wall of fire to burn enemies that walk through it.
+    [Duration: 5 seconds; Base Damage: 10/0.5 second]'
   skillIcon: {fileID: 21300000, guid: 0e662535ed84c2641b6b239f746e44c3, type: 3}
   skillCoolDown: 8
   skillType: 1

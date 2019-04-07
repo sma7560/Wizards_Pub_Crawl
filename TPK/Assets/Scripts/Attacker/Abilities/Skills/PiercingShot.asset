@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Name: PiercingShot
   m_EditorClassIdentifier: 
   skillName: Piercing Shot
-  skillDescription: Shoot an arrow that can pierce multiple enemies.
+  skillDescription: 'Fire an arrow that can pierce multiple enemies. [Base Damage:
+    20]'
   skillIcon: {fileID: 21300000, guid: fb2fb148430557941a676bf4cd5ad85e, type: 3}
   skillCoolDown: 2
   skillType: 0

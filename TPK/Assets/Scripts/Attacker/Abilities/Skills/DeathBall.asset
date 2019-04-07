@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Name: DeathBall
   m_EditorClassIdentifier: 
   skillName: Death Ball
-  skillDescription: A slow moving ball that deals heavy damage.
+  skillDescription: 'A slow moving spell that deals heavy damage. [Base damage: 100]'
   skillIcon: {fileID: 21300000, guid: 86cfca2098717b94a861fe31a76fcc82, type: 3}
   skillCoolDown: 3
   skillType: 1

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: BouncingBolt
   m_EditorClassIdentifier: 
   skillName: Bouncing Bolt
-  skillDescription: Fire a bolt of magical energy that bounces off walls until it
-    dissipates or hits a target. Its speed and damage increases with every bounce.
+  skillDescription: 'Fire a magical bolt that can bounce. Its speed and damage increases
+    with every bounce. [Base Damage: 10, +10 per bounce]'
   skillIcon: {fileID: 21300000, guid: 4bab0f56229a33e44b39703e5c66f384, type: 3}
   skillCoolDown: 1
   skillType: 0
