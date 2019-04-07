@@ -28,10 +28,10 @@ public class PrephaseUI : MonoBehaviour
     private TextMeshProUGUI health;
 
     // Default heroes
-    private Hero king;
-    private Hero wizard;
-    private Hero rogue;
-    private Hero armored;
+    public Hero king;
+    public Hero wizard;
+    public Hero rogue;
+    public Hero armored;
 
     // Stat graphs
     private Image statGraph;
@@ -73,9 +73,6 @@ public class PrephaseUI : MonoBehaviour
         wizardStat = Resources.Load<Sprite>("UI Resources/stat graphs/classic stat");
         rogueStat = Resources.Load<Sprite>("UI Resources/stat graphs/sneaky stat");
         knightStat = Resources.Load<Sprite>("UI Resources/stat graphs/tank stat");
-
-        // Setup default values for default heroes
-        SetupDefaultHeroes();
 
         // Set default currently selected character
         selectedHero = king;
@@ -238,33 +235,6 @@ public class PrephaseUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets up the default hero types of king, wizard, and rogue.
-    /// </summary>
-    private void SetupDefaultHeroes()
-    {
-        // Setup default heroes
-        king = ScriptableObject.CreateInstance<Hero>();
-        king.heroType = HeroType.melee;
-        king.heroName = "Kingly Wizard";
-        king.childIndex = 0;
-
-        wizard = ScriptableObject.CreateInstance<Hero>();
-        wizard.heroType = HeroType.magic;
-        wizard.heroName = "Classic Wizard";
-        wizard.childIndex = 2;
-
-        rogue = ScriptableObject.CreateInstance<Hero>();
-        rogue.heroType = HeroType.melee;
-        rogue.heroName = "Shifty Wizard";
-        rogue.childIndex = 1;
-
-        armored = ScriptableObject.CreateInstance<Hero>();
-        armored.heroType = HeroType.melee;
-        armored.heroName = "Armoured Wizard";
-        armored.childIndex = 3;
-    }
-
-    /// <summary>
     /// Sets the default stats of the hero.
     /// </summary>
     private void SetupDefaultStats()
@@ -303,7 +273,7 @@ public class PrephaseUI : MonoBehaviour
             Debug.Log("Selected Hero is not a valid hero.");
         }
 
-		heroModel.SetFullHealth ();
+        heroModel.SetFullHealth();
 
     }
 

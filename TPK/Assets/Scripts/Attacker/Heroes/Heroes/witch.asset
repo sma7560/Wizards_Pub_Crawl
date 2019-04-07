@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: witch
   m_EditorClassIdentifier: 
   heroType: 0
-  heroName: Witch
+  heroName: Classic Wizard
   childIndex: 2

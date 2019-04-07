@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: knight
   m_EditorClassIdentifier: 
   heroType: 2
-  heroName: Knight
+  heroName: Kingly Wizard
   childIndex: 0

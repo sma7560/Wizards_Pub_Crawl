@@ -2014,6 +2014,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4daaed0dcf2a6de45bb22a0ff718b928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  king: {fileID: 11400000, guid: 232647a6d46d7d84298c258e3aa71530, type: 2}
+  wizard: {fileID: 11400000, guid: 479f8bbd595d4bd40b8b521785d2c59d, type: 2}
+  rogue: {fileID: 11400000, guid: 70244ad08741c334bb3f8df48a2c5100, type: 2}
+  armored: {fileID: 11400000, guid: 638593cc98258664ea7cb8857e598c4b, type: 2}
 --- !u!114 &114322167560843722
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -388,18 +388,20 @@ public class HeroModel : NetworkBehaviour
         GameObject hero = heroManager.GetHeroObject(matchManager.GetPlayerId());
 
         int oldHeroIndex = heroIndex;
+        int childIndex = myHero.childIndex;
+        HeroType heroType = myHero.heroType;
 
         // Update the player's model locally
-        LocalSetModel(hero, myHero, oldHeroIndex);
+        LocalSetModel(hero, childIndex, heroType, oldHeroIndex);
 
         // Send update of player's model to all other players
         if (isServer)
         {
-            RpcSetModel(hero, myHero, oldHeroIndex);
+            RpcSetModel(hero, childIndex, heroType, oldHeroIndex);
         }
         else
         {
-            CmdSetModel(hero, myHero, oldHeroIndex);
+            CmdSetModel(hero, childIndex, heroType, oldHeroIndex);
         }
     }
 
@@ -410,10 +412,10 @@ public class HeroModel : NetworkBehaviour
     /// <param name="myHero">Hero to change to.</param>
     /// <param name="oldHeroIndex">Index of the hero previously selected.</param>
     [Command]
-    private void CmdSetModel(GameObject hero, Hero myHero, int oldHeroIndex)
+    private void CmdSetModel(GameObject hero, int childIndex, HeroType type, int oldHeroIndex)
     {
-        LocalSetModel(hero, myHero, oldHeroIndex);
-        RpcSetModel(hero, myHero, oldHeroIndex);
+        LocalSetModel(hero, childIndex, heroType, oldHeroIndex);
+        RpcSetModel(hero, childIndex, heroType, oldHeroIndex);
     }
 
     /// <summary>
@@ -423,10 +425,10 @@ public class HeroModel : NetworkBehaviour
     /// <param name="myHero">Hero to change to.</param>
     /// <param name="oldHeroIndex">Index of the hero previously selected.</param>
     [ClientRpc]
-    private void RpcSetModel(GameObject hero, Hero myHero, int oldHeroIndex)
+    private void RpcSetModel(GameObject hero, int childIndex, HeroType type, int oldHeroIndex)
     {
         if (isLocalPlayer) return;  // prevent receiving the notification you started
-        LocalSetModel(hero, myHero, oldHeroIndex);
+        LocalSetModel(hero, childIndex, heroType, oldHeroIndex);
     }
 
     /// <summary>
@@ -435,11 +437,11 @@ public class HeroModel : NetworkBehaviour
     /// <param name="hero">Hero object to change the model of.</param>
     /// <param name="myHero">Hero to change to.</param>
     /// <param name="oldHeroIndex">Index of the hero previously selected.</param>
-    public void LocalSetModel(GameObject hero, Hero myHero, int oldHeroIndex)
+    public void LocalSetModel(GameObject hero, int childIndex, HeroType type, int oldHeroIndex)
     {
         hero.transform.GetChild(oldHeroIndex).gameObject.SetActive(false);
-        heroIndex = myHero.childIndex;
-        heroType = myHero.heroType;
+        heroIndex = childIndex;
+        heroType = type;
         hero.transform.GetChild(heroIndex).gameObject.SetActive(true);
     }
 

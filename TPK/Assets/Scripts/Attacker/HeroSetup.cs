@@ -85,7 +85,7 @@ public class HeroSetup : NetworkBehaviour
         {
             HeroModel heroModel = player.GetComponent<HeroModel>();
             int heroIndex = heroModel.GetHeroIndex();
-            heroModel.LocalSetModel(player, prephaseUI.GetDefaultHero(heroIndex), 0);
+            heroModel.LocalSetModel(player, prephaseUI.GetDefaultHero(heroIndex).childIndex, prephaseUI.GetDefaultHero(heroIndex).heroType, 0);
         }
     }
 }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: tank
   m_EditorClassIdentifier: 
   heroType: 2
-  heroName: Tank
+  heroName: Armoured Wizard
   childIndex: 3
