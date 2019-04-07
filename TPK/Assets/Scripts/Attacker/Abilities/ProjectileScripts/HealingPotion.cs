@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealingPotion : BaseProjectile {
-
+public class HealingPotion : BaseProjectile
+{
     public override void Behaviour(Collider col)
     {
-        HeroModel stats = col.gameObject.GetComponent<HeroModel>();
-        int currentHp = stats.GetCurrentHealth();
         base.Behaviour(col);
 
-        Debug.Log("Healing Player");
-        if (col.tag == "Player") {
+        if (col.tag == "Player")
+        {
+            Debug.Log("Healing Player");
+            HeroModel stats = col.gameObject.GetComponent<HeroModel>();
+            int currentHp = stats.GetCurrentHealth();
             int maxHealth = stats.GetMaxHealth();
             float healAmount = maxHealth * 0.2f;
             if (currentHp < maxHealth)
@@ -19,8 +20,8 @@ public class HealingPotion : BaseProjectile {
                 stats.CmdHeal((int)healAmount);
             }
             Destroy(gameObject);
+            Debug.Log("Healed");
         }
-        Debug.Log("Healed");
 
     }
 }
