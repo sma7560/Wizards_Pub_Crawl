@@ -169,7 +169,7 @@ public class EnemyController : NetworkBehaviour
     {
         float rotationSpeed = 5f;
         Vector3 direction = (target - transform.position).normalized;
-        if (direction != Vector3.zero)
+        if (!float.IsNaN(direction.x) && !float.IsNaN(direction.z))
         {
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);

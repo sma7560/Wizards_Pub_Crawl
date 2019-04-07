@@ -23,12 +23,34 @@ public class CharacterMovement
     }
 
     // Mathematically speaking it is now correct.
-    public Vector3 Calculate(float x, float z)
+    public Vector3 Calculate(bool forward, bool back, bool left, bool right)
     {
         Vector3 posX = new Vector3(1, 0, -1);
         Vector3 posZ = new Vector3(1, 0, 1);
-        if (x != 0 || z != 0)
+        if (forward || back || left || right)
         {
+            int x = 0;
+            int z = 0;
+
+            if (forward)
+            {
+                z++;
+            }
+
+            if (back)
+            {
+                z--;
+            }
+
+            if (left)
+            {
+                x--;
+            }
+
+            if (right)
+            {
+                x++;
+            }
 
             Vector3 dir = (x * posX) + (z * posZ);
 

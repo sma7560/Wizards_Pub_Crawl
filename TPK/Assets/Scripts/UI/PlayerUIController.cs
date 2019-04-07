@@ -19,6 +19,11 @@ public class PlayerUIController : MonoBehaviour
     private TextMeshProUGUI cooldown3;
     private TextMeshProUGUI cooldown4;
 
+    private TextMeshProUGUI skill1;
+    private TextMeshProUGUI skill2;
+    private TextMeshProUGUI skill3;
+    private TextMeshProUGUI skill4;
+
     private HeroModel heroModel;    // data of the current player's hero
 
     /// <summary>
@@ -41,6 +46,12 @@ public class PlayerUIController : MonoBehaviour
         cooldown3.gameObject.SetActive(false);
         cooldown4.gameObject.SetActive(false);
 
+        // Setup skill text
+        skill1 = GameObject.Find("Skill1Text").GetComponent<TextMeshProUGUI>();
+        skill2 = GameObject.Find("Skill2Text").GetComponent<TextMeshProUGUI>();
+        skill3 = GameObject.Find("Skill3Text").GetComponent<TextMeshProUGUI>();
+        skill4 = GameObject.Find("Skill4Text").GetComponent<TextMeshProUGUI>();
+
         heroModel = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<HeroModel>();
 
         SetupSkillIcons();
@@ -56,6 +67,7 @@ public class PlayerUIController : MonoBehaviour
         UpdateCooldowns();
         UpdateHealthBar();
         UpdateScore();
+        SetupSkillHotkeyText();
     }
 
     /// <summary>
@@ -121,6 +133,17 @@ public class PlayerUIController : MonoBehaviour
                 skillImg.sprite = abilityManager.equippedSkills[i].skillIcon;
             }
         }
+    }
+
+    /// <summary>
+    /// Sets text underneath the skills to the appropriate hotkey.
+    /// </summary>
+    private void SetupSkillHotkeyText()
+    {
+        skill1.text = CustomKeyBinding.GetSkill1Key().ToString();
+        skill2.text = CustomKeyBinding.GetSkill2Key().ToString();
+        skill3.text = CustomKeyBinding.GetSkill3Key().ToString();
+        skill4.text = CustomKeyBinding.GetSkill4Key().ToString();
     }
 
     /// <summary>

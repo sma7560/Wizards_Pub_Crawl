@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -90,8 +91,8 @@ public class DungeonController : MonoBehaviour
     /// </summary>
     private void ToggleUI()
     {
-        // Toggles in-game menu when 'ESC' key pressed
-        if (unityService.GetKeyDown(KeyCode.Escape))
+        // Toggles in-game menu
+        if (unityService.GetKeyDown(CustomKeyBinding.GetInGameMenuKey()))
         {
             inGameMenu.SetActive(!inGameMenu.activeSelf);
 
@@ -106,14 +107,14 @@ public class DungeonController : MonoBehaviour
         // UI elements which can only be toggled during dungeon phase
         if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase())
         {
-            // Toggles stats window when 'K' key pressed
-            if (unityService.GetKeyDown(KeyCode.K))
+            // Toggles stats window
+            if (unityService.GetKeyDown(CustomKeyBinding.GetCharacterWindowKey()))
             {
                 statWindow.SetActive(!statWindow.activeSelf);
             }
 
-            // Toggles scoreboard when 'TAB' key pressed
-            if (unityService.GetKeyDown(KeyCode.Tab))
+            // Toggles scoreboard
+            if (unityService.GetKeyDown(CustomKeyBinding.GetScoreboardKey()))
             {
                 scoreboard.SetActive(!scoreboard.activeSelf);
             }

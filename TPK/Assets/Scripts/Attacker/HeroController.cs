@@ -86,13 +86,17 @@ public class HeroController : NetworkBehaviour
             }
 
             // Perform character movement controls
-            tempVelocity = GetComponent<HeroModel>().GetCharacterMovement().Calculate(unityService.GetAxisRaw("Horizontal"), unityService.GetAxisRaw("Vertical"));
+            bool forwardPressed = Input.GetKey(CustomKeyBinding.GetForwardKey());
+            bool backPressed = Input.GetKey(CustomKeyBinding.GetBackKey());
+            bool leftPressed = Input.GetKey(CustomKeyBinding.GetLeftKey());
+            bool rightPressed = Input.GetKey(CustomKeyBinding.GetRightKey());
+            tempVelocity = GetComponent<HeroModel>().GetCharacterMovement().Calculate(forwardPressed, backPressed, leftPressed, rightPressed);
             tempVelocity.y = heroRigidbody.velocity.y;
             heroRigidbody.velocity = tempVelocity;
             PerformRotation();
 
             // Perform an attack
-            if (Input.GetMouseButton(0))
+            if (Input.GetKeyDown(CustomKeyBinding.GetBasicAttackKey()))
             {
                 //animate.PlayBasicAttack();
                 StartCoroutine(AttackSpawn());
