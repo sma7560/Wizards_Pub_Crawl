@@ -1,84 +1,73 @@
 ﻿using UnityEngine;
-using UnityEngine.TestTools;
 using NUnit.Framework;
-using System.Collections;
+using UnityEngine.Networking;
 
 /// <summary>
-/// This class holds the unit test for MatchManager.cs located in the Scripts > Game-Management folder
+/// This class holds the unit test for MatchManager.cs located in the Scripts > GameManagement folder.
 /// </summary>
 public class MatchManagerUnitTest
 {
     /// <summary>
-    /// Test UT-MM1: Tests the AddDefender() function in MatchManager, and that it returns the expected value.
-    /// Requirement: N/A
+    /// Testing function: AddPlayerToMatch(NetworkConnection)
+    /// Checking for false, as we are calling this function not on the server.
+    /// This is because no network is setup.
     /// </summary>
     [Test]
-    public void MatchManager_AddDefender_ShouldReturnTrue()
+    public void MatchManager_AddPlayerToMatch_ShouldReturnFalse()
     {
-        //// Setup MatchManager
-        //GameObject gameObject = new GameObject("TestGameObject");
-        //MatchManager matchManager = gameObject.AddComponent<MatchManager>();
+        // Setup variables
+        GameObject gameObject = new GameObject();
+        MatchManager matchManager = gameObject.AddComponent<MatchManager>();
+        NetworkConnection conn = new NetworkConnection();
 
-        //// Setup defenderExists
-        //matchManager.defenderExist = false;
-
-        //// Assert that AddDefender() returns true
-        //Assert.IsTrue(matchManager.AddDefender(), "AddDefender() did not return true!");
+        // Assert that AddPlayerToMatch() returns false
+        Assert.IsFalse(matchManager.AddPlayerToMatch(conn), "AddPlayerToMatch() did not return false!");
     }
 
     /// <summary>
-    /// Test UT-MM2: Tests the AddDefender() function in MatchManager, and that it returns the expected value.
-    /// Requirement: N/A
+    /// Testing function: RemovePlayerFromMatch(NetworkConnection)
+    /// Checking for false, as we are calling this function not on the server.
+    /// This is because no network is setup.
     /// </summary>
     [Test]
-    public void MatchManager_AddDefender_ShouldReturnFalse()
+    public void MatchManager_RemovePlayerFromMatch_ShouldReturnFalse()
     {
-        //// Setup MatchManager
-        //GameObject gameObject = new GameObject("TestGameObject");
-        //MatchManager matchManager = gameObject.AddComponent<MatchManager>();
+        // Setup variables
+        GameObject gameObject = new GameObject();
+        MatchManager matchManager = gameObject.AddComponent<MatchManager>();
+        NetworkConnection conn = new NetworkConnection();
 
-        //// Setup defenderExists
-        //matchManager.defenderExist = true;
-
-        //// Assert that AddDefender() returns false
-        //Assert.IsFalse(matchManager.AddDefender(), "AddDefender() did not return false!");
+        // Assert
+        Assert.IsFalse(matchManager.RemovePlayerFromMatch(conn), "RemovePlayerFromMatch() did not return false!");
     }
 
     /// <summary>
-    /// Test UT-MM3: Tests the AddAttacker() function in MatchManager, and that attackers can be added if there are currently less than 3.
-    /// Requirement: FR-3
+    /// Testing function: GetNumOfPlayers()
+    /// Testing return value of 0, as we have not added any players to the match.
     /// </summary>
     [Test]
-    public void MatchManager_AddAttacker_ShouldReturnTrue()
+    public void MatchManager_GetNumOfPlayers_ShouldReturnZero()
     {
-        //// Setup MatchManager
-        //GameObject gameObject = new GameObject("TestGameObject");
-        //MatchManager matchManager = gameObject.AddComponent<MatchManager>();
+        // Setup variables
+        GameObject gameObject = new GameObject();
+        MatchManager matchManager = gameObject.AddComponent<MatchManager>();
 
-        //// Setup currentAttacker to none
-        //matchManager.currentAttacker = 0;
-
-        //// Assert that AddAttacker() returns true for up to 3 attackers
-        //Assert.IsTrue(matchManager.AddAttacker(), "AddAttacker() did not return true!");
-        //Assert.IsTrue(matchManager.AddAttacker(), "AddAttacker() did not return true!");
-        //Assert.IsTrue(matchManager.AddAttacker(), "AddAttacker() did not return true!");
+        // Assert
+        Assert.AreEqual(0, matchManager.GetNumOfPlayers(), "Expected 0 number of players, but did not get 0!");
     }
 
     /// <summary>
-    /// Test UT-MM4: Tests the AddAttacker() function in MatchManager, and that additional attackers cannot be added if there are already 3.
-    /// Requirement: FR-3
+    /// Testing functions: GetMaxPlayers()
+    /// Testing that the return value is 2.
     /// </summary>
     [Test]
-    public void MatchManager_AddAttacker_ShouldReturnFalse()
+    public void MatchManager_GetMaxPlayers_ShouldReturn2()
     {
-        //// Setup MatchManager
-        //GameObject gameObject = new GameObject("TestGameObject");
-        //MatchManager matchManager = gameObject.AddComponent<MatchManager>();
+        // Setup variables
+        GameObject gameObject = new GameObject();
+        MatchManager matchManager = gameObject.AddComponent<MatchManager>();
 
-        //// Setup currentAttacker to max (3)
-        //matchManager.currentAttacker = 3;
-
-        //// Assert that AddAttacker() returns false
-        //Assert.IsFalse(matchManager.AddAttacker(), "AddAttacker() did not return false!");
+        // Assert
+        Assert.AreEqual(2, matchManager.GetMaxPlayers(), "Expected 2 for max number of players, but did not get 2!");
     }
 }

@@ -11,8 +11,6 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Animator))]
 public class EnemyController : NetworkBehaviour
 {
-    public IUnityService unityService;
-
     // Managers
     private MatchManager matchManager;
     private HeroManager heroManager;
@@ -33,11 +31,6 @@ public class EnemyController : NetworkBehaviour
     /// </summary>
     void Start()
     {
-        if (unityService == null)
-        {
-            unityService = new UnityService();
-        }
-
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
 

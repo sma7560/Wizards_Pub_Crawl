@@ -14,7 +14,6 @@ public class EnemyModel : NetworkBehaviour
     [SyncVar] private int currentHealth;
     [SerializeField] private int maxHealth;
     [SerializeField] private int damage;
-    [SerializeField] private int defence;
     [SerializeField] private int attackSpeed;
     [SerializeField] private int movementSpeed;
     [SerializeField] private int lookRadius;        // radius where enemy can detect players
@@ -32,6 +31,7 @@ public class EnemyModel : NetworkBehaviour
     void Awake()
     {
         currentHealth = maxHealth;
+        isDying = false;
     }
 
     void Start()
@@ -40,8 +40,6 @@ public class EnemyModel : NetworkBehaviour
         {
             unityService = new UnityService();
         }
-
-        isDying = false;
     }
 
     void Update()
@@ -59,8 +57,6 @@ public class EnemyModel : NetworkBehaviour
     [Command]
     public void CmdTakeDamage(int dmg)
     {
-        if (!isServer) return;
-
         // Calculate damage to take
         dmg = Mathf.Clamp(dmg, 0, int.MaxValue);    // restrict damage to a value between [0, int.MaxValue]
 

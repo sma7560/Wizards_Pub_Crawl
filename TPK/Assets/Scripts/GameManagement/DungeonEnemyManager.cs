@@ -11,7 +11,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     private MatchManager matchManager;
 
     [SerializeField] private List<GameObject> monsterList;
-    private readonly int maxNumMonsters = 150;
+    private readonly int maxNumMonsters = 16;
     private List<Vector3> spawnLocations;
 
     void Awake()
@@ -52,7 +52,7 @@ public class DungeonEnemyManager : NetworkBehaviour
         }
 
         // Call summon monster every 4 seconds
-        InvokeRepeating("DungeonSpawnMonster", 0f, 0.3f);
+        InvokeRepeating("DungeonSpawnMonster", 0f, 4f);
     }
 
     /// <summary>
