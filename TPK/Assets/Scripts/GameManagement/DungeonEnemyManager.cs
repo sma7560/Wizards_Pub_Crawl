@@ -12,12 +12,10 @@ public class DungeonEnemyManager : NetworkBehaviour
 
     [SerializeField] private List<GameObject> monsterList;
     private readonly int maxNumMonsters = 16;
-    private int currentNumMonsters;
     private List<Vector3> spawnLocations;
 
     void Awake()
     {
-        currentNumMonsters = 0;
         spawnLocations = new List<Vector3>();
     }
     
@@ -62,7 +60,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     private void DungeonSpawnMonster()
     {
         if (!isServer || matchManager.HasMatchEnded()) return;
-        if (currentNumMonsters >= maxNumMonsters || spawnLocations.Count <= 0) return;
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length >= maxNumMonsters || spawnLocations.Count <= 0) return;
 
         // Spawn a monster at a randomly selected location
         int randLocation = Random.Range(0, spawnLocations.Count);
@@ -82,7 +80,6 @@ public class DungeonEnemyManager : NetworkBehaviour
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
         GameObject monsterToSpawn = unityService.Instantiate(monsterType, location, rotate);
         NetworkServer.Spawn(monsterToSpawn);
-        currentNumMonsters++;
     }
 
     /// <summary>

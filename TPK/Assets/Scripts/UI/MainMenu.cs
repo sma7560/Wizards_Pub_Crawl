@@ -4,14 +4,15 @@
 /// Script for Main Menu functionality.
 /// Attached to the Main Menu.
 /// </summary>
-public class MainMenuController : MonoBehaviour
+public class MainMenu : MonoBehaviour
 {
     /// <summary>
     /// Initialization.
     /// </summary>
     void Start()
     {
-        AudioManager.SetBgVolume(AudioManager.GetBgVolume());
+        AudioManager.SetSystemBgVolume(AudioManager.GetBgVolume());
+        AudioManager.SetSystemSfxVolume(AudioManager.GetSfxVolume());
     }
 
     /// <summary>

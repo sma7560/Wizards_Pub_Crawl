@@ -178,6 +178,7 @@ public class MatchManager : NetworkBehaviour
     [ClientRpc]
     private void RpcEndMatch()
     {
+        if (isLocalPlayer) return;
         Instantiate(Resources.Load("Menu&UI Prefabs/GameOverScreen"));
     }
 }

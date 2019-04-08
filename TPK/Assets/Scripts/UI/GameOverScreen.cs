@@ -24,7 +24,7 @@ public class GameOverScreen : MonoBehaviour
         mainMenu = GameObject.Find("ReturnMainMenuButton").GetComponent<Button>();
         player1Score = GameObject.Find("Player1Score").GetComponent<TextMeshProUGUI>();
         player2Score = GameObject.Find("Player2Score").GetComponent<TextMeshProUGUI>();
-        playerWin = GameObject.Find("playerWins").GetComponent<TextMeshProUGUI>();
+        playerWin = GameObject.Find("PlayerWins").GetComponent<TextMeshProUGUI>();
 
         mainMenu.onClick.AddListener(ReturnToMainMenu);
 

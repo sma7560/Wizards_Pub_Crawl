@@ -37,6 +37,7 @@ public class MoveSpeedBuff : Item
         else
         {
             // Apply speed buff
+            stats.SetCurrentMoveSpeed(stats.GetBaseMoveSpeed() + buffAmount);
             yield return new WaitForSeconds(buffTime);
             stats.SetCurrentMoveSpeed(stats.GetBaseMoveSpeed());
             Destroy(gameObject);

@@ -140,7 +140,7 @@ public static class AudioManager
     /// Assume AudioSource is in "EventSystem" GameObject.
     /// </summary>
     /// <param name="volume">Volume to set the system audio to.</param>
-    private static void SetSystemBgVolume(float volume)
+    public static void SetSystemBgVolume(float volume)
     {
         if (GameObject.Find("EventSystem").GetComponent<AudioSource>() != null)
         {
@@ -160,7 +160,7 @@ public static class AudioManager
     /// Assume AudioSource is in player's GameObject.
     /// </summary>
     /// <param name="volume">Volume to set the system audio to.</param>
-    private static void SetSystemSfxVolume(float volume)
+    public static void SetSystemSfxVolume(float volume)
     {
         // For main menu sound effects
         if (GameObject.Find("SfxAudio") != null)
