@@ -810,7 +810,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4635949546383412}
   - component: {fileID: 54342863199969990}
-  - component: {fileID: 114720464927105716}
   - component: {fileID: 195816571185514422}
   - component: {fileID: 114032567276065034}
   - component: {fileID: 114768814913242586}
@@ -3187,18 +3186,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114720464927105716
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1662401685710870}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa9628527654f94597a76bac04ce713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactRadius: 2
 --- !u!114 &114735840337460590
 MonoBehaviour:
   m_ObjectHideFlags: 1

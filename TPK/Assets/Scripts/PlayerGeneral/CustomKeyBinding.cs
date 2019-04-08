@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -17,7 +15,7 @@ public static class CustomKeyBinding
     private static KeyCode skill2 = KeyCode.Alpha2;
     private static KeyCode skill3 = KeyCode.Alpha3;
     private static KeyCode skill4 = KeyCode.Alpha4;
-    private static KeyCode characterWindow = KeyCode.K;
+    private static KeyCode statWindow = KeyCode.K;
     private static KeyCode scoreboard = KeyCode.Tab;
     private static KeyCode inGameMenu = KeyCode.Escape;
     private static KeyCode basicAttack = KeyCode.Mouse0;
@@ -82,10 +80,10 @@ public static class CustomKeyBinding
             SetSkill4Key(keyCode);
         }
 
-        if (PlayerPrefs.HasKey("characterWindow"))
+        if (PlayerPrefs.HasKey("statWindow"))
         {
-            KeyCode keyCode = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("characterWindow"));
-            SetCharacterWindowKey(keyCode);
+            KeyCode keyCode = (KeyCode)Enum.Parse(typeof(KeyCode), PlayerPrefs.GetString("statWindow"));
+            SetStatWindowKey(keyCode);
         }
 
         if (PlayerPrefs.HasKey("scoreboard"))
@@ -109,7 +107,7 @@ public static class CustomKeyBinding
     {
         if (forward == key || back == key || left == key || right == key ||
             basicAttack == key || skill1 == key || skill2 == key || skill3 == key || skill4 == key ||
-            characterWindow == key || scoreboard == key || inGameMenu == key)
+            statWindow == key || scoreboard == key || inGameMenu == key)
         {
             return true;
         }
@@ -165,9 +163,9 @@ public static class CustomKeyBinding
         skill4 = key;
     }
 
-    private static void SetCharacterWindowKey(KeyCode key)
+    private static void SetStatWindowKey(KeyCode key)
     {
-        characterWindow = key;
+        statWindow = key;
     }
 
     private static void SetScoreboardKey(KeyCode key)
@@ -223,9 +221,9 @@ public static class CustomKeyBinding
         return skill4;
     }
 
-    public static KeyCode GetCharacterWindowKey()
+    public static KeyCode GetStatWindowKey()
     {
-        return characterWindow;
+        return statWindow;
     }
 
     public static KeyCode GetScoreboardKey()

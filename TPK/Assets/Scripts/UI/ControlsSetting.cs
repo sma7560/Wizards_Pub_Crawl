@@ -18,7 +18,7 @@ public class ControlsSetting : MonoBehaviour
     private Button skill2Button;
     private Button skill3Button;
     private Button skill4Button;
-    private Button characterWindowButton;
+    private Button statWindowButton;
     private Button scoreboardButton;
     private Button inGameMenuButton;
 
@@ -41,7 +41,7 @@ public class ControlsSetting : MonoBehaviour
         skill2Button = GameObject.Find("Skill2Button").GetComponent<Button>();
         skill3Button = GameObject.Find("Skill3Button").GetComponent<Button>();
         skill4Button = GameObject.Find("Skill4Button").GetComponent<Button>();
-        characterWindowButton = GameObject.Find("CharacterWindowButton").GetComponent<Button>();
+        statWindowButton = GameObject.Find("CharacterWindowButton").GetComponent<Button>();
         scoreboardButton = GameObject.Find("ScoreboardButton").GetComponent<Button>();
         inGameMenuButton = GameObject.Find("InGameMenuButton").GetComponent<Button>();
 
@@ -59,7 +59,7 @@ public class ControlsSetting : MonoBehaviour
         skill2Button.onClick.AddListener(ListenSkill2ButtonWrapper);
         skill3Button.onClick.AddListener(ListenSkill3ButtonWrapper);
         skill4Button.onClick.AddListener(ListenSkill4ButtonWrapper);
-        characterWindowButton.onClick.AddListener(ListenCharacterWindowButtonWrapper);
+        statWindowButton.onClick.AddListener(ListenStatWindowButtonWrapper);
         scoreboardButton.onClick.AddListener(ListenScoreboardButtonWrapper);
         inGameMenuButton.onClick.AddListener(ListenInGameMenuButtonWrapper);
     }
@@ -184,7 +184,7 @@ public class ControlsSetting : MonoBehaviour
         skill2Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill2Key());
         skill3Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill3Key());
         skill4Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill4Key());
-        characterWindowButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetCharacterWindowKey());
+        statWindowButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetStatWindowKey());
         scoreboardButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetScoreboardKey());
         inGameMenuButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetInGameMenuKey());
     }
@@ -552,11 +552,11 @@ public class ControlsSetting : MonoBehaviour
     }
 
     /// <summary>
-    /// Actions to perform when Character Window button is clicked.
+    /// Actions to perform when Stat Window button is clicked.
     /// Highlights button while waiting for player input.
-    /// Once player key input is detected, binds Character Window button to that key.
+    /// Once player key input is detected, binds Stat Window button to that key.
     /// </summary>
-    private void ListenCharacterWindowButtonWrapper()
+    private void ListenStatWindowButtonWrapper()
     {
         if (isListening) return;    // only listen to one button at a time
 
@@ -567,13 +567,13 @@ public class ControlsSetting : MonoBehaviour
             return;
         }
 
-        StartCoroutine(ListenCharacterWindowButton());
+        StartCoroutine(ListenStatWindowButton());
     }
-    private IEnumerator ListenCharacterWindowButton()
+    private IEnumerator ListenStatWindowButton()
     {
         isListening = true;
-        oldKey = CustomKeyBinding.GetCharacterWindowKey();
-        ChangeButtonColour(characterWindowButton, true);
+        oldKey = CustomKeyBinding.GetStatWindowKey();
+        ChangeButtonColour(statWindowButton, true);
 
         // Wait for player input
         while (isListening)
@@ -582,8 +582,8 @@ public class ControlsSetting : MonoBehaviour
         }
 
         // Set key bind
-        ChangeButtonColour(characterWindowButton, false);
-        PlayerPrefs.SetString("characterWindow", keyToBind.ToString());
+        ChangeButtonColour(statWindowButton, false);
+        PlayerPrefs.SetString("statWindow", keyToBind.ToString());
         CustomKeyBinding.SetupCustomKeyBindings();
         SetupButtonText();
     }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -110,7 +107,7 @@ public class DungeonController : MonoBehaviour
         if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase())
         {
             // Toggles stats window
-            if (unityService.GetKeyDown(CustomKeyBinding.GetCharacterWindowKey()))
+            if (unityService.GetKeyDown(CustomKeyBinding.GetStatWindowKey()))
             {
                 statWindow.SetActive(!statWindow.activeSelf);
             }
@@ -233,7 +230,7 @@ public class DungeonController : MonoBehaviour
     private void SetupUI()
     {
         if (prephaseManager == null) return;
-        
+
         if (inGameMenu == null)
         {
             // Initialize in-game UI

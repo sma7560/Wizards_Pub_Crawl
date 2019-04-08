@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -140,7 +139,7 @@ public class MatchManager : NetworkBehaviour
     {
         return maxPlayers;
     }
-    
+
     /// <returns>
     /// Returns whether or not the match has ended. True if match has ended, false otherwise.
     /// </returns>

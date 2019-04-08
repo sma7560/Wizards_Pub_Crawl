@@ -52,7 +52,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4571654359590314}
   - component: {fileID: 54388817334448772}
-  - component: {fileID: 114769152364748164}
   - component: {fileID: 195821125480502128}
   - component: {fileID: 114543880795818030}
   - component: {fileID: 114263103623280498}
@@ -3267,18 +3266,6 @@ MonoBehaviour:
   dropRate: 60
   idleRange: 14
   idleHowOftenDirectionChanged: 6
---- !u!114 &114769152364748164
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1036949641504044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faa9628527654f94597a76bac04ce713, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactRadius: 2
 --- !u!114 &114999908526926198
 MonoBehaviour:
   m_ObjectHideFlags: 1

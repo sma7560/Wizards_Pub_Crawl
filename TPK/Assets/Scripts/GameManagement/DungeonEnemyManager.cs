@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -8,13 +7,11 @@ using UnityEngine.Networking;
 /// </summary>
 public class DungeonEnemyManager : NetworkBehaviour
 {
-    public IUnityService unityService;  // for unit testing
+    public IUnityService unityService;
     private MatchManager matchManager;
 
-    //Monster types
-    [SerializeField] private List<GameObject> monsterList;
     private int currentNumMonsters = 0;
-
+    [SerializeField] private List<GameObject> monsterList;
     private List<Vector3> spawnLocations = new List<Vector3>();
 
     /// <summary>
@@ -32,7 +29,7 @@ public class DungeonEnemyManager : NetworkBehaviour
 
     private void Update()
     {
-        if(spawnLocations.Count <=0)
+        if (spawnLocations.Count <= 0)
         {
             SetSpawnPoints();
         }
@@ -44,22 +41,25 @@ public class DungeonEnemyManager : NetworkBehaviour
     public void StartSpawn()
     {
         if (!isServer) return;
-        for(int i =1; i<=5; i++)
+
+        // Spawn an initial 5 monsters
+        for (int i = 1; i <= 5; i++)
         {
             DungeonSpawnMonster();
         }
-        //call summon monster every 4 seconds
+
+        // Call summon monster every 4 seconds
         InvokeRepeating("DungeonSpawnMonster", 0f, 4);
     }
 
     /// <summary>
-    /// Spawn monster
+    /// Spawns a monster.
     /// </summary>
     private void DungeonSpawnMonster()
     {
         if (!isServer || matchManager.HasMatchEnded()) return;
 
-        //only spawn monster if current spawned monsters number less than 16
+        // Only spawn monster if current spawned monsters number less than 16
         GameObject[] currentMonsterList = GameObject.FindGameObjectsWithTag("Enemy");
         currentNumMonsters = currentMonsterList.Length;
         if (currentNumMonsters > 16)
@@ -119,7 +119,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     /// <summary>
     /// returns all spawnable enemy types if less than 4 heavy monsters, otherwise return only non-heavy enemy types
     /// </summary>
-    private List<GameObject> getCurrentSpawnableMonsterList (GameObject[] currentMonsters)
+    private List<GameObject> getCurrentSpawnableMonsterList(GameObject[] currentMonsters)
     {
         int temp = 0;
         List<GameObject> monsterListWithoutHeavy = new List<GameObject>();
@@ -132,8 +132,8 @@ public class DungeonEnemyManager : NetworkBehaviour
             }
             monsterListWithoutHeavy.Add(enemy);
         }
-        
-        if(temp>=4)
+
+        if (temp >= 4)
         {
             return monsterListWithoutHeavy;
         }
