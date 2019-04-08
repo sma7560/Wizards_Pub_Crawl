@@ -101,7 +101,7 @@
 //    {
 //        // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK ATTACKING IS CURRENTLY GIVING LOG ERRORS.
 //        LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
-        
+
 //        // Setup monster object
 //        GameObject enemies = GameObject.Find("Enemies");
 //        GameObject monster = enemies.transform.Find("Monster1").gameObject;
@@ -145,7 +145,7 @@
 //    {
 //        // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK ATTACKING IS CURRENTLY GIVING LOG ERRORS.
 //        LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
-        
+
 //        // Setup monster object
 //        GameObject enemies = GameObject.Find("Enemies");
 //        GameObject monster = enemies.transform.Find("Monster1").gameObject;
@@ -226,7 +226,7 @@
 //    {
 //        // TODO: TEMPORARY, REMOVE LATER. ONLY ADDED BECAUSE NETWORK ATTACKING IS CURRENTLY GIVING LOG ERRORS.
 //        LogAssert.ignoreFailingMessages = true;     // REMOVE THIS LINE LATER
-        
+
 //        // Setup monster object
 //        GameObject enemies = GameObject.Find("Enemies");
 //        GameObject monster = enemies.transform.Find("Monster1").gameObject;
