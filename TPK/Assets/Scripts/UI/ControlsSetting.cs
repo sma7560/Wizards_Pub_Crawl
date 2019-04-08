@@ -80,6 +80,54 @@ public class ControlsSetting : MonoBehaviour
             keyToBind = e.keyCode;
             isListening = false;
         }
+        else if (e.shift)
+        {
+            // Check for shift input
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                if (oldKey != KeyCode.LeftShift && CustomKeyBinding.KeyAlreadyBound(KeyCode.LeftShift)) return;
+                keyToBind = KeyCode.LeftShift;
+                isListening = false;
+            }
+            else if (Input.GetKey(KeyCode.RightShift))
+            {
+                if (oldKey != KeyCode.RightShift && CustomKeyBinding.KeyAlreadyBound(KeyCode.RightShift)) return;
+                keyToBind = KeyCode.RightShift;
+                isListening = false;
+            }
+        }
+        else if (e.control)
+        {
+            // Check for control input
+            if (Input.GetKey(KeyCode.LeftControl))
+            {
+                if (oldKey != KeyCode.LeftControl && CustomKeyBinding.KeyAlreadyBound(KeyCode.LeftControl)) return;
+                keyToBind = KeyCode.LeftControl;
+                isListening = false;
+            }
+            else if (Input.GetKey(KeyCode.RightControl))
+            {
+                if (oldKey != KeyCode.RightControl && CustomKeyBinding.KeyAlreadyBound(KeyCode.RightControl)) return;
+                keyToBind = KeyCode.RightControl;
+                isListening = false;
+            }
+        }
+        else if (e.alt)
+        {
+            // Check for alt input
+            if (Input.GetKey(KeyCode.LeftAlt))
+            {
+                if (oldKey != KeyCode.LeftAlt && CustomKeyBinding.KeyAlreadyBound(KeyCode.LeftAlt)) return;
+                keyToBind = KeyCode.LeftAlt;
+                isListening = false;
+            }
+            else if (Input.GetKey(KeyCode.RightAlt))
+            {
+                if (oldKey != KeyCode.RightAlt && CustomKeyBinding.KeyAlreadyBound(KeyCode.RightAlt)) return;
+                keyToBind = KeyCode.RightAlt;
+                isListening = false;
+            }
+        }
         else if (e.isMouse && e.button >= 0 && e.button <= 6)
         {
             switch (e.button)

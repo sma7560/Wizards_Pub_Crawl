@@ -273,11 +273,15 @@ public static class CustomKeyBinding
             case KeyCode.Alpha9:
                 return "9";
             case KeyCode.Mouse0:
-                return "L-click";
+                return "LeftClick";
             case KeyCode.Mouse1:
-                return "R-click";
+                return "RightClick";
             case KeyCode.Mouse2:
-                return "Scroll wheel";
+                return "ScrollWheel";
+            case KeyCode.LeftControl:
+                return "LeftCtrl";
+            case KeyCode.RightControl:
+                return "RightCtrl";
             default:
                 return key.ToString();
         }
