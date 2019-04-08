@@ -34,7 +34,7 @@ public class PlayerUI : MonoBehaviour
         abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
 
         // Get time left text
-        timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
+        timeLeft = GameObject.Find("MatchTimeLeftText").GetComponent<TextMeshProUGUI>();
 
         // Setup cooldowns
         cooldown1 = GameObject.Find("Cooldown1").GetComponent<TextMeshProUGUI>();
@@ -110,11 +110,11 @@ public class PlayerUI : MonoBehaviour
 
         if (secondLeft >= 10)
         {
-            this.timeLeft.SetText(minuteLeft.ToString() + " : " + secondLeft.ToString());
+            this.timeLeft.text = minuteLeft.ToString() + " : " + secondLeft.ToString();
         }
         else
         {
-            this.timeLeft.SetText(minuteLeft.ToString() + " : 0" + secondLeft.ToString());
+            this.timeLeft.text = minuteLeft.ToString() + " : 0" + secondLeft.ToString();
         }
     }
 

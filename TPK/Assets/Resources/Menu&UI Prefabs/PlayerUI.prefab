@@ -555,7 +555,7 @@ GameObject:
   - component: {fileID: 222872736667545704}
   - component: {fileID: 114377384961391298}
   m_Layer: 5
-  m_Name: TimeLeftText
+  m_Name: MatchTimeLeftText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
