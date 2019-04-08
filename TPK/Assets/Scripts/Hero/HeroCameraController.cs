@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Serves as the player's camera during pre-phase and dungeon phase.
 /// Camera spawned locally when hero prefab is spawned.
 /// HeroCamera is instantiated in HeroController.cs.
+/// Attached to the HeroCamera prefab.
 /// </summary>
 public class HeroCameraController : MonoBehaviour
 {
@@ -19,13 +18,12 @@ public class HeroCameraController : MonoBehaviour
     private Quaternion prephaseRotation = Quaternion.Euler(10, 180, 0);
     private Vector3 waitingRoomPosition = new Vector3(85f, 2.5f, 22f);
     private Quaternion waitingRoomRotation = Quaternion.Euler(10, 180, 0);
-	private Camera cam;
+    private Camera cam;
 
-    // Use this for initialization
     void Start()
     {
-        this.transform.position = dungeonOffset;
-		cam = GetComponent<Camera> ();
+        transform.position = dungeonOffset;
+        cam = GetComponent<Camera>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
     }
 
@@ -36,6 +34,7 @@ public class HeroCameraController : MonoBehaviour
         Vector3 desiredPosition;
         Quaternion desiredRotation;
 
+        // Control camera positioning depending on current phase
         if (prephaseManager.GetState() == PrephaseManager.PrephaseState.RoomFull)
         {
             // Pre-phase
@@ -62,13 +61,19 @@ public class HeroCameraController : MonoBehaviour
         transform.position = desiredPosition;
         transform.rotation = desiredRotation;
 
-		//mousewheel zoom and reset
-		if (Input.GetAxis ("Mouse ScrollWheel") > 0 && cam.orthographicSize > 5)
-			cam.orthographicSize -= 1;
-		else if (Input.GetAxis ("Mouse ScrollWheel") < 0 && cam.orthographicSize < 16)
-			cam.orthographicSize += 1;
-		else if (Input.GetMouseButton (2))
-			cam.orthographicSize = 12;
+        // Mousewheel zoom and reset
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && cam.orthographicSize > 5)
+        {
+            cam.orthographicSize -= 1;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0 && cam.orthographicSize < 16)
+        {
+            cam.orthographicSize += 1;
+        }
+        else if (Input.GetMouseButton(2))
+        {
+            cam.orthographicSize = 12;
+        }
     }
 
     public void SetTarget(Transform target)

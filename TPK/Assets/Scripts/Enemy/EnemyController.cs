@@ -196,7 +196,7 @@ public class EnemyController : NetworkBehaviour
         HeroModel heroStats = attackedPlayer.GetComponent<HeroModel>();
         if (heroStats != null && attackCooldown <= 0)
         {
-            heroStats.CmdTakeDamage(stats.GetDamage(), DamageType.physical);
+            heroStats.CmdTakeDamage(stats.GetDamage());
             attackCooldown = 1f / stats.GetAttackSpeed();
         }
     }

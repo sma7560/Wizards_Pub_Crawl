@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-//Note that skill created this way are all active skills, meaning they have to be activated.
+/// <summary>
+/// NOTE: Skills created this way are all active skills, meaning they have to be activated.
+/// </summary>
 [CreateAssetMenu(menuName = "Skill")]
 public class Skill : ScriptableObject
 {
@@ -11,25 +11,14 @@ public class Skill : ScriptableObject
     public Sprite skillIcon;
     public float skillCoolDown;
     public SkillType skillType;
-
-
-    //Many of the following attributes act as different descriptors depending on the type of skill cast. 
-    // Define how skill is cast.
-    public CastType castType;
-    public float skillRange; // This doubles as radius
-
-    //Defining Damage Type
-    public DamageType damageType;
+    public CastType castType;           // Define how skill is cast
+    public float skillRange;            // Doubles as radius
     public int damageAmount;
     public int projectilePrefabIndex;
     public int numProjectiles;
     public float projectileSpeed;
     public CcType ccType;
-
-    //Define if there is a movement to it.
-    // Do we need a direction or always assume forward?
     public MovementType moveType;
-    public float movementDistance; //negative distances for backwards and positive for forward.
-    //gameobject particle effects.
-    public int visualEffectIndex; //These will have to be designed or projectile.
+    public float movementDistance;      // negative distances for backwards; positive for forward
+    public int visualEffectIndex;
 }

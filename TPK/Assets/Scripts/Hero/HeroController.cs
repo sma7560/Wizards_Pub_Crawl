@@ -1,11 +1,9 @@
 ﻿using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 
 /// <summary>
-/// Contains controls of the player character.
+/// Controls the player character.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BasicAttack))]
@@ -13,12 +11,10 @@ using UnityEngine.UI;
 [RequireComponent(typeof(HeroModel))]
 public class HeroController : NetworkBehaviour
 {
-    public GameObject heroCam;
-    public GameObject compass;
-
-    // For unit testing
-    public bool localTest;
     public IUnityService unityService;
+
+    [SerializeField] private GameObject heroCam;
+    [SerializeField] private GameObject compass;
 
     // For setting up character direction
     private Camera view;
@@ -42,12 +38,13 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     void Start()
     {
-        if (!isLocalPlayer && !localTest) return;
+        if (!isLocalPlayer) return;
 
         if (unityService == null)
         {
             unityService = new UnityService();
         }
+
         Vector3 floor = new Vector3(0, 1.5f, 0);
         ground = new Plane(Vector3.up, floor);
 
@@ -57,7 +54,6 @@ public class HeroController : NetworkBehaviour
 
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-
 
         // Run startup functions
         StartCamera();
@@ -69,10 +65,12 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     void Update()
     {
-        if (!isLocalPlayer && !localTest) return;
+        if (!isLocalPlayer) return;
 
-        // Only allow controls if hero is not knocked out, game is currently not in prephase, and match has not ended
-        if (!GetComponent<HeroModel>().IsKnockedOut() && !prephaseManager.IsCurrentlyInPrephase() && !matchManager.HasMatchEnded())
+        // Only allow controls under certain conditions
+        if (!GetComponent<HeroModel>().IsKnockedOut() &&
+            !prephaseManager.IsCurrentlyInPrephase() &&
+            !matchManager.HasMatchEnded())
         {
             // TODO:
             // This will be changed later but setting up the basic attack here. this should be moved to the endphase.
@@ -80,7 +78,6 @@ public class HeroController : NetworkBehaviour
             if (!isDungeonReady)
             {
                 isDungeonReady = true;
-                battack.CmdSetAttackParameters();
                 animate.myHeroType = GetComponent<HeroModel>().GetHeroType();
             }
 
@@ -97,13 +94,13 @@ public class HeroController : NetworkBehaviour
             // Perform an attack
             if (Input.GetKey(CustomKeyBinding.GetBasicAttackKey()))
             {
-                //animate.PlayBasicAttack();
-                StartCoroutine(AttackSpawn());
+                StartCoroutine(PerformBasicAttack());
             }
         }
 
         // Check current health status
-        if (!prephaseManager.IsCurrentlyInPrephase() && GetComponent<HeroModel>().GetCurrentHealth() <= 0)
+        if (!prephaseManager.IsCurrentlyInPrephase() &&
+            GetComponent<HeroModel>().GetCurrentHealth() <= 0)
         {
             KnockOut();
         }
@@ -124,13 +121,13 @@ public class HeroController : NetworkBehaviour
     }
 
     /// <summary>
-    /// This function disables the main view camera in charge of capturing the UI.
+    /// This function disables the main view camera and enables HeroCamera.
     /// </summary>
     private void StartCamera()
     {
         GameObject.FindGameObjectWithTag("MainCamera").SetActive(false);
         cam = Instantiate(heroCam);
-        cam.GetComponent<HeroCameraController>().SetTarget(this.transform);
+        cam.GetComponent<HeroCameraController>().SetTarget(transform);
         view = cam.GetComponent<Camera>();
     }
 
@@ -139,7 +136,6 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     private void KnockOut()
     {
-        // Do nothing if hero is already knocked out
         if (GetComponent<HeroModel>().IsKnockedOut()) return;
 
         // Set status and death animation
@@ -148,8 +144,6 @@ public class HeroController : NetworkBehaviour
 
         // Start timer for length of time that character remains knocked out
         StartCoroutine(KnockOutTimer());
-
-        Debug.Log("Player " + matchManager.GetPlayerId() + " is knocked out.");
     }
 
     /// <summary>
@@ -173,8 +167,6 @@ public class HeroController : NetworkBehaviour
         // Set player location back to spawn point
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         transform.position = heroManager.GetSpawnLocationOfPlayer(matchManager.GetPlayerId());
-
-        Debug.Log("Player " + matchManager.GetPlayerId() + " spawned at " + transform.position);
     }
 
     /// <summary>
@@ -186,7 +178,10 @@ public class HeroController : NetworkBehaviour
         Spawn();
     }
 
-    private IEnumerator AttackSpawn()
+    /// <summary>
+    /// Performs a basic attack.
+    /// </summary>
+    private IEnumerator PerformBasicAttack()
     {
         animate.PlayBasicAttack();
         yield return new WaitForSeconds(0.25f);

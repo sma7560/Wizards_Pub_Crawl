@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Encapsulates the hero character movement logic.
-/// This class is needed to isolate the logic for unit testing without any Unity dependencies.
 /// </summary>
 public class CharacterMovement
 {
@@ -22,7 +19,19 @@ public class CharacterMovement
         }
     }
 
-    // Mathematically speaking it is now correct.
+    public void SetSpeed(float s)
+    {
+        speed = s;
+    }
+
+    /// <summary>
+    /// Calculates the movement of the unit.
+    /// </summary>
+    /// <param name="forward">Whether or not unit is moving forward.</param>
+    /// <param name="back">Whether or not unit is moving backward.</param>
+    /// <param name="left">Whether or not unit is moving left.</param>
+    /// <param name="right">Whether or not unit is moving right.</param>
+    /// <returns>Vector that the unit is moving towards.</returns>
     public Vector3 Calculate(bool forward, bool back, bool left, bool right)
     {
         Vector3 posX = new Vector3(1, 0, -1);
@@ -60,14 +69,4 @@ public class CharacterMovement
 
         return new Vector3(0, 0, 0);
     }
-
-    public float GetSpeed()
-    {
-        return speed;
-    }
-
-	public void SetSpeed(float s)
-	{
-		speed = s;
-	}
 }

@@ -27,7 +27,7 @@ public class HeroModel : NetworkBehaviour
     [SyncVar] private HeroType heroType;
     [SyncVar] private bool isKnockedOut;
     [SyncVar] private int score;
-    [SyncVar] private int heroIndex;        // current hero model the player has; 0 = king, 1 = rogue, 2 = wizard
+    [SyncVar] private int heroIndex;        // current hero model the player has; 0 = king, 1 = rogue, 2 = wizard, 3 = armoured
 
     /// <summary>
     /// Initialize variables.
@@ -50,13 +50,9 @@ public class HeroModel : NetworkBehaviour
     /// This function is run on the server using data from the client which called this function.
     /// </summary>
     /// <param name="amount">Amount of damage this hero should take.</param>
-    /// <param name="damageType">The damage type of the damage being taken.</param>
     [Command]
-    public void CmdTakeDamage(int amount, DamageType damageType)
+    public void CmdTakeDamage(int amount)
     {
-        Debug.Log("Damage Check");
-        Debug.Log("I am taking " + amount + " damage");
-
         // Calculate final damage taken based on stats
         float finalDamage = 0;
         float dmgReduce = (float)currentDefense;
@@ -66,9 +62,6 @@ public class HeroModel : NetworkBehaviour
         finalDamage = Mathf.Clamp(finalDamage, 0, int.MaxValue);    // restrict damage to [0, int.MaxValue]
         currentHealth = currentHealth - (int)Mathf.Round(finalDamage);
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);   // restrict health to [0, maxHealth]
-
-        Debug.Log("Final damage: " + Mathf.Round(finalDamage));
-        Debug.Log("My Current Health: " + currentHealth + "/" + maxHealth);
     }
 
     /// <summary>

@@ -49,7 +49,6 @@ public class PlayerSoundController : NetworkBehaviour {
     {
         for (int i = 0; i < projectileSounds.Length; i++)
         {
-            Debug.Log(projectileSounds[i].name);
             if (string.Compare(projectileSounds[i].name, projectileName) == 0)
             {
                 return projectileSounds[i];

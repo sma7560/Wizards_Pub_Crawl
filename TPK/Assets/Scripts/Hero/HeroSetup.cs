@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -7,20 +6,16 @@ using UnityEngine.Networking;
 /// </summary>
 public class HeroSetup : NetworkBehaviour
 {
-    [SerializeField] Behaviour[] compsToDisable;
+    [SerializeField] private Behaviour[] componentsToDisable;
     private MatchManager matchManager;
-
     private bool heroModelsUpdated;     // Used to call UpdateHeroModels() once
 
     /// <summary>
-    /// Use this for initialization.
+    /// Initialization.
     /// </summary>
     void Start()
     {
-        Debug.Log("Local Player: " + hasAuthority);
-
         heroModelsUpdated = false;
-
         DisableComps();
         SetupPlayerId();
     }
@@ -44,9 +39,9 @@ public class HeroSetup : NetworkBehaviour
     {
         if (!isLocalPlayer)
         {
-            for (int i = 0; i < compsToDisable.Length; i++)
+            for (int i = 0; i < componentsToDisable.Length; i++)
             {
-                compsToDisable[i].enabled = false;
+                componentsToDisable[i].enabled = false;
             }
         }
     }
@@ -62,12 +57,10 @@ public class HeroSetup : NetworkBehaviour
         {
             if (isServer)
             {
-                Debug.Log("connectionToClient = " + connectionToClient);
                 matchManager.SetPlayerId(connectionToClient);
             }
             else
             {
-                Debug.Log("connectionToServer = " + connectionToServer);
                 matchManager.SetPlayerId(connectionToServer);
             }
         }
@@ -75,13 +68,19 @@ public class HeroSetup : NetworkBehaviour
 
     /// <summary>
     /// Locally updates the current hero model displayed to match the correct one saved in HeroModel.
+    /// NOTE:
+    ///   This is needed if Player 1 updates their model before Player 2 has loaded the DungeonLevel scene.
+    ///   In this case, Player 2 would have default (king) model loaded for Player 1, as model updates only
+    ///   happen upon players changing their selected hero. Therefore, if Player 1 doesn't change their selected hero,
+    ///   Player 2 will have the incorrect model loaded for Player 1 (it will be default of king).
+    ///   Calling this function will update Player 1's model correctly to their selected hero.
     /// </summary>
     private void UpdateHeroModels()
     {
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
         PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
 
-        foreach(GameObject player in playerObjects)
+        foreach (GameObject player in playerObjects)
         {
             HeroModel heroModel = player.GetComponent<HeroModel>();
             int heroIndex = heroModel.GetHeroIndex();

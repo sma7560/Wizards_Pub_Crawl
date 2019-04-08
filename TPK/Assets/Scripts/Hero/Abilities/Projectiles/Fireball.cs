@@ -1,30 +1,36 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class Fireball : BaseProjectile {
+/// <summary>
+/// Projectile behaviour for Fireball skill.
+/// </summary>
+public class Fireball : BaseProjectile
+{
     public GameObject explosion;
-    public float explosionRange = 3f;
+    private readonly float explosionRange = 3f;
 
-
+    /// <summary>
+    /// Damage enemies/players upon collision.
+    /// </summary>
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);
+
         switch (col.collider.tag)
         {
             case "Enemy":
-                if (col.collider.GetComponent<EnemyModel>())
+                // Damage the enemy
+                if (col.collider.GetComponent<EnemyModel>() != null)
                 {
-                    // This will change.
                     col.collider.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
                 Explode();
                 break;
             case "Player":
-                if (col.collider.GetComponent<HeroModel>())
+                // Damage the player
+                if (col.collider.GetComponent<HeroModel>() != null)
                 {
-                    col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage, damageType);
+                    col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage);
                 }
                 Explode();
                 break;
@@ -34,7 +40,11 @@ public class Fireball : BaseProjectile {
         }
     }
 
-    private void Explode() {
+    /// <summary>
+    /// Explosion bits also damage enemies and players.
+    /// </summary>
+    private void Explode()
+    {
         CmdEffect();
         Collider[] aroundMe = Physics.OverlapSphere(transform.position, explosionRange);
         foreach (Collider hit in aroundMe)
@@ -43,37 +53,40 @@ public class Fireball : BaseProjectile {
             {
                 if (hit.transform.root != transform)
                 {
-                    // Doing stuff in here.
                     switch (hit.tag)
                     {
                         case "Enemy":
-                            // Get enemy component for dealing damage to it.
-                            if (hit.GetComponent<EnemyModel>())
+                            // Damage the enemy
+                            if (hit.GetComponent<EnemyModel>() != null)
                             {
-                                // This will change.
                                 hit.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                             }
                             break;
                         case "Player":
-                            // Get other players component for taking damage.
-                            hit.GetComponent<HeroModel>().CmdTakeDamage(damage, damageType);
+                            // Damage the player
+                            if (hit.GetComponent<HeroModel>() != null)
+                            {
+                                hit.GetComponent<HeroModel>().CmdTakeDamage(damage);
+                            }
                             break;
                     }
                 }
             }
         }
+
         Destroy(gameObject);
 
     }
 
+    /// <summary>
+    /// Plays the explosion effect.
+    /// </summary>
     [Command]
-    private void CmdEffect() {
-        Debug.Log("Playing Explosion Effect");
-        if (explosion == null) Debug.Log("Effects not instantiated. on server.");
+    private void CmdEffect()
+    {
         GameObject effect = Instantiate(explosion);
         effect.transform.position = transform.position;
         NetworkServer.Spawn(effect);
-        //Destroy(effect, 2);
     }
 
 }

@@ -1,30 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-/// Controls the objective pointer
+/// Controls the objective pointer/compass.
 /// </summary>
-public class CompassBehaviour : MonoBehaviour {
+public class CompassBehaviour : MonoBehaviour
+{
+    private Transform objective;
+    private float dist;
+    private Vector3 spawn;
+    
+    void Start()
+    {
+        // grabs the spawn room the player is in during the prephase
+        spawn = transform.position;
+    }
 
-	private Transform objective;
-	private float dist;
-	private Vector3 spawn;
+    /// <summary>
+    /// Points to the objective when not carried, points to spawn room when it is picked up.
+    /// </summary>
+    void Update()
+    {
+        objective = GameObject.FindGameObjectWithTag("Artifact").transform;
+        dist = Mathf.Abs(Vector3.Distance(objective.position, transform.position));
 
-
-	//grabs the spawn room the player is in during the prephase
-	void Start () {
-		spawn = transform.position;
-	}
-	
-	//points to the objective when not carried, points to spawn room when it is picked up
-	void Update () {
-		objective = GameObject.FindGameObjectWithTag ("Artifact").transform;
-		dist = Mathf.Abs( Vector3.Distance (objective.position, transform.position));
-
-		if (dist >= 4)
-			transform.LookAt (objective);
-		else
-			transform.LookAt (spawn);
-	}
+        if (dist >= 4)
+        {
+            transform.LookAt(objective);
+        }
+        else
+        {
+            transform.LookAt(spawn);
+        }
+    }
 }

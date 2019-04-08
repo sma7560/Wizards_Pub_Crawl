@@ -1,26 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Projectile behaviour for Death Ball skill.
+/// </summary>
 public class DeathBall : BaseProjectile
 {
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);
+
         switch (col.collider.tag)
         {
             case "Enemy":
-                if (col.collider.GetComponent<EnemyModel>())
+                // Damage the enemy
+                if (col.collider.GetComponent<EnemyModel>() != null)
                 {
-                    // This will change.
                     col.collider.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
                 Destroy(gameObject);
                 break;
             case "Player":
-                if (col.collider.GetComponent<HeroModel>())
+                // Damage the player
+                if (col.collider.GetComponent<HeroModel>() != null)
                 {
-                    col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage, damageType);
+                    col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage);
                 }
                 Destroy(gameObject);
                 break;
