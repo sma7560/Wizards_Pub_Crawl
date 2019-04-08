@@ -123,18 +123,18 @@ public class ControlsSetting : MonoBehaviour
     /// </summary>
     private void SetupButtonText()
     {
-        forwardButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetForwardKey().ToString();
-        backButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetBackKey().ToString();
-        leftButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetLeftKey().ToString();
-        rightButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetRightKey().ToString();
-        basicAttackButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetBasicAttackKey().ToString();
-        skill1Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetSkill1Key().ToString();
-        skill2Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetSkill2Key().ToString();
-        skill3Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetSkill3Key().ToString();
-        skill4Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetSkill4Key().ToString();
-        characterWindowButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetCharacterWindowKey().ToString();
-        scoreboardButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetScoreboardKey().ToString();
-        inGameMenuButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetInGameMenuKey().ToString();
+        forwardButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetForwardKey());
+        backButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetBackKey());
+        leftButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetLeftKey());
+        rightButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetRightKey());
+        basicAttackButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetBasicAttackKey());
+        skill1Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill1Key());
+        skill2Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill2Key());
+        skill3Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill3Key());
+        skill4Button.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill4Key());
+        characterWindowButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetCharacterWindowKey());
+        scoreboardButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetScoreboardKey());
+        inGameMenuButton.transform.Find("Text").GetComponent<Text>().text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetInGameMenuKey());
     }
 
     /// <summary>

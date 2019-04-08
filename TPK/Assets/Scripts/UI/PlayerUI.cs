@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class PlayerUIController : MonoBehaviour
+public class PlayerUI : MonoBehaviour
 {
     public TextMeshProUGUI timeBox;
 
@@ -140,10 +140,10 @@ public class PlayerUIController : MonoBehaviour
     /// </summary>
     private void SetupSkillHotkeyText()
     {
-        skill1.text = CustomKeyBinding.GetSkill1Key().ToString();
-        skill2.text = CustomKeyBinding.GetSkill2Key().ToString();
-        skill3.text = CustomKeyBinding.GetSkill3Key().ToString();
-        skill4.text = CustomKeyBinding.GetSkill4Key().ToString();
+        skill1.text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill1Key());
+        skill2.text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill2Key());
+        skill3.text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill3Key());
+        skill4.text = CustomKeyBinding.GetKeyName(CustomKeyBinding.GetSkill4Key());
     }
 
     /// <summary>
