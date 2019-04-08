@@ -6,35 +6,54 @@ using UnityEngine.Networking;
 public class PlayerSoundController : NetworkBehaviour {
 
     private AudioSource source;
-    private AudioSource footAudio1;
-    private AudioSource footAudio2;
-    private AudioSource footAudio3;
-
     private AudioClip deathBall;
     private AudioClip aoe;
+    public AudioClip[] projectileSounds;
+    private AbilityCaster ability;
 
-    public enum Skills { DeathBall };
-
-	// Use this for initialization
 	void Start () {
         source = GetComponent<AudioSource>();
-
-        //load deathball sound effect from resource folder
-        deathBall = Resources.Load("SoundEffects/DeathBall") as AudioClip;
+        ability = GetComponent<AbilityCaster>();
+        // loads in corresponding sound effect for each skill
+        for (int i = 0; i < ability.projectiles.Length; i++)
+        {
+            projectileSounds[i] = Resources.Load("SoundEffects/" + ability.projectiles[i].name) as AudioClip;
+        }
         aoe = Resources.Load("SoundEffects/aoe") as AudioClip;
-
     }
 
-    //plays different skill effects
-    [ClientRpc]
-    public void RpcplayDeathBallSoundEffect()
-    {
-        source.PlayOneShot(deathBall);
-    }
 
+    /// <summary>
+    /// Play sound for AOE skill
+    /// </summary>
     [ClientRpc]
     public void RpcplayAoeSound()
     {
         source.PlayOneShot(aoe);
+    }
+
+    /// <summary>
+    /// Play sound for corresponding projectile skill
+    /// </summary>
+    [ClientRpc]
+    public void RpcplaySoundeffectFor(string projectileName)
+    {
+        source.PlayOneShot(getSoundEffectWithName(projectileName));
+    }
+
+    /// <summary>
+    /// Returnprojectile sound effect corresponding to string name input
+    /// </summary>
+    private AudioClip getSoundEffectWithName(string projectileName)
+    {
+        for (int i = 0; i < projectileSounds.Length; i++)
+        {
+            Debug.Log(projectileSounds[i].name);
+            if (string.Compare(projectileSounds[i].name, projectileName) == 0)
+            {
+                return projectileSounds[i];
+            }
+        }
+        return null;
     }
 }
