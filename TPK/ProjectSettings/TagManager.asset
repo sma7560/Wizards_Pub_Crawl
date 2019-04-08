@@ -33,6 +33,7 @@ TagManager:
   - Safezone
   - StatWindow
   - Scoreboard
+  - GameOver
   layers:
   - Default
   - TransparentFX

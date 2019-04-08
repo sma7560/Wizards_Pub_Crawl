@@ -18,7 +18,7 @@ public class HealthItem : Item
         base.ItemConsume(other);
 
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
-        stats.CmdHeal((int)(stats.GetMaxHealth() * hpPercentHeal));
+        stats.Heal((int)(stats.GetMaxHealth() * hpPercentHeal));
 
         Destroy(gameObject);
     }

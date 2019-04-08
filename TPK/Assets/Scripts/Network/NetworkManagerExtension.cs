@@ -104,7 +104,10 @@ public class NetworkManagerExtension : NetworkManager
         doNotDisplayTimeoutError = true;
         matchManager.RemovePlayerFromMatch(conn);
         prephaseManager.UpdatePrephase();   // Send new player information to PrephaseManager
-        CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
+        if (!matchManager.HasMatchEnded())
+        {
+            CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
+        }
         RemoveAllAnnouncements();
     }
 
@@ -115,7 +118,10 @@ public class NetworkManagerExtension : NetworkManager
     {
         doNotDisplayTimeoutError = true;
         RemoveAllAnnouncements();
-        CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
+        if (!matchManager.HasMatchEnded())
+        {
+            CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
+        }
     }
 
     /// <returns>

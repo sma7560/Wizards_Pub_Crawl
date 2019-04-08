@@ -70,6 +70,30 @@ public class HeroModel : NetworkBehaviour
         Debug.Log("Final damage: " + Mathf.Round(finalDamage));
         Debug.Log("My Current Health: " + currentHealth + "/" + maxHealth);
     }
+
+    /// <summary>
+    /// Heals the player by a specified amount.
+    /// Can only be called from the player owning this object.
+    /// </summary>
+    /// <param name="amount">Amount to heal the player.</param>
+    public void Heal(int amount)
+    {
+        if (!hasAuthority) return;
+
+        currentHealth += amount;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+        if (!isServer)
+        {
+            CmdHeal(amount);
+        }
+    }
+
+    /// <summary>
+    /// Heals the player by a specified amount.
+    /// Can be called from either server or client.
+    /// </summary>
+    /// <param name="amount">Amount to heal the player.</param>
     [Command]
     public void CmdHeal(int amount)
     {
