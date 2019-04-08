@@ -1,51 +1,52 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerSoundController : NetworkBehaviour {
-
+/// <summary>
+/// Plays all sound effects related to player attacks.
+/// </summary>
+public class PlayerSoundController : NetworkBehaviour
+{
     private AudioSource source;
-    private AudioClip deathBall;
     private AudioClip aoe;
-    public AudioClip[] projectileSounds;
-    private AbilityCaster ability;
+    private AudioClip[] projectileSounds;
+    private AbilityCaster caster;
 
-	void Start () {
+    void Start()
+    {
         source = GetComponent<AudioSource>();
-        ability = GetComponent<AbilityCaster>();
-        // loads in corresponding sound effect for each skill
-        projectileSounds = new AudioClip[ability.projectiles.Length];
-        for (int i = 0; i < ability.projectiles.Length; i++)
+        caster = GetComponent<AbilityCaster>();
+
+        // Loads in corresponding sound effect for each skill
+        projectileSounds = new AudioClip[caster.projectiles.Length];
+        for (int i = 0; i < caster.projectiles.Length; i++)
         {
-            projectileSounds[i] = Resources.Load("SoundEffects/" + ability.projectiles[i].name) as AudioClip;
+            projectileSounds[i] = Resources.Load("SoundEffects/" + caster.projectiles[i].name) as AudioClip;
         }
         aoe = Resources.Load("SoundEffects/aoe") as AudioClip;
     }
-
-
+    
     /// <summary>
-    /// Play sound for AOE skill
+    /// Play sound for AOE skill.
     /// </summary>
     [ClientRpc]
-    public void RpcplayAoeSound()
+    public void RpcPlayAOESound()
     {
         source.PlayOneShot(aoe);
     }
 
     /// <summary>
-    /// Play sound for corresponding projectile skill
+    /// Play sound for corresponding projectile skill.
     /// </summary>
     [ClientRpc]
-    public void RpcplaySoundeffectFor(string projectileName)
+    public void RpcPlaySoundEffect(string projectileName)
     {
-        source.PlayOneShot(getSoundEffectWithName(projectileName));
+        source.PlayOneShot(GetSoundEffectWithName(projectileName));
     }
 
     /// <summary>
-    /// Returnprojectile sound effect corresponding to string name input
+    /// Return projectile sound effect corresponding to projectile name.
     /// </summary>
-    private AudioClip getSoundEffectWithName(string projectileName)
+    private AudioClip GetSoundEffectWithName(string projectileName)
     {
         for (int i = 0; i < projectileSounds.Length; i++)
         {
@@ -54,6 +55,7 @@ public class PlayerSoundController : NetworkBehaviour {
                 return projectileSounds[i];
             }
         }
+
         return null;
     }
 }

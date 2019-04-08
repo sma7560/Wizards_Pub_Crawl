@@ -126,7 +126,7 @@ public class AbilityCaster : NetworkBehaviour
     [Command]
     private void CmdCastSelfAOE(float range, int damage)
     {
-        playerSounds.RpcplayAoeSound();
+        playerSounds.RpcPlayAOESound();
 
         Collider[] aroundMe = Physics.OverlapSphere(transform.position, range);
         foreach (Collider hit in aroundMe)
@@ -164,7 +164,7 @@ public class AbilityCaster : NetworkBehaviour
     [Command]
     private void CmdCastProjectile(float range, int damage, float speed, int pindex, float x, float y, float z)
     {
-        playerSounds.RpcplaySoundeffectFor(projectiles[pindex].name);
+        playerSounds.RpcPlaySoundEffect(projectiles[pindex].name);
 
         Vector3 fwd = new Vector3(x, y, z);
         GameObject bolt = Instantiate(projectiles[pindex]);
