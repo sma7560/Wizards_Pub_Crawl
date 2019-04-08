@@ -75,7 +75,6 @@ public static class AudioManager
     /// Assumes that AudioSource is always contained in this player's GameObject.
     /// </summary>
     /// <param name="vol">Desired volume setting.</param>
-    /// <param name="player">The player's GameObject.</param>
     public static void SetSfxVolume(float vol)
     {
         sfxVolume = vol;
@@ -123,7 +122,7 @@ public static class AudioManager
     /// <returns>
     /// Returns whether or not the background audio is muted.
     /// </returns>
-    public static bool GetBgMute()
+    public static bool IsBgMuted()
     {
         return bgMute;
     }
@@ -131,7 +130,7 @@ public static class AudioManager
     /// <returns>
     /// Returns whether or not the sound effects audio is muted.
     /// </returns>
-    public static bool GetSfxMute()
+    public static bool IsSfxMuted()
     {
         return sfxMute;
     }
@@ -141,7 +140,7 @@ public static class AudioManager
     /// Assume AudioSource is in "EventSystem" GameObject.
     /// </summary>
     /// <param name="volume">Volume to set the system audio to.</param>
-    public static void SetSystemBgVolume(float volume)
+    private static void SetSystemBgVolume(float volume)
     {
         if (GameObject.Find("EventSystem").GetComponent<AudioSource>() != null)
         {
@@ -161,7 +160,7 @@ public static class AudioManager
     /// Assume AudioSource is in player's GameObject.
     /// </summary>
     /// <param name="volume">Volume to set the system audio to.</param>
-    public static void SetSystemSfxVolume(float volume)
+    private static void SetSystemSfxVolume(float volume)
     {
         // For main menu sound effects
         if (GameObject.Find("SfxAudio") != null)

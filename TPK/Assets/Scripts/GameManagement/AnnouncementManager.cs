@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 /// <summary>
-/// Holds functions which instantiate announcements from the server on player UI during dungeon play.
+/// Holds functions which instantiate announcements from the server on all player's UI during dungeon play.
 /// </summary>
 public class AnnouncementManager : NetworkBehaviour
 {
@@ -72,7 +72,7 @@ public class AnnouncementManager : NetworkBehaviour
     {
         if (!isServer) return;
 
-        // Only check for player deaths to announce if a death announcement is not already being broadcasted
+        // Only check for player deaths to announce if another death announcement is not already being broadcasted
         if (!broadcastingAleDropped && !broadcastingPlayerDeath)
         {
             CheckForPlayerDeaths();
@@ -236,7 +236,7 @@ public class AnnouncementManager : NetworkBehaviour
         }
         else if (type == AnnouncementType.PlayerDeath)
         {
-            leftIcon.SetActive(true);    // hero/boss icon
+            leftIcon.SetActive(true);    // hero icon
             rightIcon.SetActive(false);
         }
         else if (type == AnnouncementType.Objective)
@@ -263,8 +263,6 @@ public class AnnouncementManager : NetworkBehaviour
 
     /// <summary>
     /// Checks if players have died. If so, calls broadcasts the player deaths.
-    /// NOTE: WILL BREAK IF deathTimer (in HeroController) > secondsToDisplayAnnouncement !!!
-    /// TODO: Figure out better logic for this.
     /// </summary>
     private void CheckForPlayerDeaths()
     {
@@ -283,7 +281,7 @@ public class AnnouncementManager : NetworkBehaviour
     /// <summary>
     /// Sets the left icon to an image of the player's hero.
     /// </summary>
-    /// <param name="playerId">Id of the player whom we setting the icon image to.</param>
+    /// <param name="playerId">Id of the player whom we're setting the icon image to.</param>
     private void SetHeroIcon(int playerId)
     {
         GameObject player = GetComponent<HeroManager>().GetHeroObject(playerId);
@@ -302,6 +300,7 @@ public class AnnouncementManager : NetworkBehaviour
                 leftIcon.GetComponent<Image>().sprite = knight;
                 break;
             default:
+                Debug.Log("ERROR: Invalid hero index.");
                 leftIcon.GetComponent<Image>().sprite = king;
                 break;
         }

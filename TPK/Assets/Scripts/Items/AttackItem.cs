@@ -1,38 +1,41 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-/*
- * health pick-up class, inherits from Item
- */
+/// <summary>
+/// Attack item drop from monsters.
+/// Attached to the AttackItem prefab.
+/// </summary>
 public class AttackItem : Item
 {
-    public int buffAmount = 5;
+    public readonly int buffAmount = 5;     // how much attack this buff will give
+    public readonly int buffTime = 30;      // seconds that temporary buff lasts for
 
-    //override item function with what health consumable does to player
+    /// <summary>
+    /// Called upon consumption of the attack item.
+    /// </summary>
+    /// <param name="other">Player's collider.</param>
     protected override void ItemConsume(Collider other)
     {
+        base.ItemConsume(other);
+
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
-        StartCoroutine(tempBuff(stats));
+        StartCoroutine(TempBuff(stats));
     }
 
-    protected override IEnumerator tempBuff(HeroModel currentStat)
+    /// <summary>
+    /// Temporarily buffs the player's attack stat.
+    /// </summary>
+    /// <param name="stats">Player's stat data.</param>
+    protected override IEnumerator TempBuff(HeroModel stats)
     {
-        //get original stat
-        int origStat = currentStat.GetCurrentAttack();
-        //Debug.Log("Buff start, " + origStat);
-        //set stat to include buffs
-        currentStat.SetCurrentAttack(origStat + buffAmount);
-        //Debug.Log("Buff execute, " + currentStat.GetAttack());
+        int attack = stats.GetCurrentAttack();
+        stats.SetCurrentAttack(attack + buffAmount);
 
-        //buff lasts for 30 seconds
-        yield return new WaitForSeconds(30);
-        //set stat back to original stat
-        //Debug.Log("Buff end, " + currentStat.GetPAttack());
-        origStat = currentStat.GetCurrentAttack();
-        currentStat.SetCurrentAttack(origStat - buffAmount);
-        //Debug.Log("Buff end, " + currentStat.GetPAttack());
+        yield return new WaitForSeconds(buffTime);
+        
+        attack = stats.GetCurrentAttack();
+        stats.SetCurrentAttack(attack - buffAmount);
+
         Destroy(gameObject);
     }
 }

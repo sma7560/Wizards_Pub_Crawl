@@ -1,42 +1,48 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-/*
- * Interface class for items
- */
+/// <summary>
+/// Base class for all item drops.
+/// </summary>
 public class Item : NetworkBehaviour
 {
-    private bool isUsed = false;
+    private bool isUsed = false;        // if this item has already been used by a player
 
-    //check if player comes in contact with item
+    /// <summary>
+    /// Checks for player collisions with items.
+    /// </summary>
+    /// <param name="other">Collider colliding with this item.</param>
     private void OnTriggerEnter(Collider other)
     {
-        //don't trigger item use if item has already been used
-        if (isUsed)
-        {
-            return;
-        }
+        // Don't trigger item use if item has already been used
+        if (isUsed) return;
 
         if (other.gameObject.tag == "Player")
         {
             isUsed = true;
             ItemConsume(other);
-            //disable mesh after player interacts with
+
+            // Disable mesh after player interacts with
             gameObject.transform.GetChild(0).gameObject.SetActive(false);
         }
     }
 
-    //item effect. Will be override by specific item effects
+    /// <summary>
+    /// Called upon consumption of the item.
+    /// Only players may consume items.
+    /// </summary>
     protected virtual void ItemConsume(Collider other)
     {
-        //child classes will define this function
+        if (other.gameObject.tag != "Player") return;
     }
 
-    protected virtual IEnumerator tempBuff(HeroModel currentStat)
+    /// <summary>
+    /// Temporary buff effects of the item.
+    /// </summary>
+    /// <param name="stats">Player's stat data.</param>
+    protected virtual IEnumerator TempBuff(HeroModel stats)
     {
-        //to be implemented by children
-        yield return new WaitForSeconds(5);
+        yield return null;
     }
 }

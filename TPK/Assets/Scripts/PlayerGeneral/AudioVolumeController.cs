@@ -38,7 +38,7 @@ public class AudioVolumeController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error; could not recognize audio type of this slider!");
+            Debug.Log("ERROR: could not recognize audio type of this slider!");
         }
 
         volumeSlider.onValueChanged.AddListener(delegate { VolumeChange(volumeSlider); });
@@ -60,7 +60,7 @@ public class AudioVolumeController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error; could not recognize audio type of this slider!");
+            Debug.Log("ERROR: could not recognize audio type of this slider!");
         }
     }
 
@@ -96,7 +96,7 @@ public class AudioVolumeController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error; could not recognize audio type of this slider!");
+            Debug.Log("ERROR: could not recognize audio type of this slider!");
         }
 
         // Enable volume popup
@@ -125,7 +125,7 @@ public class AudioVolumeController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Error; could not recognize audio type of this slider!");
+            Debug.Log("ERROR: could not recognize audio type of this slider!");
         }
     }
 }

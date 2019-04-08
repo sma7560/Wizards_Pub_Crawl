@@ -61,7 +61,7 @@ public class PrephaseManager : NetworkBehaviour
     public void UpdatePrephase()
     {
         if (!isServer) return;
-        //if (true)
+
         // Check if current number of players in the match have reached the maximum number
         if (matchManager.GetNumOfPlayers() >= matchManager.GetMaxPlayers())
         {
@@ -70,10 +70,11 @@ public class PrephaseManager : NetworkBehaviour
             StartCoroutine(DecreaseCountdownTimer());   // Start the prephase countdown
         }
 
-        // Exit match if a player disconnects
+        // Exit active match if a player disconnects
         if ((state == PrephaseState.RoomFull ||
              state == PrephaseState.NotActive) &&
-             matchManager.GetNumOfPlayers() < matchManager.GetMaxPlayers())
+             matchManager.GetNumOfPlayers() < matchManager.GetMaxPlayers() &&
+             !matchManager.HasMatchEnded())
         {
             GameObject.Find("EventSystem").GetComponent<DungeonController>().QuitMatch();
         }
@@ -102,19 +103,17 @@ public class PrephaseManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Ends the pre-phase stage and moves to the dungeon stage
+    /// Ends the pre-phase stage and moves to the dungeon phase.
     /// </summary>
     private void EndPrephase()
     {
         if (!isServer) return;
 
         state = PrephaseState.NotActive;
-        countdown = -1;     // set countdown back to default of -1 when prephase is not active
-        StartCoroutine(matchManager.DecrementMatchTime());  // Start decrementing the match timer
-        GetComponent<AnnouncementManager>().BroadcastAnnouncementObjective();   // send instructional announcement to all players
-
-        // start spawning monsters
-        GameObject.FindGameObjectWithTag("MatchManager").GetComponent<DungeonEnemyManager>().StartSpawn();
+        countdown = -1;
+        StartCoroutine(matchManager.DecrementMatchTime());
+        GetComponent<AnnouncementManager>().BroadcastAnnouncementObjective();
+        GetComponent<DungeonEnemyManager>().StartSpawn();
     }
 
     /// <summary>

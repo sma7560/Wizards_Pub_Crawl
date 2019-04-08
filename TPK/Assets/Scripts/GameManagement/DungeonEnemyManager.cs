@@ -10,13 +10,17 @@ public class DungeonEnemyManager : NetworkBehaviour
     public IUnityService unityService;
     private MatchManager matchManager;
 
-    private int currentNumMonsters = 0;
     [SerializeField] private List<GameObject> monsterList;
-    private List<Vector3> spawnLocations = new List<Vector3>();
+    private readonly int maxNumMonsters = 16;
+    private int currentNumMonsters;
+    private List<Vector3> spawnLocations;
 
-    /// <summary>
-    /// Initialize variables.
-    /// </summary>
+    void Awake()
+    {
+        currentNumMonsters = 0;
+        spawnLocations = new List<Vector3>();
+    }
+    
     void Start()
     {
         if (unityService == null)
@@ -31,7 +35,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     {
         if (spawnLocations.Count <= 0)
         {
-            SetSpawnPoints();
+            SetupSpawnPoints();
         }
     }
 
@@ -53,34 +57,23 @@ public class DungeonEnemyManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Spawns a monster.
+    /// Spawns a random monster at a random location if all conditions are met.
     /// </summary>
     private void DungeonSpawnMonster()
     {
         if (!isServer || matchManager.HasMatchEnded()) return;
+        if (currentNumMonsters >= maxNumMonsters || spawnLocations.Count <= 0) return;
 
-        // Only spawn monster if current spawned monsters number less than 16
-        GameObject[] currentMonsterList = GameObject.FindGameObjectsWithTag("Enemy");
-        currentNumMonsters = currentMonsterList.Length;
-        if (currentNumMonsters > 16)
-        {
-            return;
-        }
-
-
-        //randomly select one of the spawn locations
+        // Spawn a monster at a randomly selected location
         int randLocation = Random.Range(0, spawnLocations.Count);
-        //get list of current spawnable enemy types
-        List<GameObject> currentSpawnableEnemies = getCurrentSpawnableMonsterList(currentMonsterList);
-        //randomly select one of the spawnable enemies
-        GameObject randMonster = currentSpawnableEnemies[Random.Range(0, currentSpawnableEnemies.Count)];
-        //call function to spawn monster on server
+        List<GameObject> spawnableEnemies = GetCurrentSpawnableMonsterList();
+        GameObject randMonster = spawnableEnemies[Random.Range(0, spawnableEnemies.Count)];
         SpawnMonster(GetSpawnLocationOfMonster(randLocation), randMonster);
     }
 
 
     /// <summary>
-    /// Spawn monster on server
+    /// Spawns a monster at the specified location.
     /// </summary>
     private void SpawnMonster(Vector3 location, GameObject monsterType)
     {
@@ -93,47 +86,51 @@ public class DungeonEnemyManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Sets the enemy spawn points.
+    /// Sets up the enemy spawn points.
     /// </summary>
-    public void SetSpawnPoints()
+    private void SetupSpawnPoints()
     {
-        GameObject[] spawnGameObjects = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
+        GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("enemySpawnPoint");
 
-        for (int i = 0; i < spawnGameObjects.Length; i++)
+        for (int i = 0; i < spawnPoints.Length; i++)
         {
-            spawnLocations.Add(spawnGameObjects[i].transform.position);
+            spawnLocations.Add(spawnPoints[i].transform.position);
         }
     }
 
     /// <returns>
     /// Returns spawn location based on index.
     /// </returns>
-    /// <param name="spawnLocationAt">Index of spawn location.</param>
-    public Vector3 GetSpawnLocationOfMonster(int spawnLocationAt)
+    /// <param name="spawnLocationIndex">Index of spawn location.</param>
+    public Vector3 GetSpawnLocationOfMonster(int spawnLocationIndex)
     {
-        Vector3 spawnLocation = spawnLocations[spawnLocationAt];
-        spawnLocations.RemoveAt(spawnLocationAt);
+        Vector3 spawnLocation = spawnLocations[spawnLocationIndex];
+        spawnLocations.RemoveAt(spawnLocationIndex);
         return spawnLocation;
     }
 
-    /// <summary>
-    /// returns all spawnable enemy types if less than 4 heavy monsters, otherwise return only non-heavy enemy types
-    /// </summary>
-    private List<GameObject> getCurrentSpawnableMonsterList(GameObject[] currentMonsters)
+    /// <returns>
+    /// Returns all spawnable enemy types if less than 4 heavy monsters; otherwise, returns only non-heavy enemy types.
+    /// </returns>
+    private List<GameObject> GetCurrentSpawnableMonsterList()
     {
-        int temp = 0;
+        int numHeavyMonsters = 0;
         List<GameObject> monsterListWithoutHeavy = new List<GameObject>();
+
         //count all heavy monsters
-        foreach (GameObject enemy in currentMonsters)
+        foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             if (enemy.name.Contains("Heavy"))
             {
-                temp++;
+                numHeavyMonsters++;
             }
-            monsterListWithoutHeavy.Add(enemy);
+            else
+            {
+                monsterListWithoutHeavy.Add(enemy);
+            }
         }
 
-        if (temp >= 4)
+        if (numHeavyMonsters >= 4)
         {
             return monsterListWithoutHeavy;
         }

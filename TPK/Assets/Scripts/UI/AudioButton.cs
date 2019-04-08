@@ -25,7 +25,7 @@ public class AudioButton : MonoBehaviour
         // Set sprite based on mute status
         if (transform.parent.name == "BackgroundMusic")
         {
-            if (AudioManager.GetBgMute())
+            if (AudioManager.IsBgMuted())
             {
                 image.sprite = audioOff;
             }
@@ -36,7 +36,7 @@ public class AudioButton : MonoBehaviour
         }
         else if (transform.parent.name == "SfxMusic")
         {
-            if (AudioManager.GetSfxMute())
+            if (AudioManager.IsSfxMuted())
             {
                 image.sprite = audioOff;
             }
@@ -58,10 +58,10 @@ public class AudioButton : MonoBehaviour
     public void ToggleBgMute()
     {
         // Toggle mute
-        AudioManager.SetBgMute(!AudioManager.GetBgMute());
+        AudioManager.SetBgMute(!AudioManager.IsBgMuted());
 
         // Set sprite based on mute status
-        if (AudioManager.GetBgMute())
+        if (AudioManager.IsBgMuted())
         {
             image.sprite = audioOff;
         }
@@ -78,10 +78,10 @@ public class AudioButton : MonoBehaviour
     public void ToggleSfxMute()
     {
         // Toggle mute
-        AudioManager.SetSfxMute(!AudioManager.GetSfxMute());
+        AudioManager.SetSfxMute(!AudioManager.IsSfxMuted());
 
         // Set sprite based on mute status
-        if (AudioManager.GetSfxMute())
+        if (AudioManager.IsSfxMuted())
         {
             image.sprite = audioOff;
         }

@@ -70,23 +70,26 @@ public class DungeonController : MonoBehaviour
     {
         Debug.Log("MATCH QUIT");
 
-        GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().StopHost();
-        GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().SetDoNotDisplayTimeoutError(true);
-        SceneManager.LoadScene(SceneManager.GetSceneByName("Menu").buildIndex);
+        NetworkManagerExtension networkManager = GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>();
 
-        // Remove all announcement objects
-        GameObject[] announcements = GameObject.FindGameObjectsWithTag("Announcement");
-        foreach (GameObject announcement in announcements)
+        if (networkManager != null)
         {
-            Destroy(announcement);
+            networkManager.StopHost();
+            networkManager.SetDoNotDisplayTimeoutError(true);
+            SceneManager.LoadScene(SceneManager.GetSceneByName("Menu").buildIndex);
+            networkManager.RemoveAllAnnouncements();
+        }
+        else
+        {
+            Debug.Log("ERROR: Could not find NetworkManagerExtension script!");
         }
     }
 
     /// <summary>
     /// Listens for toggling of the following menu/windows:
-    ///     * In-game Menu
-    ///     * Stats window
-    ///     * Scoreboard
+    ///   * In-game Menu
+    ///   * Stats window
+    ///   * Scoreboard
     /// </summary>
     private void ToggleUI()
     {
@@ -125,19 +128,18 @@ public class DungeonController : MonoBehaviour
     /// </summary>
     private void UpdateMusic()
     {
-        // Do not update music if prephase manager is not initialized
         if (prephaseManager == null) return;
 
         if (prephaseManager.IsCurrentlyInPrephase() && audioSource.clip != music[0])
         {
-            // If in pre-phase and music is not already playing, play it
+            // If in pre-phase and pre-phase music is not already playing, play it
             audioSource.clip = music[0];
             audioSource.volume = AudioManager.GetBgVolume();
             audioSource.Play();
         }
         else if (!prephaseManager.IsCurrentlyInPrephase() && audioSource.clip != music[1])
         {
-            // If in dungeon phase and music is not already playing, play it
+            // If in dungeon phase and dungeon music is not already playing, play it
             audioSource.clip = music[1];
             audioSource.volume = AudioManager.GetBgVolume();
             audioSource.Play();
@@ -187,14 +189,13 @@ public class DungeonController : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the individual given health bar according to the given stats.
+    /// Updates the given health bar according to the given stats.
     /// </summary>
     /// <param name="healthBar">Transform holding all health bar information to be updated.</param>
     /// <param name="currentHealth">Current health of this object.</param>
     /// /// <param name="maxHealth">Max health of this object.</param>
     private void UpdateHealthBar(Transform healthBar, int currentHealth, int maxHealth)
     {
-        // Do nothing if either the health bar or stats given is null
         if (healthBar == null) return;
 
         // Update health bar image to appropriate fill level depending on current health
@@ -220,7 +221,8 @@ public class DungeonController : MonoBehaviour
         Camera camera = Camera.current;
         if (camera != null)
         {
-            t.rotation = Quaternion.LookRotation(camera.transform.forward);    // Fix rotation towards camera
+            // Fix rotation towards camera
+            t.rotation = Quaternion.LookRotation(camera.transform.forward);
         }
     }
 
@@ -356,7 +358,7 @@ public class DungeonController : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the material to always render on top.
+    /// Sets the image to always render on top.
     /// </summary>
     /// <param name="img">Image to always render on top.</param>
     private void RenderOnTop(Image img)
@@ -367,7 +369,7 @@ public class DungeonController : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the material to always render on top.
+    /// Sets the text to always render on top.
     /// </summary>
     /// <param name="text">Text to always render on top.</param>
     private void RenderOnTop(TextMeshProUGUI text)

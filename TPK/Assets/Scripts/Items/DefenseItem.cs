@@ -1,38 +1,41 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-/*
- * health pick-up class, inherits from Item
- */
+/// <summary>
+/// Defense item drop from monsters.
+/// Attached to the DefenseItem prefab.
+/// </summary>
 public class DefenseItem : Item
 {
-    public int buffAmount = 5;
+    public readonly int buffAmount = 5;     // how much defense this buff will give
+    public readonly int buffTime = 30;      // seconds that temporary buff lasts for
 
-    //override item function with what health consumable does to player
+    /// <summary>
+    /// Called upon consumption of the defense item.
+    /// </summary>
+    /// <param name="other">Player's collider.</param>
     protected override void ItemConsume(Collider other)
     {
+        base.ItemConsume(other);
+
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
-        StartCoroutine(tempBuff(stats));
+        StartCoroutine(TempBuff(stats));
     }
 
-    protected override IEnumerator tempBuff(HeroModel currentStat)
+    /// <summary>
+    /// Temporarily buffs the player's defense stat.
+    /// </summary>
+    /// <param name="stats">Player's stat data.</param>
+    protected override IEnumerator TempBuff(HeroModel stats)
     {
-        //get original stat
-        int origStat = currentStat.GetCurrentDefense();
-        //Debug.Log("Buff start, " + origStat);
-        //set stat to include buffs
-        currentStat.SetCurrentDefense(origStat + buffAmount);
-        //Debug.Log("Buff execute, " + currentStat.GetDefence());
+        int defense = stats.GetCurrentDefense();
+        stats.SetCurrentDefense(defense + buffAmount);
+        
+        yield return new WaitForSeconds(buffTime);
 
-        //buff lasts for 30 seconds
-        yield return new WaitForSeconds(30);
-        //set stat back to original stat
-        //Debug.Log("Buff end, " + currentStat.GetPAttack());
-        origStat = currentStat.GetCurrentDefense();
-        currentStat.SetCurrentDefense(origStat - buffAmount);
-        //Debug.Log("Buff end, " + currentStat.GetPAttack());
+        defense = stats.GetCurrentDefense();
+        stats.SetCurrentDefense(defense - buffAmount);
+
         Destroy(gameObject);
     }
 }

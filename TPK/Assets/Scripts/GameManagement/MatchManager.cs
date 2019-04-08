@@ -37,7 +37,7 @@ public class MatchManager : NetworkBehaviour
 
     private void Update()
     {
-        // locally checks if the match has ended
+        // Locally checks if the match has ended
         if ((timeLeftMatch <= 0) && !matchEnded)
         {
             matchEnded = true;
@@ -51,7 +51,6 @@ public class MatchManager : NetworkBehaviour
     /// <returns>Returns true if a player has been successfully added to the match, else returns false.</returns>
     public bool AddPlayerToMatch(NetworkConnection conn)
     {
-        // Only the server may alter variables.
         if (!isServer) return false;
 
         // Add NetworkConnection to connections list
@@ -165,7 +164,7 @@ public class MatchManager : NetworkBehaviour
     /// <summary>
     /// Called on the server when the match has ended. Instantiates a local scoreboard on server.
     /// </summary>
-    public void EndMatch()
+    private void EndMatch()
     {
         if (!isServer) return;  // only allow server to instantiate the scoreboard
 

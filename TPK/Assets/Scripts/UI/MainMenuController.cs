@@ -11,7 +11,7 @@ public class MainMenuController : MonoBehaviour
     /// </summary>
     void Start()
     {
-        AudioManager.SetSystemBgVolume(AudioManager.GetBgVolume());
+        AudioManager.SetBgVolume(AudioManager.GetBgVolume());
     }
 
     /// <summary>

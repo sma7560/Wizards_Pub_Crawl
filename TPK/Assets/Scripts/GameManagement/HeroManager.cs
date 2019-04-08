@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Locally keeps track of overall all player's hero status and spawn locations.
+/// Locally keeps track of all players' hero status and spawn locations.
 /// </summary>
 public class HeroManager : MonoBehaviour
 {
@@ -14,10 +13,12 @@ public class HeroManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // set initial spawn locations
-        spawnLocations = new List<Vector3>();
-        AddSpawnLocation(new Vector3(-55f, 0.65f, 100f));         // spawn location of Player 1
-        AddSpawnLocation(new Vector3(-55f, 0.65f, 20f));   // spawn location of Player 2
+        // Set initial spawn locations
+        spawnLocations = new List<Vector3>
+        {
+            new Vector3(-55f, 0.65f, 100f), // spawn location of Player 1
+            new Vector3(-55f, 0.65f, 20f)   // spawn location of Player 2
+        };
     }
 
     /// <summary>
@@ -55,7 +56,7 @@ public class HeroManager : MonoBehaviour
     }
 
     /// <returns>
-    /// Returns a list all player transforms.
+    /// Returns a list of all player transforms.
     /// </returns>
     public Transform[] GetAllPlayerTransforms()
     {
@@ -105,16 +106,7 @@ public class HeroManager : MonoBehaviour
     /// <param name="playerId">Id of the player whose colour we are trying to get.</param>
     public string GetPlayerColourHexCode(int playerId)
     {
-        Color color = GetComponent<HeroManager>().GetPlayerColour(playerId);
+        Color color = GetPlayerColour(playerId);
         return ColorUtility.ToHtmlStringRGB(color);
-    }
-
-    /// <summary>
-    /// Adds a new spawn location.
-    /// </summary>
-    /// <param name="spawnLocation">Spawn location to be added.</param>
-    private void AddSpawnLocation(Vector3 spawnLocation)
-    {
-        spawnLocations.Add(spawnLocation);
     }
 }

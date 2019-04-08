@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -10,9 +9,11 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Extends the default functionality of NetworkManager.
+/// </summary>
 public class NetworkManagerExtension : NetworkManager
 {
-
     public GameObject matchManagerPrefab;
     private MatchManager matchManager;
     private PrephaseManager prephaseManager;
@@ -21,7 +22,7 @@ public class NetworkManagerExtension : NetworkManager
     private bool doNotDisplayTimeoutError = false;  // will no longer display timeout error if coroutine is running
 
     /// <summary>
-    /// Setting up the host via getting the local IP address and using that as host address.
+    /// Sets up the host via getting the local IP address and using that as host address.
     /// </summary>
     public void StartUpHost()
     {
@@ -35,7 +36,6 @@ public class NetworkManagerExtension : NetworkManager
         }
 
         // Create MatchManager object on server
-        Debug.Log("Instantiate MatchManager on server");
         GameObject managerPrefab = Instantiate(matchManagerPrefab);
         matchManager = managerPrefab.GetComponent<MatchManager>();
         prephaseManager = managerPrefab.GetComponent<PrephaseManager>();
@@ -43,16 +43,14 @@ public class NetworkManagerExtension : NetworkManager
         // Start host in network
         SetPort();
         networkAddress = GetLocalIPAddress();
-        Debug.Log("Hosting on " + networkAddress);
         NetworkServer.Reset();
         NetworkClient client = StartHost();
-        NetworkServer.Spawn(matchManager.gameObject);   // Instantiate MatchManager on the server
-        Debug.Log(client.connection);
+        NetworkServer.Spawn(matchManager.gameObject);
 
         // Update MatchManager with new player
         if (!matchManager.AddPlayerToMatch(client.connection))
         {
-            Debug.Log("MatchManager failed to add player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
+            Debug.Log("ERROR: MatchManager failed to add player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
             return;
         }
 
@@ -80,9 +78,20 @@ public class NetworkManagerExtension : NetworkManager
     public override void OnServerConnect(NetworkConnection conn)
     {
         base.OnServerConnect(conn);
-        
+
+        doNotDisplayTimeoutError = true;
         matchManager.AddPlayerToMatch(conn);    // Add a player to MatchManager
         prephaseManager.UpdatePrephase();       // Send new player information to PrephaseManager
+    }
+
+    /// <summary>
+    /// Called on clients when a new client connects.
+    /// </summary>
+    public override void OnClientConnect(NetworkConnection conn)
+    {
+        base.OnClientConnect(conn);
+
+        doNotDisplayTimeoutError = true;
     }
 
     /// <summary>
@@ -109,13 +118,13 @@ public class NetworkManagerExtension : NetworkManager
         CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
     }
 
-    /// <summary>
-    /// Get host IP Address
-    /// </summary>
-    /// <returns>Returns local IP address</returns>
+    /// <returns>
+    /// Returns the local IP address.
+    /// </returns>
     public static string GetLocalIPAddress()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
+
         foreach (var ip in host.AddressList)
         {
             if (ip.AddressFamily == AddressFamily.InterNetwork)
@@ -123,16 +132,30 @@ public class NetworkManagerExtension : NetworkManager
                 return ip.ToString();
             }
         }
+
         throw new Exception("Local IP Address Not Found!");
     }
 
-    public void SetDoNotDisplayTimeoutError(bool b)
+    /// <summary>
+    /// Destroys all announcement objects.
+    /// </summary>
+    public void RemoveAllAnnouncements()
     {
-        doNotDisplayTimeoutError = b;
+        GameObject[] announcements = GameObject.FindGameObjectsWithTag("Announcement");
+        foreach (GameObject announcement in announcements)
+        {
+            Destroy(announcement);
+        }
+    }
+
+    public void SetDoNotDisplayTimeoutError(bool shouldNotDisplay)
+    {
+        doNotDisplayTimeoutError = shouldNotDisplay;
     }
 
     /// <summary>
-    /// Sets up the IP address via looking for the input text. If none was submitted it defaults to localhost.
+    /// Sets up the IP address via looking for the input text.
+    /// If none was submitted it defaults to localhost.
     /// </summary>
     private void SetIPAddress()
     {
@@ -223,18 +246,6 @@ public class NetworkManagerExtension : NetworkManager
             GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = true;
             GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "JOIN MATCH";
             backButton.SetActive(true);
-        }
-    }
-
-    /// <summary>
-    /// Destroys all announcement objects.
-    /// </summary>
-    private void RemoveAllAnnouncements()
-    {
-        GameObject[] announcements = GameObject.FindGameObjectsWithTag("Announcement");
-        foreach (GameObject announcement in announcements)
-        {
-            Destroy(announcement);
         }
     }
 }

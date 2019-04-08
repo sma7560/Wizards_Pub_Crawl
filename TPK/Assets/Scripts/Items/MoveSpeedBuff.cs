@@ -1,55 +1,45 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-/*
- * health pick-up class, inherits from Item
- */
+/// <summary>
+/// Speed item drop from monsters.
+/// Attached to the MovementItem prefab.
+/// </summary>
 public class MoveSpeedBuff : Item
 {
-    public int buffAmount = 5;
+    public readonly int buffAmount = 3;     // how much speed this buff will give
+    public readonly int buffTime = 30;      // seconds that temporary buff lasts for
 
-    //override item function with what health consumable does to player
+    /// <summary>
+    /// Called upon consumption of the speed item.
+    /// </summary>
+    /// <param name="other">Player's collider.</param>
     protected override void ItemConsume(Collider other)
     {
+        base.ItemConsume(other);
+
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
-        StartCoroutine(tempBuff(stats));
+        StartCoroutine(TempBuff(stats));
     }
 
-    protected override IEnumerator tempBuff(HeroModel currentStat)
+    /// <summary>
+    /// Temporarily buffs the player's speed stat.
+    /// NOTE: only one speed buff can be active at a time.
+    /// </summary>
+    /// <param name="stats">Player's stat data.</param>
+    protected override IEnumerator TempBuff(HeroModel stats)
     {
-		//max buff amt is base speed + buff amount, can't exceed that
-		int maxspeed = currentStat.GetBaseMoveSpeed () + buffAmount;
-
-		//do nothing if player already buffed to maxspeed
-		if(currentStat.GetCurrentMoveSpeed() >= maxspeed)
-		{
-			Destroy(gameObject);
-		}
-
-		int potentialBuffAmt = currentStat.GetCurrentMoveSpeed() + buffAmount;
-
-		//if player is debuffed, the buffed speed might still be under the max speed
-		if (potentialBuffAmt <= maxspeed) 
-		{
-			currentStat.SetCurrentMoveSpeed (potentialBuffAmt);
-
-		} 
-		//otherwise it may exceed the maxspeed
-		else
-		{
-			//reducing buff amount so that it can bring player to max speed
-			buffAmount = maxspeed - currentStat.GetCurrentMoveSpeed ();
-			currentStat.SetCurrentMoveSpeed (maxspeed);
-
-		}
-
-		//buff lasts for 30 seconds
-		yield return new WaitForSeconds (30);
-		//set stat back to original stat
-		currentStat.SetCurrentMoveSpeed (currentStat.GetCurrentMoveSpeed () - buffAmount);
-
-        Destroy(gameObject);
+        if (stats.IsSpeedBuffed())
+        {
+            // Do nothing if player is already speed buffed
+            Destroy(gameObject);
+        }
+        else
+        {
+            // Apply speed buff
+            yield return new WaitForSeconds(buffTime);
+            stats.SetCurrentMoveSpeed(stats.GetBaseMoveSpeed());
+            Destroy(gameObject);
+        }
     }
 }

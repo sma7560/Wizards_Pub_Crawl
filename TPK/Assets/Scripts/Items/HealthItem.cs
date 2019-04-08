@@ -1,26 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
-/*
- * health pick-up class, inherits from Item
- */
-public class HealthItem : Item {
+/// <summary>
+/// Health item drop from monsters.
+/// Attached to the HealthPickup prefab.
+/// </summary>
+public class HealthItem : Item
+{
+    public readonly float hpPercentHeal = 0.2f; // percentage of hp this item will heal
 
-    public int hpHealed = 20;
-
-    //override item function with what health consumable does to player
+    /// <summary>
+    /// Called upon consumption of the health item.
+    /// Heals the player by a percentage amount.
+    /// </summary>
+    /// <param name="other">Player's collider.</param>
     protected override void ItemConsume(Collider other)
     {
-        HeroModel stats = other.gameObject.GetComponent<HeroModel>();
-        int currentHp = stats.GetCurrentHealth();
+        base.ItemConsume(other);
 
-        //if health is less than max, heal player
-        if (currentHp < stats.GetMaxHealth())
-        {
-            stats.CmdHeal(hpHealed);
-        }
+        HeroModel stats = other.gameObject.GetComponent<HeroModel>();
+        stats.CmdHeal((int)(stats.GetMaxHealth() * hpPercentHeal));
+
         Destroy(gameObject);
     }
 }
