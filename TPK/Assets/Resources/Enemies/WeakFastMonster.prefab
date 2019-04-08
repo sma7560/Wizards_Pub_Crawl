@@ -350,7 +350,6 @@ GameObject:
   - component: {fileID: 114422311866888098}
   - component: {fileID: 195033110042729444}
   - component: {fileID: 114891435180513634}
-  - component: {fileID: 114725592113266524}
   - component: {fileID: 114567575169903806}
   - component: {fileID: 114880528823878616}
   - component: {fileID: 136756912390227306}
@@ -3056,22 +3055,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e8de677b093974d84d2dd9045c0927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localTest: 0
-  currentHealth: 0
   maxHealth: 40
-  damage:
-    value: 6
-  defence:
-    value: 1
-  attackSpeed:
-    value: 3
+  damage: 6
+  defence: 1
+  attackSpeed: 3
+  movementSpeed: 8
+  lookRadius: 20
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
-  totalDropRate: 40
-  movementSpeed:
-    value: 8
+  dropRate: 40
   idleRange: 14
   idleHowOftenDirectionChanged: 6
 --- !u!114 &114391593722830004
@@ -3161,17 +3155,6 @@ MonoBehaviour:
     i15: 97
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
---- !u!114 &114725592113266524
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1303156852679808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b27b4c6d74d4384e9d73b890d45fa77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114744200932399904
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3317,7 +3300,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc8fda00bcbffc439b0f630d0d6a72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localTest: 0
 --- !u!136 &136756912390227306
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -11,6 +11,8 @@ using UnityEngine.UI;
 /// </summary>
 public class DungeonController : MonoBehaviour
 {
+    public IUnityService unityService;
+
     // Background music (during dungeon level scene)
     public AudioClip[] music;
     private AudioSource audioSource;
@@ -25,8 +27,6 @@ public class DungeonController : MonoBehaviour
     public Sprite atkBuff;
     public Sprite defBuff;
     public Sprite spdBuff;
-
-    public IUnityService unityService;
 
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
@@ -49,8 +49,8 @@ public class DungeonController : MonoBehaviour
     void Update()
     {
         // Initialize managers if it is not already initialized
-        if ( (matchManager == null || prephaseManager == null || heroManager == null) &&
-             GameObject.FindGameObjectWithTag("MatchManager") != null )
+        if ((matchManager == null || prephaseManager == null || heroManager == null) &&
+             GameObject.FindGameObjectWithTag("MatchManager") != null)
         {
             matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
             prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
@@ -72,6 +72,7 @@ public class DungeonController : MonoBehaviour
     public void QuitMatch()
     {
         Debug.Log("MATCH QUIT");
+
         GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().StopHost();
         GameObject.Find("NetworkManagerV2").GetComponent<NetworkManagerExtension>().SetDoNotDisplayTimeoutError(true);
         SceneManager.LoadScene(SceneManager.GetSceneByName("Menu").buildIndex);
@@ -85,10 +86,10 @@ public class DungeonController : MonoBehaviour
     }
 
     /// <summary>
-    /// Listens for toggling of the in-game menu and stats window.
-    /// In-game menu can be accessed with 'ESC' key.
-    /// Stats window can be accessed with 'K' key.
-    /// Scoreboard can be accessed with 'TAB' key.
+    /// Listens for toggling of the following menu/windows:
+    ///     * In-game Menu
+    ///     * Stats window
+    ///     * Scoreboard
     /// </summary>
     private void ToggleUI()
     {
@@ -158,17 +159,20 @@ public class DungeonController : MonoBehaviour
         // Update all monster health bars
         foreach (GameObject enemy in enemyObjects)
         {
-            EnemyStats enemyStats = enemy.GetComponent<EnemyStats>(); // Get enemy stats
-            Transform healthBar = enemy.transform.Find("HealthBar");  // Transform that holds all enemy health bar info
+            EnemyModel enemyStats = enemy.GetComponent<EnemyModel>();
+            Transform healthBar = enemy.transform.Find("HealthBar");
 
-            UpdateHealthBar(healthBar, enemyStats);
+            if (enemyStats != null)
+            {
+                UpdateHealthBar(healthBar, enemyStats.GetCurrentHealth(), enemyStats.GetMaxHealth());
+            }
         }
 
         // Update all player health bars
         foreach (GameObject player in playerObjects)
         {
-            HeroModel playerStats = player.GetComponent<HeroModel>(); // get enemy player stats
-            Transform healthBar = player.transform.Find("HealthBar");                   // Transform that holds all player health bar info
+            HeroModel playerStats = player.GetComponent<HeroModel>();
+            Transform healthBar = player.transform.Find("HealthBar");
 
             // Disable the health bar of current player
             if (matchManager != null &&
@@ -178,7 +182,10 @@ public class DungeonController : MonoBehaviour
                 healthBar.gameObject.SetActive(false);
             }
 
-            UpdateHealthBar(healthBar, playerStats);
+            if (playerStats != null)
+            {
+                UpdateHealthBar(healthBar, playerStats.GetCurrentHealth(), playerStats.GetMaxHealth());
+            }
         }
     }
 
@@ -186,49 +193,22 @@ public class DungeonController : MonoBehaviour
     /// Updates the individual given health bar according to the given stats.
     /// </summary>
     /// <param name="healthBar">Transform holding all health bar information to be updated.</param>
-    /// <param name="stats">Stats to which the health bar will be updated to accordingly.</param>
-    private void UpdateHealthBar(Transform healthBar, HeroModel stats)
+    /// <param name="currentHealth">Current health of this object.</param>
+    /// /// <param name="maxHealth">Max health of this object.</param>
+    private void UpdateHealthBar(Transform healthBar, int currentHealth, int maxHealth)
     {
         // Do nothing if either the health bar or stats given is null
-        if (healthBar == null || stats == null)
-        {
-            return;
-        }
+        if (healthBar == null) return;
 
         // Update health bar image to appropriate fill level depending on current health
         Image healthImage = healthBar.Find("Health").GetComponent<Image>();
-        healthImage.fillAmount = (float)stats.GetCurrentHealth() / (float)stats.GetMaxHealth();
+        healthImage.fillAmount = (float)currentHealth / (float)maxHealth;
         RenderOnTop(healthImage);
 
         // Update health bar text with value of current health
         TextMeshProUGUI healthText = healthBar.Find("HealthText").GetComponent<TextMeshProUGUI>();
-        healthText.text = stats.GetCurrentHealth() + "/" + stats.GetMaxHealth();
+        healthText.text = currentHealth + "/" + maxHealth;
         RenderOnTop(healthText);
-
-        // Keep health bar facing towards camera
-        SetFacingTowardsCamera(healthBar);
-    }
-
-    /// <summary>
-    /// Updates the individual given health bar according to the given stats.
-    /// </summary>
-    /// <param name="healthBar">Transform holding all health bar information to be updated.</param>
-    /// <param name="stats">Stats to which the health bar will be updated to accordingly.</param>
-    private void UpdateHealthBar(Transform healthBar, CharacterStats stats)
-    {
-        // Do nothing if either the health bar or stats given is null
-        if (healthBar == null || stats == null)
-        {
-            return;
-        }
-
-        // Update health bar image to appropriate fill level depending on current health
-        Image healthImage = healthBar.Find("Health").GetComponent<Image>();
-        healthImage.fillAmount = (float)stats.GetCurrentHealth() / (float)stats.maxHealth;
-
-        // Update health bar text with value of current health
-        TextMeshProUGUI healthText = healthBar.Find("HealthText").GetComponent<TextMeshProUGUI>();
-        healthText.text = stats.GetCurrentHealth() + "/" + stats.maxHealth;
 
         // Keep health bar facing towards camera
         SetFacingTowardsCamera(healthBar);
@@ -253,37 +233,37 @@ public class DungeonController : MonoBehaviour
     private void SetupUI()
     {
         if (prephaseManager == null) return;
-
-        // Initialize in-game UI
+        
         if (inGameMenu == null)
         {
+            // Initialize in-game UI
             inGameMenu = Instantiate(Resources.Load("Menu&UI Prefabs/In-Game Menu") as GameObject);
             inGameMenu.SetActive(false);
         }
 
-        if ( prephaseManager.GetState() == PrephaseManager.PrephaseState.WaitingForPlayers &&
-             GameObject.FindGameObjectWithTag("WaitingRoomUI") == null )
+        if (prephaseManager.GetState() == PrephaseManager.PrephaseState.WaitingForPlayers &&
+             GameObject.FindGameObjectWithTag("WaitingRoomUI") == null)
         {
             // Initialize waiting room UI
-            Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));      // Destroy player UI
-            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
-            Instantiate(Resources.Load("Menu&UI Prefabs/WaitingRoom")); // Start waiting room UI
+            Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));          // Destroy player UI
+            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));        // Destroy prephase UI
+            Instantiate(Resources.Load("Menu&UI Prefabs/WaitingRoom"));     // Start waiting room UI
         }
-        else if ( prephaseManager.GetState() == PrephaseManager.PrephaseState.RoomFull &&
-                  GameObject.FindGameObjectWithTag("PrephaseUI") == null )
+        else if (prephaseManager.GetState() == PrephaseManager.PrephaseState.RoomFull &&
+                  GameObject.FindGameObjectWithTag("PrephaseUI") == null)
         {
             // Initialize prephase UI
             Destroy(GameObject.FindGameObjectWithTag("PlayerUI"));          // Destroy player UI
             Destroy(GameObject.FindGameObjectWithTag("WaitingRoomUI"));     // Destroy waiting room UI
             Instantiate(Resources.Load("Menu&UI Prefabs/PrephaseScreen"));  // Start prephase UI
         }
-        else if ( !prephaseManager.IsCurrentlyInPrephase() &&
-                  GameObject.FindGameObjectWithTag("PlayerUI") == null )
+        else if (!prephaseManager.IsCurrentlyInPrephase() &&
+                  GameObject.FindGameObjectWithTag("PlayerUI") == null)
         {
             // Initialize player UI
-            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));    // Destroy prephase UI
-            Destroy(GameObject.FindGameObjectWithTag("WaitingRoomUI")); // Destroy waiting room UI
-            Instantiate(Resources.Load("Menu&UI Prefabs/PlayerUI"));    // Start player UI
+            Destroy(GameObject.FindGameObjectWithTag("PrephaseUI"));        // Destroy prephase UI
+            Destroy(GameObject.FindGameObjectWithTag("WaitingRoomUI"));     // Destroy waiting room UI
+            Instantiate(Resources.Load("Menu&UI Prefabs/PlayerUI"));        // Start player UI
 
             // Initialize stat window and scoreboard
             statWindow = Instantiate(Resources.Load("Menu&UI Prefabs/StatWindow") as GameObject);

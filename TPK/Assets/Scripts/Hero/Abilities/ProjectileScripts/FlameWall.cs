@@ -21,10 +21,10 @@ public class FlameWall : BaseProjectile {
         switch (col.transform.tag)
         {
             case "Enemy":
-                if (col.transform.GetComponent<EnemyStats>())
+                if (col.transform.GetComponent<EnemyModel>())
                 {
                     // This will change.
-                    col.transform.GetComponent<EnemyStats>().CmdTakeDamage(damage);
+                    col.transform.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
                 break;
             case "Player":
@@ -43,10 +43,10 @@ public class FlameWall : BaseProjectile {
         switch (col.transform.tag)
         {
             case "Enemy":
-                if (col.transform.GetComponent<EnemyStats>())
+                if (col.transform.GetComponent<EnemyModel>())
                 {
                     // This will change.
-                    col.transform.GetComponent<EnemyStats>().CmdTakeDamage(damage);
+                    col.transform.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
                 break;
             case "Player":

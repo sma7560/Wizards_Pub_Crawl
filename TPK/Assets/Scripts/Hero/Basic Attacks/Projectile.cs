@@ -39,10 +39,10 @@ public class Projectile : NetworkBehaviour
         switch (col.collider.tag)
         {
             case "Enemy":
-                if (col.collider.GetComponent<EnemyStats>())
+                if (col.collider.GetComponent<EnemyModel>())
                 {
                     // This will change.
-                    col.collider.GetComponent<EnemyStats>().CmdTakeDamage(damage);
+                    col.collider.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
                 break;
             case "Player":

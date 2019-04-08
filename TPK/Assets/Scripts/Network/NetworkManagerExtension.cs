@@ -96,6 +96,7 @@ public class NetworkManagerExtension : NetworkManager
         matchManager.RemovePlayerFromMatch(conn);
         prephaseManager.UpdatePrephase();   // Send new player information to PrephaseManager
         CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
+        RemoveAllAnnouncements();
     }
 
     /// <summary>
@@ -104,6 +105,7 @@ public class NetworkManagerExtension : NetworkManager
     public override void OnClientDisconnect(NetworkConnection conn)
     {
         doNotDisplayTimeoutError = true;
+        RemoveAllAnnouncements();
         CreateErrorPopup("Disconnected", "You have been disconnected from the match.");
     }
 
@@ -221,6 +223,18 @@ public class NetworkManagerExtension : NetworkManager
             GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = true;
             GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "JOIN MATCH";
             backButton.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Destroys all announcement objects.
+    /// </summary>
+    private void RemoveAllAnnouncements()
+    {
+        GameObject[] announcements = GameObject.FindGameObjectsWithTag("Announcement");
+        foreach (GameObject announcement in announcements)
+        {
+            Destroy(announcement);
         }
     }
 }

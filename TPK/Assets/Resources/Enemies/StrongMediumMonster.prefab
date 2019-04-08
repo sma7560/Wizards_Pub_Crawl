@@ -210,7 +210,6 @@ GameObject:
   - component: {fileID: 114459783143404834}
   - component: {fileID: 195541255446640158}
   - component: {fileID: 114448677353836766}
-  - component: {fileID: 114711062114650932}
   - component: {fileID: 114826111508407732}
   - component: {fileID: 114760950008989360}
   - component: {fileID: 136018190103124330}
@@ -3083,7 +3082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc8fda00bcbffc439b0f630d0d6a72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localTest: 0
 --- !u!114 &114459783143404834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3107,35 +3105,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e8de677b093974d84d2dd9045c0927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localTest: 0
-  currentHealth: 0
   maxHealth: 75
-  damage:
-    value: 15
-  defence:
-    value: 4
-  attackSpeed:
-    value: 2
+  damage: 15
+  defence: 4
+  attackSpeed: 2
+  movementSpeed: 6
+  lookRadius: 20
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1515895262486480, guid: 178e7e33a478ea3408513547e5cb2c3b, type: 2}
   - {fileID: 1099201270792784, guid: b01bf58c3a6c0dc4a9377a37dff7883e, type: 2}
-  totalDropRate: 80
-  movementSpeed:
-    value: 6
+  dropRate: 80
   idleRange: 10
   idleHowOftenDirectionChanged: 5
---- !u!114 &114711062114650932
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1144098748625114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b27b4c6d74d4384e9d73b890d45fa77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114760950008989360
 MonoBehaviour:
   m_ObjectHideFlags: 1

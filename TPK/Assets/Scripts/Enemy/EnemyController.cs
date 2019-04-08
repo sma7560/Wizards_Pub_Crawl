@@ -1,66 +1,57 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
 
 /// <summary>
-/// Contains all logic regarding enemy AI for player targetting & movement.
+/// Contains all logic regarding enemy AI for movement, player targetting & attacking.
 /// </summary>
-[RequireComponent(typeof(CharacterCombat))]
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(EnemyModel))]
+[RequireComponent(typeof(Animator))]
 public class EnemyController : NetworkBehaviour
 {
-    // For unit testing purposes
-    public bool localTest;
     public IUnityService unityService;
 
-    private readonly float lookRadius = 20f;    // radius where enemy can detect players
-    private NavMeshAgent agent;                 // required to navigate the map
-    private CharacterCombat enemyCombat;
+    // Managers
     private MatchManager matchManager;
     private HeroManager heroManager;
-    private Animator animator;
-    private EnemyStats myStats;
 
+    private NavMeshAgent agent;
+    private EnemyModel stats;
+    private Animator animator;
+
+    // Idle movement
     private Vector3 currentRandomLocation;
     private bool isIdleMovement;
-    private bool isAttacking;
-    private float idleRange;
-    private float idleHowOftenDirectionChanged;
+
+    // Attack
+    private float attackCooldown;
 
     /// <summary>
     /// Use this for initialization.
     /// </summary>
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        enemyCombat = GetComponent<CharacterCombat>();
-        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
-        heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
-        animator = GetComponent<Animator>();
-        myStats = GetComponent<EnemyStats>();
-
-        isAttacking = false;
-        agent.speed = myStats.getMovementSpeed().GetValue();
-        idleRange = myStats.getIdleRange();
-        idleHowOftenDirectionChanged = myStats.getIdleHowOftenDirectionChanged();
-
-        //StartCoroutine(RandomNavSphere(transform.position, 6, -1));
-
         if (unityService == null)
         {
             unityService = new UnityService();
         }
+
+        matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
+        heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+        stats = GetComponent<EnemyModel>();
+
+        attackCooldown = 0;
+        agent.speed = stats.GetMovementSpeed();
     }
 
-    /// <summary>
-    /// Called once per frame.
-    /// </summary>
     void Update()
     {
-        // Enemy behaviour should only occur on the server
-        if (!localTest && !isServer) return;
+        if (!isServer) return;
 
         // Stop movement if match has ended
         if (matchManager.HasMatchEnded())
@@ -71,6 +62,8 @@ public class EnemyController : NetworkBehaviour
 
         // Perform targetting AI
         TargetClosestPlayer();
+
+        attackCooldown -= Time.deltaTime;
     }
 
     /// <summary>
@@ -78,24 +71,22 @@ public class EnemyController : NetworkBehaviour
     /// </summary>
     private void TargetClosestPlayer()
     {
-        //if enemy is currently dying, disable agent to prevent it from moving
-        if (myStats.getIsDying())
+        // If enemy is currently dying, disable agent to prevent it from moving
+        if (stats.IsDying())
         {
             agent.enabled = false;
             return;
         }
+
         Transform[] targets = heroManager.GetAllPlayerTransforms(); // list of all player transforms
-        float shortestDistance = int.MaxValue;  // distance to the closest player
-        int playerIndex = -1;   // index of the player in targets array whom is currently targetted
+        float shortestDistance = int.MaxValue;                      // distance to the closest player
+        int playerIndex = -1;                                       // index of the player in targets array whom is currently targetted
 
         // Get distance of player closest to the enemy
         for (int i = 0; i < targets.Length; i++)
         {
             // Do not target knocked out players
-            if (targets[i].GetComponent<HeroModel>().IsKnockedOut())
-            {
-                continue;
-            }
+            if (targets[i].GetComponent<HeroModel>().IsKnockedOut()) continue;
 
             // Find the index of the closest player
             float distance = Vector3.Distance(targets[i].position, transform.position);
@@ -107,12 +98,13 @@ public class EnemyController : NetworkBehaviour
         }
 
         // If player is within lookRadius of enemy, follow the player
-        if (shortestDistance <= lookRadius && playerIndex >= 0)
+        if (shortestDistance <= stats.GetLookRadius() && playerIndex >= 0)
         {
-            //stop idle movement
+            // Stop idle movement
             isIdleMovement = false;
-            StopCoroutine(RandomNavSphere(transform.position, idleRange, idleHowOftenDirectionChanged, -1));
+            StopCoroutine(RandomNavSphere(transform.position, stats.GetIdleRange(), stats.GetIdleHowOftenDirectionChanged(), -1));
 
+            // Follow player
             agent.SetDestination(targets[playerIndex].position);
             FaceTarget(targets[playerIndex].position);
             animator.SetBool("isWalking", true);
@@ -121,43 +113,13 @@ public class EnemyController : NetworkBehaviour
             if (shortestDistance <= agent.stoppingDistance)
             {
                 animator.SetBool("isWalking", false);
-                //if (!isAttacking)
-                //{
-                //    //start attacking animation
-                //    isAttacking = true;
-                //    StartCoroutine(attacking());
-                //}
                 animator.SetTrigger("attack");
-                enemyCombat.Attack(targets[playerIndex]);
+                Attack(targets[playerIndex]);
             }
-            //stop attacking animation if not in range and was currently attacking
-            //else
-            //{
-            //    if (isAttacking)
-            //    {
-            //        isAttacking = false;
-            //        Debug.Log("Stopped");
-            //        StopCoroutine(attacking());
-            //    }
-            //}
         }
-        //otherwise random direction
         else
         {
-            idleMovement();
-        }
-    }
-
-    /// <summary>
-    /// Enum for attack animation loop
-    /// </summary>
-    public IEnumerator attacking()
-    {
-        while (isAttacking)
-        {
-            //Debug.Log("attacked");
-            animator.SetTrigger("attack");
-            yield return new WaitForSeconds(2);
+            IdleMovement();
         }
     }
 
@@ -169,6 +131,7 @@ public class EnemyController : NetworkBehaviour
     {
         float rotationSpeed = 5f;
         Vector3 direction = (target - transform.position).normalized;
+
         if (direction != Vector3.zero && !float.IsNaN(direction.x) && !float.IsNaN(direction.z))
         {
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
@@ -177,34 +140,17 @@ public class EnemyController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Destroys this enemy on the server.
-    /// </summary>
-    public void KillMe()
-    {
-        CmdKillMe();
-        unityService.Destroy(gameObject);
-    }
-
-    /// <summary>
-    /// Destroys this enemy on all clients.
-    /// </summary>
-    [Command]
-    private void CmdKillMe()
-    {
-        NetworkServer.Destroy(gameObject);
-    }
-
-    /// <summary>
     /// Idle movement for enemy.
     /// </summary>
-    private void idleMovement()
+    private void IdleMovement()
     {
         animator.SetBool("isWalking", true);
-        //if not currently idle movement, start random location couroutine
+
+        // If not currently idle movement, start random location couroutine
         if (!isIdleMovement)
         {
-            StartCoroutine(RandomNavSphere(transform.position, idleRange, idleHowOftenDirectionChanged, -1));
             isIdleMovement = true;
+            StartCoroutine(RandomNavSphere(transform.position, stats.GetIdleRange(), stats.GetIdleHowOftenDirectionChanged(), -1));
         }
         agent.SetDestination(currentRandomLocation);
         FaceTarget(currentRandomLocation);
@@ -223,20 +169,35 @@ public class EnemyController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Generate random location near specified navmesh agent
+    /// Generate random location near specified navmesh agent.
     /// </summary>
-    IEnumerator RandomNavSphere(Vector3 origin, float distance, float howOften, int layermask)
+    private IEnumerator RandomNavSphere(Vector3 origin, float distance, float howOften, int layermask)
     {
         while (true)
         {
-            Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * distance;
+            Vector3 randomDirection = Random.insideUnitSphere * distance;
             randomDirection += origin;
             NavMeshHit navHit;
             NavMesh.SamplePosition(randomDirection, out navHit, distance, layermask);
             currentRandomLocation = navHit.position;
-            //Debug.Log("New location at " + currentRandomLocation);
 
-            yield return new WaitForSeconds(Random.Range(howOften-1, howOften+1));
+            yield return new WaitForSeconds(Random.Range(howOften - 1, howOften + 1));
+        }
+    }
+
+    /// <summary>
+    /// Performs an attack on a specified player.
+    /// </summary>
+    /// <param name="attackedPlayer">Player whom is being attacked by this enemy.</param>
+    private void Attack(Transform attackedPlayer)
+    {
+        if (!isServer) return;
+
+        HeroModel heroStats = attackedPlayer.GetComponent<HeroModel>();
+        if (heroStats != null && attackCooldown <= 0)
+        {
+            heroStats.CmdTakeDamage(stats.GetDamage(), DamageType.physical);
+            attackCooldown = 1f / stats.GetAttackSpeed();
         }
     }
 }

@@ -97,10 +97,10 @@ public class BasicAttack : NetworkBehaviour
                         {
                             case "Enemy":
                                 // Deal damage to enemy/monster via their take damage script.
-                                if (aroundme[i].GetComponent<EnemyStats>())
+                                if (aroundme[i].GetComponent<EnemyModel>())
                                 {
                                     // This will change.
-                                    aroundme[i].GetComponent<EnemyStats>().CmdTakeDamage(damage);
+                                    aroundme[i].GetComponent<EnemyModel>().CmdTakeDamage(damage);
                                 }
 
                                 break;

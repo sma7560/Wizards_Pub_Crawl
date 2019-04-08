@@ -1288,7 +1288,6 @@ GameObject:
   - component: {fileID: 114628337286396594}
   - component: {fileID: 195716742153356332}
   - component: {fileID: 114810981715986336}
-  - component: {fileID: 114309235368130444}
   - component: {fileID: 114107422800476670}
   - component: {fileID: 114961735725702882}
   - component: {fileID: 136860694766564208}
@@ -3058,17 +3057,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114309235368130444
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995258582463280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b27b4c6d74d4384e9d73b890d45fa77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114327835904299326
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3251,22 +3239,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e8de677b093974d84d2dd9045c0927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localTest: 0
-  currentHealth: 0
   maxHealth: 60
-  damage:
-    value: 22
-  defence:
-    value: 4
-  attackSpeed:
-    value: 1
+  damage: 22
+  defence: 4
+  attackSpeed: 1
+  movementSpeed: 3
+  lookRadius: 20
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
-  totalDropRate: 40
-  movementSpeed:
-    value: 3
+  dropRate: 40
   idleRange: 8
   idleHowOftenDirectionChanged: 6
 --- !u!114 &114810981715986336
@@ -3280,7 +3263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc8fda00bcbffc439b0f630d0d6a72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localTest: 0
 --- !u!114 &114953214744126068
 MonoBehaviour:
   m_ObjectHideFlags: 1

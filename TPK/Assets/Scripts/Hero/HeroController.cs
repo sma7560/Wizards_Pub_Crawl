@@ -8,7 +8,6 @@ using UnityEngine.UI;
 /// Contains controls of the player character.
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(CharacterCombat))]
 [RequireComponent(typeof(BasicAttack))]
 [RequireComponent(typeof(TestAnimConrtoller))]
 [RequireComponent(typeof(HeroModel))]

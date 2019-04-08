@@ -118,10 +118,10 @@ public class AbilityCaster : NetworkBehaviour
                     {
                         case "Enemy":
                             // Get enemy component for dealing damage to it.
-                            if (hit.GetComponent<EnemyStats>())
+                            if (hit.GetComponent<EnemyModel>())
                             {
                                 // This will change.
-                                hit.GetComponent<EnemyStats>().CmdTakeDamage(damage);
+                                hit.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                             }
                             break;
                         case "Player":

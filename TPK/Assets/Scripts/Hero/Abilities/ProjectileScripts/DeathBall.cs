@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BouncingBolt : BaseProjectile
+public class DeathBall : BaseProjectile
 {
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);
-
         switch (col.collider.tag)
         {
             case "Enemy":
-                if (col.collider.GetComponent<EnemyStats>())
+                if (col.collider.GetComponent<EnemyModel>())
                 {
                     // This will change.
-                    col.collider.GetComponent<EnemyStats>().CmdTakeDamage(damage);
+                    col.collider.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
                 Destroy(gameObject);
                 break;
@@ -24,24 +23,10 @@ public class BouncingBolt : BaseProjectile
                     col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage, damageType);
                 }
                 Destroy(gameObject);
-                // This means you can shoot yourself... so far.
                 break;
-			case "Safezone":
-				Destroy(gameObject);
-				break;
-			default:
-				//every bounce increases damage and speed
-				this.damage += 10;
-				Vector3 v = this.GetComponent<Rigidbody> ().velocity;
-				//speed is capped
-				if (v.magnitude <= 20) {
-					v.x *= 1.20f;
-					v.z *= 1.20f;
-					this.GetComponent<Rigidbody> ().velocity = v;
-				}
-				break;
-
-
+            default:
+                Destroy(gameObject);
+                break;
         }
     }
 }
