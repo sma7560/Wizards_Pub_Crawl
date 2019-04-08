@@ -143,7 +143,7 @@ public class AbilityCaster : NetworkBehaviour
     private void CmdCastProjectile(float range, int damage, DamageType dtype, float speed, int pindex, float x, float y, float z)
     {
         Debug.Log("Damage: " + damage);
-        playerSounds.RpcplayDeathBallSoundEffect();
+        playerSounds.RpcplaySoundeffectFor(projectiles[pindex].name); //play corresponding sound effect
         Vector3 fwd = new Vector3(x, y, z);
         GameObject bolt = Instantiate(projectiles[pindex]);
         // This should be done locally so the direction is synched on client side to feel better.
