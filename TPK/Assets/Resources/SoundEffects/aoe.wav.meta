@@ -1,24 +1,14 @@
 fileFormatVersion: 2
-guid: aa0dff6c07555dd468887c2af501e087
-labels:
-- usfx
-- imphenzia
-- magic
-- spell
-- stereo
-- wizard
-- sourcer
-- cast
-- enchant
+guid: 8a6bd512383a3fa4ba85902f23c4b1f0
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
   defaultSettings:
-    loadType: 1
+    loadType: 0
     sampleRateSetting: 0
-    sampleRateOverride: 0
-    compressionFormat: 0
-    quality: 0
+    sampleRateOverride: 44100
+    compressionFormat: 1
+    quality: 1
     conversionMode: 0
   platformSettingOverrides: {}
   forceToMono: 0
