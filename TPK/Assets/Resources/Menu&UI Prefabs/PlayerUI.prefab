@@ -221,7 +221,7 @@ GameObject:
   - component: {fileID: 222693490714461054}
   - component: {fileID: 114263475398828470}
   m_Layer: 5
-  m_Name: TimeLeftText
+  m_Name: TimeLeftTitleText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -555,7 +555,7 @@ GameObject:
   - component: {fileID: 222872736667545704}
   - component: {fileID: 114377384961391298}
   m_Layer: 5
-  m_Name: TimeLeft
+  m_Name: TimeLeftText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1530,7 +1530,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee1f90c12c0548a46b06726d399e1860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBox: {fileID: 114377384961391298}
 --- !u!114 &114377384961391298
 MonoBehaviour:
   m_ObjectHideFlags: 1

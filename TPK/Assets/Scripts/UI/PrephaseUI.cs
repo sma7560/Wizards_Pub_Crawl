@@ -1,17 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Updates elements in the pre-phase screen.
+/// Attached to the PrephaseScreen prefab.
+/// </summary>
 public class PrephaseUI : MonoBehaviour
 {
-    // SkillDescription GameObject
+    // Skill description
     [System.NonSerialized] public GameObject skillDescription;
     [System.NonSerialized] public TextMeshProUGUI skillDescriptionText;
     [System.NonSerialized] public TextMeshProUGUI skillTitleText;
 
-    // Managers
+    // Managers and current player's hero data
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
     private HeroManager heroManager;
@@ -48,16 +50,18 @@ public class PrephaseUI : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // Initialize variables
+        // Get skill description elements
         skillDescription = GameObject.FindGameObjectWithTag("SkillDescription");
         skillDescriptionText = GameObject.Find("SkillDescriptionText").GetComponent<TextMeshProUGUI>();
         skillTitleText = GameObject.Find("SkillDescriptionTitleText").GetComponent<TextMeshProUGUI>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
+
+        // Get managers and player's hero data
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroModel = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<HeroModel>();
 
-        // Initialize text
+        // Get text elements
         playerName = GameObject.Find("PlayerNameText").GetComponent<TextMeshProUGUI>();
         numOfPlayers = GameObject.Find("CurrentNumOfPlayersConnectedText").GetComponent<TextMeshProUGUI>();
         timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
@@ -150,8 +154,8 @@ public class PrephaseUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Functionality for changing character selected when the corresponding button is pressed.
-    /// Order is king < wizard < rogue.
+    /// Functionality for changing character selected when the left button is pressed.
+    /// Order is king < wizard < rogue < armoured.
     /// </summary>
     public void ChangeCharacterSelectionLeft()
     {
@@ -182,8 +186,8 @@ public class PrephaseUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Functionality for changing character selected when the corresponding button is pressed.
-    /// Order is king > wizard > rogue.
+    /// Functionality for changing character selected when the right button is pressed.
+    /// Order is king > wizard > rogue > armoured.
     /// </summary>
     public void ChangeCharacterSelectionRight()
     {
@@ -216,7 +220,7 @@ public class PrephaseUI : MonoBehaviour
     /// <summary>
     /// Returns the default hero based on its child index.
     /// </summary>
-    /// <param name="index">child index of the wanted hero.</param>
+    /// <param name="index">Child index of the desired hero.</param>
     public Hero GetDefaultHero(int index)
     {
         switch (index)
@@ -230,16 +234,16 @@ public class PrephaseUI : MonoBehaviour
             case 3:
                 return armored;
             default:
+                Debug.Log("ERROR: invalid child index!");
                 return null;
         }
     }
 
     /// <summary>
-    /// Sets the default stats of the hero.
+    /// Sets the player's hero stats based on their selected hero type.
     /// </summary>
     private void SetupDefaultStats()
     {
-        // Set default stat values depending on the hero type
         if (selectedHero == king)
         {
             heroModel.SetBaseAttack(11);
@@ -270,7 +274,7 @@ public class PrephaseUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("Selected Hero is not a valid hero.");
+            Debug.Log("ERROR: selected hero is not a valid hero!");
         }
 
         heroModel.SetFullHealth();
@@ -332,7 +336,7 @@ public class PrephaseUI : MonoBehaviour
         }
 
         // Remove all empty skills in skill bank
-        // NOTE: right now there are 10 max, may need to change this number in the future
+        // NOTE: assuming max of 10 skills at the moment
         for (int i = 0; i < 10; i++)
         {
             GameObject skill = GameObject.Find("Skill" + (i + 1));

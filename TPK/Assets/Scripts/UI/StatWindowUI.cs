@@ -1,17 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Updates UI elements in the stat window.
+/// Attached to the StatWindow prefab.
+/// </summary>
 public class StatWindowUI : MonoBehaviour
 {
-    public GameObject skillDescription;
-    public TextMeshProUGUI skillDescriptionText;
-    public TextMeshProUGUI skillDescriptionTitleText;
-    public GameObject artifactComponent;
+    // UI elements
+    [System.NonSerialized] public GameObject skillDescription;
+    [System.NonSerialized] public TextMeshProUGUI skillDescriptionTitleText;
+    [System.NonSerialized] public TextMeshProUGUI skillDescriptionText;
+    private GameObject artifactComponent;
 
+    // Player info
     private int playerId;
     private HeroModel heroModel;
     private HeroManager heroManager;
@@ -21,15 +24,21 @@ public class StatWindowUI : MonoBehaviour
     /// </summary>
     void Awake()
     {
+        // Get UI elements
+        skillDescription = GameObject.Find("SkillHoverDescription");
+        skillDescriptionTitleText = GameObject.Find("SkillDescriptionTitleText").GetComponent<TextMeshProUGUI>();
+        skillDescriptionText = GameObject.Find("SkillDescriptionText").GetComponent<TextMeshProUGUI>();
+        artifactComponent = GameObject.Find("CurrentlyCarryingArtifact");
+
         // Get playerId
         MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         playerId = matchManager.GetPlayerId();
 
-        // Get networkHeroManager for hero stats
+        // Get hero data
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         heroModel = heroManager.GetHeroObject(playerId).GetComponent<HeroModel>();
 
-        // Set UI elements
+        // Setup UI elements
         skillDescription.SetActive(false);  // set to inactive by default
         SetupSkills();
     }
@@ -59,13 +68,13 @@ public class StatWindowUI : MonoBehaviour
                 GameObject skill = GameObject.Find("StatWindowSkill" + (i + 1));
                 Image skillImg = skill.GetComponent<Image>();
                 skillImg.sprite = abilityManager.equippedSkills[i].skillIcon;   // set sprite image
-                skill.GetComponent<SkillHoverDescription>().skill = abilityManager.equippedSkills[i];   // Set skill description
+                skill.GetComponent<SkillHoverDescription>().skill = abilityManager.equippedSkills[i];   // set skill description
             }
         }
     }
 
     /// <summary>
-    /// Setup the stat UI elements to match player's actual stats.
+    /// Setup the stat UI elements to match player's stats.
     /// </summary>
     private void SetupStats()
     {
@@ -87,12 +96,10 @@ public class StatWindowUI : MonoBehaviour
         }
         else if (speedDif > 0)
         {
-            // slow down
             spdText.text = "<color=#FF0000>" + heroModel.GetCurrentMoveSpeed().ToString() + "</color> (" + heroModel.GetBaseMoveSpeed().ToString() + ")";
         }
         else
         {
-            // speed up
             spdText.text = "<color=#00FF00>" + heroModel.GetCurrentMoveSpeed().ToString() + "</color> (" + heroModel.GetBaseMoveSpeed().ToString() + ")";
         }
 
@@ -103,12 +110,10 @@ public class StatWindowUI : MonoBehaviour
         }
         else if (atkDif > 0)
         {
-            // slow down
             atkText.text = "<color=#FF0000>" + heroModel.GetCurrentAttack().ToString() + "</color> (" + heroModel.GetBaseAttack().ToString() + ")";
         }
         else
         {
-            // speed up
             atkText.text = "<color=#00FF00>" + heroModel.GetCurrentAttack().ToString() + "</color> (" + heroModel.GetBaseAttack().ToString() + ")";
         }
 
@@ -119,12 +124,10 @@ public class StatWindowUI : MonoBehaviour
         }
         else if (defDif > 0)
         {
-            // slow down
             defText.text = "<color=#FF0000>" + heroModel.GetCurrentDefense().ToString() + "</color> (" + heroModel.GetBaseDefense().ToString() + ")";
         }
         else
         {
-            // speed up
             defText.text = "<color=#00FF00>" + heroModel.GetCurrentDefense().ToString() + "</color> (" + heroModel.GetBaseDefense().ToString() + ")";
         }
 
@@ -150,10 +153,10 @@ public class StatWindowUI : MonoBehaviour
                 break;
             }
         }
-
-        // If player is carrying an artifact, activate the UI component
+        
         if (isCarryingArtifact && !artifactComponent.activeSelf)
         {
+            // If player is carrying an artifact, activate the UI component
             artifactComponent.SetActive(true);
         }
         else if (!isCarryingArtifact && artifactComponent.activeSelf)

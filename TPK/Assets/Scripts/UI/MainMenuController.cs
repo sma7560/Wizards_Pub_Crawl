@@ -1,25 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 /// <summary>
 /// Script for Main Menu functionality.
+/// Attached to the Main Menu.
 /// </summary>
 public class MainMenuController : MonoBehaviour
 {
+    /// <summary>
+    /// Initialization.
+    /// </summary>
     void Start()
     {
         AudioManager.SetSystemBgVolume(AudioManager.GetBgVolume());
     }
 
     /// <summary>
+    /// On-click functionality for the Quit button.
     /// Quits the game.
     /// </summary>
     public void QuitGame()
     {
-        Debug.Log("QUIT");
         Application.Quit();
     }
 }

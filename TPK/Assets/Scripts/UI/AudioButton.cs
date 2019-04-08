@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
 /// Behaviour for the audio button to mute/unmute the audio.
-/// Attached to the audio button.
+/// Attached to the audio button in volume settings menu.
 /// </summary>
+[RequireComponent(typeof(Button))]
 public class AudioButton : MonoBehaviour
 {
     private Sprite audioOn;     // resource image of audio on
@@ -61,14 +60,13 @@ public class AudioButton : MonoBehaviour
         // Toggle mute
         AudioManager.SetBgMute(!AudioManager.GetBgMute());
 
+        // Set sprite based on mute status
         if (AudioManager.GetBgMute())
         {
-            // Set muted audio sprite
             image.sprite = audioOff;
         }
         else
         {
-            // Set unmuted audio sprite
             image.sprite = audioOn;
         }
     }
@@ -82,14 +80,13 @@ public class AudioButton : MonoBehaviour
         // Toggle mute
         AudioManager.SetSfxMute(!AudioManager.GetSfxMute());
 
+        // Set sprite based on mute status
         if (AudioManager.GetSfxMute())
         {
-            // Set muted audio sprite
             image.sprite = audioOff;
         }
         else
         {
-            // Set unmuted audio sprite
             image.sprite = audioOn;
         }
     }

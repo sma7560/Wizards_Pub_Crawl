@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,11 +9,11 @@ using UnityEngine.UI;
 /// </summary>
 public class SkillHoverDescription : EventTrigger
 {
-    public Skill skill; // the current skill that this script is attached to
+    public Skill skill;         // the current skill that this script is attached to
 
     // Drag and drop
     private GameObject icon;    // image of the skill used during dragging
-    private Canvas canvas;      // canvas used for dragging and dropped to render dragged icon on top of everything else
+    private Canvas canvas;      // canvas used for dragged icon to render it on top of everything else
 
     /// <summary>
     /// Enable skill description when skill is hovered over.
@@ -25,6 +23,7 @@ public class SkillHoverDescription : EventTrigger
         GameObject skillDescription = null;
         TextMeshProUGUI skillDescriptionText = null;
         TextMeshProUGUI skillTitleText = null;
+
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
@@ -100,17 +99,14 @@ public class SkillHoverDescription : EventTrigger
     }
 
     /// <summary>
-    /// When skill in skill bank is clicked, adds it to equipped skills. When equipped skill is clicked, unequips the skill.
+    /// When skill in skill bank is clicked, adds it to equipped skills.
+    /// When equipped skill is clicked, unequips the skill.
     /// </summary>
     public override void OnPointerClick(PointerEventData eventData)
     {
+        // Do nothing if this is not the prephase screen
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
-
-        if (!prephaseManager.IsCurrentlyInPrephase())
-        {
-            // Do nothing if this is not the prephase screen
-            return;
-        }
+        if (!prephaseManager.IsCurrentlyInPrephase()) return;
 
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
@@ -138,14 +134,14 @@ public class SkillHoverDescription : EventTrigger
     /// </summary>
     public override void OnBeginDrag(PointerEventData eventData)
     {
-        // do nothing if no skill is contained
+        // Do nothing if no skill is contained
         if (skill == null) return;
 
-        // only allow dragging during pre-phase
+        // Only allow dragging during pre-phase
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         if (!prephaseManager.IsCurrentlyInPrephase()) return;
 
-        // do not allow dragging from skill bank if skill is already equipped
+        // Do not allow dragging from skill bank if skill is already equipped
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         MatchManager matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         AbilityManager abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
@@ -206,7 +202,6 @@ public class SkillHoverDescription : EventTrigger
     /// Called when dragging of the skill ends.
     /// Remove the image that was being dragged.
     /// </summary>
-    /// <param name="eventData"></param>
     public override void OnEndDrag(PointerEventData eventData)
     {
         // Delete canvas
@@ -224,15 +219,12 @@ public class SkillHoverDescription : EventTrigger
     }
 
     /// <summary>
-    /// Skill has been dropped here.
+    /// Skill has been dropped on this slot.
     /// </summary>
     public override void OnDrop(PointerEventData eventData)
     {
         // Do not allow dropping skills in slots which are not for equipping skills
-        if (!transform.name.Contains("Equip"))
-        {
-            return;
-        }
+        if (!transform.name.Contains("Equip")) return;
 
         // Get AbilityManager and PrephaseUI
         HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
@@ -246,8 +238,6 @@ public class SkillHoverDescription : EventTrigger
         // Check if dragged skill came from an equipped skill
         if (GameObject.FindGameObjectWithTag("DraggedSkill").transform.parent.name.Contains("Equip"))
         {
-            //abilityManager.UnequipSkill(droppedSkill);
-
             // Check if this is a swap between two equipped skills
             if (skill != null)
             {
@@ -267,11 +257,10 @@ public class SkillHoverDescription : EventTrigger
         prephaseUI.UpdateEquippedSkills();
     }
 
-    /// <summary>
+    /// <returns>
     /// Returns the skill with the given name.
-    /// </summary>
+    /// </returns>
     /// <param name="name">Name of the wanted skill.</param>
-    /// <returns></returns>
     private Skill GetSkill(string name)
     {
         // Get AbilityManager

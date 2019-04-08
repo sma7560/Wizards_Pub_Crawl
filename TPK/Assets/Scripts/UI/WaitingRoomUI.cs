@@ -1,8 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// Updates the UI elements in the Waiting Room.
+/// Attached to the WaitingRoom prefab.
+/// </summary>
 public class WaitingRoomUI : MonoBehaviour
 {
     // Managers
@@ -17,10 +19,10 @@ public class WaitingRoomUI : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // Initialize managers
+        // Get managers
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
 
-        // Initialize text
+        // Get text elements
         currentNumPlayers = GameObject.Find("CurrentNumOfPlayersText").GetComponent<TextMeshProUGUI>();
         hostIP = GameObject.Find("IPAddressText").GetComponent<TextMeshProUGUI>();
 

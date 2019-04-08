@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
-/// Attached to in-game menu prefab.
+/// Behaviour for In-game Menu.
+/// Attached to the In-game Menu prefab.
 /// </summary>
 public class InGameMenu : MonoBehaviour
 {
     /// <summary>
-    /// On click functionality for quit button
+    /// On-click functionality for the quit button.
     /// </summary>
     public void QuitButton()
     {

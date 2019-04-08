@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Networking;
+﻿using UnityEngine;
 
 /// <summary>
 /// Holds behaviour for error popups.
@@ -10,6 +7,7 @@ public class ErrorPopup : MonoBehaviour
 {
     /// <summary>
     /// Behaviour for when the OK button is pressed on an error popup.
+    /// Destroys this error popup.
     /// </summary>
     public void ClosePopup()
     {

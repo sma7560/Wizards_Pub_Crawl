@@ -1,8 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Allows for custom key binding.
+/// Attached to every control menu (ie. in "Main Menu" and "In-Game Menu").
+/// </summary>
 public class ControlsSetting : MonoBehaviour
 {
     // All control buttons
@@ -20,15 +23,15 @@ public class ControlsSetting : MonoBehaviour
     private Button inGameMenuButton;
 
     private bool isListening;       // if we're currently listening for a key input to bind
-    private KeyCode keyToBind;      // the key player has inputted for key binding
+    private KeyCode keyToBind;      // key that the player has inputted for key binding
     private KeyCode oldKey;         // the previously set key before the new key binding
 
     /// <summary>
-    /// Initialization
+    /// Initialization.
     /// </summary>
     void Start()
     {
-        // Get buttons
+        // Find all buttons
         forwardButton = GameObject.Find("ForwardButton").GetComponent<Button>();
         backButton = GameObject.Find("BackButton").GetComponent<Button>();
         leftButton = GameObject.Find("LeftButton").GetComponent<Button>();
@@ -42,11 +45,11 @@ public class ControlsSetting : MonoBehaviour
         scoreboardButton = GameObject.Find("ScoreboardButton").GetComponent<Button>();
         inGameMenuButton = GameObject.Find("InGameMenuButton").GetComponent<Button>();
 
-        // Setup button text
+        // Setup custom key bindings and text
         CustomKeyBinding.SetupCustomKeyBindings();
         SetupButtonText();
 
-        // Setup onClick functions
+        // Attach onClick functions
         forwardButton.onClick.AddListener(ListenForwardButtonWrapper);
         backButton.onClick.AddListener(ListenBackButtonWrapper);
         leftButton.onClick.AddListener(ListenLeftButtonWrapper);
@@ -62,7 +65,7 @@ public class ControlsSetting : MonoBehaviour
     }
 
     /// <summary>
-    /// Listens for the next player's key input.
+    /// During key binding, listens for the player's next key input.
     /// </summary>
     void OnGUI()
     {
@@ -130,6 +133,7 @@ public class ControlsSetting : MonoBehaviour
         }
         else if (e.isMouse && e.button >= 0 && e.button <= 6)
         {
+            // Check for mouse button input
             switch (e.button)
             {
                 case 0:
@@ -167,7 +171,7 @@ public class ControlsSetting : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the button text based on current key bindings.
+    /// Sets all button text based on current custom key bindings.
     /// </summary>
     private void SetupButtonText()
     {
@@ -187,8 +191,8 @@ public class ControlsSetting : MonoBehaviour
 
     /// <summary>
     /// Change the background colour of the button.
-    /// If highlighting, colour will be set to yellow.
-    /// If un-highlighting, colour will be set to white.
+    /// If highlighting the button, background colour will be set to yellow.
+    /// If un-highlighting the button, background colour will be set to white.
     /// </summary>
     /// <param name="button">Button to change the background colour of.</param>
     /// <param name="highlight">Whether or not we are highlighting the button, or unhighlighting the button.</param>

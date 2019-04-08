@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Attached to the scoreboard. Sets the values in the scoreboard.
-/// This assumes that there are exactly 2 players - Player 1 and Player 2, otherwise the scoreboard will not be shown.
+/// Sets the values in the scoreboard.
+/// Attached to the scoreboard prefab.
+/// This assumes that there are exactly 2 players - Player 1 and Player 2; otherwise, the scoreboard will not be shown.
 /// </summary>
 public class ScoreboardUI : MonoBehaviour
 {
-    // Icons
+    // Hero icons
     private Sprite king;
     private Sprite rogue;
     private Sprite wizard;
@@ -30,7 +29,7 @@ public class ScoreboardUI : MonoBehaviour
 
     /// <summary>
     /// Initialize variables.
-    /// Note: Awake->Enable->Start
+    /// Note: Awake->Enable->Start.
     /// </summary>
     void Awake()
     {
@@ -122,6 +121,7 @@ public class ScoreboardUI : MonoBehaviour
                 player1Icon.sprite = knight;
                 break;
             default:
+                Debug.Log("ERROR: given hero index does not match any known hero type!");
                 player1Icon.sprite = king;
                 break;
         }
@@ -141,6 +141,7 @@ public class ScoreboardUI : MonoBehaviour
                 player2Icon.sprite = knight;
                 break;
             default:
+                Debug.Log("ERROR: given hero index does not match any known hero type!");
                 player2Icon.sprite = king;
                 break;
         }

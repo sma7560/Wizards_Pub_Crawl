@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    public TextMeshProUGUI timeBox;
-
+    // Managers
     private MatchManager matchManager;
     private HeroManager heroManager;
     private AbilityManager abilityManager;
 
+    // Text elements
+    private TextMeshProUGUI timeLeft;
     private TextMeshProUGUI cooldown1;
     private TextMeshProUGUI cooldown2;
     private TextMeshProUGUI cooldown3;
     private TextMeshProUGUI cooldown4;
-
     private TextMeshProUGUI skill1;
     private TextMeshProUGUI skill2;
     private TextMeshProUGUI skill3;
@@ -31,10 +28,13 @@ public class PlayerUI : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // Setup managers
+        // Get managers
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         abilityManager = heroManager.GetHeroObject(matchManager.GetPlayerId()).GetComponent<AbilityManager>();
+
+        // Get time left text
+        timeLeft = GameObject.Find("TimeLeftText").GetComponent<TextMeshProUGUI>();
 
         // Setup cooldowns
         cooldown1 = GameObject.Find("Cooldown1").GetComponent<TextMeshProUGUI>();
@@ -46,7 +46,7 @@ public class PlayerUI : MonoBehaviour
         cooldown3.gameObject.SetActive(false);
         cooldown4.gameObject.SetActive(false);
 
-        // Setup skill text
+        // Get skill text
         skill1 = GameObject.Find("Skill1Text").GetComponent<TextMeshProUGUI>();
         skill2 = GameObject.Find("Skill2Text").GetComponent<TextMeshProUGUI>();
         skill3 = GameObject.Find("Skill3Text").GetComponent<TextMeshProUGUI>();
@@ -80,7 +80,7 @@ public class PlayerUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates the health bar and health text in player UI.
+    /// Updates the health bar fill amount and health text in player UI based on the player's current health.
     /// </summary>
     private void UpdateHealthBar()
     {
@@ -110,20 +110,19 @@ public class PlayerUI : MonoBehaviour
 
         if (secondLeft >= 10)
         {
-            timeBox.SetText(minuteLeft.ToString() + " : " + secondLeft.ToString());
+            this.timeLeft.SetText(minuteLeft.ToString() + " : " + secondLeft.ToString());
         }
         else
         {
-            timeBox.SetText(minuteLeft.ToString() + " : 0" + secondLeft.ToString());
+            this.timeLeft.SetText(minuteLeft.ToString() + " : 0" + secondLeft.ToString());
         }
     }
 
     /// <summary>
-    /// Sets the icon sprites in player UI.
+    /// Sets the skill icon sprite images in player UI to the appropriate equipped skill's sprite.
     /// </summary>
     private void SetupSkillIcons()
     {
-        // Set the sprite image
         for (int i = 0; i < abilityManager.equippedSkills.Length; i++)
         {
             if (abilityManager.equippedSkills[i] != null)
@@ -136,7 +135,7 @@ public class PlayerUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets text underneath the skills to the appropriate hotkey.
+    /// Sets text underneath the skills to the appropriate hotkey name.
     /// </summary>
     private void SetupSkillHotkeyText()
     {
