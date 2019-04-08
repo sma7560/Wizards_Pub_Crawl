@@ -60,6 +60,13 @@ public class EnemyController : NetworkBehaviour
             return;
         }
 
+        // If enemy is currently dying, disable agent to prevent it from moving
+        if (stats.IsDying())
+        {
+            agent.speed = 0;
+            return;
+        }
+
         // Perform targetting AI
         TargetClosestPlayer();
 
@@ -71,13 +78,6 @@ public class EnemyController : NetworkBehaviour
     /// </summary>
     private void TargetClosestPlayer()
     {
-        // If enemy is currently dying, disable agent to prevent it from moving
-        if (stats.IsDying())
-        {
-            agent.enabled = false;
-            return;
-        }
-
         Transform[] targets = heroManager.GetAllPlayerTransforms(); // list of all player transforms
         float shortestDistance = int.MaxValue;                      // distance to the closest player
         int playerIndex = -1;                                       // index of the player in targets array whom is currently targetted

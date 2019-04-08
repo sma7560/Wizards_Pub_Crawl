@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class TestAnimConrtoller : NetworkBehaviour
+public class AnimController : NetworkBehaviour
 {
     public Animator anim;
     public float inputH;

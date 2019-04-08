@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 /// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BasicAttack))]
-[RequireComponent(typeof(TestAnimConrtoller))]
+[RequireComponent(typeof(AnimController))]
 [RequireComponent(typeof(HeroModel))]
 public class HeroController : NetworkBehaviour
 {
@@ -30,7 +30,7 @@ public class HeroController : NetworkBehaviour
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
     private BasicAttack battack;
-    private TestAnimConrtoller animate;
+    private AnimController animate;
     private Vector3 tempVelocity;
 
     /// <summary>
@@ -50,7 +50,7 @@ public class HeroController : NetworkBehaviour
 
         heroRigidbody = GetComponent<Rigidbody>();
         battack = GetComponent<BasicAttack>();
-        animate = GetComponent<TestAnimConrtoller>();
+        animate = GetComponent<AnimController>();
 
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();

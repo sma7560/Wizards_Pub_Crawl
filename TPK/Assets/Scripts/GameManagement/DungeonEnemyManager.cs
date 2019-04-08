@@ -11,7 +11,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     private MatchManager matchManager;
 
     [SerializeField] private List<GameObject> monsterList;
-    private readonly int maxNumMonsters = 16;
+    private readonly int maxNumMonsters = 150;
     private List<Vector3> spawnLocations;
 
     void Awake()
@@ -31,6 +31,7 @@ public class DungeonEnemyManager : NetworkBehaviour
 
     private void Update()
     {
+        // if all spawn locations have been spawned to, repopulate spawn points
         if (spawnLocations.Count <= 0)
         {
             SetupSpawnPoints();
@@ -51,7 +52,7 @@ public class DungeonEnemyManager : NetworkBehaviour
         }
 
         // Call summon monster every 4 seconds
-        InvokeRepeating("DungeonSpawnMonster", 0f, 4);
+        InvokeRepeating("DungeonSpawnMonster", 0f, 0.3f);
     }
 
     /// <summary>
@@ -83,7 +84,7 @@ public class DungeonEnemyManager : NetworkBehaviour
     }
 
     /// <summary>
-    /// Sets up the enemy spawn points.
+    /// populate enemy spawn point list.
     /// </summary>
     private void SetupSpawnPoints()
     {
@@ -112,9 +113,9 @@ public class DungeonEnemyManager : NetworkBehaviour
     private List<GameObject> GetCurrentSpawnableMonsterList()
     {
         int numHeavyMonsters = 0;
-        List<GameObject> monsterListWithoutHeavy = new List<GameObject>();
 
         //count all heavy monsters
+        List<GameObject> monsterListWithoutHeavy = new List<GameObject>();
         foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
         {
             if (enemy.name.Contains("Heavy"))
@@ -127,10 +128,12 @@ public class DungeonEnemyManager : NetworkBehaviour
             }
         }
 
+        //return list without heavy monsters
         if (numHeavyMonsters >= 4)
         {
             return monsterListWithoutHeavy;
         }
+        //return list with all monsters
         else
         {
             return monsterList;

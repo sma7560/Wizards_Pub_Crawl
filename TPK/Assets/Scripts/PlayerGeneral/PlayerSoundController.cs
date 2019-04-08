@@ -55,7 +55,6 @@ public class PlayerSoundController : NetworkBehaviour
                 return projectileSounds[i];
             }
         }
-
         return null;
     }
 }

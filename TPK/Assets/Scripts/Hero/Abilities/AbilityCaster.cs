@@ -12,13 +12,13 @@ public class AbilityCaster : NetworkBehaviour
     public GameObject[] projectiles;    // list of all projectiles on the server
 
     private Skill currentCastSkill;             // skill currently being cast
-    private TestAnimConrtoller anim;            // Player animator
+    private AnimController anim;                // Player animator
     private HeroModel stats;                    // Hero stat data
     private PlayerSoundController playerSounds; // plays skill sound effects
 
     void Start()
     {
-        anim = GetComponent<TestAnimConrtoller>();
+        anim = GetComponent<AnimController>();
         stats = GetComponent<HeroModel>();
         playerSounds = GetComponent<PlayerSoundController>();
     }
