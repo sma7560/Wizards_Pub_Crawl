@@ -10,7 +10,7 @@ public class Fireball : BaseProjectile
     private readonly float explosionRange = 3f;
 
     /// <summary>
-    /// Damage enemies/players upon collision.
+    /// Damage enemies/players upon collision. As well as cause an explosion like effect that also damages enemies.
     /// </summary>
     public override void Behaviour(Collision col)
     {

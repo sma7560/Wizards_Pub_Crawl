@@ -5,6 +5,10 @@
 /// </summary>
 public class BouncingBolt : BaseProjectile
 {
+
+    /// <summary>
+    /// Determine what happens at each bounce (Collision).
+    /// </summary>
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);

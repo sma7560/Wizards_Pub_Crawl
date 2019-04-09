@@ -5,6 +5,9 @@
 /// </summary>
 public class SwordToss : BaseProjectile
 {
+    /// <summary>
+    /// Destroy self after collision and damage is dealt.
+    /// </summary>
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);

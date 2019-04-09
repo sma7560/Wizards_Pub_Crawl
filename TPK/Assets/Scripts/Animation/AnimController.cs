@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
+
+/// <summary>
+/// Animation Controller that helps synchronize the animation across the network as well as
+/// control local animation states.
+/// </summary>
 public class AnimController : NetworkBehaviour
 {
     public Animator anim;
@@ -25,7 +30,6 @@ public class AnimController : NetworkBehaviour
     // Parameters for animator to set
     // FBMove - This is for determining forward backwards movement
     // LRMove - For determining left right movement
-    //
 
     // Use this for initialization
     void Start()
@@ -47,6 +51,8 @@ public class AnimController : NetworkBehaviour
     }
 
     // Update is called once per frame
+    // In this update function, the player orientation as well as input is checked.
+    // This is done to make the animations feel reactive to player input.
     void Update()
     {
         if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded()) return;
@@ -92,7 +98,10 @@ public class AnimController : NetworkBehaviour
         //SetBasicAttack();
 
     }
-    // This function is for interfacing with the animator
+    /// <summary>
+    /// Function for other scripts to call to interface with the animation controller when
+    /// playing a specific animation for skills based on skill type.
+    /// </summary>
     public void PlayAnim(SkillType skillType)
     {
         if (!isLocalPlayer) return;
@@ -115,12 +124,24 @@ public class AnimController : NetworkBehaviour
         }
 
     }
+
+    /// <summary>
+    /// Function for playing the basic attack animations
+    /// plays on local first then if sends a command to the server to play everywhere else.
+    /// </summary>
     public void PlayBasicAttack()
     {
         if (!isLocalPlayer) return;
         anim.SetTrigger("MBasic");
+        CmdPlayBasic();
     }
 
+    /// <summary>
+    /// Function for playing and triggering the death animation. 
+    /// This interfaces with external controllers.
+    /// Takes in a boolean that represent if the player character is dead or not.
+    /// True = dead, false = not dead
+    /// </summary>
     public void SetDead(bool status) {
 
         if (!isLocalPlayer) return;
@@ -129,7 +150,11 @@ public class AnimController : NetworkBehaviour
         CmdSetDead(status);
     }
 
-    // This function is for setting up the movement for the legs.
+
+    /// <summary>
+    /// This function is for changing the float values to make the walking animation
+    /// respond to the direction the player character is facing.
+    /// </summary>
     private void SetMovementAnim()
     {
 
@@ -270,48 +295,108 @@ public class AnimController : NetworkBehaviour
             }
         }
     }
-    // Commands to synchronize Animations
+
+
+
+    /// <summary>
+    /// Setting the death state animation throughout the network.
+    /// The first call is made to the server which notifies the clients.
+    /// </summary>
     [Command]
     private void CmdSetDead(bool status) {
 
         RpcSetDead(status);
     }
+
+    /// <summary>
+    /// Setting the buff state animation throughout the network.
+    /// The first call is made to the server which notifies the clients.
+    /// </summary>
     [Command]
     private void CmdPlayBuff()
     {
         RpcPlayBuff();
     }
+
+    /// <summary>
+    /// Setting the Light attack state animation throughout the network.
+    /// The first call is made to the server which notifies the clients.
+    /// </summary>
     [Command]
     private void CmdPlayLight()
     {
         RpcPlayLight();
     }
+
+    /// <summary>
+    /// Setting the Heavy attack state animation throughout the network.
+    /// The first call is made to the server which notifies the clients.
+    /// </summary>
     [Command]
     private void CmdPlayheavy()
     {
         RpcPlayheavy();
     }
+
+    /// <summary>
+    /// Setting the basic state animation throughout the network.
+    /// The first call is made to the server which notifies the clients.
+    /// </summary>
+    [Command]
+    private void CmdPlayBasic() {
+        RpcPlayBasic();
+    }
+
+    /// <summary>
+    /// This function has the ClientRpc attribute which means it is called on all clients.
+    /// This function sets the Dead state on all client animators.
+    /// </summary>
     [ClientRpc]
     private void RpcSetDead(bool status) {
         if (isLocalPlayer) return;
         anim.SetBool("isDead", status);
         if (status) anim.SetTrigger("Die");
     }
+
+    /// <summary>
+    /// This function has the ClientRpc attribute which means it is called on all clients.
+    /// This function triggers the buff state on all client animators.
+    /// </summary>
     [ClientRpc]
     private void RpcPlayBuff() {
         if (isLocalPlayer) return;
         anim.SetTrigger("Buff");
     }
+
+    /// <summary>
+    /// This function has the ClientRpc attribute which means it is called on all clients.
+    /// This function triggers the light attack state on all client animators.
+    /// </summary>
     [ClientRpc]
     private void RpcPlayLight()
     {
         if (isLocalPlayer) return;
         anim.SetTrigger("MLight");
     }
+
+    /// <summary>
+    /// This function has the ClientRpc attribute which means it is called on all clients.
+    /// This function triggers the heavy attack state on all client animators.
+    /// </summary>
     [ClientRpc]
     private void RpcPlayheavy()
     {
         if (isLocalPlayer) return;
         anim.SetTrigger("MHeavy");
+    }
+
+    /// <summary>
+    /// This function has the ClientRpc attribute which means it is called on all clients.
+    /// This function triggers the Basic attack state on all client animators.
+    /// </summary>
+    [ClientRpc]
+    private void RpcPlayBasic() {
+        if (isLocalPlayer) return;
+        anim.SetTrigger("MBasic");
     }
 }

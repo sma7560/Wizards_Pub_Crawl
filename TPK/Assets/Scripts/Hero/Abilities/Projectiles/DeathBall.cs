@@ -5,6 +5,9 @@
 /// </summary>
 public class DeathBall : BaseProjectile
 {
+    /// <summary>
+    /// Basic collision and destroy self.
+    /// </summary>
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);

@@ -5,9 +5,13 @@
 /// </summary>
 public class StoneWall : BaseProjectile
 {
-    private readonly int maxHits = 3;   // max number of hits before wall gets destroyed
+    private readonly int maxHits = 5;   // max number of hits before wall gets destroyed
     private int currentHits = 0;
 
+    /// <summary>
+    /// The stone wall is designed to block a certain number of projectiles until expiring.
+    /// Making it strong but not overpowered. This allows other players to trade time to break down the blockade.
+    /// </summary>
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);

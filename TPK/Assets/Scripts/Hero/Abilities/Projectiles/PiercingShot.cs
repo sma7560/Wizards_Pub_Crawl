@@ -5,6 +5,9 @@
 /// </summary>
 public class PiercingShot : BaseProjectile
 {
+    /// <summary>
+    /// The piercing shot only destroys on things that are not walls/environment objects.
+    /// </summary>
     public override void Behaviour(Collider col)
     {
         switch (col.transform.tag)
