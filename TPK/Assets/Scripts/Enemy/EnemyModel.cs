@@ -8,8 +8,6 @@ using UnityEngine.Networking;
 /// </summary>
 public class EnemyModel : NetworkBehaviour
 {
-    private IUnityService unityService;
-
     // Stats
     [SyncVar] private int currentHealth;
     [SerializeField] private int maxHealth;
@@ -32,14 +30,6 @@ public class EnemyModel : NetworkBehaviour
     {
         currentHealth = maxHealth;
         isDying = false;
-    }
-
-    void Start()
-    {
-        if (unityService == null)
-        {
-            unityService = new UnityService();
-        }
     }
 
     void Update()
@@ -94,7 +84,7 @@ public class EnemyModel : NetworkBehaviour
             GameObject monsterDrop = DetermineItemDrop();
             Vector3 itemPosition = transform.position;
             itemPosition.y = itemPosition.y + 0.7f;
-            GameObject itemDrop = unityService.Instantiate(monsterDrop, itemPosition, Quaternion.Euler(0, 0, 0));
+            GameObject itemDrop = Instantiate(monsterDrop, itemPosition, Quaternion.Euler(0, 0, 0));
             NetworkServer.Spawn(itemDrop);
         }
     }

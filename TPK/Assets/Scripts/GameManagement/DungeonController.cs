@@ -8,8 +8,6 @@ using UnityEngine.UI;
 /// </summary>
 public class DungeonController : MonoBehaviour
 {
-    public IUnityService unityService;
-
     // Background music (during dungeon level scene)
     public AudioClip[] music;
     private AudioSource audioSource;
@@ -34,11 +32,6 @@ public class DungeonController : MonoBehaviour
     /// </summary>
     void Start()
     {
-        if (unityService == null)
-        {
-            unityService = new UnityService();
-        }
-
         audioSource = GetComponent<AudioSource>();
         CustomKeyBinding.SetupCustomKeyBindings();
     }
@@ -94,7 +87,7 @@ public class DungeonController : MonoBehaviour
     private void ToggleUI()
     {
         // Toggles in-game menu
-        if (unityService.GetKeyDown(CustomKeyBinding.GetInGameMenuKey()))
+        if (Input.GetKeyDown(CustomKeyBinding.GetInGameMenuKey()))
         {
             inGameMenu.SetActive(!inGameMenu.activeSelf);
 
@@ -110,13 +103,13 @@ public class DungeonController : MonoBehaviour
         if (prephaseManager != null && !prephaseManager.IsCurrentlyInPrephase())
         {
             // Toggles stats window
-            if (unityService.GetKeyDown(CustomKeyBinding.GetStatWindowKey()))
+            if (Input.GetKeyDown(CustomKeyBinding.GetStatWindowKey()))
             {
                 statWindow.SetActive(!statWindow.activeSelf);
             }
 
             // Toggles scoreboard
-            if (unityService.GetKeyDown(CustomKeyBinding.GetScoreboardKey()))
+            if (Input.GetKeyDown(CustomKeyBinding.GetScoreboardKey()))
             {
                 scoreboard.SetActive(!scoreboard.activeSelf);
             }

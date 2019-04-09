@@ -11,10 +11,9 @@ using UnityEngine.UI;
 /// </summary>
 public class MenuPlayTest
 {
-
-    readonly string menuSceneName = "Menu";
-    readonly string prephaseSceneName = "Prephase";
-    readonly int timeToWait = 2;    // number of seconds to wait for after menu scene is loaded
+    private readonly string menuSceneName = "Menu";
+    private readonly string dungeonSceneName = "DungeonLevel";
+    private readonly int timeToWait = 2;    // number of seconds to wait for after menu scene is loaded
 
     [UnitySetUp]
     public IEnumerator SetUp()
@@ -27,8 +26,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M1: Checks that the main menu is the only active menu upon initial launch of menu scene
-    /// Requirement: FR-M1
+    /// Checks that the main menu is the only active menu upon initial launch of menu scene.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_MainMenu_IsActive()
@@ -37,7 +35,6 @@ public class MenuPlayTest
         GameObject mainMenu = GameObject.Find("MainMenu");
         GameObject settingsMenu = GameObject.Find("SettingsMenu");
         GameObject startGameMenu = GameObject.Find("StartGameMenu");
-        GameObject newMatchMenu = GameObject.Find("NewMatchMenu");
         GameObject joinMatchMenu = GameObject.Find("JoinMatchMenu");
         GameObject howToPlayMenu = GameObject.Find("HowToPlayMenu");
 
@@ -45,7 +42,6 @@ public class MenuPlayTest
         Assert.IsNotNull(mainMenu, "MainMenu is null!");
         Assert.IsNull(settingsMenu, "SettingsMenu is not null when it should be.");
         Assert.IsNull(startGameMenu, "StartGameMenu is not null when it should be.");
-        Assert.IsNull(newMatchMenu, "NewMatchMenu is not null when it should be.");
         Assert.IsNull(joinMatchMenu, "JoinMatchMenu is not null when it should be.");
         Assert.IsNull(howToPlayMenu, "HowToPlayMenu is not null when it should be.");
 
@@ -53,8 +49,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M2: Checks that all buttons (Start Game, How to Play, Settings, Quit) are present and active on the main menu.
-    /// Requirement: FR-M1
+    /// Checks that all buttons (Start Game, How to Play, Settings, Quit) are present and active on the main menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_MainMenu_ButtonsAreActive()
@@ -75,8 +70,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M3: Checks functionality of the Start Game button, and that it brings the user to the Start Game Menu.
-    /// Requirement: FR-M2
+    /// Checks functionality of the Start Game button, and that it brings the user to the Start Game Menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_MainMenu_StartGameButtonWorks()
@@ -97,8 +91,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M4: Checks functionality of the How to Play button, and that it brings the user to the How to Play Menu.
-    /// Requirement: FR-M8
+    /// Checks functionality of the How to Play button, and that it brings the user to the How to Play Menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_MainMenu_HowToPlayButtonWorks()
@@ -119,8 +112,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M5: Checks functionality of the Settings button, and that it brings the user to the Settings Menu.
-    /// Requirement: FR-M5
+    /// Checks functionality of the Settings button, and that it brings the user to the Settings Menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_MainMenu_SettingsButtonWorks()
@@ -141,8 +133,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M6: Checks functionality of the Quit button by checking if the Quit button is clickable.
-    /// Requirement: FR-M9
+    /// Checks functionality of the Quit button by checking if the Quit button is clickable.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_MainMenu_QuitButtonWorks()
@@ -160,8 +151,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M7: Checks that all buttons (New Match, Join Match, Back) are present and active on the Start Game Menu.
-    /// Requirement: FR-M2
+    /// Checks that all buttons (New Match, Join Match, Back) are present and active on the Start Game Menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_StartGameMenu_ButtonsAreActive()
@@ -171,21 +161,20 @@ public class MenuPlayTest
         startGameButton.onClick.Invoke();
 
         // Get all buttons
-        GameObject newMatchButton = GameObject.Find("NewMatch Button");
-        GameObject joinMatchButton = GameObject.Find("JoinMatch Button");
-        GameObject backButton = GameObject.Find("Back Button");
+        GameObject hostButton = GameObject.Find("HostButton");
+        GameObject joinMatchButton = GameObject.Find("JoinMatchButton");
+        GameObject backButton = GameObject.Find("BackButton");
 
         // Assertions; all buttons should not be null
-        Assert.IsNotNull(newMatchButton, "NewMatch Button is null!");
-        Assert.IsNotNull(joinMatchButton, "JoinMatch Button is null!");
-        Assert.IsNotNull(backButton, "Back Button is null!");
+        Assert.IsNotNull(hostButton, "HostButton is null!");
+        Assert.IsNotNull(joinMatchButton, "JoinMatchButton is null!");
+        Assert.IsNotNull(backButton, "BackButton is null!");
 
         yield return null;
     }
 
     /// <summary>
-    /// Test ST-M8: Checks functionality of the Back button on the Start Game Menu, and that it brings the user back to the main menu.
-    /// Requirement: FR-M10
+    /// Checks functionality of the Back button on the Start Game Menu, and that it brings the user back to the main menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_StartGameMenu_BackButtonWorks()
@@ -195,7 +184,7 @@ public class MenuPlayTest
         startGameButton.onClick.Invoke();
 
         // Get Back button and invoke a click on it
-        Button backButton = GameObject.Find("Back Button").GetComponent<Button>();
+        Button backButton = GameObject.Find("BackButton").GetComponent<Button>();
         backButton.onClick.Invoke();
 
         // Assert that the main menu is active
@@ -210,8 +199,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M9: Checks functionality of the New Match button, and that it transitions the user to the next scene (prephase scene).
-    /// Requirement: FR-M3
+    /// Checks functionality of the New Match button, and that it transitions the user to the next scene (DungeonLevel scene).
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_StartGameMenu_NewMatchButtonWorks()
@@ -220,15 +208,7 @@ public class MenuPlayTest
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
 
-        // Invoke click on New Match Button
-        Button newMatchButton = GameObject.Find("NewMatch Button").GetComponent<Button>();
-        newMatchButton.onClick.Invoke();
-
-        // Assert that New Match Menu is active
-        GameObject newMatchMenu = GameObject.Find("NewMatchMenu");
-        Assert.IsNotNull(newMatchMenu, "NewMatchMenu is null!");
-
-        // Invoke click on Create Dungeon button
+        // Invoke click on New Match button
         Button createDungeonButton = GameObject.Find("HostButton").GetComponent<Button>();
         createDungeonButton.onClick.Invoke();
 
@@ -236,43 +216,14 @@ public class MenuPlayTest
         yield return new WaitForSeconds(timeToWait);
 
         // Assert that the current scene is the prephase scene
-        Assert.AreEqual(prephaseSceneName, SceneManager.GetActiveScene().name,
-            "Scene loaded is not the correct scene. Expected loaded scene is the Prephase scene.");
+        Assert.AreEqual(dungeonSceneName, SceneManager.GetActiveScene().name,
+            "Scene loaded is not the correct scene. Expected loaded scene is the DungeonLevel scene.");
 
         yield return null;
     }
 
     /// <summary>
-    /// Test ST-M10: Checks functionality of the Back button on the New Match Menu, and that it brings the user back to the Start Game menu.
-    /// Requirement: FR-M10
-    /// </summary>
-    [UnityTest]
-    public IEnumerator Menu_NewMatchMenu_BackButtonWorks()
-    {
-        // Get to New Match Menu
-        Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
-        startGameButton.onClick.Invoke();
-        Button newMatchButton = GameObject.Find("NewMatch Button").GetComponent<Button>();
-        newMatchButton.onClick.Invoke();
-
-        // Get Back button and invoke a click on it
-        Button backButton = GameObject.Find("Back Button").GetComponent<Button>();
-        backButton.onClick.Invoke();
-
-        // Assert that the main menu is active
-        GameObject startGameMenu = GameObject.Find("StartGameMenu");
-        Assert.IsNotNull(startGameMenu, "StartGameMenu is null!");
-
-        // Assert that the Start Game menu is no longer active
-        GameObject newMatchMenu = GameObject.Find("NewMatchMenu");
-        Assert.IsNull(newMatchMenu, "NewMatchMenu is not null when it should be.");
-
-        yield return null;
-    }
-
-    /// <summary>
-    /// Test ST-M11: Checks that all elements (Join Match button, IP Address input field, Back button) are present and active on the Join Match menu.
-    /// Requirement: FR-M4
+    /// Checks that all elements (Join Match button, IP Address input field, Back button) are present and active on the Join Match menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_JoinMatchMenu_ElementsAreActive()
@@ -280,25 +231,24 @@ public class MenuPlayTest
         // Get to Join Match Menu
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
-        Button joinMatchButton = GameObject.Find("JoinMatch Button").GetComponent<Button>();
+        Button joinMatchButton = GameObject.Find("JoinMatchButton").GetComponent<Button>();
         joinMatchButton.onClick.Invoke();
 
         // Get all elements
-        Button backButton = GameObject.Find("Back Button").GetComponent<Button>();
-        Button joinMatchButton2 = GameObject.Find("JoinMatch Button").GetComponent<Button>();
+        Button backButton = GameObject.Find("BackButton").GetComponent<Button>();
+        Button joinMatchButton2 = GameObject.Find("JoinMatchButton").GetComponent<Button>();
         InputField ipInput = GameObject.Find("IPInput").GetComponent<InputField>();
 
         // Assert not null on all elements
         Assert.IsNotNull(backButton, "Back Button is null!");
-        Assert.IsNotNull(joinMatchButton2, "JoinMatch Button is null!");
-        Assert.IsNotNull(ipInput, "Ip InputField is null!");
+        Assert.IsNotNull(joinMatchButton2, "JoinMatchButton is null!");
+        Assert.IsNotNull(ipInput, "IP InputField is null!");
 
         yield return null;
     }
 
     /// <summary>
-    /// Test ST-M12: Checks functionality of the Back button on the Join Match Menu, and that it brings the user back to the Start Game menu.
-    /// Requirement: FR-M10
+    /// Checks functionality of the Back button on the Join Match Menu, and that it brings the user back to the Start Game menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_JoinMatchMenu_BackButtonWorks()
@@ -306,11 +256,11 @@ public class MenuPlayTest
         // Get to Join Match Menu
         Button startGameButton = GameObject.Find("StartGame Button").GetComponent<Button>();
         startGameButton.onClick.Invoke();
-        Button joinMatchButton = GameObject.Find("JoinMatch Button").GetComponent<Button>();
+        Button joinMatchButton = GameObject.Find("JoinMatchButton").GetComponent<Button>();
         joinMatchButton.onClick.Invoke();
 
         // Get Back button and invoke a click on it
-        Button backButton = GameObject.Find("Back Button").GetComponent<Button>();
+        Button backButton = GameObject.Find("BackButton").GetComponent<Button>();
         backButton.onClick.Invoke();
 
         // Assert that the Start Game menu is active
@@ -325,8 +275,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M13: Checks that all elements (Instructions, Back button) are present and active on the How To Play menu.
-    /// Requirement: FR-M8
+    /// Checks that all elements (Instructions, Back button) are present and active on the How To Play menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_HowToPlayMenu_ElementsAreActive()
@@ -336,8 +285,8 @@ public class MenuPlayTest
         howToPlayButton.onClick.Invoke();
 
         // Get all elements
-        Button backButton = GameObject.Find("Back Button").GetComponent<Button>();
-        GameObject instructions = GameObject.Find("Instructions");
+        Button backButton = GameObject.Find("BackButton").GetComponent<Button>();
+        GameObject instructions = GameObject.Find("ObjectiveText");
 
         // Assert that elements are not null
         Assert.IsNotNull(backButton, "Back button is null!");
@@ -347,8 +296,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M14: Checks functionality of the Back button on the How to Play Menu, and that it brings the user back to the main menu.
-    /// Requirement: FR-M10
+    /// Checks functionality of the Back button on the How to Play Menu, and that it brings the user back to the main menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_HowToPlayMenu_BackButtonWorks()
@@ -358,7 +306,7 @@ public class MenuPlayTest
         howToPlayButton.onClick.Invoke();
 
         // Get Back button and invoke a click on it
-        Button backButton = GameObject.Find("Back Button").GetComponent<Button>();
+        Button backButton = GameObject.Find("BackButton").GetComponent<Button>();
         backButton.onClick.Invoke();
 
         // Assert that the main menu is active
@@ -373,8 +321,7 @@ public class MenuPlayTest
     }
 
     /// <summary>
-    /// Test ST-M15: Checks that all elements (Volume slider, Graphics Quality, Back button) are present and active on the Settings menu.
-    /// Requirement: FR-M5
+    /// Checks that all elements are present and active on the Settings menu.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_SettingsMenu_ElementsAreActive()
@@ -384,21 +331,20 @@ public class MenuPlayTest
         settingsButton.onClick.Invoke();
 
         // Get all elements
-        Button backButton = GameObject.Find("Back Button").GetComponent<Button>();
-        Slider volumeSlider = GameObject.Find("Slider").GetComponent<Slider>();
-        GameObject quality = GameObject.Find("GraphicsQuality");
+        Button backButton = GameObject.Find("BackButton").GetComponent<Button>();
+        Button volumeSettings = GameObject.Find("VolumeMenuButton").GetComponent<Button>();
+        Button controlsSettings = GameObject.Find("ControlsMenuButton").GetComponent<Button>();
 
         // Assert that elements are not null
         Assert.IsNotNull(backButton, "Back button is null!");
-        Assert.IsNotNull(volumeSlider, "Volume slider is null!");
-        Assert.IsNotNull(quality, "Graphics quality selector is null!");
+        Assert.IsNotNull(volumeSettings, "Volume settings button is null!");
+        Assert.IsNotNull(controlsSettings, "Controls settings button is null!");
 
         yield return null;
     }
 
     /// <summary>
-    /// Test ST-M16: Checks the functionality of the volume slider and that the volume of the game changes when the slider is moved.
-    /// Requirement: FR-M7
+    /// Checks the functionality of the volume slider and that the volume of the game changes when the slider is moved.
     /// </summary>
     [UnityTest]
     public IEnumerator Menu_SettingsMenu_VolumeSliderWorks()
@@ -407,37 +353,23 @@ public class MenuPlayTest
         Button settingsButton = GameObject.Find("Settings Button").GetComponent<Button>();
         settingsButton.onClick.Invoke();
 
+        // Go to the volume settings menu
+        Button volumeSettingsButton = GameObject.Find("VolumeMenuButton").GetComponent<Button>();
+        volumeSettingsButton.onClick.Invoke();
+
         // Change volume with volume slider
         Slider volumeSlider = GameObject.Find("Slider").GetComponent<Slider>();
         volumeSlider.value = 0.5f;
 
         // Assert that volume has changed
-        Assert.AreEqual(volumeSlider.value, AudioListener.volume, "Volume is not equal to the value set in volume slider!");
+        Assert.AreEqual(volumeSlider.value, AudioManager.GetBgVolume(), "Volume is not equal to the value set in volume slider!");
 
         // Check different volume values
         volumeSlider.value = 0f;
-        Assert.AreEqual(volumeSlider.value, AudioListener.volume, "Volume is not equal to the value set in volume slider!");
+        Assert.AreEqual(volumeSlider.value, AudioManager.GetBgVolume(), "Volume is not equal to the value set in volume slider!");
         volumeSlider.value = 1f;
-        Assert.AreEqual(volumeSlider.value, AudioListener.volume, "Volume is not equal to the value set in volume slider!");
+        Assert.AreEqual(volumeSlider.value, AudioManager.GetBgVolume(), "Volume is not equal to the value set in volume slider!");
 
         yield return null;
     }
-
-    /// <summary>
-    /// Test ST-M17: Checks the functionality of the graphics selector and that the graphics quality of the game changes when the selector is changed.
-    /// Requirement: FR-M7
-    /// </summary>
-    [UnityTest]
-    public IEnumerator Menu_SettingsMenu_GraphicsQualitySelectorWorks()
-    {
-        // Get to Settings Menu
-        Button settingsButton = GameObject.Find("Settings Button").GetComponent<Button>();
-        settingsButton.onClick.Invoke();
-
-        // TODO: still need to implement this test case
-        Assert.Fail("PLACEHOLDER: still need to implement graphics quality selector to be able to write a test for it.");
-
-        yield return null;
-    }
-
 }

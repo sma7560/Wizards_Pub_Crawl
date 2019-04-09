@@ -7,22 +7,13 @@ using UnityEngine.Networking;
 /// </summary>
 public class ArtifactSpawn : NetworkBehaviour
 {
-    public IUnityService unityService;
-
     public GameObject artifact;             // Artifact prefab to spawn
     private GameObject[] spawnLocations;    // List of locations for artifacts to spawn
 
     void Start()
     {
-        if (unityService == null)
-        {
-            unityService = new UnityService();
-        }
-
         spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
-
         SpawnArtifactRandom();
-
     }
 
     /// <summary>
@@ -48,7 +39,7 @@ public class ArtifactSpawn : NetworkBehaviour
         Debug.Log("A new artifact has appeared at " + location.x + ", " + location.y + ", " + location.z);
 
         GameObject tempArtifact;
-        tempArtifact = unityService.Instantiate(artifact, location, rotation);
+        tempArtifact = Instantiate(artifact, location, rotation);
         NetworkServer.Spawn(tempArtifact);
     }
 }

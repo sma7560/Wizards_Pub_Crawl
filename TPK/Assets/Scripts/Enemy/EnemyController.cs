@@ -106,7 +106,6 @@ public class EnemyController : NetworkBehaviour
             if (shortestDistance <= agent.stoppingDistance)
             {
                 animator.SetBool("isWalking", false);
-                //animator.SetTrigger("attack"); 
                 CmdTriggerAttackAnim();
                 Attack(targets[playerIndex]);
             }
@@ -126,7 +125,9 @@ public class EnemyController : NetworkBehaviour
         float rotationSpeed = 5f;
         Vector3 direction = (target - transform.position).normalized;
 
-        if (direction != Vector3.zero && !float.IsNaN(direction.x) && !float.IsNaN(direction.z))
+        if ((direction.x != 0 || direction.z != 0) &&
+            !float.IsNaN(direction.x) &&
+            !float.IsNaN(direction.z))
         {
             Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
@@ -195,18 +196,21 @@ public class EnemyController : NetworkBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Plays the attack animation on the server.
+    /// </summary>
     [Command]
-    private void CmdTriggerAttackAnim() {
-        // Play the animation on the server (ie. host)
-        //animator.SetTrigger("attack");
+    private void CmdTriggerAttackAnim()
+    {
         RpcTriggerAttackAnim();
-
     }
 
+    /// <summary>
+    /// Server notifies all clients to play this enemy's attack animation.
+    /// </summary>
     [ClientRpc]
-    private void RpcTriggerAttackAnim() {
-
+    private void RpcTriggerAttackAnim()
+    {
         animator.SetTrigger("attack");
     }
 }

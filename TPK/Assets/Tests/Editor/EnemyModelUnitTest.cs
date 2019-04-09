@@ -15,7 +15,8 @@ public class EnemyModelUnitTest
     {
         // Setup variables
         int expectedHealth = 100;
-        EnemyModel enemyStats = new EnemyModel();
+        GameObject gameObject = new GameObject();
+        EnemyModel enemyStats = gameObject.AddComponent<EnemyModel>();
 
         // Set the current health
         enemyStats.SetCurrentHealth(100);
@@ -32,7 +33,8 @@ public class EnemyModelUnitTest
     public void EnemyModel_SetGetCurrentHealth_ShouldReturnZero()
     {
         // Setup variables
-        EnemyModel enemyStats = new EnemyModel();
+        GameObject gameObject = new GameObject();
+        EnemyModel enemyStats = gameObject.AddComponent<EnemyModel>();
 
         // Set the current health
         enemyStats.SetCurrentHealth(-50);

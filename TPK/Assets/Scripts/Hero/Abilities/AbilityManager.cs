@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 /// </summary>
 public class AbilityManager : NetworkBehaviour
 {
+    public IUnityService unityService;
+
     public Skill[] equippedSkills;
     public Skill[] knownSkills;
     public float[] nextActiveTime;  // cooldowns
@@ -17,6 +19,8 @@ public class AbilityManager : NetworkBehaviour
     void Start()
     {
         if (!isLocalPlayer) return;
+
+        unityService = new UnityService();
 
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
@@ -35,7 +39,7 @@ public class AbilityManager : NetworkBehaviour
         if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded()) return;
 
         // Listens for casting of skills
-        if (Input.GetKeyDown(CustomKeyBinding.GetSkill1Key()) &&
+        if (unityService.GetKeyDown(CustomKeyBinding.GetSkill1Key()) &&
             equippedSkills[0] != null &&
             nextActiveTime[0] < Time.time)
         {
@@ -43,7 +47,7 @@ public class AbilityManager : NetworkBehaviour
             nextActiveTime[0] = Time.time + equippedSkills[0].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(CustomKeyBinding.GetSkill2Key()) &&
+        if (unityService.GetKeyDown(CustomKeyBinding.GetSkill2Key()) &&
             equippedSkills[1] != null &&
             nextActiveTime[1] < Time.time)
         {
@@ -51,7 +55,7 @@ public class AbilityManager : NetworkBehaviour
             nextActiveTime[1] = Time.time + equippedSkills[1].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(CustomKeyBinding.GetSkill3Key()) &&
+        if (unityService.GetKeyDown(CustomKeyBinding.GetSkill3Key()) &&
             equippedSkills[2] != null &&
             nextActiveTime[2] < Time.time)
         {
@@ -59,7 +63,7 @@ public class AbilityManager : NetworkBehaviour
             nextActiveTime[2] = Time.time + equippedSkills[2].skillCoolDown;
         }
 
-        if (Input.GetKeyDown(CustomKeyBinding.GetSkill4Key()) &&
+        if (unityService.GetKeyDown(CustomKeyBinding.GetSkill4Key()) &&
             equippedSkills[3] != null &&
             nextActiveTime[3] < Time.time)
         {

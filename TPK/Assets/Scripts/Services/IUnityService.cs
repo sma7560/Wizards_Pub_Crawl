@@ -8,25 +8,19 @@
 /// </summary>
 public interface IUnityService
 {
+    bool GetKey(KeyCode key);
     bool GetKeyDown(KeyCode key);
-    void Destroy(GameObject gameObject);
-    GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation);
 }
 
 class UnityService : IUnityService
 {
+    public bool GetKey(KeyCode key)
+    {
+        return Input.GetKey(key);
+    }
+
     public bool GetKeyDown(KeyCode key)
     {
         return Input.GetKeyDown(key);
-    }
-
-    public void Destroy(GameObject gameObject)
-    {
-        Object.Destroy(gameObject);
-    }
-
-    public GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation)
-    {
-        return Object.Instantiate(original, position, rotation);
     }
 }

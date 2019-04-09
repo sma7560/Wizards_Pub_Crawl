@@ -7,7 +7,6 @@ using UnityEngine.Networking;
 /// </summary>
 public class DungeonEnemyManager : NetworkBehaviour
 {
-    public IUnityService unityService;
     private MatchManager matchManager;
 
     [SerializeField] private List<GameObject> monsterList;
@@ -18,14 +17,9 @@ public class DungeonEnemyManager : NetworkBehaviour
     {
         spawnLocations = new List<Vector3>();
     }
-    
+
     void Start()
     {
-        if (unityService == null)
-        {
-            unityService = new UnityService();
-        }
-
         matchManager = GetComponent<MatchManager>();
     }
 
@@ -79,7 +73,7 @@ public class DungeonEnemyManager : NetworkBehaviour
         if (!isServer || matchManager.HasMatchEnded()) return;
 
         Quaternion rotate = Quaternion.Euler(0, 0, 0);
-        GameObject monsterToSpawn = unityService.Instantiate(monsterType, location, rotate);
+        GameObject monsterToSpawn = Instantiate(monsterType, location, rotate);
         NetworkServer.Spawn(monsterToSpawn);
     }
 

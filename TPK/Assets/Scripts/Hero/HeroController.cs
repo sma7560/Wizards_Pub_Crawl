@@ -11,7 +11,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(HeroModel))]
 public class HeroController : NetworkBehaviour
 {
-    public IUnityService unityService;
+    public IUnityService unityService = new UnityService();
 
     [SerializeField] private GameObject heroCam;
     [SerializeField] private GameObject compass;
@@ -39,11 +39,6 @@ public class HeroController : NetworkBehaviour
     void Start()
     {
         if (!isLocalPlayer) return;
-
-        if (unityService == null)
-        {
-            unityService = new UnityService();
-        }
 
         Vector3 floor = new Vector3(0, 1.5f, 0);
         ground = new Plane(Vector3.up, floor);
@@ -82,17 +77,17 @@ public class HeroController : NetworkBehaviour
             }
 
             // Perform character movement controls
-            bool forwardPressed = Input.GetKey(CustomKeyBinding.GetForwardKey());
-            bool backPressed = Input.GetKey(CustomKeyBinding.GetBackKey());
-            bool leftPressed = Input.GetKey(CustomKeyBinding.GetLeftKey());
-            bool rightPressed = Input.GetKey(CustomKeyBinding.GetRightKey());
+            bool forwardPressed = unityService.GetKey(CustomKeyBinding.GetForwardKey());
+            bool backPressed = unityService.GetKey(CustomKeyBinding.GetBackKey());
+            bool leftPressed = unityService.GetKey(CustomKeyBinding.GetLeftKey());
+            bool rightPressed = unityService.GetKey(CustomKeyBinding.GetRightKey());
             tempVelocity = GetComponent<HeroModel>().GetCharacterMovement().Calculate(forwardPressed, backPressed, leftPressed, rightPressed);
             tempVelocity.y = heroRigidbody.velocity.y;
             heroRigidbody.velocity = tempVelocity;
             PerformRotation();
 
-            // Perform an attack
-            if (Input.GetKey(CustomKeyBinding.GetBasicAttackKey()))
+            // Perform a basic attack
+            if (unityService.GetKey(CustomKeyBinding.GetBasicAttackKey()))
             {
                 StartCoroutine(PerformBasicAttack());
             }
