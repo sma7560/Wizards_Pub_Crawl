@@ -29,17 +29,12 @@ public class MoveSpeedBuff : Item
     /// <param name="stats">Player's stat data.</param>
     protected override IEnumerator TempBuff(HeroModel stats)
     {
-        if (stats.IsSpeedBuffed())
-        {
-            // Do nothing if player is already speed buffed
-            Destroy(gameObject);
-        }
-        else
+        if (!stats.IsSpeedBuffed())
         {
             // Apply speed buff
-            stats.SetCurrentMoveSpeed(stats.GetBaseMoveSpeed() + buffAmount);
+            stats.SetCurrentMoveSpeed(stats.GetCurrentMoveSpeed() + buffAmount);
             yield return new WaitForSeconds(buffTime);
-            stats.SetCurrentMoveSpeed(stats.GetBaseMoveSpeed());
+            stats.SetCurrentMoveSpeed(stats.GetCurrentMoveSpeed() - buffAmount);
             Destroy(gameObject);
         }
     }
