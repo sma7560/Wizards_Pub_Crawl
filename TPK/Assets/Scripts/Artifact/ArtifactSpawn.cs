@@ -12,6 +12,7 @@ public class ArtifactSpawn : NetworkBehaviour
 
     void Start()
     {
+		//populate list with all spawns
         spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
         SpawnArtifactRandom();
     }

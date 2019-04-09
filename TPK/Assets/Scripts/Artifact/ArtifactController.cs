@@ -21,6 +21,9 @@ public class ArtifactController : MonoBehaviour
     private Vector3 smallScale = new Vector3(1.25f, 1.25f, 1.25f);  // size used when carried (smaller)
     private Vector3 normalScale = new Vector3(2f, 2f, 2f);	        // size used when artifact is on the ground (larger)
 
+	// Match Manager for player ID and announcements
+	private GameObject matchManager;
+
     /// <summary>
     /// Rarity of the artifact.
     /// </summary>
@@ -40,6 +43,7 @@ public class ArtifactController : MonoBehaviour
         ownerID = -1;
         transform.localScale = normalScale;
         rarity = RarityType.Common;
+		matchManager = GameObject.FindGameObjectWithTag ("MatchManager");
     }
 
     void Update()
@@ -77,7 +81,7 @@ public class ArtifactController : MonoBehaviour
 
                     // Set owner ID and spawn point
                     ownerID = playerThatOwns.GetComponent<HeroModel>().GetPlayerId();
-                    ownerSpawn = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>().GetSpawnLocationOfPlayer(ownerID);
+                    ownerSpawn = matchManager.GetComponent<HeroManager>().GetSpawnLocationOfPlayer(ownerID);
                     isCarried = true;
 
                     // Slow down the player on pickup
@@ -87,7 +91,7 @@ public class ArtifactController : MonoBehaviour
                         playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() - playerSlowSpeed);
 
                     // Broadcast that player has acquired the artifact
-                    GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleAcquired(ownerID);
+                    matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleAcquired(ownerID);
                 }
                 break;
             case ("SpawnRoom"):
@@ -104,7 +108,7 @@ public class ArtifactController : MonoBehaviour
                         playerSlowSpeed = 0;
 
                         // Broadcast that player has scored the artifact
-                        GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleScored(ownerID);
+                        matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleScored(ownerID);
 
                         // Increase the player's score
                         playerThatOwns.GetComponent<HeroModel>().IncreaseScore(GetScore());
@@ -126,7 +130,7 @@ public class ArtifactController : MonoBehaviour
     private void DropArtifact()
     {
         // Broadcast the announcement that artifact is dropped
-        GameObject.FindGameObjectWithTag("MatchManager").GetComponent<AnnouncementManager>().BroadcastAnnouncementAleDropped(ownerID);
+        matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleDropped(ownerID);
 
         // Set position of artifact on the ground where player has died
         transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 1f, playerThatOwns.transform.position.z);
