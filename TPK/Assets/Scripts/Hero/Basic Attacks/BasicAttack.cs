@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 public class BasicAttack : NetworkBehaviour
 {
     public GameObject projectilePrefab;
+    private PlayerSoundController playerSounds; // sound effects for basic attack
 
     // Attack stats
     private readonly float cooldown = 0.5f;
@@ -17,6 +18,7 @@ public class BasicAttack : NetworkBehaviour
     void Awake()
     {
         nextActiveTime = 0;
+        playerSounds = GetComponent<PlayerSoundController>();
     }
 
     /// <summary>
@@ -49,6 +51,7 @@ public class BasicAttack : NetworkBehaviour
         bolt.GetComponent<Projectile>().SetProjectileParams(range, GetComponent<HeroModel>().GetCurrentAttack(), id);
 
         NetworkServer.Spawn(bolt);
+        playerSounds.RpcPlayBasicAttackSound();
         Destroy(bolt, range);
 
     }

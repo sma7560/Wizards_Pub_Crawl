@@ -10,6 +10,7 @@ public class PlayerSoundController : NetworkBehaviour
     private AudioClip aoe;
     private AudioClip[] projectileSounds;
     private AbilityCaster caster;
+    private AudioClip basicAttack;
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class PlayerSoundController : NetworkBehaviour
             projectileSounds[i] = Resources.Load("SoundEffects/" + caster.projectiles[i].name) as AudioClip;
         }
         aoe = Resources.Load("SoundEffects/aoe") as AudioClip;
+        basicAttack = Resources.Load("SoundEffects/BasicAttack") as AudioClip;
     }
     
     /// <summary>
@@ -31,7 +33,18 @@ public class PlayerSoundController : NetworkBehaviour
     [ClientRpc]
     public void RpcPlayAOESound()
     {
+        if (!isLocalPlayer) return;
         source.PlayOneShot(aoe);
+    }
+
+    /// <summary>
+    /// Play sound for basic attack.
+    /// </summary>
+    [ClientRpc]
+    public void RpcPlayBasicAttackSound()
+    {
+        if (!isLocalPlayer) return;
+        source.PlayOneShot(basicAttack);
     }
 
     /// <summary>
@@ -40,6 +53,7 @@ public class PlayerSoundController : NetworkBehaviour
     [ClientRpc]
     public void RpcPlaySoundEffect(string projectileName)
     {
+        if (!isLocalPlayer) return;
         source.PlayOneShot(GetSoundEffectWithName(projectileName));
     }
 
