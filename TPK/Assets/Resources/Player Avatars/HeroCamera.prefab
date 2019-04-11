@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4368276180567698}
   - component: {fileID: 20704049431496314}
-  - component: {fileID: 81324193597347180}
   - component: {fileID: 114715747626361680}
   m_Layer: 0
   m_Name: HeroCamera
@@ -82,13 +81,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &81324193597347180
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1742646014484890}
-  m_Enabled: 0
 --- !u!114 &114715747626361680
 MonoBehaviour:
   m_ObjectHideFlags: 1

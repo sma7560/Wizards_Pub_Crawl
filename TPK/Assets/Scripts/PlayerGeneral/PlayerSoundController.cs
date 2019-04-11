@@ -33,7 +33,6 @@ public class PlayerSoundController : NetworkBehaviour
     [ClientRpc]
     public void RpcPlayAOESound()
     {
-        if (!isLocalPlayer) return;
         source.PlayOneShot(aoe);
     }
 
@@ -43,7 +42,6 @@ public class PlayerSoundController : NetworkBehaviour
     [ClientRpc]
     public void RpcPlayBasicAttackSound()
     {
-        if (!isLocalPlayer) return;
         source.PlayOneShot(basicAttack);
     }
 
@@ -53,7 +51,6 @@ public class PlayerSoundController : NetworkBehaviour
     [ClientRpc]
     public void RpcPlaySoundEffect(string projectileName)
     {
-        if (!isLocalPlayer) return;
         source.PlayOneShot(GetSoundEffectWithName(projectileName));
     }
 
