@@ -23,11 +23,17 @@ public class EnemyModel : NetworkBehaviour
     // Idle movement
     [SerializeField] private float idleRange;
     [SerializeField] private float idleHowOftenDirectionChanged;
+
+    [SerializeField]
+    private AudioClip deathSound;
+    private AudioSource source;
+
     
     private bool isDying;
 
     void Awake()
     {
+        source = GetComponent<AudioSource>();
         currentHealth = maxHealth;
         isDying = false;
     }
@@ -36,6 +42,7 @@ public class EnemyModel : NetworkBehaviour
     {
         if (currentHealth <= 0 && !isDying)
         {
+            PlayDeathSound();
             StartCoroutine(DeathSequence());
         }
     }
@@ -69,6 +76,13 @@ public class EnemyModel : NetworkBehaviour
 
         DropItem();
         Destroy(gameObject);
+    }
+
+    //[ClientRpc]
+    private void PlayDeathSound()
+    {
+        //if (!isLocalPlayer) return;
+        source.PlayOneShot(deathSound);
     }
 
     /// <summary>
