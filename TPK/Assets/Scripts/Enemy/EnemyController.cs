@@ -103,7 +103,7 @@ public class EnemyController : NetworkBehaviour
             animator.SetBool("isWalking", true);
 
             // If player is within attacking range, attack the player
-            if (shortestDistance <= agent.stoppingDistance)
+            if (shortestDistance - stats.GetAttackRange() <= agent.stoppingDistance)
             {
                 animator.SetBool("isWalking", false);
                 Attack(targets[playerIndex]);

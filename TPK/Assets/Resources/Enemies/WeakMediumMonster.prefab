@@ -3371,10 +3371,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 50
-  damage: 10
-  attackSpeed: 2
+  damage: 20
+  attackSpeed: 1
   movementSpeed: 6
   lookRadius: 20
+  attackRange: 1
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}

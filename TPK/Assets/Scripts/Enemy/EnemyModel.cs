@@ -15,6 +15,7 @@ public class EnemyModel : NetworkBehaviour
     [SerializeField] private int attackSpeed;
     [SerializeField] private int movementSpeed;
     [SerializeField] private int lookRadius;        // radius where enemy can detect players
+    [SerializeField] private int attackRange;       // range where enemy can attack players
 
     // Item drops
     [SerializeField] private GameObject[] droppableItems = new GameObject[3];
@@ -199,5 +200,10 @@ public class EnemyModel : NetworkBehaviour
     public int GetLookRadius()
     {
         return lookRadius;
+    }
+
+    public int GetAttackRange()
+    {
+        return attackRange;
     }
 }
