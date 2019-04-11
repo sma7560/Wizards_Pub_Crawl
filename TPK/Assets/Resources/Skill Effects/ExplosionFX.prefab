@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f974ea5013a432439ed9b7618a7f9d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sfx: {fileID: 8300000, guid: f2613706f751df8408990f40195dee8c, type: 3}
+  sfx: {fileID: 8300000, guid: 798b37d2cbb3d2a4c846070c319ce1f7, type: 3}
 --- !u!198 &198183768531114642
 ParticleSystem:
   m_ObjectHideFlags: 1
