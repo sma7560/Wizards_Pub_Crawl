@@ -12,6 +12,7 @@ public class PlayerSoundController : NetworkBehaviour
     private AbilityCaster caster;
     private AudioClip basicAttack;
     private AudioClip pickUpSound;
+    private AudioClip itemSoundEffect;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class PlayerSoundController : NetworkBehaviour
         aoe = Resources.Load("SoundEffects/aoe") as AudioClip;
         basicAttack = Resources.Load("SoundEffects/BasicAttack") as AudioClip;
         pickUpSound = Resources.Load("SoundEffects/PickUp") as AudioClip;
+        itemSoundEffect = Resources.Load("SoundEffects/Buff") as AudioClip;
     }
     
     /// <summary>
@@ -57,13 +59,23 @@ public class PlayerSoundController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Play sound for basic attack.
+    /// Play sound for artifact pickup
     /// </summary>
     [ClientRpc]
     public void RpcPlayArtifactSound()
     {
         if (!isLocalPlayer) return;
         source.PlayOneShot(pickUpSound, 0.5f);
+    }
+
+    /// <summary>
+    /// Play sound for item buff pickup
+    /// </summary>
+    [ClientRpc]
+    public void RpcPlayItemBuffSound()
+    {
+        if (!isLocalPlayer) return;
+        source.PlayOneShot(itemSoundEffect, 0.5f);
     }
 
     /// <summary>

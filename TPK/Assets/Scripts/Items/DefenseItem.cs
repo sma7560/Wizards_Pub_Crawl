@@ -17,7 +17,7 @@ public class DefenseItem : Item
     protected override void ItemConsume(Collider other)
     {
         base.ItemConsume(other);
-        source.PlayOneShot(itemSoundEffect);
+        other.gameObject.GetComponent<PlayerSoundController>().RpcPlayItemBuffSound();
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
         StartCoroutine(TempBuff(stats));
     }
