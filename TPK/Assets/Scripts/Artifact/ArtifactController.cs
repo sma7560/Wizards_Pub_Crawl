@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Contains logic regarding the artifact.
 /// Attached to the Artifact prefab.
 /// </summary>
-public class ArtifactController : MonoBehaviour
+public class ArtifactController : NetworkBehaviour
 {
     // Artifact info
     private bool isCarried;             // whether or not the artifact is currently being carried by a player
@@ -83,6 +84,7 @@ public class ArtifactController : MonoBehaviour
                     ownerID = playerThatOwns.GetComponent<HeroModel>().GetPlayerId();
                     ownerSpawn = matchManager.GetComponent<HeroManager>().GetSpawnLocationOfPlayer(ownerID);
                     isCarried = true;
+                    playerThatOwns.GetComponent<PlayerSoundController>().RpcPlayArtifactSound();
 
                     // Slow down the player on pickup
                     playerBaseSpeed = playerThatOwns.GetComponent<HeroModel>().GetBaseMoveSpeed();
