@@ -2952,7 +2952,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.6
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3383,6 +3383,7 @@ MonoBehaviour:
   idleRange: 10
   idleHowOftenDirectionChanged: 5
   deathSound: {fileID: 8300000, guid: f6528da327f620b4382b74f5fdc808d7, type: 3}
+  attackSound: {fileID: 0}
 --- !u!136 &136429980400310916
 CapsuleCollider:
   m_ObjectHideFlags: 1
