@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Plays a sound effect on creation.
+/// GameObject is kept alive for duration of the audio clip.
+/// </summary>
 public class SkillEffectSFX : MonoBehaviour {
 
 	public AudioClip sfx;
@@ -13,9 +17,5 @@ public class SkillEffectSFX : MonoBehaviour {
 		audSrc.PlayOneShot(sfx);
 		Destroy (gameObject, sfx.length);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }
