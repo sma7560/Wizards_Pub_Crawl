@@ -38,8 +38,12 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     void Start()
     {
-        if (!isLocalPlayer) return;
-
+        if (!isLocalPlayer)
+        {
+            //disable other player's audioListener
+            GetComponent<AudioListener>().enabled = false;
+            return;
+        }
         Vector3 floor = new Vector3(0, 1.5f, 0);
         ground = new Plane(Vector3.up, floor);
 
