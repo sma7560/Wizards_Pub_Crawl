@@ -157,22 +157,21 @@ public class PlayerUI : MonoBehaviour
                 int cooldown = (int)(Math.Ceiling(abilityManager.nextActiveTime[i] - Time.time));
                 Image skillImg = GameObject.Find("PlayerUISkill" + (i + 1)).GetComponent<Image>();
 
-                if (i == 0)
+                switch (i)
                 {
-                    if (cooldown > 0)
-                    {
-                        cooldown1.gameObject.SetActive(true);
-                        cooldown1.text = cooldown.ToString();
-                        skillImg.color = new Color(skillImg.color.r, skillImg.color.g, skillImg.color.b, 0.5f);
-                    }
-                    else
-                    {
-                        cooldown1.gameObject.SetActive(false);
-                        skillImg.color = new Color(skillImg.color.r, skillImg.color.g, skillImg.color.b, 1f);
-                    }
-                }
-                else if (i == 1)
-                {
+				case (0):
+					if (cooldown > 0) {
+						cooldown1.gameObject.SetActive (true);
+						cooldown1.text = cooldown.ToString ();
+						skillImg.color = new Color (skillImg.color.r, skillImg.color.g, skillImg.color.b, 0.5f);
+					} else {
+						cooldown1.gameObject.SetActive (false);
+						skillImg.color = new Color (skillImg.color.r, skillImg.color.g, skillImg.color.b, 1f);
+					}
+					break;
+                
+				case(1):
+                
                     if (cooldown > 0)
                     {
                         cooldown2.gameObject.SetActive(true);
@@ -184,34 +183,27 @@ public class PlayerUI : MonoBehaviour
                         cooldown2.gameObject.SetActive(false);
                         skillImg.color = new Color(skillImg.color.r, skillImg.color.g, skillImg.color.b, 1f);
                     }
-                }
-                else if (i == 2)
-                {
-                    if (cooldown > 0)
-                    {
-                        cooldown3.gameObject.SetActive(true);
-                        cooldown3.text = cooldown.ToString();
-                        skillImg.color = new Color(skillImg.color.r, skillImg.color.g, skillImg.color.b, 0.5f);
-                    }
-                    else
-                    {
-                        cooldown3.gameObject.SetActive(false);
-                        skillImg.color = new Color(skillImg.color.r, skillImg.color.g, skillImg.color.b, 1f);
-                    }
-                }
-                else if (i == 3)
-                {
-                    if (cooldown > 0)
-                    {
-                        cooldown4.gameObject.SetActive(true);
-                        cooldown4.text = cooldown.ToString();
-                        skillImg.color = new Color(skillImg.color.r, skillImg.color.g, skillImg.color.b, 0.5f);
-                    }
-                    else
-                    {
-                        cooldown4.gameObject.SetActive(false);
-                        skillImg.color = new Color(skillImg.color.r, skillImg.color.g, skillImg.color.b, 1f);
-                    }
+					break;
+				case(2):
+					if (cooldown > 0) {
+						cooldown3.gameObject.SetActive (true);
+						cooldown3.text = cooldown.ToString ();
+						skillImg.color = new Color (skillImg.color.r, skillImg.color.g, skillImg.color.b, 0.5f);
+					} else {
+						cooldown3.gameObject.SetActive (false);
+						skillImg.color = new Color (skillImg.color.r, skillImg.color.g, skillImg.color.b, 1f);
+					}
+					break;
+				case(3):
+					if (cooldown > 0) {
+						cooldown4.gameObject.SetActive (true);
+						cooldown4.text = cooldown.ToString ();
+						skillImg.color = new Color (skillImg.color.r, skillImg.color.g, skillImg.color.b, 0.5f);
+					} else {
+						cooldown4.gameObject.SetActive (false);
+						skillImg.color = new Color (skillImg.color.r, skillImg.color.g, skillImg.color.b, 1f);
+					}
+					break;
                 }
             }
         }
