@@ -106,7 +106,6 @@ public class EnemyController : NetworkBehaviour
             if (shortestDistance <= agent.stoppingDistance)
             {
                 animator.SetBool("isWalking", false);
-                CmdTriggerAttackAnim();
                 Attack(targets[playerIndex]);
             }
         }
@@ -191,6 +190,7 @@ public class EnemyController : NetworkBehaviour
         HeroModel heroStats = attackedPlayer.GetComponent<HeroModel>();
         if (heroStats != null && attackCooldown <= 0)
         {
+            CmdTriggerAttackAnim();
             heroStats.CmdTakeDamage(stats.GetDamage());
             attackCooldown = 1f / stats.GetAttackSpeed();
         }
@@ -203,6 +203,7 @@ public class EnemyController : NetworkBehaviour
     private void CmdTriggerAttackAnim()
     {
         RpcTriggerAttackAnim();
+        StartCoroutine(stats.soundDelayForAnimationSync());
     }
 
     /// <summary>

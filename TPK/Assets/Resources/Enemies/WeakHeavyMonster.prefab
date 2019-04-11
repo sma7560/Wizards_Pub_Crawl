@@ -3335,7 +3335,7 @@ MonoBehaviour:
   idleRange: 8
   idleHowOftenDirectionChanged: 6
   deathSound: {fileID: 8300000, guid: 9d01c220e352e734a8254b3fa8db574c, type: 3}
-  attackSound: {fileID: 0}
+  attackSound: {fileID: 8300000, guid: 3cacf4e2ecc2b594aa53a99ec32d61ab, type: 3}
 --- !u!114 &114810981715986336
 MonoBehaviour:
   m_ObjectHideFlags: 1
