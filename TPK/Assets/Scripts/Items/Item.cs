@@ -8,6 +8,15 @@ using UnityEngine.Networking;
 public class Item : NetworkBehaviour
 {
     private bool isUsed = false;        // if this item has already been used by a player
+    [SerializeField]
+    protected AudioClip itemSoundEffect;
+    protected AudioSource source;
+
+    private void Awake()
+    {
+        source = GetComponent<AudioSource>();
+        itemSoundEffect = Resources.Load("SoundEffects/Buff") as AudioClip;
+    }
 
     /// <summary>
     /// Checks for player collisions with items.
