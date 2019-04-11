@@ -26,6 +26,8 @@ public class EnemyModel : NetworkBehaviour
 
     [SerializeField]
     private AudioClip deathSound;
+    [SerializeField]
+    private AudioClip attackSound;
     private AudioSource source;
 
     
@@ -78,11 +80,21 @@ public class EnemyModel : NetworkBehaviour
         Destroy(gameObject);
     }
 
-    //[ClientRpc]
     private void PlayDeathSound()
     {
-        //if (!isLocalPlayer) return;
         source.PlayOneShot(deathSound);
+    }
+
+    [ClientRpc]
+    private void RpcPlayAttackSound()
+    {
+        source.PlayOneShot(attackSound);
+    }
+
+    public IEnumerator soundDelayForAnimationSync()
+    {
+        yield return new WaitForSeconds(0.3f);
+        RpcPlayAttackSound();
     }
 
     /// <summary>
