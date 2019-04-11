@@ -369,6 +369,7 @@ GameObject:
   - component: {fileID: 114080767733875850}
   - component: {fileID: 114670716586356966}
   - component: {fileID: 82219290990809452}
+  - component: {fileID: 81270934823258956}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1011,6 +1012,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4693185844293170}
+  - component: {fileID: 114450084610920556}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -2735,6 +2737,13 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!81 &81270934823258956
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1389239392925404}
+  m_Enabled: 1
 --- !u!82 &82219290990809452
 AudioSource:
   m_ObjectHideFlags: 1
@@ -3071,6 +3080,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42059b13fd91913448eb4139a1d42c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114450084610920556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1873629679370110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 157
+    i1: 151
+    i2: 202
+    i3: 30
+    i4: 142
+    i5: 81
+    i6: 118
+    i7: 116
+    i8: 106
+    i9: 197
+    i10: 246
+    i11: 104
+    i12: 152
+    i13: 155
+    i14: 64
+    i15: 254
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &114507048987338988
 MonoBehaviour:
   m_ObjectHideFlags: 1
