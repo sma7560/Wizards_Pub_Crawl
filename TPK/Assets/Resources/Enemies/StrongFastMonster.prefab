@@ -3254,10 +3254,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 60
-  damage: 10
-  attackSpeed: 3
+  damage: 30
+  attackSpeed: 1
   movementSpeed: 8
   lookRadius: 20
+  attackRange: 1
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1134632399540438, guid: 350e545050c06fa408f4382e60e9b935, type: 2}
