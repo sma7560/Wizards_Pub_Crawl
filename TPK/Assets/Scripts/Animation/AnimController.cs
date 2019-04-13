@@ -57,7 +57,15 @@ public class AnimController : NetworkBehaviour
     // This is done to make the animations feel reactive to player input.
     void Update()
     {
-        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded() || dungeonController.IsMenuOpen()) return;
+        if (!isLocalPlayer ||
+            prephaseManager.IsCurrentlyInPrephase() ||
+            matchManager.HasMatchEnded() ||
+            dungeonController.IsMenuOpen())
+        {
+            isWalking = false;
+            anim.SetBool("isWalking", isWalking);
+            return;
+        }
 
         forward = this.transform.forward;
         forward.y = 0;
