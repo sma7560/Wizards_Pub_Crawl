@@ -26,6 +26,7 @@ public class AnimController : NetworkBehaviour
 
     private MatchManager matchManager;
     private PrephaseManager prephaseManager;
+    private DungeonController dungeonController;
 
     // Parameters for animator to set
     // FBMove - This is for determining forward backwards movement
@@ -40,6 +41,7 @@ public class AnimController : NetworkBehaviour
         // Set Up Animator
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+        dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
         basicNum = 0;
         timeToReset = 1.5f;
         timeElapsed = 0;
@@ -55,7 +57,7 @@ public class AnimController : NetworkBehaviour
     // This is done to make the animations feel reactive to player input.
     void Update()
     {
-        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded()) return;
+        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded() || dungeonController.IsMenuOpen()) return;
 
         forward = this.transform.forward;
         forward.y = 0;

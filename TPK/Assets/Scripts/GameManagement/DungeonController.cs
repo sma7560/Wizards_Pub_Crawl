@@ -57,6 +57,20 @@ public class DungeonController : MonoBehaviour
     }
 
     /// <summary>
+    /// Whether or not a menu is currently open.
+    /// Used to avoid player input during gameplay while a menu is open.
+    /// </summary>
+    public bool IsMenuOpen()
+    {
+        if (inGameMenu.activeSelf || statWindow.activeSelf || scoreboard.activeSelf)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Exits the match and returns to the main menu.
     /// </summary>
     public void QuitMatch()

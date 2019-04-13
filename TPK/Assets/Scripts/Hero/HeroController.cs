@@ -29,6 +29,7 @@ public class HeroController : NetworkBehaviour
     private Rigidbody heroRigidbody;
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
+    private DungeonController dungeonController;
     private BasicAttack battack;
     private AnimController animate;
     private Vector3 tempVelocity;
@@ -53,6 +54,7 @@ public class HeroController : NetworkBehaviour
 
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
+        dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
 
         // Run startup functions
         StartCamera();
@@ -69,7 +71,8 @@ public class HeroController : NetworkBehaviour
         // Only allow controls under certain conditions
         if (!GetComponent<HeroModel>().IsKnockedOut() &&
             !prephaseManager.IsCurrentlyInPrephase() &&
-            !matchManager.HasMatchEnded())
+            !matchManager.HasMatchEnded() &&
+            !dungeonController.IsMenuOpen())
         {
             // TODO:
             // This will be changed later but setting up the basic attack here. this should be moved to the endphase.
