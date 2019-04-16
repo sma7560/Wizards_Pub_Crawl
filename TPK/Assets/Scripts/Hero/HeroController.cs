@@ -22,6 +22,7 @@ public class HeroController : NetworkBehaviour
     private float rayLength;
     private Vector3 pointToLookAt;
 
+    private readonly float atkCoolDown = 0.5f;
     private readonly int deathTimer = 4;    // default death timer
     private bool isDungeonReady = false;
 
@@ -33,6 +34,7 @@ public class HeroController : NetworkBehaviour
     private BasicAttack battack;
     private AnimController animate;
     private Vector3 tempVelocity;
+    private float nextActiveTime;
 
     /// <summary>
     /// Initialize variables.
@@ -55,7 +57,7 @@ public class HeroController : NetworkBehaviour
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
-
+        nextActiveTime = 0;
         // Run startup functions
         StartCamera();
         Spawn();
@@ -93,10 +95,14 @@ public class HeroController : NetworkBehaviour
             heroRigidbody.velocity = tempVelocity;
             PerformRotation();
 
-            // Perform a basic attack
-            if (unityService.GetKey(CustomKeyBinding.GetBasicAttackKey()))
+            // Perform a basic attack Has small attack cooldowmn.
+            if (unityService.GetKeyDown(CustomKeyBinding.GetBasicAttackKey()))
             {
-                StartCoroutine(PerformBasicAttack());
+                if (Time.time > nextActiveTime)
+                {
+                    nextActiveTime = Time.time + atkCoolDown;
+                    StartCoroutine(PerformBasicAttack());
+                }
             }
         }
 
