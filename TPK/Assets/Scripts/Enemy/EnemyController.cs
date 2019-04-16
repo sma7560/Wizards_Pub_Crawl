@@ -6,18 +6,17 @@ using UnityEngine.Networking;
 /// <summary>
 /// Contains all logic regarding enemy AI for movement, player targetting & attacking.
 /// </summary>
-[RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent(typeof(EnemyModel))]
 [RequireComponent(typeof(Animator))]
 public class EnemyController : NetworkBehaviour
 {
     // Managers
     private MatchManager matchManager;
-    private HeroManager heroManager;
+    protected HeroManager heroManager;
 
     private NavMeshAgent agent;
-    private EnemyModel stats;
-    private Animator animator;
+    protected EnemyModel stats;
+    protected Animator animator;
 
     // Idle movement
     private Vector3 currentRandomLocation;
@@ -29,17 +28,19 @@ public class EnemyController : NetworkBehaviour
     /// <summary>
     /// Use this for initialization.
     /// </summary>
-    void Start()
+    protected virtual void Start()
     {
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
-
-        agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         stats = GetComponent<EnemyModel>();
+        agent = GetComponent<NavMeshAgent>();
+        if (agent != null)
+        {
+            agent.speed = stats.GetMovementSpeed();
+        }
 
         attackCooldown = 0;
-        agent.speed = stats.GetMovementSpeed();
     }
 
     void Update()
@@ -66,15 +67,10 @@ public class EnemyController : NetworkBehaviour
         attackCooldown -= Time.deltaTime;
     }
 
-    /// <summary>
-    /// Sets the target of this enemy to the closest player.
-    /// </summary>
-    private void TargetClosestPlayer()
+    protected float[] getDistanceToClosestPlayer(Transform[] targets)
     {
-        Transform[] targets = heroManager.GetAllPlayerTransforms(); // list of all player transforms
         float shortestDistance = int.MaxValue;                      // distance to the closest player
-        int playerIndex = -1;                                       // index of the player in targets array whom is currently targetted
-
+        int playerIndex = -1;                                       // index of the player in targets array
         // Get distance of player closest to the enemy
         for (int i = 0; i < targets.Length; i++)
         {
@@ -89,24 +85,36 @@ public class EnemyController : NetworkBehaviour
                 playerIndex = i;
             }
         }
+        float[] playerAndDistance = { playerIndex, shortestDistance };
+        return playerAndDistance;
+    }
+
+    /// <summary>
+    /// Sets the target of this enemy to the closest player.
+    /// </summary>
+    protected virtual void TargetClosestPlayer()
+    {
+        Transform[] targets = heroManager.GetAllPlayerTransforms(); // list of all player transforms
+
+        float[] playerAndDistance = getDistanceToClosestPlayer(targets);
 
         // If player is within lookRadius of enemy, follow the player
-        if (shortestDistance <= stats.GetLookRadius() && playerIndex >= 0)
+        if (playerAndDistance[1] <= stats.GetLookRadius() && (int)playerAndDistance[0] >= 0)
         {
             // Stop idle movement
             isIdleMovement = false;
             StopCoroutine(RandomNavSphere(transform.position, stats.GetIdleRange(), stats.GetIdleHowOftenDirectionChanged(), -1));
 
             // Follow player
-            agent.SetDestination(targets[playerIndex].position);
-            FaceTarget(targets[playerIndex].position);
+            agent.SetDestination(targets[(int)playerAndDistance[0]].position);
+            FaceTarget(targets[(int)playerAndDistance[0]].position);
             animator.SetBool("isWalking", true);
 
             // If player is within attacking range, attack the player
-            if (shortestDistance - stats.GetAttackRange() <= agent.stoppingDistance)
+            if (playerAndDistance[1] - stats.GetAttackRange() <= agent.stoppingDistance)
             {
                 animator.SetBool("isWalking", false);
-                Attack(targets[playerIndex]);
+                Attack(targets[(int)playerAndDistance[0]]);
             }
         }
         else
@@ -183,7 +191,7 @@ public class EnemyController : NetworkBehaviour
     /// Performs an attack on a specified player.
     /// </summary>
     /// <param name="attackedPlayer">Player whom is being attacked by this enemy.</param>
-    private void Attack(Transform attackedPlayer)
+    protected void Attack(Transform attackedPlayer)
     {
         if (!isServer) return;
 
@@ -191,9 +199,18 @@ public class EnemyController : NetworkBehaviour
         if (heroStats != null && attackCooldown <= 0)
         {
             CmdTriggerAttackAnim();
-            heroStats.CmdTakeDamage(stats.GetDamage());
+            StartCoroutine(damageDelayForAnimationSync(heroStats));
             attackCooldown = 1f / stats.GetAttackSpeed();
         }
+    }
+
+    /// <summary>
+    /// Delay for hero taking damage to sync with animation
+    /// </summary>
+    public IEnumerator damageDelayForAnimationSync(HeroModel heroStats)
+    {
+        yield return new WaitForSeconds(0.2f);
+        heroStats.CmdTakeDamage(stats.GetDamage());
     }
 
     /// <summary>
