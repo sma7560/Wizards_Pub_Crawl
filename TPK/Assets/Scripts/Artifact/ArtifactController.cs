@@ -109,6 +109,9 @@ public class ArtifactController : NetworkBehaviour
                         playerBaseSpeed = 0;
                         playerSlowSpeed = 0;
 
+                        //play sound for succesfully retrieving artifact
+                        playerThatOwns.GetComponent<PlayerSoundController>().RpcPlayArtifactSound();
+
                         // Broadcast that player has scored the artifact
                         matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleScored(ownerID);
 

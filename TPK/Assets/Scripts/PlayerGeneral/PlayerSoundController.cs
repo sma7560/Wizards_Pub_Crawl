@@ -67,7 +67,7 @@ public class PlayerSoundController : NetworkBehaviour
     public void RpcPlayArtifactSound()
     {
         if (!isLocalPlayer) return;
-        source.PlayOneShot(artifactSound, 0.5f);
+        source.PlayOneShot(artifactSound);
     }
 
     /// <summary>
