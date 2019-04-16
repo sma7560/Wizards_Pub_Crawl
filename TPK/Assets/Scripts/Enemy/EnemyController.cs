@@ -199,9 +199,18 @@ public class EnemyController : NetworkBehaviour
         if (heroStats != null && attackCooldown <= 0)
         {
             CmdTriggerAttackAnim();
-            heroStats.CmdTakeDamage(stats.GetDamage());
+            StartCoroutine(damageDelayForAnimationSync(heroStats));
             attackCooldown = 1f / stats.GetAttackSpeed();
         }
+    }
+
+    /// <summary>
+    /// Delay for hero taking damage to sync with animation
+    /// </summary>
+    public IEnumerator damageDelayForAnimationSync(HeroModel heroStats)
+    {
+        yield return new WaitForSeconds(0.2f);
+        heroStats.CmdTakeDamage(stats.GetDamage());
     }
 
     /// <summary>

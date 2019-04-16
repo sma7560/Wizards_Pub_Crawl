@@ -89,12 +89,12 @@ public class EnemyModel : NetworkBehaviour
     [ClientRpc]
     private void RpcPlayAttackSound()
     {
-        source.PlayOneShot(attackSound, 0.5f);
+        source.PlayOneShot(attackSound, 0.1f);
     }
 
     public IEnumerator soundDelayForAnimationSync()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         RpcPlayAttackSound();
     }
 
