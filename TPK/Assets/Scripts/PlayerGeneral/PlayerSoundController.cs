@@ -13,6 +13,7 @@ public class PlayerSoundController : NetworkBehaviour
     private AudioClip basicAttack;
     private AudioClip pickUpSound;
     private AudioClip itemSoundEffect;
+    private AudioClip potionSoundEffect;
 
     void Start()
     {
@@ -29,6 +30,7 @@ public class PlayerSoundController : NetworkBehaviour
         basicAttack = Resources.Load("SoundEffects/BasicAttack") as AudioClip;
         pickUpSound = Resources.Load("SoundEffects/PickUp") as AudioClip;
         itemSoundEffect = Resources.Load("SoundEffects/Buff") as AudioClip;
+        potionSoundEffect = Resources.Load("SoundEffects/Potion") as AudioClip;
     }
     
     /// <summary>
@@ -76,6 +78,16 @@ public class PlayerSoundController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         source.PlayOneShot(itemSoundEffect, 0.5f);
+    }
+
+    /// <summary>
+    /// Play sound for health potion pickup
+    /// </summary>
+    [ClientRpc]
+    public void RpcPlayPotionSound()
+    {
+        if (!isLocalPlayer) return;
+        source.PlayOneShot(potionSoundEffect);
     }
 
     /// <summary>
