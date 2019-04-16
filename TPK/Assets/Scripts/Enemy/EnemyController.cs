@@ -50,7 +50,10 @@ public class EnemyController : NetworkBehaviour
         // Stop movement if match has ended
         if (matchManager.HasMatchEnded())
         {
-            agent.isStopped = true;
+            if (agent != null)
+            {
+                agent.isStopped = true;
+            }
             return;
         }
 
