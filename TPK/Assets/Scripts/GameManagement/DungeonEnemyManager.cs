@@ -10,8 +10,10 @@ public class DungeonEnemyManager : NetworkBehaviour
     private MatchManager matchManager;
 
     [SerializeField] private List<GameObject> monsterList;
-    private readonly int maxNumMonsters = 16;
+    private readonly int maxNumMonsters = 16;           //max number of regular monsters
+    private readonly int maxNumSpawnGroups = 10;        //max groups of monster swarms
     private List<Vector3> spawnLocations;
+    [SerializeField] private GameObject SwarmMonster;
 
     void Awake()
     {
@@ -47,6 +49,7 @@ public class DungeonEnemyManager : NetworkBehaviour
 
         // Call summon monster every 4 seconds
         InvokeRepeating("DungeonSpawnMonster", 0f, 4f);
+        InvokeRepeating("DungeonSpawnSwarm", 0f, 4f);
     }
 
     /// <summary>
@@ -55,13 +58,60 @@ public class DungeonEnemyManager : NetworkBehaviour
     private void DungeonSpawnMonster()
     {
         if (!isServer || matchManager.HasMatchEnded()) return;
-        if (GameObject.FindGameObjectsWithTag("Enemy").Length >= maxNumMonsters || spawnLocations.Count <= 0) return;
+        if (getNumMonstersSpawned()[0] >= maxNumMonsters || spawnLocations.Count <= 0) return;
 
         // Spawn a monster at a randomly selected location
         int randLocation = Random.Range(0, spawnLocations.Count);
         List<GameObject> spawnableEnemies = GetCurrentSpawnableMonsterList();
         GameObject randMonster = spawnableEnemies[Random.Range(0, spawnableEnemies.Count)];
         SpawnMonster(GetSpawnLocationOfMonster(randLocation), randMonster);
+    }
+
+    /// <summary>
+    /// Spawns a swarm of 5 SwarmMonster at a random location if all conditions are met.
+    /// </summary>
+    private void DungeonSpawnSwarm()
+    {
+        if (!isServer || matchManager.HasMatchEnded()) return;
+        if (getNumMonstersSpawned()[1] >= maxNumSpawnGroups || spawnLocations.Count <= 0) return;
+
+        // Spawn a monster at a randomly selected location
+        int randLocation = Random.Range(0, spawnLocations.Count);
+        Vector3 locationAt = GetSpawnLocationOfMonster(randLocation);
+        List<Vector3> spawnOffset = new List<Vector3>(5);
+        spawnOffset.Add(new Vector3(0, 0, 0));
+        spawnOffset.Add(new Vector3(1, 0, 1));
+        spawnOffset.Add(new Vector3(1, 0, -1));
+        spawnOffset.Add(new Vector3(-1, 0, -1));
+        spawnOffset.Add(new Vector3(-1, 0, 1));
+        Debug.Log(spawnOffset[0]);
+        Debug.Log(spawnOffset[4]);
+        for (int i=0; i<5; i++)
+        {
+            SpawnMonster(locationAt - spawnOffset[i], SwarmMonster);
+        }
+    }
+
+    /// <summary>
+    /// Return how many regular monsters, and how many groups of monster swarms in an array,
+    /// where [0] = regular, [1] = groups of swarms
+    /// </summary>
+    private int[] getNumMonstersSpawned()
+    {
+        GameObject[] spawnedMonsters = GameObject.FindGameObjectsWithTag("Enemy");
+        int[] count = { 0, 0 };
+        foreach(GameObject monster in spawnedMonsters)
+        {
+            if(monster.name.Contains("SwarmGoblin"))
+            {
+                count[1] = count[1] + 1;
+            }
+            else
+            {
+                count[0] = count[0] + 1;
+            }
+        }
+        return count;
     }
 
 
