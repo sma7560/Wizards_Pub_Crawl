@@ -14,6 +14,7 @@ public class PlayerSoundController : NetworkBehaviour
     private AudioClip artifactSound;
     private AudioClip itemSoundEffect;
     private AudioClip potionSoundEffect;
+    private AudioClip[] winLoseMusic = new AudioClip[2];
 
     void Start()
     {
@@ -31,6 +32,9 @@ public class PlayerSoundController : NetworkBehaviour
         artifactSound = Resources.Load("SoundEffects/GameplaySoundEffects/ArtifactSound") as AudioClip;
         itemSoundEffect = Resources.Load("SoundEffects/GameplaySoundEffects/Buff") as AudioClip;
         potionSoundEffect = Resources.Load("SoundEffects/GameplaySoundEffects/Potion") as AudioClip;
+
+        winLoseMusic[0] = Resources.Load("SoundEffects/GameplaySoundEffects/WinMusic") as AudioClip;
+        winLoseMusic[1] = Resources.Load("SoundEffects/GameplaySoundEffects/LoseMusic") as AudioClip;
     }
     
     /// <summary>
@@ -88,6 +92,35 @@ public class PlayerSoundController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         source.PlayOneShot(potionSoundEffect);
+    }
+
+    /// <summary>
+    /// Play sound for whether current player wins or loses
+    /// </summary>
+    [ClientRpc]
+    public void RpcSetWinLoseMusic(int winner)
+    {
+        if (!isLocalPlayer) return;
+        DungeonController dungeon = GameObject.FindGameObjectWithTag("EventSystem").GetComponent<DungeonController>();
+
+        //if tie play win music
+        if (winner == 0)
+        {
+            dungeon.audioSource.PlayOneShot(winLoseMusic[0]);
+        }
+        //otherwise play win or lose music depending on winner
+        else
+        {
+            int playerID = GetComponent<HeroModel>().GetPlayerId();
+            if(playerID == winner)
+            {
+                dungeon.audioSource.PlayOneShot(winLoseMusic[0]);
+            }
+            else
+            {
+                dungeon.audioSource.PlayOneShot(winLoseMusic[1]);
+            }
+        }
     }
 
     /// <summary>
