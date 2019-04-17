@@ -77,6 +77,8 @@ MonoBehaviour:
   - {fileID: 1303156852679808, guid: e30715c7fd24729488621d9d9be58b61, type: 2}
   - {fileID: 1995258582463280, guid: efa654713dd567e4585107f820628645, type: 2}
   - {fileID: 1081598229663772, guid: be0189af1f07ea14a93c2b58cc8a5459, type: 2}
+  SwarmMonster: {fileID: 1565454982562702, guid: dc1f30df54df6e844a06aa8bd6370762,
+    type: 2}
 --- !u!114 &114658265539775506
 MonoBehaviour:
   m_ObjectHideFlags: 1
