@@ -68,10 +68,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterList:
-  - {fileID: 1036949641504044, guid: e6b49b7d190dc9d43806b71e22586f10, type: 2}
+  - {fileID: 1662401685710870, guid: e6b49b7d190dc9d43806b71e22586f10, type: 2}
   - {fileID: 1762061723888932, guid: 7079e597572e73f43a2165bfec03b73e, type: 2}
   - {fileID: 1679088358450538, guid: 105edc357df05c84c82d1887f46f1926, type: 2}
-  - {fileID: 1662401685710870, guid: b693bd0b15e4bba479a67a15f40899b9, type: 2}
+  - {fileID: 1036949641504044, guid: 240c9e6673bf19a4faab3f4e168199a4, type: 2}
   - {fileID: 1411272842122610, guid: c584e89da5bab084992fae46e343d71f, type: 2}
   - {fileID: 1144098748625114, guid: f0ce44717205cfb42bf4b5549dfbc3d9, type: 2}
   - {fileID: 1303156852679808, guid: e30715c7fd24729488621d9d9be58b61, type: 2}
