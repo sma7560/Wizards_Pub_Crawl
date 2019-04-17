@@ -28,6 +28,8 @@ public class ArtifactController : NetworkBehaviour
 
 	private NavMeshAgent agent;
 	private GameObject[] spawnLocations;
+	private int originalSpot;
+	private int newSpot;
 
     /// <summary>
     /// Rarity of the artifact.
@@ -49,20 +51,23 @@ public class ArtifactController : NetworkBehaviour
         transform.localScale = normalScale;
         rarity = RarityType.Common;
 		matchManager = GameObject.FindGameObjectWithTag ("MatchManager");
+		agent = GetComponent<NavMeshAgent> ();
+		spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
     }
 
     void Update()
     {
         // if being carried, update location of artifact to where the carrier is
-        if (isCarried)
-        {
-            transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3.5f, playerThatOwns.transform.position.z);
-            if (playerThatOwns.GetComponent<HeroModel>().IsKnockedOut())
-            {
-                // player is knocked out, so he drops the artifact
-                DropArtifact();
-            }
-        }
+		if (isCarried) 
+		{
+			transform.position = new Vector3 (playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3.5f, playerThatOwns.transform.position.z);
+			if (playerThatOwns.GetComponent<HeroModel> ().IsKnockedOut ())
+			{
+				// player is knocked out, so he drops the artifact
+				DropArtifact ();
+			}
+		} else
+			patrol ();
     }
 
     /// <summary>
@@ -83,6 +88,7 @@ public class ArtifactController : NetworkBehaviour
                     // Make object float above character model's head
                     transform.localScale = smallScale;
                     playerThatOwns = col.gameObject;
+					agent.enabled = false;
 
                     // Set owner ID and spawn point
                     ownerID = playerThatOwns.GetComponent<HeroModel>().GetPlayerId();
@@ -138,6 +144,8 @@ public class ArtifactController : NetworkBehaviour
     /// </summary>
     private void DropArtifact()
     {
+		agent.enabled = true;
+
         // Broadcast the announcement that artifact is dropped
         matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleDropped(ownerID);
 
@@ -158,6 +166,22 @@ public class ArtifactController : NetworkBehaviour
         // Scale size of artifact back up
         transform.localScale = normalScale;
     }
+
+	private void patrol()
+	{
+		if (agent.remainingDistance <= 1)
+		{
+			//picking new spot to go to
+			//can't be 2 same spots in a row
+			newSpot = Random.Range (0, spawnLocations.Length);
+			while (newSpot == originalSpot)
+				newSpot = Random.Range (0, spawnLocations.Length);
+
+			originalSpot = newSpot;
+			agent.SetDestination (spawnLocations [newSpot].transform.position);
+		}
+
+	}
 
     /// <returns>
     /// Returns the player ID currently carrying the artifact.
@@ -188,8 +212,15 @@ public class ArtifactController : NetworkBehaviour
         }
     }
 
-	public void StoreSpawnLocations(GameObject[] list)
+	public void Index(int index)
 	{
-		spawnLocations = list;
+		originalSpot = index;
+
+		newSpot = Random.Range(0, spawnLocations.Length);
+		while (newSpot == originalSpot)
+			newSpot = Random.Range(0, spawnLocations.Length);
+
+		originalSpot = newSpot;
+		agent.SetDestination(spawnLocations[newSpot].transform.position);
 	}
 }

@@ -87,7 +87,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1483567556590242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.731554, y: 24.794106, z: 11.765284}
+  m_LocalPosition: {x: 79.26224, y: -7.420291e-18, z: 66.67725}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4078482848195810}
@@ -185,7 +185,7 @@ Animator:
   m_GameObject: {fileID: 1581468518246484}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 64a1765fe815fa349b64e22b61b23811, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7884a85d594b02041a37f098af40e997, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -281,8 +281,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1483567556590242}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
+  m_Radius: 0.9
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
