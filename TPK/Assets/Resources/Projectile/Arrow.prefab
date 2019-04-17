@@ -300,7 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 2
   damage: 20
-  damageType: 0
+  impactFX: {fileID: 1986230977763546, guid: 318872b70c58f7e42bb282c25629ad2f, type: 2}
 --- !u!136 &136205504807074612
 CapsuleCollider:
   m_ObjectHideFlags: 1
