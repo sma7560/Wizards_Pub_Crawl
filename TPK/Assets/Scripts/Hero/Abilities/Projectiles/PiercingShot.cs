@@ -41,7 +41,7 @@ public class PiercingShot : BaseProjectile
     }
 
 	/// <summary>
-	/// Plays the explosion effect.
+	/// Plays the impact effect.
 	/// </summary>
 	[Command]
 	private void CmdEffect()

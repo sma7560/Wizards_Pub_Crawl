@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Projectile behaviour for Sword Toss skill.
 /// </summary>
 public class SwordToss : BaseProjectile
 {
+	public GameObject impactFX;
+
     /// <summary>
     /// Destroy self after collision and damage is dealt.
     /// </summary>
@@ -20,6 +23,7 @@ public class SwordToss : BaseProjectile
                 {
                     col.transform.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
+				CmdEffect ();
                 break;
             case "Player":
                 // Damage player
@@ -27,9 +31,21 @@ public class SwordToss : BaseProjectile
                 {
                     col.transform.GetComponent<HeroModel>().CmdTakeDamage(damage);
                 }
+				CmdEffect ();
                 break;
         }
 
         Destroy(gameObject);
     }
+
+	/// <summary>
+	/// Plays the impact effect.
+	/// </summary>
+	[Command]
+	private void CmdEffect ()
+	{
+		GameObject effect = Instantiate(impactFX);
+		effect.transform.position = transform.position;
+		NetworkServer.Spawn(effect);
+	}
 }

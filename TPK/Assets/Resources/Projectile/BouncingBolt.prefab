@@ -234,7 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 3
   damage: 10
-  damageType: 1
+  impactFX: {fileID: 1917944379563346, guid: 5553d675995622a41a2d449cc208ea19, type: 2}
 --- !u!114 &114539668150823536
 MonoBehaviour:
   m_ObjectHideFlags: 1

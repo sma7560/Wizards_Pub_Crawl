@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Projectile behaviour for Bouncing Bolt skill.
 /// </summary>
 public class BouncingBolt : BaseProjectile
 {
+
+	public GameObject impactFX;
 
     /// <summary>
     /// Determine what happens at each bounce (Collision).
@@ -21,6 +24,7 @@ public class BouncingBolt : BaseProjectile
                 {
                     col.collider.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
+				CmdEffect ();
                 Destroy(gameObject);
                 break;
             case "Player":
@@ -29,6 +33,7 @@ public class BouncingBolt : BaseProjectile
                 {
                     col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage);
                 }
+				CmdEffect ();
                 Destroy(gameObject);
                 break;
             case "Safezone":
@@ -50,4 +55,15 @@ public class BouncingBolt : BaseProjectile
                 break;
         }
     }
+
+	/// <summary>
+	/// Plays the impact effect.
+	/// </summary>
+	[Command]
+	private void CmdEffect ()
+	{
+		GameObject effect = Instantiate(impactFX);
+		effect.transform.position = transform.position;
+		NetworkServer.Spawn(effect);
+	}
 }

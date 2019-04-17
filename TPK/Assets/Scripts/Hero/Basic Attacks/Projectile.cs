@@ -13,6 +13,8 @@ public class Projectile : NetworkBehaviour
     public int damage;
     public int playerID;
     private float hasTimeElapsed;
+
+	public GameObject impactFX;
     
     /// <summary>
     /// Sets the parameters of the projectile.
@@ -34,12 +36,13 @@ public class Projectile : NetworkBehaviour
 
         switch (col.collider.tag)
         {
-            case "Enemy":
-                // Damage enemy
-                if (col.collider.GetComponent<EnemyModel>() != null)
-                {
-                    col.collider.GetComponent<EnemyModel>().CmdTakeDamage(damage);
-                }
+			case "Enemy":
+	                // Damage enemy
+				if (col.collider.GetComponent<EnemyModel> () != null)
+				{
+					col.collider.GetComponent<EnemyModel> ().CmdTakeDamage (damage);
+				}
+				CmdEffect ();
                 break;
             case "Player":
                 // Damage player
@@ -48,9 +51,21 @@ public class Projectile : NetworkBehaviour
                     if (Time.time < hasTimeElapsed && col.collider.GetComponent<HeroModel>().GetPlayerId() == playerID) return;
                     col.collider.GetComponent<HeroModel>().CmdTakeDamage(damage);
                 }
+				CmdEffect ();
                 break;
         }
 
         Destroy(gameObject);
     }
+
+	/// <summary>
+	/// Plays the impact effect.
+	/// </summary>
+	[Command]
+	private void CmdEffect()
+	{
+		GameObject effect = Instantiate(impactFX);
+		effect.transform.position = transform.position;
+		NetworkServer.Spawn(effect);
+	}
 }
