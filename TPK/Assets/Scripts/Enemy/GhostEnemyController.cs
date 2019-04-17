@@ -11,6 +11,7 @@ public class GhostEnemyController : EnemyController
 {
 
     private float moveSpeed = 0;
+    private bool isIdle = false;
 
     protected override void Start()
     {
@@ -41,7 +42,36 @@ public class GhostEnemyController : EnemyController
                 transform.LookAt(targets[(int)playerAndDistance[0]].transform);
                 transform.position += transform.forward * moveSpeed * Time.deltaTime;
             }
+            else
+            {
+                if(!isIdle)
+                {
+                    float randomWait = UnityEngine.Random.Range(2f, 4f);
+                    float randomDuration = UnityEngine.Random.Range(2f, stats.GetIdleHowOftenDirectionChanged());
+                    StartCoroutine(idleTurn(randomWait, randomDuration));
+                }
+                animator.SetBool("isWalking", false);
+            }
 
         }
+    }
+
+    private IEnumerator idleTurn(float wait, float duration)
+    {
+        isIdle = true;
+        float randomDirection = UnityEngine.Random.Range(0, 1);
+        float randomRotate = UnityEngine.Random.Range(0, 100);
+        yield return new WaitForSeconds(wait);
+        //rotate random direction
+        if(randomDirection>0)
+        {
+            transform.rotation = Quaternion.Euler(0, randomRotate, 0);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0, -randomRotate, 0);
+        }
+        yield return new WaitForSeconds(duration);
+        isIdle = false;
     }
 }
