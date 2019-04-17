@@ -10,7 +10,7 @@ public class DungeonController : MonoBehaviour
 {
     // Background music (during dungeon level scene)
     public AudioClip[] music;
-    private AudioSource audioSource;
+    public AudioSource audioSource;
 
     // Menu & UI game objects
     private GameObject inGameMenu;
@@ -384,5 +384,13 @@ public class DungeonController : MonoBehaviour
         Material mat = text.materialForRendering;
         mat.SetInt("unity_GUIZTestMode", (int)UnityEngine.Rendering.CompareFunction.Always);
         text.material = mat;
+    }
+
+    /// <summary>
+    /// End BGM music.
+    /// </summary>
+    public void endMusic()
+    {
+        audioSource.Stop();
     }
 }
