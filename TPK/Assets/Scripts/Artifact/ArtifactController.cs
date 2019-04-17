@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -24,6 +25,9 @@ public class ArtifactController : NetworkBehaviour
 
 	// Match Manager for player ID and announcements
 	private GameObject matchManager;
+
+	private NavMeshAgent agent;
+	private GameObject[] spawnLocations;
 
     /// <summary>
     /// Rarity of the artifact.
@@ -183,4 +187,9 @@ public class ArtifactController : NetworkBehaviour
                 return 0;
         }
     }
+
+	public void StoreSpawnLocations(GameObject[] list)
+	{
+		spawnLocations = list;
+	}
 }
