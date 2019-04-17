@@ -354,7 +354,8 @@ GameObject:
   - component: {fileID: 114044496431585024}
   - component: {fileID: 114276700986549458}
   - component: {fileID: 82665001204960172}
-  - component: {fileID: 114069214130738498}
+  - component: {fileID: 114292833670214692}
+  - component: {fileID: 195997959875523924}
   m_Layer: 0
   m_Name: WeakFastMonster
   m_TagString: Enemy
@@ -3090,17 +3091,6 @@ MonoBehaviour:
   param3: 
   param4: 
   param5: 
---- !u!114 &114069214130738498
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1303156852679808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77918f07fa426784e8df6b34a7b0dd89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114100113630515428
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3164,7 +3154,7 @@ MonoBehaviour:
   damage: 18
   attackSpeed: 1
   movementSpeed: 8
-  lookRadius: 30
+  lookRadius: 20
   attackRange: 1
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
@@ -3175,6 +3165,17 @@ MonoBehaviour:
   idleHowOftenDirectionChanged: 6
   deathSound: {fileID: 8300000, guid: 53635be62cf2b604e8c11314aca64367, type: 3}
   attackSound: {fileID: 8300000, guid: d2e06f73df70064469695260a2d2ecf1, type: 3}
+--- !u!114 &114292833670214692
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1303156852679808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc8fda00bcbffc439b0f630d0d6a72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114391593722830004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4927,6 +4928,27 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0067825317, y: 83.69909, z: -3.4454021}
     m_Extent: {x: 103.800064, y: 94.99288, z: 25.033636}
   m_DirtyAABB: 0
+--- !u!195 &195997959875523924
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1303156852679808}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.2
+  m_Speed: 3.5
+  m_Acceleration: 20
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 2
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!222 &222130068489843828
 CanvasRenderer:
   m_ObjectHideFlags: 1
