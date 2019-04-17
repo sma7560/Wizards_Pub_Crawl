@@ -3058,7 +3058,7 @@ Prefab:
     - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
         type: 2}
       propertyPath: m_SpawnPrefabs.Array.size
-      value: 30
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 4485449839034864, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
       propertyPath: m_LocalPosition.x
@@ -3133,6 +3133,36 @@ Prefab:
       propertyPath: m_SpawnPrefabs.Array.data[6]
       value: 
       objectReference: {fileID: 1879221348063000, guid: 5800c9fd00c02e3498458be96caa66d6,
+        type: 2}
+    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[30]
+      value: 
+      objectReference: {fileID: 1986230977763546, guid: 318872b70c58f7e42bb282c25629ad2f,
+        type: 2}
+    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[31]
+      value: 
+      objectReference: {fileID: 1636658565590604, guid: 91186b98784f1614b8d2310ca71a3624,
+        type: 2}
+    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[32]
+      value: 
+      objectReference: {fileID: 1917944379563346, guid: 5553d675995622a41a2d449cc208ea19,
+        type: 2}
+    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[33]
+      value: 
+      objectReference: {fileID: 1054388335331146, guid: 6e7b3352f820e3848b76f7c0755a865b,
+        type: 2}
+    - target: {fileID: 114846710683764228, guid: 13a9f6a280341d049916ddef7474564f,
+        type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[34]
+      value: 
+      objectReference: {fileID: 1538331192028700, guid: 944e2eca4f880a247a6195637b7e2b8e,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13a9f6a280341d049916ddef7474564f, type: 2}
