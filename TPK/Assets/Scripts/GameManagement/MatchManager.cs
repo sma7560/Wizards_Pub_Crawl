@@ -10,7 +10,7 @@ public class MatchManager : NetworkBehaviour
 {
     // Constants
     private readonly int maxPlayers = 2;                // currently only accepting 2 players maximum
-    private readonly int totalMatchTime = 4;          // total match time (default to 8 minutes)
+    private readonly int totalMatchTime = 480;          // total match time (default to 8 minutes)
 
     // SyncVars
     [SerializeField] private SyncListInt connections;   // list of all connections in the match
