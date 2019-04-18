@@ -169,7 +169,7 @@ public class ArtifactController : NetworkBehaviour
 
 	private void patrol()
 	{
-		if (agent.remainingDistance <= 1)
+		if (agent.enabled && agent.remainingDistance <= 1)
 		{
 			//picking new spot to go to
 			//can't be 2 same spots in a row
