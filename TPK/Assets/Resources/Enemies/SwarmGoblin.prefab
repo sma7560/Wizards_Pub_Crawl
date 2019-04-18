@@ -3309,7 +3309,7 @@ MonoBehaviour:
   maxHealth: 10
   damage: 5
   attackSpeed: 1
-  movementSpeed: 10
+  movementSpeed: 9
   lookRadius: 40
   attackRange: 1
   droppableItems:

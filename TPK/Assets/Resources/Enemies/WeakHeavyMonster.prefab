@@ -3326,7 +3326,7 @@ MonoBehaviour:
   damage: 22
   attackSpeed: 1
   movementSpeed: 3
-  lookRadius: 20
+  lookRadius: 25
   attackRange: 3
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
