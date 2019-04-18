@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 /// <summary>
 /// Behaviour of basic attack.
 /// </summary>
+[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class BasicAttack : NetworkBehaviour
 {
     public GameObject projectilePrefab;

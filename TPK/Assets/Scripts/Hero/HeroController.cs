@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(BasicAttack))]
 [RequireComponent(typeof(AnimController))]
 [RequireComponent(typeof(HeroModel))]
+[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class HeroController : NetworkBehaviour
 {
     public IUnityService unityService = new UnityService();
