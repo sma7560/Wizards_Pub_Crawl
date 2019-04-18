@@ -16,7 +16,7 @@ public class HealthItem : Item
     protected override void ItemConsume(Collider other)
     {
         base.ItemConsume(other);
-        other.gameObject.GetComponent<PlayerSoundController>().RpcPlayPotionSound();
+        other.gameObject.GetComponent<PlayerSoundController>().PlayPotionSound();
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
         stats.Heal((int)(stats.GetMaxHealth() * hpPercentHeal));
 

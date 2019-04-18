@@ -99,7 +99,7 @@ public class ArtifactController : NetworkBehaviour
                     ownerID = playerThatOwns.GetComponent<HeroModel>().GetPlayerId();
                     ownerSpawn = matchManager.GetComponent<HeroManager>().GetSpawnLocationOfPlayer(ownerID);
                     isCarried = true;
-                    playerThatOwns.GetComponent<PlayerSoundController>().RpcPlayArtifactSound();
+                    playerThatOwns.GetComponent<PlayerSoundController>().PlayArtifactSound();
 
                     // Slow down the player on pickup
                     playerBaseSpeed = playerThatOwns.GetComponent<HeroModel>().GetBaseMoveSpeed();
@@ -125,7 +125,7 @@ public class ArtifactController : NetworkBehaviour
                         playerSlowSpeed = 0;
 
                         //play sound for succesfully retrieving artifact
-                        playerThatOwns.GetComponent<PlayerSoundController>().RpcPlayArtifactSound();
+                        playerThatOwns.GetComponent<PlayerSoundController>().PlayArtifactSound();
 
                         // Broadcast that player has scored the artifact
                         matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleScored(ownerID);

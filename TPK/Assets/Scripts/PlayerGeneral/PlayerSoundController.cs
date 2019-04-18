@@ -69,8 +69,7 @@ public class PlayerSoundController : NetworkBehaviour
     /// <summary>
     /// Play sound for artifact pickup
     /// </summary>
-    [ClientRpc]
-    public void RpcPlayArtifactSound()
+    public void PlayArtifactSound()
     {
         if (!isLocalPlayer) return;
         source.PlayOneShot(artifactSound);
@@ -79,8 +78,7 @@ public class PlayerSoundController : NetworkBehaviour
     /// <summary>
     /// Play sound for item buff pickup
     /// </summary>
-    [ClientRpc]
-    public void RpcPlayItemBuffSound()
+    public void PlayItemBuffSound()
     {
         if (!isLocalPlayer) return;
         source.PlayOneShot(itemSoundEffect, 0.5f);
@@ -89,8 +87,7 @@ public class PlayerSoundController : NetworkBehaviour
     /// <summary>
     /// Play sound for health potion pickup
     /// </summary>
-    [ClientRpc]
-    public void RpcPlayPotionSound()
+    public void PlayPotionSound()
     {
         if (!isLocalPlayer) return;
         source.PlayOneShot(potionSoundEffect);
@@ -99,8 +96,7 @@ public class PlayerSoundController : NetworkBehaviour
     /// <summary>
     /// Play sound for dying
     /// </summary>
-    [ClientRpc]
-    public void RpcPlayDeathSound()
+    public void PlayDeathSound()
     {
         if (!isLocalPlayer) return;
         source.PlayOneShot(deathSound);
@@ -109,8 +105,7 @@ public class PlayerSoundController : NetworkBehaviour
     /// <summary>
     /// Play sound for whether current player wins or loses
     /// </summary>
-    [ClientRpc]
-    public void RpcSetWinLoseMusic(int winner)
+    public void SetWinLoseMusic(int winner)
     {
         if (!isLocalPlayer) return;
         DungeonController dungeon = GameObject.FindGameObjectWithTag("EventSystem").GetComponent<DungeonController>();

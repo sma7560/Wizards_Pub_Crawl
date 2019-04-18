@@ -99,7 +99,7 @@ public class GameOverScreen : NetworkBehaviour
     {
         foreach (GameObject player in players)
         {
-            player.GetComponent<PlayerSoundController>().RpcSetWinLoseMusic(winner);
+            player.GetComponent<PlayerSoundController>().SetWinLoseMusic(winner);
         }
     }
 

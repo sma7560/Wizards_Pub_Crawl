@@ -17,7 +17,7 @@ public class MoveSpeedBuff : Item
     protected override void ItemConsume(Collider other)
     {
         base.ItemConsume(other);
-        other.gameObject.GetComponent<PlayerSoundController>().RpcPlayItemBuffSound();
+        other.gameObject.GetComponent<PlayerSoundController>().PlayItemBuffSound();
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
         StartCoroutine(TempBuff(stats));
     }
