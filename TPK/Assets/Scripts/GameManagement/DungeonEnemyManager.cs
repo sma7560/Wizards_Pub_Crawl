@@ -84,8 +84,6 @@ public class DungeonEnemyManager : NetworkBehaviour
         spawnOffset.Add(new Vector3(1, 0, -1));
         spawnOffset.Add(new Vector3(-1, 0, -1));
         spawnOffset.Add(new Vector3(-1, 0, 1));
-        Debug.Log(spawnOffset[0]);
-        Debug.Log(spawnOffset[4]);
         for (int i=0; i<5; i++)
         {
             SpawnMonster(locationAt - spawnOffset[i], SwarmMonster);
@@ -166,7 +164,11 @@ public class DungeonEnemyManager : NetworkBehaviour
             {
                 numHeavyMonsters++;
             }
-            else
+        }
+
+        foreach (GameObject enemy in monsterList)
+        {
+            if(!enemy.name.Contains("Heavy"))
             {
                 monsterListWithoutHeavy.Add(enemy);
             }
