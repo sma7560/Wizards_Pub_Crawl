@@ -1864,8 +1864,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1565454982562702}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.867271, y: 0.031216621, z: 60.756424}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: -20.90476, y: 0, z: 33.677864}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 4091569555046542}
   - {fileID: 224651002024121894}
@@ -2142,7 +2142,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1661406376416254}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
@@ -2156,8 +2156,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1912410878307634}
-  m_LocalRotation: {x: 0.9938103, y: -0.11109032, z: -3.483493e-17, w: -6.5507636e-17}
-  m_LocalPosition: {x: -17.903725, y: 2.220446e-15, z: 7.5097255e-15}
+  m_LocalRotation: {x: 0.9938103, y: -0.11109035, z: -0, w: 0}
+  m_LocalPosition: {x: -17.903723, y: -0.0000014901161, z: -0.0000011175871}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4651473084709434}
@@ -3307,18 +3307,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  damage: 8
+  damage: 5
   attackSpeed: 1
-  movementSpeed: 3
-  lookRadius: 20
+  movementSpeed: 8
+  lookRadius: 50
   attackRange: 1
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   dropRate: 30
-  idleRange: 4
-  idleHowOftenDirectionChanged: 6
+  idleRange: 3
+  idleHowOftenDirectionChanged: 8
   deathSound: {fileID: 8300000, guid: f6528da327f620b4382b74f5fdc808d7, type: 3}
   attackSound: {fileID: 8300000, guid: f18fa2bb1f7250e4d8d83b6301ebd2ee, type: 3}
 --- !u!114 &114812099089145572
@@ -3394,10 +3394,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.3
-  m_Height: 9.627377
+  m_Radius: 1.2
+  m_Height: 7.883837
   m_Direction: 1
-  m_Center: {x: -0.008915901, y: 4.3136883, z: -0.05349791}
+  m_Center: {x: -0.008915919, y: 3.441918, z: -0.053497896}
 --- !u!137 &137044614516654594
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

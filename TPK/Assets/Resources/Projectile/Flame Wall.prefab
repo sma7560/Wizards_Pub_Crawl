@@ -480,7 +480,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 0
   damage: 0
-  damageType: 0
 --- !u!114 &114669477482297488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -493,7 +492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 1
-  m_SendInterval: 0.1
+  m_SendInterval: 0.04761905
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
