@@ -213,7 +213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.1
+  m_SendInterval: 0.04761905
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
@@ -267,9 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 0
   damage: 0
-  damageType: 1
   explosion: {fileID: 1160942634037092, guid: 4e39b822e6d8fc44d93a52c3b3da18ae, type: 2}
-  explosionRange: 3
 --- !u!135 &135825494765124896
 SphereCollider:
   m_ObjectHideFlags: 1
