@@ -166,17 +166,16 @@ public class DungeonEnemyManager : NetworkBehaviour
             }
         }
 
-        foreach (GameObject enemy in monsterList)
-        {
-            if(!enemy.name.Contains("Heavy"))
-            {
-                monsterListWithoutHeavy.Add(enemy);
-            }
-        }
-
         //return list without heavy monsters
         if (numHeavyMonsters >= 4)
         {
+            foreach (GameObject enemy in monsterList)
+            {
+                if (!enemy.name.Contains("Heavy"))
+                {
+                    monsterListWithoutHeavy.Add(enemy);
+                }
+            }
             return monsterListWithoutHeavy;
         }
         //return list with all monsters
