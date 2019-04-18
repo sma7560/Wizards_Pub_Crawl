@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 /// <summary>
 /// Manages all abilities for the player.
 /// </summary>
+[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class AbilityManager : NetworkBehaviour
 {
     public IUnityService unityService;

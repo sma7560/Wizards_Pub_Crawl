@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 /// Contains logic regarding the artifact.
 /// Attached to the Artifact prefab.
 /// </summary>
+[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class ArtifactController : NetworkBehaviour
 {
     // Artifact info

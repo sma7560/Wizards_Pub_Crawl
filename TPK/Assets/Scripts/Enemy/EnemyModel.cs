@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 /// Stats of this enemy.
 /// Attached to an enemy GameObject.
 /// </summary>
+[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class EnemyModel : NetworkBehaviour
 {
     // Stats

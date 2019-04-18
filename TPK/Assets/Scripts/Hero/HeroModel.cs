@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 /// Contains all data/state variables regarding the player character.
 /// These variables are synced across the network and across all players.
 /// </summary>
+[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class HeroModel : NetworkBehaviour
 {
     // Stats

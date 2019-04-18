@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 /// Animation Controller that helps synchronize the animation across the network as well as
 /// control local animation states.
 /// </summary>
+[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class AnimController : NetworkBehaviour
 {
     public Animator anim;
