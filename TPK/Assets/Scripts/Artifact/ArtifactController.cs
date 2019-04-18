@@ -50,9 +50,7 @@ public class ArtifactController : NetworkBehaviour
         ownerID = -1;
         transform.localScale = normalScale;
         rarity = RarityType.Common;
-		matchManager = GameObject.FindGameObjectWithTag ("MatchManager");
-		agent = GetComponent<NavMeshAgent> ();
-		spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
+
     }
 
     void Update()
@@ -69,6 +67,13 @@ public class ArtifactController : NetworkBehaviour
 		} else
 			patrol ();
     }
+
+	void Awake()
+	{
+		matchManager = GameObject.FindGameObjectWithTag ("MatchManager");
+		agent = GetComponent<NavMeshAgent> ();
+		spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
+	}
 
     /// <summary>
     /// Checks the following cases through collision detection:

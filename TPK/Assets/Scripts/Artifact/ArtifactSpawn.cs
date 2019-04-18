@@ -41,7 +41,7 @@ public class ArtifactSpawn : NetworkBehaviour
 
         GameObject tempArtifact;
         tempArtifact = Instantiate(artifact, location, rotation);
-		tempArtifact.GetComponent<ArtifactController> ().Index (i);
         NetworkServer.Spawn(tempArtifact);
+		tempArtifact.GetComponent<ArtifactController> ().Index (i);
     }
 }

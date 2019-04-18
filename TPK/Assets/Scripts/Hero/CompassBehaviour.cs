@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Controls the objective pointer/compass.
@@ -20,16 +21,22 @@ public class CompassBehaviour : MonoBehaviour
     /// </summary>
     void Update()
     {
-        objective = GameObject.FindGameObjectWithTag("Artifact").transform;
-        dist = Mathf.Abs(Vector3.Distance(objective.position, transform.position));
+		try
+		{
+	        objective = GameObject.FindGameObjectWithTag("Artifact").transform;
+	        dist = Mathf.Abs(Vector3.Distance(objective.position, transform.position));
 
-        if (dist >= 4)
-        {
-            transform.LookAt(objective);
-        }
-        else
-        {
-            transform.LookAt(spawn);
-        }
+	        if (dist >= 4)
+	        {
+	            transform.LookAt(objective);
+	        }
+	        else
+	        {
+	            transform.LookAt(spawn);
+	        }
+		} catch (NullReferenceException e)
+		{
+			Debug.Log (e);
+		}
     }
 }
