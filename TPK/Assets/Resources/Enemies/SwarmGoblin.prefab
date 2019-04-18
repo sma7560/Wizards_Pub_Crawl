@@ -1864,7 +1864,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1565454982562702}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.867271, y: 0.031216621, z: 60.756424}
+  m_LocalPosition: {x: -20.90476, y: -1.4472236e-15, z: 33.677864}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4091569555046542}
@@ -3307,18 +3307,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  damage: 8
+  damage: 5
   attackSpeed: 1
-  movementSpeed: 3
-  lookRadius: 20
+  movementSpeed: 8
+  lookRadius: 50
   attackRange: 1
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   dropRate: 30
-  idleRange: 4
-  idleHowOftenDirectionChanged: 6
+  idleRange: 3
+  idleHowOftenDirectionChanged: 8
   deathSound: {fileID: 8300000, guid: f6528da327f620b4382b74f5fdc808d7, type: 3}
   attackSound: {fileID: 8300000, guid: f18fa2bb1f7250e4d8d83b6301ebd2ee, type: 3}
 --- !u!114 &114812099089145572
