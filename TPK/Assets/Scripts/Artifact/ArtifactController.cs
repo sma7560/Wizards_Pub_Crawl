@@ -163,6 +163,7 @@ public class ArtifactController : NetworkBehaviour
             playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() + playerSlowSpeed);
         playerBaseSpeed = 0;
         playerSlowSpeed = 0;
+        playerThatOwns.GetComponent<PlayerSoundController>().PlayDeathSound();
 
         // Reset owning player variables
         playerThatOwns = null;
