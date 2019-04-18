@@ -148,6 +148,7 @@ public class HeroController : NetworkBehaviour
 
         // Set status and death animation
         GetComponent<HeroModel>().SetKnockedOut(true);
+        GetComponent<PlayerSoundController>().RpcPlayDeathSound();
         animate.SetDead(true);
 
         // Start timer for length of time that character remains knocked out

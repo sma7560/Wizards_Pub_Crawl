@@ -15,6 +15,7 @@ public class PlayerSoundController : NetworkBehaviour
     private AudioClip itemSoundEffect;
     private AudioClip potionSoundEffect;
     private AudioClip[] winLoseMusic = new AudioClip[2];
+    private AudioClip deathSound;
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class PlayerSoundController : NetworkBehaviour
         artifactSound = Resources.Load("SoundEffects/GameplaySoundEffects/ArtifactSound") as AudioClip;
         itemSoundEffect = Resources.Load("SoundEffects/GameplaySoundEffects/Buff") as AudioClip;
         potionSoundEffect = Resources.Load("SoundEffects/GameplaySoundEffects/Potion") as AudioClip;
+        deathSound = Resources.Load("SoundEffects/GameplaySoundEffects/PlayerDeathSound") as AudioClip;
 
         winLoseMusic[0] = Resources.Load("SoundEffects/GameplaySoundEffects/WinMusic") as AudioClip;
         winLoseMusic[1] = Resources.Load("SoundEffects/GameplaySoundEffects/LoseMusic") as AudioClip;
@@ -92,6 +94,16 @@ public class PlayerSoundController : NetworkBehaviour
     {
         if (!isLocalPlayer) return;
         source.PlayOneShot(potionSoundEffect);
+    }
+
+    /// <summary>
+    /// Play sound for dying
+    /// </summary>
+    [ClientRpc]
+    public void RpcPlayDeathSound()
+    {
+        if (!isLocalPlayer) return;
+        source.PlayOneShot(deathSound);
     }
 
     /// <summary>
