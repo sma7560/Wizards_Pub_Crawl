@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 /// <summary>
 /// Base class for all projectiles.
 /// </summary>
-[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class BaseProjectile : NetworkBehaviour
 {
     public float range;

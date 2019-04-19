@@ -8,7 +8,6 @@ using UnityEngine.Networking;
 /// </summary>
 [RequireComponent(typeof(EnemyModel))]
 [RequireComponent(typeof(Animator))]
-[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class EnemyController : NetworkBehaviour
 {
     // Managers

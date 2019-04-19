@@ -5,7 +5,6 @@ using UnityEngine.Networking;
 /// <summary>
 /// Projectile of the basic attack.
 /// </summary>
-[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class Projectile : NetworkBehaviour
 {
     private readonly float s = 0.25f;

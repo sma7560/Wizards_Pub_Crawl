@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 /// Casts skills based on their description.
 /// Skill descriptions come from the designated Skill ScriptableObject asset.
 /// </summary>
-[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class AbilityCaster : NetworkBehaviour
 {
     public GameObject[] effects;        // list of all effects to be played on the server

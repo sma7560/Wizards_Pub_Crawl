@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class FireDamage : NetworkBehaviour 
 {
 	public int damage;
