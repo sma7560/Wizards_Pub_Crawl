@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Name: ConjureHealth
   m_EditorClassIdentifier: 
   skillName: Conjure Health
-  skillDescription: Conjure a health potion in front you (technology for healing magic
-    just isn't there yet). [Heals 20% of max health]
+  skillDescription: Healing magic is still being researched by wizards smarter than
+    us. Conjure a healing potion for the time being.
   skillIcon: {fileID: 21300000, guid: 445200db47faa7b4dbfcc911074cb708, type: 3}
   skillCoolDown: 10
   skillType: 0
   castType: 1
   skillRange: 600
-  damageType: 2
   damageAmount: 20
   projectilePrefabIndex: 5
   numProjectiles: 1

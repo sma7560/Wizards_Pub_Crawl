@@ -68,7 +68,7 @@ public class SwordToss : BaseProjectile
 	private void CmdCastProjectile(float range, int damage, float speed, int pindex, Vector3 target)
 	{
 
-		Vector3 position = new Vector3(target.x + transform.forward.x * 2f, transform.position.y, target.z + transform.forward.z * 2f);
+		Vector3 position = new Vector3(target.x + transform.forward.x * 3f, transform.position.y, target.z + transform.forward.z * 3f);
 		GameObject bolt = Instantiate(SwordToss2, position, Quaternion.Euler(0, Random.Range(0, 360), 0));
 
 		NetworkServer.Spawn(bolt);

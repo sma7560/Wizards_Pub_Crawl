@@ -22,6 +22,8 @@ public class SkillHoverDescription : EventTrigger
     {
         GameObject skillDescription = null;
         TextMeshProUGUI skillDescriptionText = null;
+		TextMeshProUGUI skillDamageText = null;
+		TextMeshProUGUI skillCDText = null;
         TextMeshProUGUI skillTitleText = null;
 
         PrephaseManager prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
@@ -35,6 +37,8 @@ public class SkillHoverDescription : EventTrigger
             PrephaseUI prephaseUI = GameObject.FindGameObjectWithTag("PrephaseUI").GetComponent<PrephaseUI>();
             skillDescription = prephaseUI.skillDescription;
             skillDescriptionText = prephaseUI.skillDescriptionText;
+			skillDamageText = prephaseUI.skillDamageText;
+			skillCDText = prephaseUI.skillCDText;
             skillTitleText = prephaseUI.skillTitleText;
 
             // Do not display skill description for empty equipped skill slots
@@ -69,6 +73,15 @@ public class SkillHoverDescription : EventTrigger
         {
             skillTitleText.text = skill.skillName;
             skillDescriptionText.text = skill.skillDescription;
+
+			if(skill.name == "Flame Wall")
+				skillDamageText.text = "Damage: " + skill.damageAmount * 10 + "/second";
+			else if(skill.name == "ConjureHealth")
+				skillDamageText.text = "Heals " + skill.damageAmount + "%";
+			else
+				skillDamageText.text = "Damage: " + skill.damageAmount;
+			
+			skillCDText.text = "Cooldown: " + skill.skillCoolDown;
             skillDescription.SetActive(true);
         }
     }

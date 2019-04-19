@@ -12,6 +12,8 @@ public class PrephaseUI : MonoBehaviour
     [System.NonSerialized] public GameObject skillDescription;
     [System.NonSerialized] public TextMeshProUGUI skillDescriptionText;
     [System.NonSerialized] public TextMeshProUGUI skillTitleText;
+	[System.NonSerialized] public TextMeshProUGUI skillDamageText;
+	[System.NonSerialized] public TextMeshProUGUI skillCDText;
 
     // Managers and current player's hero data
     private PrephaseManager prephaseManager;
@@ -53,6 +55,8 @@ public class PrephaseUI : MonoBehaviour
         // Get skill description elements
         skillDescription = GameObject.FindGameObjectWithTag("SkillDescription");
         skillDescriptionText = GameObject.Find("SkillDescriptionText").GetComponent<TextMeshProUGUI>();
+		skillDamageText = GameObject.Find("SkillDamageText").GetComponent<TextMeshProUGUI>();
+		skillCDText = GameObject.Find("SkillCDText").GetComponent<TextMeshProUGUI>();
         skillTitleText = GameObject.Find("SkillDescriptionTitleText").GetComponent<TextMeshProUGUI>();
         heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
 
