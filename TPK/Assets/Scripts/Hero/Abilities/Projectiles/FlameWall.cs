@@ -5,7 +5,7 @@
 /// </summary>
 public class FlameWall : BaseProjectile
 {
-    private readonly float dmgDelay = 0.5f;     // cooldown of damage done by flame wall
+    private readonly float dmgDelay = 0.1f;     // cooldown of damage done by flame wall
     private float nextActiveTime;               // the next time where flame wall will do damage
 
     void Awake()

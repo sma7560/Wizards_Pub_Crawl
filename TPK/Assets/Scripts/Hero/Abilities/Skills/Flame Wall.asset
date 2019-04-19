@@ -19,8 +19,7 @@ MonoBehaviour:
   skillType: 1
   castType: 1
   skillRange: 5
-  damageType: 1
-  damageAmount: 20
+  damageAmount: 4
   projectilePrefabIndex: 6
   numProjectiles: 1
   projectileSpeed: 0

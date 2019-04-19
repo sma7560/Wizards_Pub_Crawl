@@ -5,12 +5,12 @@ using UnityEngine.Networking;
 public class FireDamage : NetworkBehaviour 
 {
 	public int damage;
-	private readonly float dmgDelay = 0.5f;     // cooldown of damage done by fire
+	private readonly float dmgDelay = 0.1f;     // cooldown of damage done by fire
 	private float nextActiveTime;               // the next time where flame will do damage
 
 	void Awake()
 	{
-		damage = 10;
+		damage = 2;
 		nextActiveTime = 0;
 	}
 
