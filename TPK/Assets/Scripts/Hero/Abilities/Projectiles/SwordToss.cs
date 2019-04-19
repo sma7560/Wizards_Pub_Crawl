@@ -7,6 +7,8 @@ using UnityEngine.Networking;
 public class SwordToss : BaseProjectile
 {
 	public GameObject impactFX;
+	public GameObject SwordToss2;
+	public Skill ST;
 
     /// <summary>
     /// Destroy self after collision and damage is dealt.
@@ -14,6 +16,7 @@ public class SwordToss : BaseProjectile
     public override void Behaviour(Collision col)
     {
         base.Behaviour(col);
+		Vector3 colPos = col.transform.position;
 
         switch (col.collider.tag)
         {
@@ -24,7 +27,10 @@ public class SwordToss : BaseProjectile
                     col.transform.GetComponent<EnemyModel>().CmdTakeDamage(damage);
                 }
 				CmdEffect ();
-                break;
+
+				CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos);
+				//CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos);
+				break;
             case "Player":
                 // Damage player
                 if (col.transform.GetComponent<HeroModel>() != null)
@@ -32,8 +38,13 @@ public class SwordToss : BaseProjectile
                     col.transform.GetComponent<HeroModel>().CmdTakeDamage(damage);
                 }
 				CmdEffect ();
+
+				CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos);
+				//CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos);
                 break;
         }
+
+
 
         Destroy(gameObject);
     }
@@ -47,5 +58,24 @@ public class SwordToss : BaseProjectile
 		GameObject effect = Instantiate(impactFX);
 		effect.transform.position = transform.position;
 		NetworkServer.Spawn(effect);
+	}
+
+	/// <summary>
+	/// Casts the projectile.
+	/// </summary>
+	/// <param name="pindex">Index of the desired projectile in the list of projectiles.</param>
+	[Command]
+	private void CmdCastProjectile(float range, int damage, float speed, int pindex, Vector3 target)
+	{
+
+		Vector3 position = new Vector3(target.x + transform.forward.x * 2f, transform.position.y, target.z + transform.forward.z * 2f);
+		GameObject bolt = Instantiate(SwordToss2, position, Quaternion.Euler(0, Random.Range(0, 360), 0));
+
+		NetworkServer.Spawn(bolt);
+
+		bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * speed;
+		bolt.GetComponent<BaseProjectile>().SetProjectileParams(range, damage);
+
+		Destroy(bolt, range);
 	}
 }

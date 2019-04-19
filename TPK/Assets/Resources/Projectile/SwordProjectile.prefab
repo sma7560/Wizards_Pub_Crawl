@@ -318,6 +318,8 @@ MonoBehaviour:
   range: 10
   damage: 25
   impactFX: {fileID: 1538331192028700, guid: 944e2eca4f880a247a6195637b7e2b8e, type: 2}
+  SwordToss2: {fileID: 1930669004023674}
+  ST: {fileID: 11400000, guid: 3a5ebc87a3ff35745ada7cae8c3b874f, type: 2}
 --- !u!114 &114867624456600780
 MonoBehaviour:
   m_ObjectHideFlags: 1

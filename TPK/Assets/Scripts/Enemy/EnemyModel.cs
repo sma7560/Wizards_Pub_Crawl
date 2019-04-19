@@ -73,6 +73,7 @@ public class EnemyModel : NetworkBehaviour
     private IEnumerator DeathSequence()
     {
         isDying = true;
+		GetComponent<CapsuleCollider> ().enabled = false;
         GetComponent<Animator>().SetTrigger("isDead");
 
         // Wait for animation to finish before deleting gameobject
