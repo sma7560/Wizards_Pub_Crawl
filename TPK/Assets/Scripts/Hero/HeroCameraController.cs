@@ -14,7 +14,7 @@ public class HeroCameraController : MonoBehaviour
     // Camera positioning
     private Vector3 dungeonOffset = new Vector3(-10, 20, -10);
     private Quaternion dungeonRotation = Quaternion.Euler(50, 45, 0);
-    private Vector3 prephaseOffset = new Vector3(0.1f, 3.0f, 3.0f);
+    private Vector3 prephaseOffset = new Vector3(0.1f, 3.0f, 4.0f);
     private Quaternion prephaseRotation = Quaternion.Euler(10, 180, 0);
     private Vector3 waitingRoomPosition = new Vector3(85f, 2.5f, 22f);
     private Quaternion waitingRoomRotation = Quaternion.Euler(10, 180, 0);
