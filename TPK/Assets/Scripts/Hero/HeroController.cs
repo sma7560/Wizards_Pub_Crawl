@@ -146,6 +146,9 @@ public class HeroController : NetworkBehaviour
     {
         if (GetComponent<HeroModel>().IsKnockedOut()) return;
 
+		//resets player velocity
+		heroRigidbody.velocity = new Vector3 (0, heroRigidbody.velocity.y, 0);
+
         // Set status and death animation
         GetComponent<HeroModel>().SetKnockedOut(true);
         animate.SetDead(true);
