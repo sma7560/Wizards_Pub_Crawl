@@ -47,7 +47,7 @@ public class HeroController : NetworkBehaviour
             GetComponent<AudioListener>().enabled = false;
             return;
         }
-        Vector3 floor = new Vector3(0, 1.5f, 0);
+        Vector3 floor = new Vector3(0, 1.7f, 0);
         ground = new Plane(Vector3.up, floor);
 
         heroRigidbody = GetComponent<Rigidbody>();
