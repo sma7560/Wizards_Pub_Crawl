@@ -89,13 +89,13 @@ public class AbilityCaster : NetworkBehaviour
             case CastType.projectile:
                 Vector3 fwd = transform.forward;
                 Vector3 rh = transform.right;   // left is negative of this
-
+                Vector3 pos = transform.position;
                 // Max number of projectiles is 8
                 Vector3[] directions = { fwd, rh + fwd, -rh + fwd, -fwd, -fwd - rh, -fwd + rh, rh, -rh };
                 for (int i = 0; i <= currentCastSkill.numProjectiles - 1; i++)
                 {
                     if (i > 6) break;
-                    CmdCastProjectile(currentCastSkill.skillRange, fd, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, directions[i].x, directions[i].y, directions[i].z);
+                    CmdCastProjectile(currentCastSkill.skillRange, fd, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, directions[i].x, directions[i].y, directions[i].z, pos.x, pos.y, pos.z);
                 }
 
                 break;
@@ -162,11 +162,12 @@ public class AbilityCaster : NetworkBehaviour
     /// </summary>
     /// <param name="pindex">Index of the desired projectile in the list of projectiles.</param>
     [Command]
-    private void CmdCastProjectile(float range, int damage, float speed, int pindex, float x, float y, float z)
+    private void CmdCastProjectile(float range, int damage, float speed, int pindex, float x, float y, float z, float px, float py, float pz)
     {
         playerSounds.RpcPlaySoundEffect(projectiles[pindex].name);
 
         Vector3 fwd = new Vector3(x, y, z);
+        Vector3 pos = new Vector3(px, py, pz);
         GameObject bolt = Instantiate(projectiles[pindex]);
         
         // Set bolt position, speed, and parameters

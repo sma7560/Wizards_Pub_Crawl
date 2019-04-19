@@ -30,7 +30,9 @@ public class BasicAttack : NetworkBehaviour
 
         if (Time.time > nextActiveTime)
         {
-            CmdDoMagic(GetComponent<HeroModel>().GetPlayerId());
+            Vector3 fwd = transform.forward;
+            Vector3 pos = transform.position;
+            CmdDoMagic(GetComponent<HeroModel>().GetPlayerId(), fwd.x, fwd.y, fwd.z, pos.x, pos.y, pos.z);
             nextActiveTime = Time.time + cooldown;
         }
     }
@@ -40,12 +42,14 @@ public class BasicAttack : NetworkBehaviour
     /// </summary>
     /// <param name="id">ID of the player who spawned this basic attack projectile.</param>
     [Command]
-    private void CmdDoMagic(int id)
+    private void CmdDoMagic(int id, float x, float y, float z, float px, float py, float pz)
     {
         GameObject bolt = Instantiate(projectilePrefab);
 
+        Vector3 fwd = new Vector3(x, y, z);
+        Vector3 pos = new Vector3(px, py, pz);
         // Set projectile parameters
-        bolt.transform.position = transform.position + transform.forward * 2f + transform.up * 1.5f;
+        bolt.transform.position = pos + fwd * 2f + transform.up * 1.5f;
         bolt.transform.rotation = transform.rotation;
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 28f;
         bolt.GetComponent<Projectile>().SetProjectileParams(range, GetComponent<HeroModel>().GetCurrentAttack(), id);
