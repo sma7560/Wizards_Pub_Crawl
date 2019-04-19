@@ -30,6 +30,7 @@ public class ArtifactController : NetworkBehaviour
 	private GameObject[] spawnLocations;
 	private int originalSpot;
 	private int newSpot;
+	private NetworkIdentity netID;
 
     /// <summary>
     /// Rarity of the artifact.
@@ -51,6 +52,20 @@ public class ArtifactController : NetworkBehaviour
         transform.localScale = normalScale;
         rarity = RarityType.Common;
 
+		netID = GetComponent<NetworkIdentity> ();
+		matchManager = GameObject.FindGameObjectWithTag ("MatchManager");
+		agent = GetComponent<NavMeshAgent> ();
+		if (!netID.isServer)
+			agent.enabled = false;
+		spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
+
+		newSpot = Random.Range(0, spawnLocations.Length);
+		while (newSpot == originalSpot)
+			newSpot = Random.Range(0, spawnLocations.Length);
+
+		originalSpot = newSpot;
+		if (netID.isServer)
+			agent.SetDestination (spawnLocations [newSpot].transform.position);
     }
 
     void Update()
@@ -64,16 +79,9 @@ public class ArtifactController : NetworkBehaviour
 				// player is knocked out, so he drops the artifact
 				DropArtifact ();
 			}
-		} else
+		} else if(isServer)
 			patrol ();
     }
-
-	void Awake()
-	{
-		matchManager = GameObject.FindGameObjectWithTag ("MatchManager");
-		agent = GetComponent<NavMeshAgent> ();
-		spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
-	}
 
     /// <summary>
     /// Checks the following cases through collision detection:
@@ -149,7 +157,8 @@ public class ArtifactController : NetworkBehaviour
     /// </summary>
     private void DropArtifact()
     {
-		agent.enabled = true;
+		if(netID.isServer)
+			agent.enabled = true;
 
         // Broadcast the announcement that artifact is dropped
         matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleDropped(ownerID);
@@ -222,11 +231,6 @@ public class ArtifactController : NetworkBehaviour
 	{
 		originalSpot = index;
 
-		newSpot = Random.Range(0, spawnLocations.Length);
-		while (newSpot == originalSpot)
-			newSpot = Random.Range(0, spawnLocations.Length);
 
-		originalSpot = newSpot;
-		agent.SetDestination(spawnLocations[newSpot].transform.position);
 	}
 }
