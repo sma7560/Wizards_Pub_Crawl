@@ -35,10 +35,11 @@ public class EnemyController : NetworkBehaviour
         animator = GetComponent<Animator>();
         stats = GetComponent<EnemyModel>();
         agent = GetComponent<NavMeshAgent>();
-        if (agent != null)
-        {
-            agent.speed = stats.GetMovementSpeed();
-        }
+		if (agent != null && isServer) 
+		{
+			agent.speed = stats.GetMovementSpeed ();
+		} else if (!isServer)
+			agent.enabled = false;
 
         attackCooldown = 0;
     }
