@@ -11,15 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95222f5e77fdac41becb17d82764af4, type: 3}
   m_Name: Sword Toss
   m_EditorClassIdentifier: 
-  skillName: Throwing Knife
-  skillDescription: 'Fling a dagger forward dealing moderate physical damage. [Base
-    Damage: 25]'
+  skillName: Hexblade
+  skillDescription: Throw a cursed dagger that spawns a clone on every successful
+    hit.
   skillIcon: {fileID: 21300000, guid: ab0d206558b917f4dbabee838185c5e6, type: 3}
-  skillCoolDown: 3
+  skillCoolDown: 5
   skillType: 0
   castType: 1
   skillRange: 2
-  damageType: 0
   damageAmount: 25
   projectilePrefabIndex: 2
   numProjectiles: 1
