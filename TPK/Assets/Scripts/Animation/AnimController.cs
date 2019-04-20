@@ -210,7 +210,7 @@ public class AnimController : NetworkBehaviour
 
         // This is for non local players.
         if (!isLocalPlayer) {
-            anim.SetFloat("LRmove", 1.0f);
+            anim.SetFloat("LRMove", 1.0f);
             return;
         }
 
