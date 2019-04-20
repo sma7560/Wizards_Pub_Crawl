@@ -53,17 +53,22 @@ public class ArtifactController : NetworkBehaviour
 
 		matchManager = GameObject.FindGameObjectWithTag ("MatchManager");
 		agent = GetComponent<NavMeshAgent> ();
-		if (!isServer)
+
+		//navmesh agent isolated to Host
+		if (!isServer) 
+		{
 			agent.enabled = false;
+			return;
+		}
 		spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
 
+		//picking destination, can't be the same one as before
 		newSpot = Random.Range(0, spawnLocations.Length);
 		while (newSpot == originalSpot)
 			newSpot = Random.Range(0, spawnLocations.Length);
 
 		originalSpot = newSpot;
-		if (isServer)
-			agent.SetDestination (spawnLocations [newSpot].transform.position);
+		agent.SetDestination (spawnLocations [newSpot].transform.position);
     }
 
     void Update()
@@ -99,6 +104,8 @@ public class ArtifactController : NetworkBehaviour
                     // Make object float above character model's head
                     transform.localScale = smallScale;
                     playerThatOwns = col.gameObject;
+					
+					//disable navmesh agent
 					agent.enabled = false;
 
                     // Set owner ID and spawn point
@@ -228,7 +235,5 @@ public class ArtifactController : NetworkBehaviour
 	public void Index(int index)
 	{
 		originalSpot = index;
-
-
 	}
 }
