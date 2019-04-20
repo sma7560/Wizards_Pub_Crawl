@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 /// <summary>
 /// Behaviour of basic attack.
 /// </summary>
+[NetworkSettings(channel = 0, sendInterval = 0.05f)]
 public class BasicAttack : NetworkBehaviour
 {
     public GameObject projectilePrefab;
@@ -30,9 +31,7 @@ public class BasicAttack : NetworkBehaviour
 
         if (Time.time > nextActiveTime)
         {
-            Vector3 fwd = transform.forward;
-            Vector3 pos = transform.position;
-            CmdDoMagic(GetComponent<HeroModel>().GetPlayerId(), fwd.x, fwd.y, fwd.z, pos.x, pos.y, pos.z);
+            CmdDoMagic(GetComponent<HeroModel>().GetPlayerId());
             nextActiveTime = Time.time + cooldown;
         }
     }
@@ -42,21 +41,21 @@ public class BasicAttack : NetworkBehaviour
     /// </summary>
     /// <param name="id">ID of the player who spawned this basic attack projectile.</param>
     [Command]
-    private void CmdDoMagic(int id, float x, float y, float z, float px, float py, float pz)
+    private void CmdDoMagic(int id)
     {
-        GameObject bolt = Instantiate(projectilePrefab);
+		// Set projectile parameters
+		Vector3 projPos = transform.position + transform.forward * 2f + transform.up * 1.5f;
 
-        Vector3 fwd = new Vector3(x, y, z);
-        Vector3 pos = new Vector3(px, py, pz);
-        // Set projectile parameters
-        bolt.transform.position = pos + fwd * 2f + transform.up * 1.5f;
-        bolt.transform.rotation = transform.rotation;
-        bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 28f;
-        bolt.GetComponent<Projectile>().SetProjectileParams(range, GetComponent<HeroModel>().GetCurrentAttack(), id);
+		GameObject bolt = Instantiate (projectilePrefab, projPos, transform.rotation);
+        
 
-        NetworkServer.Spawn(bolt);
-        playerSounds.RpcPlayBasicAttackSound();
-        Destroy(bolt, range);
+		bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 28f;
+		bolt.GetComponent<Projectile>().SetProjectileParams(range, GetComponent<HeroModel>().GetCurrentAttack(), id);
+        
+		NetworkServer.Spawn(bolt);
+		playerSounds.RpcPlayBasicAttackSound();
+        
+		Destroy(bolt, range);
 
     }
 }

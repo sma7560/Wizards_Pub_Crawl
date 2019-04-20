@@ -95,7 +95,7 @@ public class AbilityCaster : NetworkBehaviour
                 for (int i = 0; i <= currentCastSkill.numProjectiles - 1; i++)
                 {
                     if (i > 6) break;
-                    CmdCastProjectile(currentCastSkill.skillRange, fd, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, directions[i].x, directions[i].y, directions[i].z, pos.x, pos.y, pos.z);
+                    CmdCastProjectile(currentCastSkill.skillRange, fd, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex);
                 }
 
                 break;
@@ -162,18 +162,17 @@ public class AbilityCaster : NetworkBehaviour
     /// </summary>
     /// <param name="pindex">Index of the desired projectile in the list of projectiles.</param>
     [Command]
-    private void CmdCastProjectile(float range, int damage, float speed, int pindex, float x, float y, float z, float px, float py, float pz)
+    private void CmdCastProjectile(float range, int damage, float speed, int pindex)
     {
         playerSounds.RpcPlaySoundEffect(projectiles[pindex].name);
 
-        Vector3 fwd = new Vector3(x, y, z);
-        Vector3 pos = new Vector3(px, py, pz);
-        GameObject bolt = Instantiate(projectiles[pindex]);
+		// Set bolt position, speed, and parameters
+		// This should be done locally so the direction is synced on client side to feel better
+		Vector3 projPos = transform.position + transform.forward * 2f + transform.up * 1.5f;
+
+		GameObject bolt = Instantiate(projectiles[pindex], projPos, transform.rotation);
         
-        // Set bolt position, speed, and parameters
-        // This should be done locally so the direction is synced on client side to feel better
-        bolt.transform.position = transform.position + fwd * 2f + transform.up * 1.5f;
-        bolt.transform.rotation = transform.rotation;
+        
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * speed;
         bolt.GetComponent<BaseProjectile>().SetProjectileParams(range, damage);
 
