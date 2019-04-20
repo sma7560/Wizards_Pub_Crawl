@@ -30,7 +30,6 @@ public class ArtifactController : NetworkBehaviour
 	private GameObject[] spawnLocations;
 	private int originalSpot;
 	private int newSpot;
-	private NetworkIdentity netID;
 
     /// <summary>
     /// Rarity of the artifact.
@@ -52,10 +51,9 @@ public class ArtifactController : NetworkBehaviour
         transform.localScale = normalScale;
         rarity = RarityType.Common;
 
-		netID = GetComponent<NetworkIdentity> ();
 		matchManager = GameObject.FindGameObjectWithTag ("MatchManager");
 		agent = GetComponent<NavMeshAgent> ();
-		if (!netID.isServer)
+		if (!isServer)
 			agent.enabled = false;
 		spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
 
@@ -64,7 +62,7 @@ public class ArtifactController : NetworkBehaviour
 			newSpot = Random.Range(0, spawnLocations.Length);
 
 		originalSpot = newSpot;
-		if (netID.isServer)
+		if (isServer)
 			agent.SetDestination (spawnLocations [newSpot].transform.position);
     }
 
@@ -157,7 +155,7 @@ public class ArtifactController : NetworkBehaviour
     /// </summary>
     private void DropArtifact()
     {
-		if(netID.isServer)
+		if(isServer)
 			agent.enabled = true;
 
         // Broadcast the announcement that artifact is dropped
