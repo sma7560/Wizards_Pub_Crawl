@@ -28,10 +28,13 @@ public class BasicAttack : NetworkBehaviour
     public void PerformAttack()
     {
         if (!isLocalPlayer) return;
-
+        
         if (Time.time > nextActiveTime)
         {
-            CmdDoMagic(GetComponent<HeroModel>().GetPlayerId());
+            Vector3 fwd = transform.forward;
+            Vector3 pos = transform.position;
+            Vector3 rot = transform.rotation.eulerAngles;
+            CmdDoMagic(GetComponent<HeroModel>().GetPlayerId(), fwd.x, fwd.y, fwd.z, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z);
             nextActiveTime = Time.time + cooldown;
         }
     }
@@ -41,12 +44,16 @@ public class BasicAttack : NetworkBehaviour
     /// </summary>
     /// <param name="id">ID of the player who spawned this basic attack projectile.</param>
     [Command]
-    private void CmdDoMagic(int id)
+    private void CmdDoMagic(int id, float fx, float fy, float fz, float px, float py, float pz, float rx, float ry, float rz)
     {
+        // As commands are run on the server,  need to send in information with relation to client side positioning.
+        Vector3 originalPOS = new Vector3(px, py, pz);
+        Vector3 originalFWD = new Vector3(fx, fy, fz);
+        Quaternion originalROT = Quaternion.Euler(rx, ry, rz);
 		// Set projectile parameters
-		Vector3 projPos = transform.position + transform.forward * 2f + transform.up * 1.5f;
+		Vector3 projPos = originalPOS + originalFWD * 2f + transform.up * 1.5f;
 
-		GameObject bolt = Instantiate (projectilePrefab, projPos, transform.rotation);
+		GameObject bolt = Instantiate (projectilePrefab, projPos, originalROT);
         
 
 		bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * 28f;

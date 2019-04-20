@@ -90,12 +90,13 @@ public class AbilityCaster : NetworkBehaviour
                 Vector3 fwd = transform.forward;
                 Vector3 rh = transform.right;   // left is negative of this
                 Vector3 pos = transform.position;
+                Vector3 rot = transform.rotation.eulerAngles;
                 // Max number of projectiles is 8
                 Vector3[] directions = { fwd, rh + fwd, -rh + fwd, -fwd, -fwd - rh, -fwd + rh, rh, -rh };
                 for (int i = 0; i <= currentCastSkill.numProjectiles - 1; i++)
                 {
                     if (i > 6) break;
-                    CmdCastProjectile(currentCastSkill.skillRange, fd, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex);
+                    CmdCastProjectile(currentCastSkill.skillRange, fd, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, fwd.x, fwd.y, fwd.z, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z);
                 }
 
                 break;
@@ -162,15 +163,19 @@ public class AbilityCaster : NetworkBehaviour
     /// </summary>
     /// <param name="pindex">Index of the desired projectile in the list of projectiles.</param>
     [Command]
-    private void CmdCastProjectile(float range, int damage, float speed, int pindex)
+    private void CmdCastProjectile(float range, int damage, float speed, int pindex, float fx, float fy, float fz, float px, float py, float pz, float rx, float ry, float rz)
     {
         playerSounds.RpcPlaySoundEffect(projectiles[pindex].name);
 
-		// Set bolt position, speed, and parameters
-		// This should be done locally so the direction is synced on client side to feel better
-		Vector3 projPos = transform.position + transform.forward * 2f + transform.up * 1.5f;
+        Vector3 originalPOS = new Vector3(px, py, pz);
+        Vector3 originalFWD = new Vector3(fx, fy, fz);
+        Quaternion originalROT = Quaternion.Euler(rx, ry, rz);
 
-		GameObject bolt = Instantiate(projectiles[pindex], projPos, transform.rotation);
+        // Set bolt position, speed, and parameters
+        // This should be done locally so the direction is synced on client side to feel better
+        Vector3 projPos = transform.position + originalFWD * 2f + transform.up * 1.5f;
+
+		GameObject bolt = Instantiate(projectiles[pindex], projPos, originalROT);
         
         
         bolt.GetComponent<Rigidbody>().velocity = bolt.transform.forward * speed;
