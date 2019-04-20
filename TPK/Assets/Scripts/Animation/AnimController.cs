@@ -11,10 +11,10 @@ using UnityEngine.Networking;
 public class AnimController : NetworkBehaviour
 {
     public Animator anim;
-    public float inputH;
-    public float inputV;
+    [SyncVar] public float inputH;
+    [SyncVar]  public float inputV;
     public Vector3 forward;
-    public float headingAngle;
+    [SyncVar] public float headingAngle;
     public int basicNum;
     public float timeToReset;
     public float timeElapsed;
@@ -67,46 +67,76 @@ public class AnimController : NetworkBehaviour
             return;
         }
 
-        forward = this.transform.forward;
-        forward.y = 0;
-        headingAngle = Quaternion.LookRotation(forward).eulerAngles.y;
-        if (headingAngle > 180f) headingAngle -= 360f; // Keeps it between -180 and 180
         //Debug.Log("Horizontal: " + Input.GetAxisRaw("Horizontal"));
+        CmdSetHead();
 
-        inputV = 0;
-        inputH = 0;
+        //inputV = 0;
+        //inputH = 0;
+        CmdResetInput();
 
         if (Input.GetKey(CustomKeyBinding.GetForwardKey()))
         {
-            inputV++;
+            //inputV++;
+            CmdAddToV();
         }
         if (Input.GetKey(CustomKeyBinding.GetBackKey()))
         {
-            inputV--;
+            //inputV--;
+            CmdSubToV();
         }
         if (Input.GetKey(CustomKeyBinding.GetRightKey()))
         {
-            inputH++;
+            //inputH++;
+            CmdAddToH();
         }
         if (Input.GetKey(CustomKeyBinding.GetLeftKey()))
         {
-            inputH--;
+            //inputH--;
+            CmdSubToH();
         }
-
         if (inputH != 0 || inputV != 0)
         {
-            isWalking = true;
-            anim.SetBool("isWalking", isWalking);
-            SetMovementAnim();
+            CmdWalk();
         }
         else
         {
-            isWalking = false;
-            anim.SetBool("isWalking", isWalking);
+            CmdStopWalk();
         }
-        // See if attacks Are being performed.
-        //SetBasicAttack();
+    }
+    [Command]
+    private void CmdSetHead() {
+        forward = this.transform.forward;
+        forward.y = 0;
+        headingAngle = Quaternion.LookRotation(forward).eulerAngles.y;
+        if (headingAngle > 180f) headingAngle -= 360f;
+    }
+    [Command]
+    private void CmdResetInput() {
+        inputH = 0;
+        inputV = 0;
+    }
 
+    [Command]
+    private void CmdAddToV() {
+        inputV++;
+    }
+
+    [Command]
+    private void CmdSubToV()
+    {
+        inputV--;
+    }
+
+    [Command]
+    private void CmdAddToH()
+    {
+        inputH++;
+    }
+
+    [Command]
+    private void CmdSubToH()
+    {
+        inputH--;
     }
     /// <summary>
     /// Function for other scripts to call to interface with the animation controller when
@@ -160,13 +190,29 @@ public class AnimController : NetworkBehaviour
         CmdSetDead(status);
     }
 
-
+    [Command]
+    private void CmdWalk() {
+        RpcMove();
+    }
+    [Command]
+    private void CmdStopWalk() {
+        RpcStopMove();
+    }
     /// <summary>
     /// This function is for changing the float values to make the walking animation
     /// respond to the direction the player character is facing.
     /// </summary>
-    private void SetMovementAnim()
+    [ClientRpc]
+    private void RpcMove()
     {
+        isWalking = true;
+        anim.SetBool("isWalking", isWalking);
+
+        // This is for non local players.
+        if (!isLocalPlayer) {
+            anim.SetFloat("LRmove", 1.0f);
+            return;
+        }
 
         if (headingAngle < 45.0f && headingAngle > -45.0f)
         {
@@ -306,6 +352,12 @@ public class AnimController : NetworkBehaviour
         }
     }
 
+    [ClientRpc]
+    private void RpcStopMove() {
+        isWalking = false;
+        anim.SetBool("isWalking", isWalking);
+
+    }
 
 
     /// <summary>

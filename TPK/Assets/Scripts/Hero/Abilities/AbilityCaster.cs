@@ -167,7 +167,6 @@ public class AbilityCaster : NetworkBehaviour
     {
         playerSounds.RpcPlaySoundEffect(projectiles[pindex].name);
 
-        Vector3 originalPOS = new Vector3(px, py, pz);
         Vector3 originalFWD = new Vector3(fx, fy, fz);
         Quaternion originalROT = Quaternion.Euler(rx, ry, rz);
 
