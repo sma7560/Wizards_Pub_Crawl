@@ -11,7 +11,7 @@ public class DungeonEnemyManager : NetworkBehaviour
 
     [SerializeField] private List<GameObject> monsterList;
     private readonly int maxNumMonsters = 16;           //max number of regular monsters
-    private readonly int maxNumSpawnGroups = 10;        //max groups of monster swarms
+    private readonly int maxNumSpawnGroups = 5;        //max groups of monster swarms
     private List<Vector3> spawnLocations;
     [SerializeField] private GameObject SwarmMonster;
 
@@ -84,7 +84,7 @@ public class DungeonEnemyManager : NetworkBehaviour
         spawnOffset.Add(new Vector3(1, 0, -1));
         spawnOffset.Add(new Vector3(-1, 0, -1));
         spawnOffset.Add(new Vector3(-1, 0, 1));
-        for (int i=0; i<5; i++)
+        for (int i=0; i<4; i++)
         {
             SpawnMonster(locationAt - spawnOffset[i], SwarmMonster);
         }
