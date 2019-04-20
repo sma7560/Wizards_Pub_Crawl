@@ -3153,7 +3153,7 @@ MonoBehaviour:
   maxHealth: 40
   damage: 18
   attackSpeed: 1
-  movementSpeed: 8
+  movementSpeed: 7
   lookRadius: 35
   attackRange: 1
   droppableItems:

@@ -3352,15 +3352,15 @@ MonoBehaviour:
   maxHealth: 50
   damage: 30
   attackSpeed: 1
-  movementSpeed: 9
+  movementSpeed: 6
   lookRadius: 35
   attackRange: 1
   droppableItems:
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1240911606393788, guid: 613ace6c98788bd49817316e9fd7de65, type: 2}
   - {fileID: 1134632399540438, guid: 350e545050c06fa408f4382e60e9b935, type: 2}
-  dropRate: 60
-  idleRange: 14
+  dropRate: 0
+  idleRange: 4
   idleHowOftenDirectionChanged: 6
   deathSound: {fileID: 8300000, guid: 53635be62cf2b604e8c11314aca64367, type: 3}
   attackSound: {fileID: 8300000, guid: d2e06f73df70064469695260a2d2ecf1, type: 3}

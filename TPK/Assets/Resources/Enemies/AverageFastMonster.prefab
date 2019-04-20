@@ -3245,7 +3245,7 @@ MonoBehaviour:
   maxHealth: 60
   damage: 20
   attackSpeed: 1
-  movementSpeed: 8
+  movementSpeed: 7
   lookRadius: 35
   attackRange: 1
   droppableItems:
@@ -3314,22 +3314,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 230
-    i1: 180
-    i2: 155
-    i3: 125
-    i4: 25
-    i5: 13
-    i6: 201
-    i7: 212
-    i8: 56
-    i9: 6
-    i10: 183
-    i11: 30
-    i12: 34
-    i13: 88
-    i14: 111
-    i15: 16
+    i0: 182
+    i1: 147
+    i2: 189
+    i3: 11
+    i4: 21
+    i5: 228
+    i6: 187
+    i7: 164
+    i8: 121
+    i9: 166
+    i10: 122
+    i11: 21
+    i12: 244
+    i13: 8
+    i14: 153
+    i15: 185
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!114 &114845958322790792
