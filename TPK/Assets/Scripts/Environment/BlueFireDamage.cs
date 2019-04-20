@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class BlueFireDamage : NetworkBehaviour 
 {
-	private int damage;
+	private int damage = 30;
 	private readonly float dmgDelay = 0.1f;     // cooldown of damage done by fire
 	private float nextActiveTime;               // the next time where flame will do damage
 
@@ -25,23 +25,7 @@ public class BlueFireDamage : NetworkBehaviour
 	//Damage for the first time they enter
 	void OnTriggerEnter(Collider col)
 	{
-		switch (col.transform.tag)
-		{
-		case "Enemy":
-			// Damage enemy
-			if (col.transform.GetComponent<EnemyModel>() != null)
-			{
-				col.transform.GetComponent<EnemyModel>().CmdTakeDamage(damage);
-			}
-			break;
-		case "Player":
-			// Damage player
-			if (col.transform.GetComponent<HeroModel>() != null)
-			{
-				col.transform.GetComponent<HeroModel>().CmdTakeDamage(damage);
-			}
-			break;
-		}
+		Behaviour (col);
 	}
 
 	/// <summary>
