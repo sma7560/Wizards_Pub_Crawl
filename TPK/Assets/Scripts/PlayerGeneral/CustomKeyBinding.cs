@@ -15,7 +15,7 @@ public static class CustomKeyBinding
     private static KeyCode skill2 = KeyCode.Alpha2;
     private static KeyCode skill3 = KeyCode.Alpha3;
     private static KeyCode skill4 = KeyCode.Alpha4;
-    private static KeyCode statWindow = KeyCode.K;
+	private static KeyCode statWindow = KeyCode.F;
     private static KeyCode scoreboard = KeyCode.Tab;
     private static KeyCode inGameMenu = KeyCode.Escape;
     private static KeyCode basicAttack = KeyCode.Mouse0;
