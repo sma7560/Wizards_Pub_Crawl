@@ -9,9 +9,9 @@ public class ToggleFireJet : NetworkBehaviour
 	private float nextActiveTime;               // the next time where flame will do damage
 
 	private ParticleSystem ps;
-	private Collider c;
 	private Light l;
 	ParticleSystem.EmissionModule em;
+	private AudioSource a;
 
 
 	private bool firing = true;
@@ -19,22 +19,20 @@ public class ToggleFireJet : NetworkBehaviour
 	void Start()
 	{
 		ps = GetComponent<ParticleSystem> ();
-		c = GetComponent<CapsuleCollider> ();
 		l = GetComponent<Light> ();
 		em = ps.emission;
+		a = GetComponent<AudioSource> ();
 
-		damage = 10;
+		damage = 1;
 		nextActiveTime = 0;
 
 		//50/50 chance it's enabled at startup
 		if (Random.Range (0, 2) == 0)
 			firing = true;
-		else {
+		else 
 			firing = false;
-			em.enabled = false;
-			l.enabled = false;
-			c.enabled = false;
-		}
+		
+		fire (firing);
 			
 		StartCoroutine(toggleFire());
 	}
@@ -48,24 +46,15 @@ public class ToggleFireJet : NetworkBehaviour
 		}
 	}
 
-	//Damage for the first time they enter
-	void OnTriggerEnter(Collider col)
-	{
-		Behaviour (col);
-	}
-
-	/// <summary>
-	/// Damage over time if enemy/player stays within the firejet.
-	/// </summary>
-	void OnTriggerStay(Collider col)
-	{
+	void OnParticleCollision(GameObject col){
+		
 		Behaviour (col);
 	}
 
 	/// <summary>
 	/// Initial damage when enemy/player touches flame wall.
 	/// </summary>
-	public void Behaviour(Collider col)
+	public void Behaviour(GameObject col)
 	{
 		switch (col.transform.tag)
 		{
@@ -86,24 +75,20 @@ public class ToggleFireJet : NetworkBehaviour
 		}
 	}
 
+	private void fire(bool on){
+		em.enabled = on;
+		l.enabled = on;
+		a.enabled = on;
+	}
+
 	private IEnumerator toggleFire(){
-		
 
 		while (true) 
 		{
 			yield return new WaitForSeconds (3);
-
 			firing = !firing;
 
-			if (!firing) {
-				em.enabled = false;
-				l.enabled = false;
-				c.enabled = false;
-			} else {
-				em.enabled = true;
-				l.enabled = true;
-				c.enabled = true;
-			}
+			fire (firing);
 
 		}
 	}

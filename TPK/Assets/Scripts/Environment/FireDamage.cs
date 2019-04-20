@@ -25,23 +25,7 @@ public class FireDamage : NetworkBehaviour
 	//Damage for the first time they enter
 	void OnTriggerEnter(Collider col)
 	{
-		switch (col.transform.tag)
-		{
-		case "Enemy":
-			// Damage enemy
-			if (col.transform.GetComponent<EnemyModel>() != null)
-			{
-				col.transform.GetComponent<EnemyModel>().CmdTakeDamage(damage);
-			}
-			break;
-		case "Player":
-			// Damage player
-			if (col.transform.GetComponent<HeroModel>() != null)
-			{
-				col.transform.GetComponent<HeroModel>().CmdTakeDamage(damage);
-			}
-			break;
-		}
+		Behaviour (col);
 	}
 
 	/// <summary>
@@ -51,23 +35,7 @@ public class FireDamage : NetworkBehaviour
 	{
 		if (Time.time < nextActiveTime) return;
 
-		switch (col.transform.tag)
-		{
-		case "Enemy":
-			// Damage enemy
-			if (col.transform.GetComponent<EnemyModel>() != null)
-			{
-				col.transform.GetComponent<EnemyModel>().CmdTakeDamage(damage);
-			}
-			break;
-		case "Player":
-			// Damage player
-			if (col.transform.GetComponent<HeroModel>() != null)
-			{
-				col.transform.GetComponent<HeroModel>().CmdTakeDamage(damage);
-			}
-			break;
-		}
+		Behaviour (col);
 	}
 
 	/// <summary>

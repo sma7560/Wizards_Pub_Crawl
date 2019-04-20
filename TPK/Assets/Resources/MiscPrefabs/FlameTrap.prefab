@@ -41,8 +41,8 @@ GameObject:
   - component: {fileID: 199507834401393550}
   - component: {fileID: 108455820987354144}
   - component: {fileID: 82759223574425504}
-  - component: {fileID: 136821047980450162}
-  - component: {fileID: 114991187293979162}
+  - component: {fileID: 114970525222929730}
+  - component: {fileID: 114115985657576534}
   m_Layer: 0
   m_Name: FX_Firejet
   m_TagString: Fire
@@ -56,14 +56,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1010528088612482}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -2.5, y: 2.5, z: 9.54}
-  m_LocalScale: {x: 5, y: 5, z: 3}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 64.75, y: 2.5, z: 7.5}
+  m_LocalScale: {x: 5.000008, y: 5, z: 3.0000052}
   m_Children:
   - {fileID: 4971023318316394}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!4 &4971023318316394
 Transform:
   m_ObjectHideFlags: 1
@@ -265,7 +265,7 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!114 &114991187293979162
+--- !u!114 &114115985657576534
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -273,23 +273,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 1747090581598468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9956c0ce8d6a9094b96dc9b3ef860afc, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d1045ae026a5e54a9b9d058aee41d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
---- !u!136 &136821047980450162
-CapsuleCollider:
+--- !u!114 &114970525222929730
+MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1747090581598468}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1.2
-  m_Height: 15.143602
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 7.3803906}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 47
+    i1: 118
+    i2: 64
+    i3: 226
+    i4: 43
+    i5: 69
+    i6: 10
+    i7: 212
+    i8: 203
+    i9: 175
+    i10: 69
+    i11: 69
+    i12: 240
+    i13: 238
+    i14: 192
+    i15: 54
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!198 &198518884598004638
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -944,7 +962,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.1
+      value: 0.3
       mode: 0
       spread: 0
       speed:
@@ -3881,20 +3899,20 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
-    enabled: 0
+    enabled: 1
     collisionShape0: {fileID: 0}
     collisionShape1: {fileID: 0}
     collisionShape2: {fileID: 0}
     collisionShape3: {fileID: 0}
     collisionShape4: {fileID: 0}
     collisionShape5: {fileID: 0}
-    inside: 1
+    inside: 0
     outside: 0
-    enter: 0
+    enter: 2
     exit: 0
     radiusScale: 1
   SubModule:
@@ -3907,7 +3925,7 @@ ParticleSystem:
       properties: 0
   LightsModule:
     enabled: 0
-    ratio: 0
+    ratio: 1
     light: {fileID: 0}
     randomDistribution: 1
     color: 1
@@ -4019,7 +4037,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 345
   TrailModule:
     enabled: 0
     mode: 0
