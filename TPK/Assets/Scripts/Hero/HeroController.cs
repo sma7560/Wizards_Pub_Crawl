@@ -96,7 +96,7 @@ public class HeroController : NetworkBehaviour
             PerformRotation();
 
             // Perform a basic attack Has small attack cooldowmn.
-            if (unityService.GetKeyDown(CustomKeyBinding.GetBasicAttackKey()))
+            if (unityService.GetKey(CustomKeyBinding.GetBasicAttackKey()))
             {
                 if (Time.time > nextActiveTime)
                 {
