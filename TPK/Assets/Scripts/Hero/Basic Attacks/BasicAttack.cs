@@ -9,6 +9,7 @@ public class BasicAttack : NetworkBehaviour
 {
     public GameObject projectilePrefab;
     private PlayerSoundController playerSounds; // sound effects for basic attack
+	private HeroModel heroModel;
 
     // Attack stats
     private readonly float cooldown = 0.5f;
@@ -20,6 +21,7 @@ public class BasicAttack : NetworkBehaviour
     {
         nextActiveTime = 0;
         playerSounds = GetComponent<PlayerSoundController>();
+		heroModel = GetComponent<HeroModel> ();
     }
 
     /// <summary>
@@ -27,14 +29,14 @@ public class BasicAttack : NetworkBehaviour
     /// </summary>
     public void PerformAttack()
     {
-        if (!isLocalPlayer) return;
+		if (!isLocalPlayer || heroModel.IsKnockedOut()) return;
         
         if (Time.time > nextActiveTime)
         {
             Vector3 fwd = transform.forward;
             Vector3 pos = transform.position;
             Vector3 rot = transform.rotation.eulerAngles;
-			CmdDoMagic(GetComponent<HeroModel>().GetPlayerId(), fwd, pos, transform.rotation);
+			CmdDoMagic(heroModel.GetPlayerId(), fwd, pos, transform.rotation);
             nextActiveTime = Time.time + cooldown;
         }
     }

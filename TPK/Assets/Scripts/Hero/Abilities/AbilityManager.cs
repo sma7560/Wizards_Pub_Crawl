@@ -16,6 +16,7 @@ public class AbilityManager : NetworkBehaviour
     private PrephaseManager prephaseManager;
     private MatchManager matchManager;
     private DungeonController dungeonController;
+	private HeroModel heroModel;
     
     void Start()
     {
@@ -26,6 +27,7 @@ public class AbilityManager : NetworkBehaviour
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
+		heroModel = GetComponent<HeroModel> ();
         caster = GetComponent<AbilityCaster>();
 
         // Initialize cooldowns
@@ -38,7 +40,7 @@ public class AbilityManager : NetworkBehaviour
     
     void Update()
     {
-        if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded() || dungeonController.IsMenuOpen()) return;
+		if (!isLocalPlayer || prephaseManager.IsCurrentlyInPrephase() || matchManager.HasMatchEnded() || dungeonController.IsMenuOpen() || heroModel.IsKnockedOut()) return;
 
         // Listens for casting of skills
         if (unityService.GetKeyDown(CustomKeyBinding.GetSkill1Key()) &&

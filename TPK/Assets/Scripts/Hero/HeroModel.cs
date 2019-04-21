@@ -53,6 +53,8 @@ public class HeroModel : NetworkBehaviour
     [Command]
     public void CmdTakeDamage(int amount)
     {
+		if (isKnockedOut)
+			return;
         // Calculate final damage taken based on stats
         float finalDamage = 0;
         float dmgReduce = (float)currentDefense;
