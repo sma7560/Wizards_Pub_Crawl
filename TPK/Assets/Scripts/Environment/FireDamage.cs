@@ -25,6 +25,7 @@ public class FireDamage : NetworkBehaviour
 	//Damage for the first time they enter
 	void OnTriggerEnter(Collider col)
 	{
+		if (!isServer) return;
 		Behaviour (col);
 	}
 
