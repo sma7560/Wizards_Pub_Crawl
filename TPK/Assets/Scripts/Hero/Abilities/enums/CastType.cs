@@ -1,4 +1,4 @@
 ﻿public enum CastType
 {
-    selfAoe, projectile, raycast, self
+    selfAoe, projectile, raycast, self, channel
 }

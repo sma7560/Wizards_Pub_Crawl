@@ -106,6 +106,9 @@ public class AbilityCaster : NetworkBehaviour
             case CastType.self:
                 CastSelf();
                 break;
+			case CastType.channel:
+				CmdCastChannel (currentCastSkill.skillRange, fd, currentCastSkill.projectileSpeed, currentCastSkill.projectilePrefabIndex, transform.forward, transform.position, transform.rotation);
+				break;
         }
 
         switch (currentCastSkill.moveType)
@@ -191,7 +194,23 @@ public class AbilityCaster : NetworkBehaviour
         GameObject effect = Instantiate(effects[index], transform);
         NetworkServer.Spawn(effect);
     }
+		
+	[Command]
+	private void CmdCastChannel(float range, int damage, float speed, int pindex, Vector3 originalFWD, Vector3 pos, Quaternion originalROT)
+	{
+		//playerSounds.RpcPlaySoundEffect(projectiles[pindex].name);
 
+		// Set bolt position, speed, and parameters
+		// This should be done locally so the direction is synced on client side to feel better
+		Vector3 projPos = pos + originalFWD * 2f + transform.up * 1.5f;
+
+		GameObject bolt = Instantiate(projectiles[pindex], projPos, originalROT, transform);
+
+		bolt.GetComponent<BaseProjectile>().SetProjectileParams(range, damage);
+
+		NetworkServer.Spawn(bolt);
+		Destroy(bolt, range);
+	}
     /// ------------------------------
     /// TODO
     /// ------------------------------
