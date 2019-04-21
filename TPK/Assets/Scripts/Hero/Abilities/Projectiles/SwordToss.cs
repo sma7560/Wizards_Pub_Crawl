@@ -68,7 +68,7 @@ public class SwordToss : BaseProjectile
 	private void CmdCastProjectile(float range, int damage, float speed, int pindex, Vector3 target, Vector3 originalFWD, Vector3 pos)
 	{
 		//calculate new position
-		Vector3 position = new Vector3(target.x + originalFWD.x * 3f, pos.y, target.z + originalFWD.z * 3f);
+		Vector3 position = new Vector3(target.x + originalFWD.x * 5f, pos.y, target.z + originalFWD.z * 5f);
 		//random direction
 		GameObject bolt = Instantiate(SwordToss2, position, Quaternion.Euler(0, Random.Range(0, 360), 0));
 
