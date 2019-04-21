@@ -30,6 +30,8 @@ public class PrephaseUI : MonoBehaviour
     private TextMeshProUGUI defense;
     private TextMeshProUGUI moveSpeed;
     private TextMeshProUGUI health;
+	private TextMeshProUGUI attackBoost;
+	private TextMeshProUGUI defBoost;
 
     // Default heroes
     public Hero king;
@@ -74,6 +76,8 @@ public class PrephaseUI : MonoBehaviour
         defense = GameObject.Find("DefText").GetComponent<TextMeshProUGUI>();
         moveSpeed = GameObject.Find("SpeedText").GetComponent<TextMeshProUGUI>();
         health = GameObject.Find("HealthStatGraphText").GetComponent<TextMeshProUGUI>();
+		attackBoost = GameObject.Find("AttackBoostText").GetComponent<TextMeshProUGUI>();
+		defBoost = GameObject.Find("DefBoostText").GetComponent<TextMeshProUGUI>();
 
         // Initialize stat graphs
         statGraph = GameObject.Find("StatGraph").GetComponent<Image>();
@@ -96,6 +100,7 @@ public class PrephaseUI : MonoBehaviour
         UpdatePlayerName();
         UpdateSkillBank();
         UpdateEquippedSkills();
+		UpdateStats ();
     }
 
     /// <summary>
@@ -105,7 +110,7 @@ public class PrephaseUI : MonoBehaviour
     {
         UpdateNumOfPlayers();
         UpdateTimeLeftUI();
-        UpdateStats();
+        
     }
 
     /// <summary>
@@ -187,6 +192,7 @@ public class PrephaseUI : MonoBehaviour
         SetupDefaultStats();
         heroModel.SetModel(selectedHero);
         UpdateCharacterSelectedName();
+		UpdateStats();
     }
 
     /// <summary>
@@ -219,6 +225,7 @@ public class PrephaseUI : MonoBehaviour
         SetupDefaultStats();
         heroModel.SetModel(selectedHero);
         UpdateCharacterSelectedName();
+		UpdateStats();
     }
 
     /// <summary>
@@ -318,6 +325,9 @@ public class PrephaseUI : MonoBehaviour
         defense.text = heroModel.GetCurrentDefense().ToString();
         moveSpeed.text = heroModel.GetCurrentMoveSpeed().ToString();
         health.text = heroModel.GetMaxHealth().ToString();
+
+		attackBoost.text = "+" + heroModel.GetCurrentAttack () * 2 + "% DMG";
+		defBoost.text = "-" + heroModel.GetCurrentDefense () * 2 + "% DMG";
     }
 
     /// <summary>
