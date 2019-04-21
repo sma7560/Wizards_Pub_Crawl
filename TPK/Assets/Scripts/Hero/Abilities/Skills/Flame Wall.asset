@@ -15,7 +15,7 @@ MonoBehaviour:
   skillDescription: Conjure a wall of fire to burn enemies that walk through it.
   skillIcon: {fileID: 21300000, guid: 0e662535ed84c2641b6b239f746e44c3, type: 3}
   skillCoolDown: 10
-  skillType: 1
+  skillType: 0
   castType: 1
   skillRange: 5
   damageAmount: 4
