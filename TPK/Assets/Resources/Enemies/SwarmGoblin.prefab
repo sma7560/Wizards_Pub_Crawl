@@ -3307,9 +3307,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
-  damage: 5
+  damage: 4
   attackSpeed: 1
-  movementSpeed: 8
+  movementSpeed: 7
   lookRadius: 40
   attackRange: 1
   droppableItems:

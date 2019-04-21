@@ -3151,7 +3151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 40
-  damage: 18
+  damage: 12
   attackSpeed: 1
   movementSpeed: 7
   lookRadius: 35
