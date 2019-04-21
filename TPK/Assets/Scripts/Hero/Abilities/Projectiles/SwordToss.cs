@@ -28,7 +28,7 @@ public class SwordToss : BaseProjectile
                 }
 				CmdEffect ();
 
-				CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos);
+				CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos, transform.forward, transform.position);
 				//CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos);
 				break;
             case "Player":
@@ -39,7 +39,7 @@ public class SwordToss : BaseProjectile
                 }
 				CmdEffect ();
 
-				CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos);
+				CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos, transform.forward, transform.position);
 				//CmdCastProjectile(ST.skillRange, damage, ST.projectileSpeed, ST.projectilePrefabIndex, colPos);
                 break;
         }
