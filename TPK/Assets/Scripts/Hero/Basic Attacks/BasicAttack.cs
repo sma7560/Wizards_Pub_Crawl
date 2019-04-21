@@ -34,7 +34,7 @@ public class BasicAttack : NetworkBehaviour
             Vector3 fwd = transform.forward;
             Vector3 pos = transform.position;
             Vector3 rot = transform.rotation.eulerAngles;
-            CmdDoMagic(GetComponent<HeroModel>().GetPlayerId(), fwd.x, fwd.y, fwd.z, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z);
+			CmdDoMagic(GetComponent<HeroModel>().GetPlayerId(), fwd, pos, transform.rotation);
             nextActiveTime = Time.time + cooldown;
         }
     }
@@ -44,12 +44,9 @@ public class BasicAttack : NetworkBehaviour
     /// </summary>
     /// <param name="id">ID of the player who spawned this basic attack projectile.</param>
     [Command]
-    private void CmdDoMagic(int id, float fx, float fy, float fz, float px, float py, float pz, float rx, float ry, float rz)
+	private void CmdDoMagic(int id, Vector3 originalFWD, Vector3 originalPOS,  Quaternion originalROT)
     {
         // As commands are run on the server,  need to send in information with relation to client side positioning.
-        Vector3 originalPOS = new Vector3(px, py, pz);
-        Vector3 originalFWD = new Vector3(fx, fy, fz);
-        Quaternion originalROT = Quaternion.Euler(rx, ry, rz);
 		// Set projectile parameters
 		Vector3 projPos = originalPOS + originalFWD * 2f + transform.up * 1.5f;
 
