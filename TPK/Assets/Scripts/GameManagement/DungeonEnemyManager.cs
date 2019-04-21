@@ -12,6 +12,9 @@ public class DungeonEnemyManager : NetworkBehaviour
     [SerializeField] private List<GameObject> monsterList;
     private readonly int maxNumMonsters = 14;           //max number of regular monsters
     private readonly int maxNumSpawnGroups = 9;        //max groups of monster swarms
+	private readonly int SwarmSquadSize = 4;
+	private readonly float spawnTimerRegular = 5;
+	private readonly float spawnTimerSwarm = 5;
     private List<Vector3> spawnLocations;
     [SerializeField] private GameObject SwarmMonster;
 
@@ -48,8 +51,8 @@ public class DungeonEnemyManager : NetworkBehaviour
         }
 
         // Call summon monster every 4 seconds
-        InvokeRepeating("DungeonSpawnMonster", 0f, 4f);
-        InvokeRepeating("DungeonSpawnSwarm", 0f, 4f);
+		InvokeRepeating("DungeonSpawnMonster", 0f, spawnTimerRegular);
+		InvokeRepeating("DungeonSpawnSwarm", 0f, spawnTimerSwarm);
     }
 
     /// <summary>
@@ -84,7 +87,8 @@ public class DungeonEnemyManager : NetworkBehaviour
         spawnOffset.Add(new Vector3(1, 0, -1));
         spawnOffset.Add(new Vector3(-1, 0, -1));
         spawnOffset.Add(new Vector3(-1, 0, 1));
-        for (int i=0; i<4; i++)
+        
+		for (int i=0; i< SwarmSquadSize; i++)
         {
             SpawnMonster(locationAt - spawnOffset[i], SwarmMonster);
         }
