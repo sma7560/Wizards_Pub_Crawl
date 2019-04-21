@@ -87,7 +87,7 @@ public class SkillHoverDescription : EventTrigger
 				break;
 			}
 			
-			skillCDText.text = "Cooldown: " + skill.skillCoolDown;
+			skillCDText.text = "Cooldown: " + skill.skillCoolDown + " seconds";
             skillDescription.SetActive(true);
         }
     }
