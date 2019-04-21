@@ -234,7 +234,7 @@ public class NetworkManagerExtension : NetworkManager
         doNotDisplayTimeoutError = false;
 
         // Setup buttons
-        GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "CONNECTING...";
+        GameObject.Find("JoinMatchText").GetComponent<TextMeshProUGUI>().text = "SEARCHING...";
         GameObject.Find("JoinMatchButton").GetComponent<Button>().interactable = false;
         EventSystem.current.SetSelectedGameObject(null);
         GameObject backButton = GameObject.Find("BackButton");
