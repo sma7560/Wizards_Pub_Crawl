@@ -29,8 +29,11 @@ public class HeroController : NetworkBehaviour
     private GameObject cam;
     private Rigidbody heroRigidbody;
     private PrephaseManager prephaseManager;
+	private HeroManager heroManager;
     private MatchManager matchManager;
     private DungeonController dungeonController;
+	private HeroModel heroModel;
+	private CapsuleCollider col;
     private BasicAttack battack;
     private AnimController animate;
     private Vector3 tempVelocity;
@@ -51,9 +54,12 @@ public class HeroController : NetworkBehaviour
         ground = new Plane(Vector3.up, floor);
 
         heroRigidbody = GetComponent<Rigidbody>();
+		heroModel = GetComponent < HeroModel >();
         battack = GetComponent<BasicAttack>();
         animate = GetComponent<AnimController>();
+		col = GetComponent<CapsuleCollider> ();
 
+		heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         matchManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<MatchManager>();
         prephaseManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<PrephaseManager>();
         dungeonController = GameObject.Find("EventSystem").GetComponent<DungeonController>();
@@ -71,7 +77,7 @@ public class HeroController : NetworkBehaviour
         if (!isLocalPlayer) return;
 
         // Only allow controls under certain conditions
-        if (!GetComponent<HeroModel>().IsKnockedOut() &&
+        if (!heroModel.IsKnockedOut() &&
             !prephaseManager.IsCurrentlyInPrephase() &&
             !matchManager.HasMatchEnded() &&
             !dungeonController.IsMenuOpen())
@@ -82,7 +88,7 @@ public class HeroController : NetworkBehaviour
             if (!isDungeonReady)
             {
                 isDungeonReady = true;
-                animate.myHeroType = GetComponent<HeroModel>().GetHeroType();
+                animate.myHeroType = heroModel.GetHeroType();
             }
 
             // Perform character movement controls
@@ -90,7 +96,7 @@ public class HeroController : NetworkBehaviour
             bool backPressed = unityService.GetKey(CustomKeyBinding.GetBackKey());
             bool leftPressed = unityService.GetKey(CustomKeyBinding.GetLeftKey());
             bool rightPressed = unityService.GetKey(CustomKeyBinding.GetRightKey());
-            tempVelocity = GetComponent<HeroModel>().GetCharacterMovement().Calculate(forwardPressed, backPressed, leftPressed, rightPressed);
+            tempVelocity = heroModel.GetCharacterMovement().Calculate(forwardPressed, backPressed, leftPressed, rightPressed);
 			if(heroRigidbody.velocity.y > 0)
 				tempVelocity.y = 0;
 			else
@@ -111,9 +117,10 @@ public class HeroController : NetworkBehaviour
 
         // Check current health status
         if (!prephaseManager.IsCurrentlyInPrephase() &&
-            GetComponent<HeroModel>().GetCurrentHealth() <= 0)
+            heroModel.GetCurrentHealth() <= 0)
         {
             KnockOut();
+
         }
     }
 
@@ -147,13 +154,13 @@ public class HeroController : NetworkBehaviour
     /// </summary>
     private void KnockOut()
     {
-        if (GetComponent<HeroModel>().IsKnockedOut()) return;
+		if (heroModel.IsKnockedOut()) return;
 
 		//resets player velocity
 		heroRigidbody.velocity = new Vector3 (0, heroRigidbody.velocity.y, 0);
 
         // Set status and death animation
-        GetComponent<HeroModel>().SetKnockedOut(true);
+        heroModel.SetKnockedOut(true);
         animate.SetDead(true);
 
         // Start timer for length of time that character remains knocked out
@@ -166,7 +173,7 @@ public class HeroController : NetworkBehaviour
     private void Spawn()
     {
         // Reset animation back to alive animation
-        if (GetComponent<HeroModel>().IsKnockedOut())
+		if (heroModel.IsKnockedOut())
         {
             animate.SetDead(false);
         }
@@ -175,11 +182,10 @@ public class HeroController : NetworkBehaviour
         Instantiate(compass, transform);
 
         // Reset variables
-        GetComponent<HeroModel>().SetKnockedOut(false);
-        GetComponent<HeroModel>().SetFullHealth();
+		heroModel.SetKnockedOut(false);
+		heroModel.SetFullHealth();
 
         // Set player location back to spawn point
-        HeroManager heroManager = GameObject.FindGameObjectWithTag("MatchManager").GetComponent<HeroManager>();
         transform.position = heroManager.GetSpawnLocationOfPlayer(matchManager.GetPlayerId());
     }
 
