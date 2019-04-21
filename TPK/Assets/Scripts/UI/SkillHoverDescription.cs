@@ -79,7 +79,7 @@ public class SkillHoverDescription : EventTrigger
 			case "Flame Wall":
 				skillDamageText.text = "Damage: " + skill.damageAmount * 10 + "/second";
 				break;
-			case: "ConjureHealth":
+			case "ConjureHealth":
 				skillDamageText.text = "Heals " + skill.damageAmount + "%";
 				break;
 			default:
