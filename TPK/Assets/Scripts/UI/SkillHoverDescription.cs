@@ -69,7 +69,7 @@ public class SkillHoverDescription : EventTrigger
         }
 
         // Show skill description
-		if (skillTitleText != null && skillDescriptionText != null && skillDescription != null && prephaseManager.IsCurrentlyInPrephase)
+		if (skillTitleText != null && skillDescriptionText != null && skillDescription != null && prephaseManager.IsCurrentlyInPrephase())
         {
             skillTitleText.text = skill.skillName;
             skillDescriptionText.text = skill.skillDescription;
