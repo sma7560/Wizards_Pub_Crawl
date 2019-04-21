@@ -172,7 +172,7 @@ public class AbilityCaster : NetworkBehaviour
 
         // Set bolt position, speed, and parameters
         // This should be done locally so the direction is synced on client side to feel better
-        Vector3 projPos = pos + originalFWD * 2f + transform.up * 1.5f;
+        Vector3 projPos = transform.position + originalFWD * 2f + transform.up * 1.5f;
 
 		GameObject bolt = Instantiate(projectiles[pindex], projPos, originalROT);
         
