@@ -74,12 +74,18 @@ public class SkillHoverDescription : EventTrigger
             skillTitleText.text = skill.skillName;
             skillDescriptionText.text = skill.skillDescription;
 
-			if(skill.name == "Flame Wall")
+			switch(skill.name){
+			case "Fire Breath":
+			case "Flame Wall":
 				skillDamageText.text = "Damage: " + skill.damageAmount * 10 + "/second";
-			else if(skill.name == "ConjureHealth")
+				break;
+			case: "ConjureHealth":
 				skillDamageText.text = "Heals " + skill.damageAmount + "%";
-			else
+				break;
+			default:
 				skillDamageText.text = "Damage: " + skill.damageAmount;
+				break;
+			}
 			
 			skillCDText.text = "Cooldown: " + skill.skillCoolDown;
             skillDescription.SetActive(true);
