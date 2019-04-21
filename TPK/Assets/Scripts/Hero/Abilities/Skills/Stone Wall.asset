@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95222f5e77fdac41becb17d82764af4, type: 3}
   m_Name: Stone Wall
   m_EditorClassIdentifier: 
-  skillName: Stone Wall
+  skillName: Mana Shield
   skillDescription: Place an impenetrable barrier in front of you. It will block 3
     projectiles or last 5 seconds.
-  skillIcon: {fileID: 21300000, guid: 92d325a98fe2a7f49965b4adfbb0810d, type: 3}
+  skillIcon: {fileID: 21300000, guid: f0b12383c1012d244a4d6052d95ff544, type: 3}
   skillCoolDown: 6
   skillType: 0
   castType: 1
