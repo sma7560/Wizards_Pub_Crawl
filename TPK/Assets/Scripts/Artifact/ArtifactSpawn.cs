@@ -12,6 +12,8 @@ public class ArtifactSpawn : NetworkBehaviour
 
     void Start()
     {
+		if (!isServer) return;
+
 		//populate list with all spawns
         spawnLocations = GameObject.FindGameObjectsWithTag("ArtifactSpawn");
         SpawnArtifactRandom();
@@ -23,8 +25,6 @@ public class ArtifactSpawn : NetworkBehaviour
     /// </summary>
     public void SpawnArtifactRandom()
     {
-        if (!isServer) return;
-
         int i = Random.Range(0, spawnLocations.Length);
         Vector3 location = spawnLocations[i].transform.position;
         SpawnArtifact(location, Quaternion.identity, i);
