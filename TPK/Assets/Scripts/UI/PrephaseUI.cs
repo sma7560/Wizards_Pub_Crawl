@@ -271,7 +271,7 @@ public class PrephaseUI : MonoBehaviour
         }
         else if (selectedHero == rogue)
         {
-            heroModel.SetBaseAttack(8);
+            heroModel.SetBaseAttack(10);
             heroModel.SetBaseDefense(0);
             heroModel.SetBaseMoveSpeed(12);
             heroModel.SetMaxHealth(80);
