@@ -223,7 +223,7 @@ public class HeroModel : NetworkBehaviour
         }
     }
     [Command]
-    private void CmdSetCurrentMoveSpeed(int val)
+    public void CmdSetCurrentMoveSpeed(int val)
     {
         currentMoveSpeed = val;
     }
