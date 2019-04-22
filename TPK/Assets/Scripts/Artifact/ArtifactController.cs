@@ -22,7 +22,7 @@ public class ArtifactController : NetworkBehaviour
     // Artifact size
     private Vector3 smallScale = new Vector3(1.25f, 1.25f, 1.25f);  // size used when carried (smaller)
     private Vector3 normalScale = new Vector3(2f, 2f, 2f);	        // size used when artifact is on the ground (larger)
-
+    [SyncVar(hook = "SetScale")]private Vector3 currentScale;
 	// Match Manager for player ID and announcements
 	private GameObject matchManager;
 
@@ -104,7 +104,8 @@ public class ArtifactController : NetworkBehaviour
                 if (!isCarried && !col.GetComponent<HeroModel>().IsKnockedOut())
                 {
                     // Make object float above character model's head
-                    transform.localScale = smallScale;
+                    currentScale = smallScale;
+                    //transform.localScale = smallScale;
                     playerThatOwns = col.gameObject;
 					
 					//disable navmesh agent
@@ -119,7 +120,7 @@ public class ArtifactController : NetworkBehaviour
                     // Slow down the player on pickup
                     playerBaseSpeed = playerThatOwns.GetComponent<HeroModel>().GetBaseMoveSpeed();
                     playerSlowSpeed = (int)(playerBaseSpeed * 0.25);
-                    playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
+                    playerThatOwns.GetComponent<HeroModel>().CmdSetCurrentMoveSpeed(
                         playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() - playerSlowSpeed);
 
                     // Broadcast that player has acquired the artifact
@@ -134,7 +135,7 @@ public class ArtifactController : NetworkBehaviour
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
                         // Undo character slowdown
-                        playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
+                        playerThatOwns.GetComponent<HeroModel>().CmdSetCurrentMoveSpeed(
                             playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() + playerSlowSpeed);
                         playerBaseSpeed = 0;
                         playerSlowSpeed = 0;
@@ -157,6 +158,12 @@ public class ArtifactController : NetworkBehaviour
                 }
                 break;
         }
+    }
+
+    private void SetScale(Vector3 scale) {
+        currentScale = scale;
+        transform.localScale = scale;
+
     }
 
     /// <summary>
@@ -188,7 +195,8 @@ public class ArtifactController : NetworkBehaviour
         isCarried = false;
 
         // Scale size of artifact back up
-        transform.localScale = normalScale;
+        //transform.localScale = normalScale;
+        currentScale = normalScale;
     }
 
 	private void patrol()
