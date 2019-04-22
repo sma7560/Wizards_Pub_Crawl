@@ -73,6 +73,7 @@ public class ArtifactController : NetworkBehaviour
 
     void Update()
     {
+        if (!isServer) return;
         // if being carried, update location of artifact to where the carrier is
 		if (isCarried) 
 		{
@@ -82,7 +83,7 @@ public class ArtifactController : NetworkBehaviour
 				// player is knocked out, so he drops the artifact
 				DropArtifact ();
 			}
-		} else if(isServer)
+		} else
 			patrol ();
     }
 
@@ -171,11 +172,10 @@ public class ArtifactController : NetworkBehaviour
     /// </summary>
     private void DropArtifact()
     {
-		if (isServer) {
-			agent.enabled = true;
-			return;
-		}
+		if (!isServer) return;
 
+
+        agent.enabled = true;
         // Broadcast the announcement that artifact is dropped
         matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleDropped(ownerID);
 
@@ -183,7 +183,7 @@ public class ArtifactController : NetworkBehaviour
         transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 1f, playerThatOwns.transform.position.z);
 
         // Undo character slowdown
-        playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
+        playerThatOwns.GetComponent<HeroModel>().CmdSetCurrentMoveSpeed(
             playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() + playerSlowSpeed);
         playerBaseSpeed = 0;
         playerSlowSpeed = 0;
