@@ -94,6 +94,8 @@ public class ArtifactController : NetworkBehaviour
     /// <param name="col">Collider that artifact has collided with.</param>
     private void OnTriggerEnter(Collider col)
     {
+		if (!isServer)
+			return;
         switch (col.gameObject.transform.tag)
         {
             case ("Player"):
@@ -162,8 +164,10 @@ public class ArtifactController : NetworkBehaviour
     /// </summary>
     private void DropArtifact()
     {
-		if(isServer)
+		if (isServer) {
 			agent.enabled = true;
+			return;
+		}
 
         // Broadcast the announcement that artifact is dropped
         matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleDropped(ownerID);
@@ -236,4 +240,5 @@ public class ArtifactController : NetworkBehaviour
 	{
 		originalSpot = index;
 	}
+		
 }
