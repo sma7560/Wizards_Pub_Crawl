@@ -9,9 +9,9 @@ using UnityEngine.Networking;
 public class ArtifactController : NetworkBehaviour
 {
     // Artifact info
-    private bool isCarried;             // whether or not the artifact is currently being carried by a player
+    [SerializeField] private bool isCarried;             // whether or not the artifact is currently being carried by a player
     private GameObject playerThatOwns;  // if artifact held, the player that is currently holding the artifact
-    private int ownerID;                // if artifact held, the player id of the player that is currently holding the artifact
+    [SerializeField] private int ownerID;                // if artifact held, the player id of the player that is currently holding the artifact
     private Vector3 ownerSpawn;         // the spawn location of the last player that held this artifact
     private RarityType rarity;
 
@@ -80,7 +80,8 @@ public class ArtifactController : NetworkBehaviour
 			transform.position = new Vector3 (playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 3.5f, playerThatOwns.transform.position.z);
 			if (playerThatOwns.GetComponent<HeroModel> ().IsKnockedOut ())
 			{
-				// player is knocked out, so he drops the artifact
+                // player is knocked out, so he drops the artifact
+                Debug.Log("Player " + ownerID + " died");
 				DropArtifact ();
 			}
 		} else
@@ -121,7 +122,7 @@ public class ArtifactController : NetworkBehaviour
                     // Slow down the player on pickup
                     playerBaseSpeed = playerThatOwns.GetComponent<HeroModel>().GetBaseMoveSpeed();
                     playerSlowSpeed = (int)(playerBaseSpeed * 0.25);
-                    playerThatOwns.GetComponent<HeroModel>().CmdSetCurrentMoveSpeed(
+                    playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
                         playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() - playerSlowSpeed);
 
                     // Broadcast that player has acquired the artifact
@@ -132,11 +133,12 @@ public class ArtifactController : NetworkBehaviour
                 // Checks case where player enters scoring location (spawn point)
                 if (isCarried)
                 {
+                    Debug.Log("Scoring for player: " + ownerID);
                     // Ensure that this spawn is the right one for the player carrying the artifact
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
                         // Undo character slowdown
-                        playerThatOwns.GetComponent<HeroModel>().CmdSetCurrentMoveSpeed(
+                        playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
                             playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() + playerSlowSpeed);
                         playerBaseSpeed = 0;
                         playerSlowSpeed = 0;
@@ -183,7 +185,7 @@ public class ArtifactController : NetworkBehaviour
         transform.position = new Vector3(playerThatOwns.transform.position.x, playerThatOwns.transform.position.y + 1f, playerThatOwns.transform.position.z);
 
         // Undo character slowdown
-        playerThatOwns.GetComponent<HeroModel>().CmdSetCurrentMoveSpeed(
+        playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
             playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() + playerSlowSpeed);
         playerBaseSpeed = 0;
         playerSlowSpeed = 0;

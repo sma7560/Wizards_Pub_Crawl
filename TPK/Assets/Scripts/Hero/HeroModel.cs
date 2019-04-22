@@ -212,9 +212,11 @@ public class HeroModel : NetworkBehaviour
     /// </summary>
     public void SetCurrentMoveSpeed(int val)
     {
-        if (!hasAuthority) return;
-
         currentMoveSpeed = val;
+        if (!hasAuthority) {
+            RpcSetcurr(val);
+            return;
+        }
         characterMovement.SetSpeed(val);
 
         if (!isServer)
@@ -222,8 +224,14 @@ public class HeroModel : NetworkBehaviour
             CmdSetCurrentMoveSpeed(val);
         }
     }
+    [ClientRpc]
+    private void RpcSetcurr(int val) {
+        if (!hasAuthority) return; // So not run on server.
+        characterMovement.SetSpeed(val);
+    }
+
     [Command]
-    public void CmdSetCurrentMoveSpeed(int val)
+    private void CmdSetCurrentMoveSpeed(int val)
     {
         currentMoveSpeed = val;
     }
@@ -378,17 +386,12 @@ public class HeroModel : NetworkBehaviour
     /// <param name="amount">Value to increment the score by.</param>
     public void IncreaseScore(int amount)
     {
-        if (!hasAuthority) return;
+        //if (!hasAuthority) return;
 
         score += amount;
-
-        if (!isServer)
-        {
-            CmdIncreaseScore(amount);
-        }
     }
-    [Command]
-    private void CmdIncreaseScore(int amount)
+    [ClientRpc]
+    private void RpcIncreaseScore(int amount)
     {
         score += amount;
     }
