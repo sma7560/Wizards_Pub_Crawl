@@ -97,8 +97,13 @@ public class HeroController : NetworkBehaviour
             bool leftPressed = unityService.GetKey(CustomKeyBinding.GetLeftKey());
             bool rightPressed = unityService.GetKey(CustomKeyBinding.GetRightKey());
             tempVelocity = heroModel.GetCharacterMovement().Calculate(forwardPressed, backPressed, leftPressed, rightPressed);
-            tempVelocity.y = heroRigidbody.velocity.y;
-            heroRigidbody.velocity = tempVelocity;
+
+			if(heroRigidbody.velocity.y > 0)
+				tempVelocity.y = 0;
+			else
+				tempVelocity.y = heroRigidbody.velocity.y;
+            
+			heroRigidbody.velocity = tempVelocity;
             PerformRotation();
 
             // Perform a basic attack Has small attack cooldowmn.
