@@ -1,6 +1,8 @@
 # Welcome to Wizard's Pub Crawl
 Welcome to the repository of our 4GP6A Capstone project, lead by Professor Jacques Carette.
 
-Documentation can be found in the Wiki section of the repository.
+![](img/img1.png?raw=true)
 
-This repository is meant for deliverables for capstone deadlines.
+Wizard's Pub Crawl is an Isometric 2-player Capture the Flag game, where you must overcome monsters, traps, and each other to collect the most Ale. Made by Ethan Chan, Thien Trandinh, Susan Yuen, Simon Ma, and Zihao Chen.
+
+Documentation can be found in the Wiki section of the repository.
