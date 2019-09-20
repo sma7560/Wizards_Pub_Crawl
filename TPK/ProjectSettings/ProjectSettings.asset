@@ -286,7 +286,7 @@ PlayerSettings:
     m_Automatic: 0
   - m_BuildTarget: WebGLSupport
     m_APIs: 0b000000
-    m_Automatic: 1
+    m_Automatic: 0
   m_BuildTargetVRSettings:
   - m_BuildTarget: Standalone
     m_Enabled: 0
@@ -579,6 +579,7 @@ PlayerSettings:
   scriptingRuntimeVersion: 0
   apiCompatibilityLevelPerPlatform:
     Standalone: 1
+    WebGL: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_3D
@@ -650,9 +651,9 @@ PlayerSettings:
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: fa115487-a24b-4abb-8e7e-9d5fc2715e85
-  projectName: TPK
-  organizationId: chaos449
+  cloudProjectId: cbe8fc89-3579-4a7b-a9f8-ec0876584a6d
+  projectName: Wizard's Pub Crawl
+  organizationId: jollygoodfellow
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
   disableOldInputManagerSupport: 0
