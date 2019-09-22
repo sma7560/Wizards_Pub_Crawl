@@ -56,6 +56,9 @@ public class ToggleFireJet : NetworkBehaviour
 	/// </summary>
 	public void Behaviour(GameObject col)
 	{
+		if (!isServer)
+			return;
+		
 		switch (col.transform.tag)
 		{
 		case "Enemy":
