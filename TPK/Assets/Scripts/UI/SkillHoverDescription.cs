@@ -107,8 +107,11 @@ public class SkillHoverDescription : EventTrigger
         }
         else
         {
-            StatWindowUI statWindow = GameObject.FindGameObjectWithTag("StatWindow").GetComponent<StatWindowUI>();
-            skillDescription = statWindow.skillDescription;
+			try{
+            	StatWindowUI statWindow = GameObject.FindGameObjectWithTag("StatWindow").GetComponent<StatWindowUI>();
+            	skillDescription = statWindow.skillDescription;
+			}catch(MissingReferenceException e){
+			}
         }
 
         if (skillDescription != null)
