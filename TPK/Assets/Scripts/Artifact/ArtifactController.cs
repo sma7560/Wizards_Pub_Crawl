@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Networking;
+using UnityEngine.Rendering.PostProcessing;
 
 /// <summary>
 /// Contains logic regarding the artifact.
@@ -127,6 +128,8 @@ public class ArtifactController : NetworkBehaviour
 
                     // Broadcast that player has acquired the artifact
                     matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleAcquired(ownerID);
+
+					playerThatOwns.GetComponent<HeroController> ().drunk (true);
                 }
                 break;
             case ("SpawnRoom"):
@@ -190,6 +193,8 @@ public class ArtifactController : NetworkBehaviour
         playerBaseSpeed = 0;
         playerSlowSpeed = 0;
         playerThatOwns.GetComponent<PlayerSoundController>().PlayDeathSound();
+
+		playerThatOwns.GetComponent<HeroController> ().drunk (false);
 
         // Reset owning player variables
         playerThatOwns = null;

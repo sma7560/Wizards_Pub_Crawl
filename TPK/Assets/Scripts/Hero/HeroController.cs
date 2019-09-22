@@ -209,4 +209,9 @@ public class HeroController : NetworkBehaviour
         yield return new WaitForSeconds(0.25f);
         battack.PerformAttack();
     }
+
+	public void drunk(bool isDrunk){
+
+		GameObject.FindGameObjectWithTag("HeroCamera").GetComponent<HeroCameraController> ().drunkEffect (isDrunk);
+	}
 }

@@ -35,6 +35,8 @@ TagManager:
   - Scoreboard
   - GameOver
   - PostProcess
+  - MotionBlur
+  - HeroCamera
   layers:
   - Default
   - TransparentFX
@@ -45,8 +47,8 @@ TagManager:
   - 
   - 
   - PostProcessing
+  - MotionBlur
   - StatWindowAvatar
-  - 
   - 
   - 
   - 

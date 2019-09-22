@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 /// <summary>
 /// Serves as the player's camera during pre-phase and dungeon phase.
@@ -19,6 +20,9 @@ public class HeroCameraController : MonoBehaviour
     private Vector3 waitingRoomPosition = new Vector3(85f, 2.5f, 22f);
     private Quaternion waitingRoomRotation = Quaternion.Euler(10, 180, 0);
     private Camera cam;
+
+	private int drunk = 768;
+	private int notDrunk = 256;
 
     void Start()
     {
@@ -73,6 +77,7 @@ public class HeroCameraController : MonoBehaviour
         else if (Input.GetMouseButton(2))
         {
             cam.orthographicSize = 12;
+
         }
     }
 
@@ -80,4 +85,12 @@ public class HeroCameraController : MonoBehaviour
     {
         targetTransform = target;
     }
+
+	public void drunkEffect(bool activate)
+	{
+		if(activate)
+			GetComponent<PostProcessLayer> ().volumeLayer.value = drunk;
+		else
+			GetComponent<PostProcessLayer> ().volumeLayer.value = notDrunk;
+	}
 }
