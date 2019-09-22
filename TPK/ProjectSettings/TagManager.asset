@@ -34,6 +34,7 @@ TagManager:
   - StatWindow
   - Scoreboard
   - GameOver
+  - PostProcess
   layers:
   - Default
   - TransparentFX
