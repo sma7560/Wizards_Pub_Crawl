@@ -58,6 +58,36 @@ public class NetworkManagerExtension : NetworkManager
         StartCoroutine(prephaseManager.StartPrephaseWaitingRoom());
     }
 
+	public void StartUpSolo()
+	{
+
+		// Create MatchManager object on server
+		GameObject managerPrefab = Instantiate(matchManagerPrefab);
+		matchManager = managerPrefab.GetComponent<MatchManager>();
+		prephaseManager = managerPrefab.GetComponent<PrephaseManager>();
+		matchManager.SoloGame ();
+
+		// Start host in network
+		SetPort();
+		networkAddress = GetLocalIPAddress();
+		NetworkServer.Reset();
+		NetworkClient client = StartHost();
+		NetworkServer.Spawn(matchManager.gameObject);
+
+		// Update MatchManager with new player
+		if (!matchManager.AddPlayerToMatch(client.connection))
+		{
+			Debug.Log("ERROR: MatchManager failed to add player. Current num players in MatchManager = " + matchManager.GetNumOfPlayers());
+			return;
+		}
+			
+		// Start the waiting room of pre-phase
+		StartCoroutine(prephaseManager.StartPrephaseWaitingRoom());
+
+		Debug.Log ("here");
+
+	}
+
     /// <summary>
     /// Join a game based on a designated IP address.
     /// </summary>
