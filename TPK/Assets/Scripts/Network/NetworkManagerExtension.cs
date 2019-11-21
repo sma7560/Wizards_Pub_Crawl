@@ -68,8 +68,8 @@ public class NetworkManagerExtension : NetworkManager
 		matchManager.SoloGame ();
 
 		// Start host in network
-		SetPort();
-		networkAddress = GetLocalIPAddress();
+		networkPort = 25565;
+		networkAddress = "0.0.0.0";
 		NetworkServer.Reset();
 		NetworkClient client = StartHost();
 		NetworkServer.Spawn(matchManager.gameObject);
