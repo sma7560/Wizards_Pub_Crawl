@@ -83,9 +83,6 @@ public class NetworkManagerExtension : NetworkManager
 			
 		// Start the waiting room of pre-phase
 		StartCoroutine(prephaseManager.StartPrephaseWaitingRoom());
-
-		Debug.Log ("here");
-
 	}
 
     /// <summary>
