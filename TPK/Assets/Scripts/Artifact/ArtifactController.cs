@@ -155,6 +155,8 @@ public class ArtifactController : NetworkBehaviour
                         // Increase the player's score
                         playerThatOwns.GetComponent<HeroModel>().IncreaseScore(GetScore());
 
+						playerThatOwns.GetComponent<HeroController> ().drunk (false);
+
                         // Spawn another artifact
                         GameObject.FindGameObjectWithTag("EventSystem").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
 
