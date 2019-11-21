@@ -395,6 +395,33 @@ public class HeroModel : NetworkBehaviour
     {
         score += amount;
     }
+		
+	/// <summary>
+	/// Activates drunk effect
+	/// </summary>
+	public void drunk(bool isDrunk){
+
+		if (!hasAuthority) {
+			RpcDrunk(isDrunk);
+			return;
+		}
+		GameObject.FindGameObjectWithTag("HeroCamera" + playerId.ToString()).GetComponent<HeroCameraController> ().drunkEffect (isDrunk);
+
+		if (!isServer)
+		{
+			CmdDrunk(isDrunk);
+		}
+	}
+	[Command]
+	private void CmdDrunk(bool isDrunk)
+	{
+		GameObject.FindGameObjectWithTag("HeroCamera" + playerId.ToString()).GetComponent<HeroCameraController> ().drunkEffect (isDrunk);
+	}
+	[ClientRpc]
+	private void RpcDrunk(bool isDrunk) {
+		if (!hasAuthority) return; // So not run on server.
+		GameObject.FindGameObjectWithTag("HeroCamera" + playerId.ToString()).GetComponent<HeroCameraController> ().drunkEffect (isDrunk);
+	}
 
     /// <summary>
     /// This function sets the model of the hero to the given hero.

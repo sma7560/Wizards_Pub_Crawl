@@ -37,6 +37,8 @@ TagManager:
   - PostProcess
   - MotionBlur
   - HeroCamera
+  - HeroCamera1
+  - HeroCamera2
   layers:
   - Default
   - TransparentFX

@@ -147,6 +147,8 @@ public class HeroController : NetworkBehaviour
     {
         GameObject.FindGameObjectWithTag("MainCamera").SetActive(false);
         cam = Instantiate(heroCam);
+		int id = heroModel.GetPlayerId();
+		cam.tag = "HeroCamera" + id.ToString();
         cam.GetComponent<HeroCameraController>().SetTarget(transform);
         view = cam.GetComponent<Camera>();
     }
@@ -209,9 +211,4 @@ public class HeroController : NetworkBehaviour
         yield return new WaitForSeconds(0.25f);
         battack.PerformAttack();
     }
-
-	public void drunk(bool isDrunk){
-
-		GameObject.FindGameObjectWithTag("HeroCamera").GetComponent<HeroCameraController> ().drunkEffect (isDrunk);
-	}
 }

@@ -99,6 +99,7 @@ public class ArtifactController : NetworkBehaviour
     {
 		if (!isServer)
 			return;
+
         switch (col.gameObject.transform.tag)
         {
             case ("Player"):
@@ -106,11 +107,14 @@ public class ArtifactController : NetworkBehaviour
                 // Ensure that artifact is not already carried and player is not knocked out
                 if (!isCarried && !col.GetComponent<HeroModel>().IsKnockedOut())
                 {
+					
+
                     // Make object float above character model's head
                     currentScale = smallScale;
                     //transform.localScale = smallScale;
                     playerThatOwns = col.gameObject;
-					
+					playerThatOwns.GetComponent<HeroModel> ().drunk (true);	
+
 					//disable navmesh agent
 					agent.enabled = false;
 
@@ -129,7 +133,7 @@ public class ArtifactController : NetworkBehaviour
                     // Broadcast that player has acquired the artifact
                     matchManager.GetComponent<AnnouncementManager>().BroadcastAnnouncementAleAcquired(ownerID);
 
-					playerThatOwns.GetComponent<HeroController> ().drunk (true);
+					
                 }
                 break;
             case ("SpawnRoom"):
@@ -140,6 +144,9 @@ public class ArtifactController : NetworkBehaviour
                     // Ensure that this spawn is the right one for the player carrying the artifact
                     if (Vector3.Distance(transform.position, ownerSpawn) <= 10)
                     {
+						playerThatOwns.GetComponent<HeroModel> ().drunk (false);
+						
+
                         // Undo character slowdown
                         playerThatOwns.GetComponent<HeroModel>().SetCurrentMoveSpeed(
                             playerThatOwns.GetComponent<HeroModel>().GetCurrentMoveSpeed() + playerSlowSpeed);
@@ -155,7 +162,7 @@ public class ArtifactController : NetworkBehaviour
                         // Increase the player's score
                         playerThatOwns.GetComponent<HeroModel>().IncreaseScore(GetScore());
 
-						playerThatOwns.GetComponent<HeroController> ().drunk (false);
+						
 
                         // Spawn another artifact
                         GameObject.FindGameObjectWithTag("EventSystem").GetComponent<ArtifactSpawn>().SpawnArtifactRandom();
@@ -196,7 +203,7 @@ public class ArtifactController : NetworkBehaviour
         playerSlowSpeed = 0;
         playerThatOwns.GetComponent<PlayerSoundController>().PlayDeathSound();
 
-		playerThatOwns.GetComponent<HeroController> ().drunk (false);
+		playerThatOwns.GetComponent<HeroModel> ().drunk (false);
 
         // Reset owning player variables
         playerThatOwns = null;
