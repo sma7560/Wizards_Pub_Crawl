@@ -10,11 +10,11 @@ public class DungeonEnemyManager : NetworkBehaviour
     private MatchManager matchManager;
 
     [SerializeField] private List<GameObject> monsterList;
-    private readonly int maxNumMonsters = 14;           //max number of regular monsters
-    private readonly int maxNumSpawnGroups = 9;        //max groups of monster swarms
+    private readonly int maxNumMonsters = 10;           //max number of regular monsters
+    private readonly int maxNumSpawnGroups = 5;        //max groups of monster swarms
 	private readonly int SwarmSquadSize = 4;
-	private readonly float spawnTimerRegular = 5;
-	private readonly float spawnTimerSwarm = 5;
+	private readonly float spawnTimerRegular = 6;
+	private readonly float spawnTimerSwarm = 4;
     private List<Vector3> spawnLocations;
     [SerializeField] private GameObject SwarmMonster;
 
