@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: rogue
   m_EditorClassIdentifier: 
   heroType: 1
-  heroName: Shifty Wizard
+  heroName: Sneaky Wizard
   childIndex: 1
