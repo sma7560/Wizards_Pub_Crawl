@@ -20,6 +20,7 @@ public class AttackItem : Item
         other.gameObject.GetComponent<PlayerSoundController>().PlayItemBuffSound();
         HeroModel stats = other.gameObject.GetComponent<HeroModel>();
         StartCoroutine(TempBuff(stats));
+		transform.position = new Vector3 (-80, 0, -80);
     }
 
     /// <summary>
