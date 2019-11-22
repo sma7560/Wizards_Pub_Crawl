@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 33350327875400536}
   - component: {fileID: 23076819308891690}
   m_Layer: 0
-  m_Name: SM_Wep_Shield_Heater_02
+  m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,8 +56,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1315817168271206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 113.68353, y: 4.2612634, z: 6.2104225}
-  m_LocalScale: {x: 0.4208213, y: 0.537479, z: 0.51336}
+  m_LocalPosition: {x: 25, y: 0, z: 65}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4922342561849836}
   m_Father: {fileID: 0}
@@ -70,8 +70,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1863172842669576}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 7.5, z: -0.59}
-  m_LocalScale: {x: 15, y: 15, z: 10}
+  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 4475923701688752}
   m_RootOrder: 0
@@ -117,7 +117,7 @@ MeshFilter:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1863172842669576}
-  m_Mesh: {fileID: 4300000, guid: 0541f2578014ebc4ebdb69a05651ab52, type: 3}
+  m_Mesh: {fileID: 4300000, guid: cf7d200d871939c48ae6dd0ae3978505, type: 3}
 --- !u!54 &54250277321302648
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -143,8 +143,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 11.596498, y: 13.388022, z: 2.9482293}
-  m_Center: {x: 0, y: 6.694011, z: -0.6281068}
+  m_Size: {x: 10, y: 11, z: 2}
+  m_Center: {x: 0, y: 5, z: 0}
 --- !u!114 &114594711807351824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -220,9 +220,9 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 5.79825, y: 6.69401, z: 1.4741145}
+  m_Extents: {x: 5, y: 5.5, z: 1}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 0
-  m_Center: {x: 0, y: 6.694011, z: -0.6281068}
+  m_Center: {x: 0, y: 5, z: 0}
   m_TimeToStationary: 0.2
