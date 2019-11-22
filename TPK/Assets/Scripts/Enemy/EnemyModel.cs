@@ -111,7 +111,7 @@ public class EnemyModel : NetworkBehaviour
         {
             GameObject monsterDrop = DetermineItemDrop();
             Vector3 itemPosition = transform.position;
-            itemPosition.y = itemPosition.y + 0.7f;
+            itemPosition.y = itemPosition.y + 1.0f;
             GameObject itemDrop = Instantiate(monsterDrop, itemPosition, Quaternion.Euler(0, 0, 0));
             NetworkServer.Spawn(itemDrop);
         }
