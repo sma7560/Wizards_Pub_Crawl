@@ -34,9 +34,9 @@ public class AudioButton : MonoBehaviour
                 image.sprite = audioOn;
             }
         }
-        else if (transform.parent.name == "SfxMusic")
+        else if (transform.parent.name == "Master")
         {
-            if (AudioManager.IsSfxMuted())
+            if (AudioManager.IsMasterMuted())
             {
                 image.sprite = audioOff;
             }
@@ -75,13 +75,13 @@ public class AudioButton : MonoBehaviour
     /// Behaviour when the button is clicked.
     /// Toggles between muting and unmuting the sound effects.
     /// </summary>
-    public void ToggleSfxMute()
+    public void ToggleMasterMute()
     {
         // Toggle mute
-        AudioManager.SetSfxMute(!AudioManager.IsSfxMuted());
+        AudioManager.SetMasterMute(!AudioManager.IsMasterMuted());
 
         // Set sprite based on mute status
-        if (AudioManager.IsSfxMuted())
+        if (AudioManager.IsMasterMuted())
         {
             image.sprite = audioOff;
         }

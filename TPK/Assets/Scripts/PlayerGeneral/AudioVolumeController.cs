@@ -30,11 +30,13 @@ public class AudioVolumeController : MonoBehaviour
         // Set the slider value
         if (transform.parent.name == "BackgroundMusic")
         {
-            volumeSlider.value = AudioManager.GetBgVolumeIgnoreMute();
+            //volumeSlider.value = AudioManager.GetBgVolumeIgnoreMute();
+			volumeSlider.value = PlayerPrefs.GetFloat("BgVolume");
         }
-        else if (transform.parent.name == "SfxMusic")
+        else if (transform.parent.name == "Master")
         {
-            volumeSlider.value = AudioManager.GetSfxVolumeIgnoreMute();
+            //volumeSlider.value = AudioManager.GetMasterVolumeIgnoreMute();
+			volumeSlider.value = PlayerPrefs.GetFloat("MasterVolume");
         }
         else
         {
@@ -54,9 +56,9 @@ public class AudioVolumeController : MonoBehaviour
         {
             AudioManager.SetBgVolume(volumeSlider.value);
         }
-        else if (transform.parent.name == "SfxMusic")
+        else if (transform.parent.name == "Master")
         {
-            AudioManager.SetSfxVolume(volumeSlider.value);
+            AudioManager.SetMasterVolume(volumeSlider.value);
         }
         else
         {
@@ -90,9 +92,9 @@ public class AudioVolumeController : MonoBehaviour
         {
             volumeText.text = (int)(AudioManager.GetBgVolumeIgnoreMute() * 100) + "%";
         }
-        else if (transform.parent.name == "SfxMusic")
+        else if (transform.parent.name == "Master")
         {
-            volumeText.text = (int)(AudioManager.GetSfxVolumeIgnoreMute() * 100) + "%";
+            volumeText.text = (int)(AudioManager.GetMasterVolumeIgnoreMute() * 100) + "%";
         }
         else
         {
@@ -119,9 +121,9 @@ public class AudioVolumeController : MonoBehaviour
         {
             volumeText.text = (int)(AudioManager.GetBgVolumeIgnoreMute() * 100) + "%";
         }
-        else if (transform.parent.name == "SfxMusic")
+        else if (transform.parent.name == "Master")
         {
-            volumeText.text = (int)(AudioManager.GetSfxVolumeIgnoreMute() * 100) + "%";
+            volumeText.text = (int)(AudioManager.GetMasterVolumeIgnoreMute() * 100) + "%";
         }
         else
         {

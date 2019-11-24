@@ -11,8 +11,23 @@ public class MainMenu : MonoBehaviour
     /// </summary>
     void Start()
     {
-        AudioManager.SetSystemBgVolume(AudioManager.GetBgVolume());
-        AudioManager.SetSystemSfxVolume(AudioManager.GetSfxVolume());
+
+		if (!PlayerPrefs.HasKey ("BgVolume"))
+			PlayerPrefs.SetFloat ("BgVolume", 1.0f);
+
+		if (!PlayerPrefs.HasKey ("MasterVolume"))
+			PlayerPrefs.SetFloat ("MasterVolume", 1.0f);
+
+		if (PlayerPrefs.HasKey ("BgMute"))
+			AudioManager.SetBgMute (PlayerPrefs.GetInt ("BgMute") == 1);
+
+		if (PlayerPrefs.HasKey ("MasterMute"))
+			AudioManager.SetMasterMute (PlayerPrefs.GetInt ("MasterMute") == 1);
+
+
+
+		AudioManager.SetSystemBgVolume(PlayerPrefs.GetFloat ("BgVolume"));
+		AudioManager.SetSystemMasterVolume(PlayerPrefs.GetFloat ("MasterVolume"));
     }
 
     /// <summary>
