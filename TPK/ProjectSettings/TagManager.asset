@@ -39,6 +39,7 @@ TagManager:
   - HeroCamera
   - HeroCamera1
   - HeroCamera2
+  - HeroCamera0
   layers:
   - Default
   - TransparentFX
