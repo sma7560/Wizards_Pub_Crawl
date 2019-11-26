@@ -294,16 +294,20 @@ public class DungeonController : MonoBehaviour
         {
             // Get necessary components
             int playerId = player.GetComponent<HeroModel>().GetPlayerId();
-            Transform name = player.transform.Find("Name"); // Transform that holds all player name info
-            TextMeshProUGUI nameText = name.Find("NameText").GetComponent<TextMeshProUGUI>();
-            RenderOnTop(nameText);
+			Transform name = player.transform.Find ("Name"); // Transform that holds all player name info
+			TextMeshProUGUI nameText = name.Find ("NameText").GetComponent<TextMeshProUGUI> ();
 
-            // Set the name
-            nameText.text = "Player " + playerId.ToString();
-            nameText.color = heroManager.GetPlayerColour(playerId);
+			if (playerId != 0) {
+				RenderOnTop (nameText);
 
-            // Keep name facing towards camera
-            SetFacingTowardsCamera(name);
+				// Set the name
+				nameText.text = "Player " + playerId.ToString ();
+				nameText.color = heroManager.GetPlayerColour (playerId);
+
+				// Keep name facing towards camera
+				SetFacingTowardsCamera (name);
+			} else
+				nameText.text = "";
         }
     }
 

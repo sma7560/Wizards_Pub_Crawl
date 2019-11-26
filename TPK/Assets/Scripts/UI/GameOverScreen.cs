@@ -16,7 +16,9 @@ public class GameOverScreen : NetworkBehaviour
     private TextMeshProUGUI player2Score;
     private TextMeshProUGUI playerWin;
     private GameObject[] players;
+	private MatchManager MM;
 
+	private bool solo;
 
     private int score1;
     private int score2;
@@ -33,11 +35,22 @@ public class GameOverScreen : NetworkBehaviour
         player2Score = GameObject.Find("Player2Score").GetComponent<TextMeshProUGUI>();
         playerWin = GameObject.Find("PlayerWins").GetComponent<TextMeshProUGUI>();
         players = GameObject.FindGameObjectsWithTag("Player");
+		MM = GameObject.FindGameObjectWithTag ("MatchManager").GetComponent<MatchManager> ();
 
         mainMenu.onClick.AddListener(ReturnToMainMenu);
 
         score1 = -1;
         score2 = -1;
+
+		if (MM.GetMaxPlayers() == 1) {
+			solo = true;
+			score2 = MM.GetScoreLimitSolo () - 1;	//to compare to the player's score when calculating victory or defeat
+
+			GameObject.Find("Player1").GetComponent<TextMeshProUGUI>().text = "Your Score:";
+
+			GameObject.Find("Player2").SetActive(false);
+			GameObject.Find("Player2Score").SetActive(false);
+		}
 
         SetPlayerScores();
         SetPlayerWin();
@@ -49,11 +62,6 @@ public class GameOverScreen : NetworkBehaviour
     /// </summary>
     private void SetPlayerScores()
     {
-        if (players.Length != 2)
-        {
-            Debug.Log("ERROR: More/less than two player objects were found!");
-        }
-
         foreach (GameObject player in players)
         {
             if (player.GetComponent<HeroModel>().GetPlayerId() == 1)
@@ -77,13 +85,22 @@ public class GameOverScreen : NetworkBehaviour
     {
         if (score1 > score2)
         {
-            playerWin.text = "Player 1 Wins!";
-            winner = 1;
+			if (!solo)
+				playerWin.text = "Player 1 Wins!";
+			else
+				playerWin.text = "You Succeeded!";
+			
+			winner = 1;
         }
         else if (score2 > score1)
         {
-            playerWin.text = "Player 2 Wins!";
-            winner = 2;
+			if (!solo) {
+				playerWin.text = "Player 2 Wins!";
+				winner = 2;
+			} else {
+				playerWin.text = "You failed to get 5 ales!";
+				winner = 0;
+			}
         }
         else
         {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,8 +10,11 @@ using UnityEngine.Networking;
 public class MatchManager : NetworkBehaviour
 {
     // Constants
+	private bool solo = false;
     private int maxPlayers = 2;                // currently only accepting 2 players maximum
-    private readonly int totalMatchTime = 480;          // total match time (default to 8 minutes)
+    private int totalMatchTime = 480;          // total match time (default to 8 minutes)
+	private readonly int totalMatchTimeSolo = 300;		// solo match time
+	private readonly int scoreLimitSolo = 500;			// solo score limit				
 
     // SyncVars
     [SerializeField] private SyncListInt connections;   // list of all connections in the match
@@ -19,6 +23,7 @@ public class MatchManager : NetworkBehaviour
 
     // Local variables
     private int playerId;                               // player ID of the current player
+	private HeroModel soloPlayer;						// hero model of solo player
     private bool matchEnded;                            // if match has ended; needed to ensure EndMatch() is only called once
 
     /// <summary>
@@ -37,12 +42,18 @@ public class MatchManager : NetworkBehaviour
 
     private void Update()
     {
-        // Locally checks if the match has ended
-        if ((timeLeftMatch <= 0) && !matchEnded)
-        {
-            matchEnded = true;
-            EndMatch();
-        }
+		try{
+			//Finds the solo player
+			if(solo && soloPlayer == null){
+				soloPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<HeroModel>();
+			}
+	        // Locally checks if the match has ended
+			if ((timeLeftMatch <= 0 && !matchEnded) || (solo && soloPlayer.GetScore () >= scoreLimitSolo)) {
+				matchEnded = true;
+				EndMatch ();
+			} 
+		} catch (NullReferenceException e){
+		}
     }
 
     /// <summary>
@@ -60,10 +71,15 @@ public class MatchManager : NetworkBehaviour
         }
         connections.Add(conn.connectionId);
 
+		if (maxPlayers == 1) {
+			solo = true;
+		}
+
         // Increment currentNumOfPlayers counter
         if (currentNumOfPlayers < maxPlayers)
         {
             currentNumOfPlayers++;
+
             return true;
         }
 
@@ -110,7 +126,11 @@ public class MatchManager : NetworkBehaviour
         {
             // Set the index of connections as the player ID
             // Note: +1 so that IDs start at 1 instead of 0
-            playerId = (connections.IndexOf(conn.connectionId) + 1);
+			// Solo players get an ID of 0
+			if (!solo)
+				playerId = (connections.IndexOf (conn.connectionId) + 1);
+			else
+				playerId = 0;
         }
     }
 
@@ -120,7 +140,7 @@ public class MatchManager : NetworkBehaviour
     /// </returns>
     public int GetPlayerId()
     {
-        return playerId;
+		return playerId;
     }
 
     /// <returns>
@@ -138,6 +158,14 @@ public class MatchManager : NetworkBehaviour
     {
         return maxPlayers;
     }
+
+	/// <returns>
+	/// Returns the score objective for singleplayer.
+	/// </returns>
+	public int GetScoreLimitSolo()
+	{
+		return scoreLimitSolo;
+	}
 
     /// <returns>
     /// Returns whether or not the match has ended. True if match has ended, false otherwise.
@@ -167,6 +195,7 @@ public class MatchManager : NetworkBehaviour
 	public void SoloGame()
 	{
 		maxPlayers = 1;
+		totalMatchTime = totalMatchTimeSolo;
 	}
 
     /// <summary>

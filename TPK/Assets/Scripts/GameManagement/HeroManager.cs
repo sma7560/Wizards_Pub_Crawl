@@ -28,7 +28,11 @@ public class HeroManager : MonoBehaviour
     /// <returns>Returns the spawn location of the player.</returns>
     public Vector3 GetSpawnLocationOfPlayer(int playerId)
     {
-        return spawnLocations[playerId - 1];
+		if (playerId != 0)
+			return spawnLocations [playerId - 1];
+		else {
+			return spawnLocations [Random.Range(0, 2)];
+		}
     }
 
     /// <summary>
@@ -80,6 +84,9 @@ public class HeroManager : MonoBehaviour
 
         switch (playerId)
         {
+			case 0:
+				heroColour = Color.white;
+				break;
             case 1:
                 heroColour = Color.blue;
                 break;

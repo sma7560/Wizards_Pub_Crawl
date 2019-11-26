@@ -82,25 +82,29 @@ public class AnnouncementManager : NetworkBehaviour
     /// <summary>
     /// Broadcasts instructions on what to do when the game starts.
     /// </summary>
-    public void BroadcastAnnouncementObjective()
+	public void BroadcastAnnouncementObjective(int maxPlayers)
     {
         if (!isServer) return;
 
-        LocalBroadcastAnnouncementObjective();
-        RpcBroadcastAnnouncementObjective();
+		LocalBroadcastAnnouncementObjective(maxPlayers);
+		RpcBroadcastAnnouncementObjective(maxPlayers);
     }
-    private void LocalBroadcastAnnouncementObjective()
+	private void LocalBroadcastAnnouncementObjective(int maxPlayers)
     {
-        announcementText.text = "Follow the compass to find ale!";
+		if(maxPlayers != 1)
+        	announcementText.text = "Follow the compass to find ale!";
+		else
+			announcementText.text = "Follow the compass and score 5 mugs of ale!";
+		
         rightIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(260f, 0f);
         rightIcon.GetComponent<Image>().sprite = compass;
         StartCoroutine(DisplayAnnouncement(AnnouncementType.Objective));
     }
     [ClientRpc]
-    private void RpcBroadcastAnnouncementObjective()
+	private void RpcBroadcastAnnouncementObjective(int maxPlayers)
     {
         if (isLocalPlayer) return;
-        LocalBroadcastAnnouncementObjective();
+		LocalBroadcastAnnouncementObjective(maxPlayers);
     }
 
     /// <summary>
@@ -115,14 +119,19 @@ public class AnnouncementManager : NetworkBehaviour
         RpcBroadcastAnnouncementAleAcquired(playerId);
     }
     private void LocalBroadcastAnnouncementAleAcquired(int playerId)
-    {
-        string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
-        announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> acquired ale!";
-        SetHeroIcon(playerId);
-        rightIcon.GetComponent<Image>().sprite = ale;
-        leftIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-200f, 0f);
-        rightIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(200f, 0f);
-        StartCoroutine(DisplayAnnouncement(AnnouncementType.AleAcquired));
+    {		
+		string colour = GetComponent<HeroManager> ().GetPlayerColourHexCode (playerId);
+
+		if (playerId != 0)
+			announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> acquired ale!";
+		else
+			announcementText.text = "<color=#" + colour + ">You " + playerId + "</color> acquired ale!";
+		
+		SetHeroIcon (playerId);
+		rightIcon.GetComponent<Image> ().sprite = ale;
+		leftIcon.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (-200f, 0f);
+		rightIcon.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (200f, 0f);
+		StartCoroutine (DisplayAnnouncement (AnnouncementType.AleAcquired));
     }
     [ClientRpc]
     private void RpcBroadcastAnnouncementAleAcquired(int playerId)
@@ -145,7 +154,10 @@ public class AnnouncementManager : NetworkBehaviour
     private void LocalBroadcastAnnouncementAleScored(int playerId)
     {
         string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
-        announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> scored the ale!";
+		if (playerId != 0)
+        	announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> scored the ale!";
+		else
+			announcementText.text = "<color=#" + colour + ">You " + playerId + "</color> scored the ale!";
         SetHeroIcon(playerId);
         rightIcon.GetComponent<Image>().sprite = ale;
         leftIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-210f, 0f);
@@ -173,7 +185,10 @@ public class AnnouncementManager : NetworkBehaviour
     private void LocalBroadcastAnnouncementAleDropped(int playerId)
     {
         string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
-        announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> has died and dropped the ale!";
+		if (playerId != 0)
+			announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> has died and dropped the ale!";
+		else
+			announcementText.text = "<color=#" + colour + ">You " + playerId + "</color> died and dropped the ale!";
         SetHeroIcon(playerId);
         rightIcon.GetComponent<Image>().sprite = ale;
         leftIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-330f, 0f);
@@ -201,7 +216,10 @@ public class AnnouncementManager : NetworkBehaviour
     private void LocalBroadcastAnnouncementPlayerDeath(int playerId)
     {
         string colour = GetComponent<HeroManager>().GetPlayerColourHexCode(playerId);
-        announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> has died!";
+		if (playerId != 0)
+       		announcementText.text = "<color=#" + colour + ">Player " + playerId + "</color> has died!";
+		else
+			announcementText.text = "<color=#" + colour + ">You " + playerId + "</color> died!";
         SetHeroIcon(playerId);
         leftIcon.GetComponent<RectTransform>().anchoredPosition = new Vector2(-180f, 0f);
         StartCoroutine(DisplayAnnouncement(AnnouncementType.PlayerDeath));

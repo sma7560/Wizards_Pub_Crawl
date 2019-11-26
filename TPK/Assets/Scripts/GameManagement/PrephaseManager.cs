@@ -112,7 +112,7 @@ public class PrephaseManager : NetworkBehaviour
         state = PrephaseState.NotActive;
         countdown = -1;
         StartCoroutine(matchManager.DecrementMatchTime());
-        GetComponent<AnnouncementManager>().BroadcastAnnouncementObjective();
+		GetComponent<AnnouncementManager>().BroadcastAnnouncementObjective(matchManager.GetMaxPlayers());
         GetComponent<DungeonEnemyManager>().StartSpawn();
     }
 

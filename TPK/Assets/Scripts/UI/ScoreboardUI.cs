@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -59,28 +60,14 @@ public class ScoreboardUI : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        // First check that there are exactly 2 players in the match
-        if (matchManager.GetMaxPlayers() != 2 || matchManager.GetNumOfPlayers() != matchManager.GetMaxPlayers())
-        {
-            gameObject.SetActive(false);
-            return;
-        }
-
         // Player objects
         GameObject[] playerObjects = GameObject.FindGameObjectsWithTag("Player");
         GameObject player1 = null, player2 = null;
 
-        // Check that there are exactly 2 player objects
-        if (playerObjects.Length != 2)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
-
         // Get the player objects
         foreach (GameObject player in playerObjects)
         {
-            if (player.GetComponent<HeroModel>().GetPlayerId() == 1)
+			if (player.GetComponent<HeroModel>().GetPlayerId() == 1 || player.GetComponent<HeroModel>().GetPlayerId() == 0)
             {
                 player1 = player;
             }
@@ -91,19 +78,30 @@ public class ScoreboardUI : MonoBehaviour
         }
 
         // Check that both player objects are set properly
-        if (player1 == null || player2 == null)
+		if ( (player1 == null || player2 == null) && !(matchManager.GetMaxPlayers() == 1) )
         {
             gameObject.SetActive(false);
             return;
         }
 
         // Set the player name text and colour
-        player1Name.text = "<color=#" + heroManager.GetPlayerColourHexCode(1) + ">Player 1</color>";
-        player2Name.text = "<color=#" + heroManager.GetPlayerColourHexCode(2) + ">Player 2</color>";
+		player1Name.text = "<color=#" + heroManager.GetPlayerColourHexCode(player1.GetComponent<HeroModel>().GetPlayerId()) + ">You</color>";
 
-        // Set the player scores
+        // Set the player score
         player1Score.text = player1.GetComponent<HeroModel>().GetScore().ToString();
-        player2Score.text = player2.GetComponent<HeroModel>().GetScore().ToString();
+        
+
+		if (matchManager.GetMaxPlayers () != 1) {
+			player2Name.text = "<color=#" + heroManager.GetPlayerColourHexCode (player2.GetComponent<HeroModel> ().GetPlayerId ()) + ">Player 2</color>";
+			player2Score.text = player2.GetComponent<HeroModel> ().GetScore ().ToString ();
+		} else {
+			try{
+				GameObject.Find("Player2").SetActive(false);
+			}catch(NullReferenceException e){
+			}
+
+		}
+			
 
         // Set the player icons
         switch (player1.GetComponent<HeroModel>().GetHeroIndex())
@@ -125,25 +123,25 @@ public class ScoreboardUI : MonoBehaviour
                 player1Icon.sprite = king;
                 break;
         }
-
-        switch (player2.GetComponent<HeroModel>().GetHeroIndex())
-        {
-            case 0:
-                player2Icon.sprite = king;
-                break;
-            case 1:
-                player2Icon.sprite = rogue;
-                break;
-            case 2:
-                player2Icon.sprite = wizard;
-                break;
-            case 3:
-                player2Icon.sprite = knight;
-                break;
-            default:
-                Debug.Log("ERROR: given hero index does not match any known hero type!");
-                player2Icon.sprite = king;
-                break;
-        }
+		if (matchManager.GetMaxPlayers () != 1) {
+			switch (player2.GetComponent<HeroModel> ().GetHeroIndex ()) {
+			case 0:
+				player2Icon.sprite = king;
+				break;
+			case 1:
+				player2Icon.sprite = rogue;
+				break;
+			case 2:
+				player2Icon.sprite = wizard;
+				break;
+			case 3:
+				player2Icon.sprite = knight;
+				break;
+			default:
+				Debug.Log ("ERROR: given hero index does not match any known hero type!");
+                //player2Icon.sprite = king;
+				break;
+			}
+		}
     }
 }
